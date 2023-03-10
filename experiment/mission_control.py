@@ -102,6 +102,7 @@ def launch(exp_id, _=None):
 				'status': 'available',
 				'current_gen': 0,
 				'subjects': [],
+				'communicators': [],
 				'lexicon': create_seed_lexicon(task),
 			})
 	print('Launched task:', exp['exp_id'])

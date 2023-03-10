@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------
 
 // Name used for the MongoDB database
-const EXP_ID = 'pilot1';
+const EXP_ID = 'test';
 
 // Regex defining valid Prolific participant IDs (24 hex digits)
 const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
@@ -226,6 +226,18 @@ function generateTrialSequence(task, words, trained_item_indices) {
 	return trial_sequence;
 }
 
+function assignToChain(chains) {
+	for (let chain of chains) {
+		if (chain.task.communication && chain.communicators.length === 1)
+			return chain;
+	}
+	for (let chain of chains) {
+		if (chain.task.communication && chain.communicators.length === 0)
+			return chain;
+	}
+	return chains[0];
+}
+
 function reportError(client, error_number, reason) {
 	const message = 'Error ' + error_number + ': ' + reason;
 	console.log(getCurrentTime() + ' ' + message);
@@ -310,8 +322,15 @@ socket.on('connection', function(client) {
 		db.chains.find({status: 'available'}).sort({current_gen: 1}, function(err, chains) {
 			if (err || chains.length === 0)
 				return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
-			const chain = chains[0];
-			db.chains.update({chain_id: chain.chain_id}, {$set: {status: 'unavailable'}}, function() {
+			const chain = assignToChain(chains);
+			let chain_update;
+			if (chain.task.communication && chain.communicators.length === 0)
+				chain_update = {$set: {status: 'available'}, $push: {communicators: payload.subject_id}};
+			else if (chain.task.communication && chain.communicators.length === 1)
+				chain_update = {$set: {status: 'unavailable'}, $push: {communicators: payload.subject_id}};
+			else
+				chain_update = {$set: {status: 'unavailable'}};
+			db.chains.update({chain_id: chain.chain_id}, chain_update, function() {
 				const input_lexicon = chain.lexicon;
 				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
 				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items);
