@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------
 
 // Name used for the MongoDB database
-const DATABASE_NAME = 'pilot1';
+const EXP_ID = 'pilot1';
 
 // Regex defining valid Prolific participant IDs (24 hex digits)
 const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
@@ -29,6 +29,12 @@ const mongojs = require('mongojs');
 const socketio = require('socket.io');
 
 // ------------------------------------------------------------------
+// Load experiment config data
+// ------------------------------------------------------------------
+
+const EXP_CONFIG = JSON.parse(fs.readFileSync(`config/${EXP_ID}.json`));
+
+// ------------------------------------------------------------------
 // Server setup
 // ------------------------------------------------------------------
 
@@ -42,7 +48,7 @@ if (PROTOCOL === 'https') {
 }
 const server = http.createServer(config, app);
 
-const db = mongojs(`mongodb://127.0.0.1:27017/${DATABASE_NAME}`, ['chains', 'subjects']);
+const db = mongojs(`mongodb://127.0.0.1:27017/${EXP_ID}`, ['chains', 'subjects']);
 
 const socket = socketio(server);
 
@@ -127,16 +133,8 @@ function generateItems(n, m, bottleneck=null) {
 
 function generateTrialSequence(task, words, trained_item_indices) {
 	const seen_items = [], trial_sequence = [];
-	trial_sequence.push({event:'consent', payload:{
-		session_time : task.session_time,
-		basic_pay : task.basic_pay,
-		max_pay : task.max_pay,
-		progress : 5,
-	}});
-	trial_sequence.push({event:'training_instructions', payload:{
-		instruction_time : task.instruction_time,
-		progress : 10,
-	}});
+	trial_sequence.push({event: 'consent', payload:{progress: 0}});
+	trial_sequence.push({event: 'training_instructions', payload:{progress: 0}});
 	for (let i = 0; i < task.training_reps; i++) {
 		for (let j = 0; j < task.mini_test_freq; j++) {
 			let training_trials = [];
@@ -240,7 +238,7 @@ function reportError(client, error_number, reason) {
 
 socket.on('connection', function(client) {
 
-	// Client makes initial handshake
+	// Client makes initial handshake. Check if we've seen them before, if so
 	client.on('handshake', function(payload) {
 		// Check for a valid subject ID
 		if (!VALID_SUBJECT_ID.test(payload.subject_id))
@@ -249,75 +247,103 @@ socket.on('connection', function(client) {
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err)
 				return reportError(client, 118, 'Unable to validate participant ID.');
-			// If we've seen this subject before...
-			if (subject) {
+			if (subject) { // If we've seen this subject before...
 				if (subject.status != 'active')
 					return reportError(client, 116, 'You have already completed this task.');
 				// Reinitialize the subject and make a note of this in the database
-				db.subjects.update({subject_id: subject.subject_id},
-					{ $set:{client_id: client.id}, $inc: {n_reinitializations: 1} }
-				);
-				return client.emit('initialize', {
-					object_array_dims: subject.object_array_dims,
-					total_bonus: subject.total_bonus,
+				db.subjects.update({subject_id: subject.subject_id}, { $set:{client_id: client.id}, $inc: {n_reinitializations: 1} }, function() {
+					return client.emit('initialize', {
+						total_bonus: subject.total_bonus,
+						basic_pay: subject.basic_pay,
+						max_pay: EXP_CONFIG.max_pay,
+						session_time: EXP_CONFIG.session_time,
+						object_array_dims: EXP_CONFIG.object_array_dims,
+					});
 				});
-			}
-			// If we haven't seen this subject before...
-			// Check to see which chains are active and sort them by the number of
-			// participants that have taken part so far.
-			db.chains.find({status: 'available'}).sort({current_gen: 1}, function(err, chains) {
-				if (err || chains.length === 0){
-					console.log(chains);
-					return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
-				}
-				// Pick the first chain (i.e. with the fewest participants)
-				const chain = chains[0];
-				const task = chain.task;
-				// Create subject
+			} else { // If we haven't seen this subject before, create a new subject
 				const time = getCurrentTime();
-				const input_lexicon = chain.lexicon;
-				const training_items = generateItems(task.n_shapes, task.n_colors, task.bottleneck);
-				const trial_sequence = generateTrialSequence(task, input_lexicon, training_items);
 				const subject = {
 					subject_id: payload.subject_id,
 					client: client.id,
-					chain_id: chain.chain_id,
 					creation_time: time,
 					modified_time: time,
 					status: 'active',
-					input_lexicon: input_lexicon,
-					training_items: training_items,
-					trial_sequence: trial_sequence,
-					object_array_dims: task.object_array_dims,
-					basic_pay: task.basic_pay,
-					bonus_partial: task.bonus_partial,
-					bonus_full: task.bonus_full,
+					chain_id: null,
+					generation: null,
+					input_lexicon: null,
+					training_items: null,
+					trial_sequence: [
+						{event: 'consent', payload:{}},
+						{event: 'training_instructions', payload:{}},
+					],
+					basic_pay: EXP_CONFIG.basic_pay,
+					bonus_partial: EXP_CONFIG.bonus_partial,
+					bonus_full: EXP_CONFIG.bonus_full,
+					n_reinitializations: 0,
 					sequence_position: 0,
 					total_bonus: 0,
 					responses: [],
 					comments: null,
-					n_reinitializations: 0,
 				};
 				// Save the new subject to the database
 				db.subjects.save(subject, function(err, saved) {
 					if (err || !saved)
 						return reportError(client, 121, 'This task is currently unavailable.');
-					// Set chain's status to unavailable
-					db.chains.update({_id: chain._id}, {$set: {'status': 'unavailable'}}, function(err, saved) {
-						if (err || !saved)
-							return reportError(client, 122, 'This task is currently unavailable.');
-						// Tell the client to initialize
-						return client.emit('initialize', {
-							object_array_dims: subject.object_array_dims,
-							total_bonus: subject.total_bonus,
-						});						
+					// Tell the client to initialize
+					return client.emit('initialize', {
+						total_bonus: subject.total_bonus,
+						basic_pay: subject.basic_pay,
+						max_pay: EXP_CONFIG.max_pay,
+						session_time: EXP_CONFIG.session_time,
+						object_array_dims: EXP_CONFIG.object_array_dims,
 					});
+				});
+			}
+		});
+	});
+
+	// Client is ready to start the experiment for real. At this point, we
+	// will assign the user to a chain
+	client.on('ready', function(payload) {
+		// Check to see which chains are active and sort them by the number of
+		// participants that have taken part so far.
+		db.chains.find({status: 'available'}).sort({current_gen: 1}, function(err, chains) {
+			if (err || chains.length === 0)
+				return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
+			const chain = chains[0];
+			db.chains.update({chain_id: chain.chain_id}, {$set: {status: 'unavailable'}}, function() {
+				const input_lexicon = chain.lexicon;
+				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
+				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items);
+				db.subjects.findAndModify({
+					query: {subject_id: payload.subject_id},
+					update: {
+						$set: {
+							modified_time: getCurrentTime(),
+							chain_id: chain.chain_id,
+							generation: chain.current_gen + 1,
+							input_lexicon: input_lexicon,
+							training_items: training_items,
+							trial_sequence: trial_sequence,
+						},
+						$inc: {
+							sequence_position: 1,
+						},
+					},
+					new: true,
+				}, function(err, subject, last_err) {
+					if (err || !subject)
+						return reportError(client, 128, 'Unrecognized participant ID.');
+					const next = subject.trial_sequence[subject.sequence_position];
+					next.payload.total_bonus = subject.total_bonus;
+					return client.emit(next.event, next.payload);
 				});
 			});
 		});
 	});
 
-	// Client requests next trial
+	// Client requests the next trial. Store any data and tell the client
+	// which trial to run next.
 	client.on('next', function(payload) {
 		const time = getCurrentTime();
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
@@ -331,8 +357,6 @@ socket.on('connection', function(client) {
 			};
 			if (payload.initialization)
 				update.$inc.sequence_position = 0;
-			if (payload.comments)
-				update.$set.comments = payload.comments;
 			if (payload.response) {
 				payload.response.time = time;
 				update.$push = {responses:payload.response};
@@ -349,6 +373,8 @@ socket.on('connection', function(client) {
 						update.$inc.total_bonus = subject.bonus_full;
 				}
 			}
+			if (payload.comments)
+				update.$set.comments = payload.comments;
 			db.subjects.findAndModify({query: {subject_id: payload.subject_id}, update, new: true}, function(err, subject, last_err) {
 				if (err || !subject)
 					return reportError(client, 128, 'Unrecognized participant ID.');

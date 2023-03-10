@@ -177,13 +177,13 @@ function initializeObjectArray(object_array_dims) {
 socket.on('initialize', function(payload) {
 	updateBonus(payload.total_bonus);
 	initializeObjectArray(payload.object_array_dims);
+	$('#consent_session_time').html(payload.session_time);
+	$('#consent_basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
+	$('#consent_max_pay').html('£' + (payload.max_pay/100).toFixed(2));
 	socket.emit('next', {subject_id, 'initialization': true});
 });
 
 socket.on('consent', function(payload) {
-	$('#consent_session_time').html(payload.session_time);
-	$('#consent_basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
-	$('#consent_max_pay').html('£' + (payload.max_pay/100).toFixed(2));
 	$('#submit_consent').click(function() {
 		$('#submit_consent').off('click');
 		$('#consent_screen').hide();
@@ -200,17 +200,17 @@ socket.on('consent', function(payload) {
 });
 
 socket.on('training_instructions', function(payload) {
-	updateProgress(payload.progress);
 	$('#start_training').click(function() {
 		$('#start_training').off('click');
 		$('#training_instructions').hide();
-		socket.emit('next', {subject_id});
+		socket.emit('ready', {subject_id});
 	});
 	setTimeout(function() {
 		enableButton('#start_training');
 	}, payload.instruction_time);
 	disableButton('#start_training');
 	$('#training_instructions').show();
+	$('#header').show();
 });
 
 socket.on('test_instructions', function(payload) {
@@ -227,6 +227,7 @@ socket.on('test_instructions', function(payload) {
 	}, payload.instruction_time);
 	disableButton('#start_test');
 	$('#test_instructions').show();
+	$('#header').show();
 });
 
 socket.on('training_block', function(payload) {
@@ -305,6 +306,7 @@ socket.on('training_block', function(payload) {
 		}
 	);
 	$('#experiment').show();
+	$('#header').show();
 });
 
 socket.on('test_production', function(payload) {
@@ -353,6 +355,7 @@ socket.on('test_production', function(payload) {
 		const start_time = performance.now();
 	}, payload.pause_time);
 	$('#experiment').show();
+	$('#header').show();
 });
 
 socket.on('test_comprehension', function(payload) {
@@ -399,6 +402,7 @@ socket.on('test_comprehension', function(payload) {
 		const start_time = performance.now();
 	}, payload.pause_time);
 	$('#experiment').show();
+	$('#header').show();
 });
 
 socket.on('questionnaire', function(payload) {
@@ -417,6 +421,7 @@ socket.on('questionnaire', function(payload) {
 	});
 	disableButton('#submit_questionnaire');
 	$('#questionnaire').show();
+	$('#header').show();
 	$('#comments').focus();
 });
 
@@ -432,6 +437,7 @@ socket.on('end_of_experiment', function(payload) {
 		window.location.href = payload.return_url;
 	});
 	$('#end_of_experiment').show();
+	$('#header').show();
 });
 
 socket.on('report', function(payload) {
@@ -447,7 +453,6 @@ $(document).ready(function() {
 		if ($(this).val().toLowerCase() === test_phrase) {
 			$('#test_sound_input').off('keyup');
 			$('#sound_test').hide();
-			$('#header').show();
 			socket.emit('handshake', {subject_id});
 		}
 	});
