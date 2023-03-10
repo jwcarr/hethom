@@ -247,14 +247,16 @@ def drop(exp_id, sub_id=None):
 def dump(exp_id, _=None):
 	subject_id_map = {}
 	subject_data = {}
+	exp_dir = DATA_DIR / exp_id
+	if not exp_dir.exists():
+		exp_dir.mkdir()
 	for i, subject in enumerate(db[exp_id].subjects.find({'status': 'approved'}), 1):
 		anon_subject_id = f'{exp_id}_{str(i).zfill(3)}' 
 		subject_id_map[ subject['prolific_id'] ] = anon_subject_id
 		subject['subject_id'] = anon_subject_id
 		del subject['_id']
 		del subject['prolific_id']
-		file_path = DATA_DIR / exp_id / f'{anon_subject_id}.json'
-		with open(file_path, 'w') as file:
+		with open(exp_dir / f'{anon_subject_id}.json', 'w') as file:
 			file.write(dumps(subject, indent='\t'))
 		subject_data[anon_subject_id] = subject
 
@@ -264,8 +266,7 @@ def dump(exp_id, _=None):
 		chain['subjects'] = [
 			subject_id_map[prolific_id] for prolific_id in chain['subjects']
 		]
-		file_path = DATA_DIR / exp_id / f'chain_{chain["chain_id"]}.json'
-		with open(file_path, 'w') as file:
+		with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 			file.write(dumps(chain, indent='\t'))
 		dataset[ chain['chain_id'] ] = [ subject_data[subject_id] for subject_id in chain['subjects'] ]
 	with open(DATA_DIR / f'{exp_id}.json', 'w') as file:
