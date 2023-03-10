@@ -122,11 +122,11 @@ def monitor(exp_id, sub_id=None):
 	if sub_id is None:
 		subjects = db[exp_id].subjects.find({'status': 'active'})
 	else:
-		subjects = [ db[exp_id].subjects.find_one({'prolific_id': sub_id}) ]
+		subjects = [ db[exp_id].subjects.find_one({'subject_id': sub_id}) ]
 	current_time = int(time.time())
 	for subject in subjects:
 		print('------------------------------------------')
-		print(subject['prolific_id'])
+		print(subject['subject_id'])
 		print('------------------------------------------')
 		print('Status:', subject['status'])
 		minutes = (current_time - subject['creation_time']) // 60
@@ -147,7 +147,7 @@ def entropy(distribution):
 def review(exp_id, sub_id=None):
 	if sub_id is None:
 		raise ValueError('Subject ID must be specified')
-	subject = db[exp_id].subjects.find_one({'prolific_id': sub_id})
+	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject['status'] != 'approval_needed':
 		raise ValueError(f'Cannot review subject with status {subject["status"]}')
 	minutes = (subject['modified_time'] - subject['creation_time']) // 60
@@ -177,7 +177,7 @@ def review(exp_id, sub_id=None):
 		correct = '✅' if word == taught_word else '❌'
 		trained = '➡️ ' if item in subject['training_items'] else '  '
 		print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct)
-	db[exp_id].subjects.update_one({'prolific_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
+	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
 	print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
 	print('Mean response time', round(np.mean(response_times) / 1000, 2))
 	print('Attention checks:', attention_checks_passed)
@@ -208,10 +208,10 @@ def log_approval(subject_id, bonus):
 def approve(exp_id, sub_id=None):
 	if sub_id is None:
 		raise ValueError('Subject ID must be specified')
-	subject = db[exp_id].subjects.find_one({'prolific_id': sub_id})
+	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject['status'] != 'reviewed':
 		raise ValueError('Subject not yet reviewed or already approved')
-	db[exp_id].subjects.update_one({'prolific_id': sub_id}, {'$set':{'status': 'approved'}})
+	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'approved'}})
 	chain = db[exp_id].chains.find_one({'chain_id': subject['chain_id']})
 	if chain['current_gen'] >= (chain['max_gen'] - 1):
 		update_status = 'completed'
@@ -219,27 +219,27 @@ def approve(exp_id, sub_id=None):
 		update_status = 'available'
 	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {
 		'$set': {'status': update_status, 'lexicon': subject['lexicon']},
-		'$push': {'subjects': subject['prolific_id']},
+		'$push': {'subjects': subject['subject_id']},
 		'$inc': {'current_gen': 1},
 	})
-	log_approval(subject['prolific_id'], subject['total_bonus'])
+	log_approval(subject['subject_id'], subject['total_bonus'])
 
 def reject(exp_id, sub_id=None):
 	if sub_id is None:
 		raise ValueError('Subject ID must be specified')
-	subject = db[exp_id].subjects.find_one({'prolific_id': sub_id})
+	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject['status'] != 'reviewed':
 		raise ValueError('Subject not yet reviewed or already approved')
-	db[exp_id].subjects.update_one({'prolific_id': sub_id}, {'$set':{'status': 'rejected'}})
+	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'rejected'}})
 	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available'}})
-	log_approval(subject['prolific_id'], subject['total_bonus'])
+	log_approval(subject['subject_id'], subject['total_bonus'])
 
 def drop(exp_id, sub_id=None):
 	if sub_id is None:
 		raise ValueError('Subject ID must be specified')
-	subject = db[exp_id].subjects.find_one({'prolific_id': sub_id})
+	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject['status'] == 'active':
-		db[exp_id].subjects.update_one({'prolific_id': sub_id}, {'$set':{'status': 'dropout'}})
+		db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
 		db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available'}})
 	else:
 		print('Subject not currently active')
@@ -251,20 +251,18 @@ def dump(exp_id, _=None):
 	if not exp_dir.exists():
 		exp_dir.mkdir()
 	for i, subject in enumerate(db[exp_id].subjects.find({'status': 'approved'}), 1):
-		anon_subject_id = f'{exp_id}_{str(i).zfill(3)}' 
-		subject_id_map[ subject['prolific_id'] ] = anon_subject_id
-		subject['subject_id'] = anon_subject_id
 		del subject['_id']
-		del subject['prolific_id']
+		anon_subject_id = f'{exp_id}_{str(i).zfill(3)}' 
+		subject_id_map[ subject['subject_id'] ] = anon_subject_id
+		subject['subject_id'] = anon_subject_id
 		with open(exp_dir / f'{anon_subject_id}.json', 'w') as file:
 			file.write(dumps(subject, indent='\t'))
 		subject_data[anon_subject_id] = subject
-
 	dataset = {}
 	for chain in db[exp_id].chains.find({}):
 		del chain['_id']
 		chain['subjects'] = [
-			subject_id_map[prolific_id] for prolific_id in chain['subjects']
+			subject_id_map[subject_id] for subject_id in chain['subjects']
 		]
 		with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 			file.write(dumps(chain, indent='\t'))

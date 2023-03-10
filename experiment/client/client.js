@@ -1,8 +1,8 @@
 // Establish websocket connection with the server using socket.io
 const socket = io.connect();
 
-// Extract prolific ID from the URL
-const prolific_id = (new URL(window.location.href)).searchParams.get('PROLIFIC_PID');
+// Extract Prolific ID from the URL
+const subject_id = (new URL(window.location.href)).searchParams.get('PROLIFIC_PID');
 
 const word_audio = [
 	new Audio('sounds/0.mp4'),
@@ -177,7 +177,7 @@ function initializeObjectArray(object_array_dims) {
 socket.on('initialize', function(payload) {
 	updateBonus(payload.total_bonus);
 	initializeObjectArray(payload.object_array_dims);
-	socket.emit('next', {prolific_id, 'initialization': true});
+	socket.emit('next', {subject_id, 'initialization': true});
 });
 
 socket.on('consent', function(payload) {
@@ -187,7 +187,7 @@ socket.on('consent', function(payload) {
 	$('#submit_consent').click(function() {
 		$('#submit_consent').off('click');
 		$('#consent_screen').hide();
-		socket.emit('next', {prolific_id});
+		socket.emit('next', {subject_id});
 	});
 	$('#confirm_consent').click(function() {
 		if ($('#confirm_consent').is(':checked'))
@@ -204,7 +204,7 @@ socket.on('training_instructions', function(payload) {
 	$('#start_training').click(function() {
 		$('#start_training').off('click');
 		$('#training_instructions').hide();
-		socket.emit('next', {prolific_id});
+		socket.emit('next', {subject_id});
 	});
 	setTimeout(function() {
 		enableButton('#start_training');
@@ -220,7 +220,7 @@ socket.on('test_instructions', function(payload) {
 		$('#start_test').off('click');
 		$('#test_instructions').hide();
 		$('#experiment').show();
-		socket.emit('next', {prolific_id});
+		socket.emit('next', {subject_id});
 	});
 	setTimeout(function() {
 		enableButton('#start_test');
@@ -271,7 +271,7 @@ socket.on('training_block', function(payload) {
 						setTimeout(function() {
 							// 4. After 2*pause_time, hide the word and object buttons and request the next trial
 							hideObject();
-							socket.emit('next', {prolific_id, response: {
+							socket.emit('next', {subject_id, response: {
 								test_type: 'mini_test',
 								shape: payload.test_trial.shape,
 								color: payload.test_trial.color,
@@ -330,7 +330,7 @@ socket.on('test_production', function(payload) {
 				hideObject();
 				if (label === payload.word)
 					updateBonus(payload.total_bonus + payload.bonus_full);
-				socket.emit('next', {prolific_id, response: {
+				socket.emit('next', {subject_id, response: {
 					test_type: 'test_production',
 					shape: payload.shape,
 					color: payload.color,
@@ -371,7 +371,7 @@ socket.on('test_comprehension', function(payload) {
 			const selected_item = payload.array[selected_button];
 			// 3. object clicked, hide array and move on
 			hideArray();
-			socket.emit('next', {prolific_id, response: {
+			socket.emit('next', {subject_id, response: {
 				test_type: 'test_comprehension',
 				item: payload.item,
 				word: payload.word,
@@ -407,7 +407,7 @@ socket.on('questionnaire', function(payload) {
 	$('#submit_questionnaire').click(function() {
 		$('#submit_questionnaire').off('click');
 		const comments = $('#comments').val();
-		socket.emit('next', {prolific_id, comments});
+		socket.emit('next', {subject_id, comments});
 	});
 	$('#comments').keyup(function() {
 		if ($(this).val().length > 0)
@@ -448,7 +448,7 @@ $(document).ready(function() {
 			$('#test_sound_input').off('keyup');
 			$('#sound_test').hide();
 			$('#header').show();
-			socket.emit('handshake', {prolific_id});
+			socket.emit('handshake', {subject_id});
 		}
 	});
 	$('#sound_test_button').click(function() {

@@ -6,7 +6,7 @@
 const DATABASE_NAME = 'pilot1';
 
 // Regex defining valid Prolific participant IDs (24 hex digits)
-const VALID_PROLIFIC_ID = /^[a-f0-9]{24}$/;
+const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
 
 // Port number to listen on
 const PORT = 8080;
@@ -242,11 +242,11 @@ socket.on('connection', function(client) {
 
 	// Client makes initial handshake
 	client.on('handshake', function(payload) {
-		// Check for a valid Prolific ID
-		if (!VALID_PROLIFIC_ID.test(payload.prolific_id))
+		// Check for a valid subject ID
+		if (!VALID_SUBJECT_ID.test(payload.subject_id))
 			return reportError(client, 117, 'Unable to validate participant ID.');
 		// Attempt to find the subject in the database
-		db.subjects.findOne({prolific_id: payload.prolific_id}, function(err, subject) {
+		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err)
 				return reportError(client, 118, 'Unable to validate participant ID.');
 			// If we've seen this subject before...
@@ -254,7 +254,7 @@ socket.on('connection', function(client) {
 				if (subject.status != 'active')
 					return reportError(client, 116, 'You have already completed this task.');
 				// Reinitialize the subject and make a note of this in the database
-				db.subjects.update({prolific_id: subject.prolific_id},
+				db.subjects.update({subject_id: subject.subject_id},
 					{ $set:{client_id: client.id}, $inc: {n_reinitializations: 1} }
 				);
 				return client.emit('initialize', {
@@ -279,7 +279,7 @@ socket.on('connection', function(client) {
 				const training_items = generateItems(task.n_shapes, task.n_colors, task.bottleneck);
 				const trial_sequence = generateTrialSequence(task, input_lexicon, training_items);
 				const subject = {
-					prolific_id: payload.prolific_id,
+					subject_id: payload.subject_id,
 					client: client.id,
 					chain_id: chain.chain_id,
 					creation_time: time,
@@ -320,7 +320,7 @@ socket.on('connection', function(client) {
 	// Client requests next trial
 	client.on('next', function(payload) {
 		const time = getCurrentTime();
-		db.subjects.findOne({prolific_id: payload.prolific_id}, function(err, subject) {
+		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err || !subject)
 				return reportError(client, 126, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
@@ -349,14 +349,14 @@ socket.on('connection', function(client) {
 						update.$inc.total_bonus = subject.bonus_full;
 				}
 			}
-			db.subjects.findAndModify({query: {prolific_id: payload.prolific_id}, update, new: true}, function(err, subject, last_err) {
+			db.subjects.findAndModify({query: {subject_id: payload.subject_id}, update, new: true}, function(err, subject, last_err) {
 				if (err || !subject)
 					return reportError(client, 128, 'Unrecognized participant ID.');
 				const next = subject.trial_sequence[subject.sequence_position];
 				next.payload.total_bonus = subject.total_bonus;
 				if (next.event === 'end_of_experiment') {
-					db.subjects.update({prolific_id: subject.prolific_id}, {$set: {status: 'approval_needed'}});
-					db.chains.update({chain_id: subject.chain_id}, {$set: {status: `approval_needed ${subject.prolific_id}`}});
+					db.subjects.update({subject_id: subject.subject_id}, {$set: {status: 'approval_needed'}});
+					db.chains.update({chain_id: subject.chain_id}, {$set: {status: `approval_needed ${subject.subject_id}`}});
 				}
 				return client.emit(next.event, next.payload);
 			});
