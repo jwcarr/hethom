@@ -408,6 +408,20 @@ socket.on('connection', function(client) {
 		});
 	});
 
+	client.on('send_message', function(payload) {
+		// look up payload.subject_id
+		// find which chain they're in
+		// look up that chain
+		// find out the ID of the partner participant
+		// look up the partner
+		// get the partner's client ID
+		// forward payload.message to client ID
+	});
+
+	client.on('send_feedback', function(payload) {
+
+	});
+
 	client.on('disconnect', function() {
 		db.subjects.update({client_id: client.id}, {$set: {client_id: null}});
 	});
