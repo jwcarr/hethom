@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+	<meta charset='utf-8' />
+	<title>Learn an alien language</title>
+	<link rel='stylesheet' type='text/css' href='style.css' />
+</head>
+
+<body>
+
+	<div id='header' style='display: none;'>
+		<div id='progress_bar'><div id='progress'></div></div>
+		<div id='money'>BONUS: <span id='bonus_amount'>0</span></div>		
+	</div>
+
+	<div id='sound_test' class='instructions' style='display: none;'>
+		<p>First we need to check your audio. Click play and type the sentence into the box.</p>
+		<p>If you can't hear any audio, check your volume is turned up or try another browser.</p>
+		<p>&nbsp;</p>
+		<p><button id='sound_test_button'>play</button></p>
+		<p>&nbsp;</p>
+		<p><input type="text" id='test_sound_input' autocorrect="off" autocapitalize="off" spellcheck="false" /></p>
+	</div>
+
+	<div id='consent_screen' class='consent' style='display: none;'>
+		<p>You are about to participate in a study which involves learning a simple language. The experiment takes <strong>around <span id='consent_session_time'></span> minutes</strong> to complete. You will be rewarded with <span id='consent_basic_pay'></span> for your participation, plus additional bonuses every time you get a correct answer, <strong>up to a maximum of <span id='consent_max_pay'></span> in total</strong>.</p>
+		<p>Please download and read the <a href='info_sheet.pdf' download>participant infomation sheet</a>, which contains information on this study and how your data will be used. By accepting and participating in this study, you agree to the following statements:</p>
+		<ol>
+			<li>I am at least 18 years old.</li>
+			<li>I have read and understood the above information about this study.</li>
+			<li>I have had the opportunity to ask questions and I have received satisfactory answers.</li>
+			I understand that my participation in this study is voluntary, and that I am free to withdraw within 28 days without giving a <li>reason and without penalty.</li>
+			<li>I understand that my data will be anonymised and stored permanently by the researchers.</li>
+			<li>I understand that my anonymised data will be archived in a publicly-accessible repository.</li>
+			<li>I understand that other people will have access to my anonymised data and may use it for other purposes.</li>
+			I agree that my anonymised data can be used in publications and in dissemination activities associated with this and other <li>projects.</li>
+		</ol>
+		<div><input type='checkbox' id='confirm_consent' /> <label for='confirm_consent'>I agree with the statements above and I consent to taking part in this study</label></div>
+		<p>&nbsp;</p>
+		<button id='submit_consent'>NEXT</button>
+	</div>
+
+	<div id='training_instructions' class='instructions' style='display: none;'>
+		<img src='images/instructions/training.png' width='1000' height='400' />
+		<p>&nbsp;</p>
+		<button id='start_training'>START</button>
+	</div>
+
+	<div id='test_instructions' class='instructions' style='display: none;'>
+		<img src='images/instructions/test.png' width='1000' height='400' />
+		<p>&nbsp;</p>
+		<button id='start_test'>START</button>
+	</div>
+
+	<div id='experiment' style='display: none;'>
+
+		<div id='object' style='display: none;'>
+			<img id='object_image' src='images/empty_char.png' width='300' height='300' style="padding:50px" />
+		</div>
+
+		<div id='object_array' style='display: none;'>
+			
+		</div>
+
+		<div id='message'>
+			<div id='word'></div>
+			<div id='label_input' style='display: none;'>
+				<form id='input_form' autocomplete="off"><input type="text" id='label' autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="9" /></form>
+			</div>
+		</div>
+
+		</div>
+	</div>
+
+	<div id='questionnaire' class='instructions' style='display: none;'>
+		<p>Please tell us anything that comes to mind about this study. For example, did you notice anything unusual about the alien words? What strategies did you use to learn and recall the words? Which aspects of the task did you find easy and which aspects were hard? Do you have any other comments about this study?</p><p>&nbsp;</p>
+		<textarea id='comments' style='width:500px; height:200px;'></textarea><p>&nbsp;</p>
+		<button id='submit_questionnaire'>FINISH</button>
+	</div>
+
+	<div id='end_of_experiment' class='instructions' style='display: none;'>
+		<p>Thank you! You have now completed the study. <strong>You must click the FINISH button to receive payment.</strong> The total amount shown below will be awarded to you within 24 hours.</p><p>&nbsp;</p>
+		<table>
+			<tr>
+				<td class='pay_type'>payment</td>
+				<td></td>
+				<td class='pay_type'>bonus</td>
+				<td></td>
+				<td class='pay_type'>total</td>
+			</tr>
+			<tr>
+				<td class='currency' id='basic_pay'></td>
+				<td class='plus'>+</td>
+				<td class='currency' id='bonus_pay'></td>
+				<td class='plus'>=</td>
+				<td class='currency' id='total_pay'></td>
+			</tr>
+		</table><p>&nbsp;</p>
+		<button id='exit'>FINISH</button>
+	</div>
+	
+	<div id='task_status' style='display: none;'>
+		<p id='status_message'></p>
+	</div>
+
+	<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+	<script type='text/javascript' src='socket.io/socket.io.js'></script>
+	<script type='text/javascript' src='difflib-browser.js'></script>
+	<script type='text/javascript' src='client.js'></script>
+
+</body>
+</html>
