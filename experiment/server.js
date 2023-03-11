@@ -131,10 +131,16 @@ function generateItems(n, m, bottleneck=null) {
 	return selected_items;
 }
 
+function generateTrialSequenceStub() {
+	return [
+		{event: 'consent', payload: {progress: 0}},
+		{event: 'training_instructions', payload: {progress: 0}},
+	];
+}
+
 function generateTrialSequence(task, words, trained_item_indices) {
-	const seen_items = [], trial_sequence = [];
-	trial_sequence.push({event: 'consent', payload:{progress: 0}});
-	trial_sequence.push({event: 'training_instructions', payload:{progress: 0}});
+	const seen_items = [];
+	const trial_sequence = generateTrialSequenceStub();
 	for (let i = 0; i < task.training_reps; i++) {
 		for (let j = 0; j < task.mini_test_freq; j++) {
 			let training_trials = [];
@@ -284,10 +290,7 @@ socket.on('connection', function(client) {
 					generation: null,
 					input_lexicon: null,
 					training_items: null,
-					trial_sequence: [
-						{event: 'consent', payload:{}},
-						{event: 'training_instructions', payload:{}},
-					],
+					trial_sequence: generateTrialSequenceStub(),
 					basic_pay: EXP_CONFIG.basic_pay,
 					bonus_partial: EXP_CONFIG.bonus_partial,
 					bonus_full: EXP_CONFIG.bonus_full,
