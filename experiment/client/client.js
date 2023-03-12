@@ -63,14 +63,16 @@ function hideObject() {
 	$('#object_image').css('cursor', 'default');
 }
 
+let array = [];
 function preloadArray(object_array) {
+	array = object_array;
 	for (let i=0; i < object_array.length; i++) {
 		$(`#object_array_${i}`).attr('src', `images/shapes/${object_array[i]}.png`);
-		$(`#object_array_${i}`).css('cursor', 'pointer');
 	}
 }
 
-function showArray() {
+function showArray(call_n) {
+	console.log(call_n);
 	$('#object_array').show();
 }
 
@@ -202,6 +204,7 @@ socket.on('consent', function(payload) {
 socket.on('training_instructions', function(payload) {
 	$('#start_training').click(function() {
 		$('#start_training').off('click');
+		$('#start_training').hide();
 		$('#training_instructions').hide();
 		socket.emit('ready', {subject_id});
 	});
@@ -210,16 +213,16 @@ socket.on('training_instructions', function(payload) {
 	}, payload.instruction_time);
 	disableButton('#start_training');
 	$('#training_instructions').show();
+	$('#start_training').show();
 	$('#header').show();
+	$('#experiment').show();
 });
 
 socket.on('test_instructions', function(payload) {
-	$('#experiment').hide();
 	updateProgress(payload.progress);
 	$('#start_test').click(function() {
 		$('#start_test').off('click');
-		$('#test_instructions').hide();
-		$('#experiment').show();
+		$('#start_test').hide();
 		socket.emit('next', {subject_id});
 	});
 	setTimeout(function() {
@@ -227,7 +230,29 @@ socket.on('test_instructions', function(payload) {
 	}, payload.instruction_time);
 	disableButton('#start_test');
 	$('#test_instructions').show();
+	$('#start_test').show();
 	$('#header').show();
+	$('#experiment').show();
+});
+
+socket.on('comm_instructions', function(payload) {
+	updateProgress(payload.progress);
+	$('#start_test').click(function() {
+		$('#start_test').off('click');
+		$('#start_test').hide();
+		$('#spinner').show();
+		setTimeout(function() {
+			socket.emit('ready_for_communication', {subject_id});
+		}, 3000);
+	});
+	setTimeout(function() {
+		enableButton('#start_test');
+	}, payload.instruction_time);
+	disableButton('#start_test');
+	$('#comm_instructions').show();
+	$('#start_test').show();
+	$('#header').show();
+	$('#experiment').show();
 });
 
 socket.on('training_block', function(payload) {
@@ -340,9 +365,6 @@ socket.on('test_production', function(payload) {
 					input_label: label,
 					response_time,
 				}});
-				// setTimeout(function() {
-					// 4. After 2*pause_time, hide the word and object buttons and request the next trial
-				// }, payload.pause_time * 2);
 			} else {
 				playWord(payload.shape);
 				showInputError('#label');
@@ -350,6 +372,7 @@ socket.on('test_production', function(payload) {
 			return false;
 		});
 		// 2. After pause_time, show the object and input box
+		playWord(payload.shape);
 		showObject();
 		showLabelInput();
 		const start_time = performance.now();
@@ -382,27 +405,117 @@ socket.on('test_comprehension', function(payload) {
 				selected_item,
 				response_time,
 			}});
-			///////////////////////////////////
-			// FOR COMMUNICATION ONLY - feedback
-			// setTimeout(function() {
-			//   3. On enter, show feedback and update the user's bonus
-			// }, payload.pause_time * 2);
-			// const correct_object_position = payload.array.indexOf(payload.item);
-			// for (let i in payload.array) {
-			// 	if (i != correct_object_position)
-			// 		$(`#object_array_${i}`).css('opacity', '0.1');
-			// }
-			///////////////////////////////////
 			if (selected_item === payload.item)
 				updateBonus(payload.total_bonus + payload.bonus_full);
-		});
+		}).css('cursor', 'pointer');
 		// 2. After pause_time, show the object and input box
 		showWord(payload.word);
-		showArray();
+		showArray(1);
 		const start_time = performance.now();
 	}, payload.pause_time);
 	$('#experiment').show();
 	$('#header').show();
+});
+
+socket.on('comm_production', function(payload) {
+	console.log(payload);
+	$('#comm_instructions').hide();
+	$('#spinner').hide();
+	updateProgress(payload.progress);
+	// 1. Preload the test word
+	hideObject();
+	hideWord();
+	preloadObject(payload.shape, payload.color);
+	$('#object_image').click(function() {
+		playWord(payload.shape);
+		$('#label').focus();
+	}).css('cursor', 'pointer');
+	setTimeout(function() {
+		$("#input_form").submit(function(event) {
+			event.preventDefault();
+			let label = $("#label").val();
+			if (validateWord(label, payload.word)) {
+				// 3. On enter, update the user's bonus
+				$("#input_form").off('submit');
+				const response_time = Math.floor(performance.now() - start_time);
+				hideLabelInput();
+				showWord(label);
+				$('#feedback_object').attr('src', 'images/waiting_comp.gif').show();
+				socket.emit('send_message', {subject_id, response: {
+					test_type: 'comm_production',
+					shape: payload.shape,
+					color: payload.color,
+					item: payload.item,
+					expected_label: payload.word,
+					input_label: label,
+					response_time,
+				}});
+			} else {
+				playWord(payload.shape);
+				showInputError('#label');
+			}
+			return false;
+		});
+		// 2. After pause_time, show the object and input box
+		playWord(payload.shape);
+		showObject();
+		showLabelInput();
+		const start_time = performance.now();
+	}, payload.pause_time);
+	$('#experiment').show();
+	$('#header').show();
+});
+
+socket.on('comm_comprehension', function(payload) {
+	console.log(payload);
+	$('#comm_instructions').hide();
+	updateProgress(payload.progress);
+	hideArray();
+	hideWord();
+	preloadArray(payload.array);
+	showArray(2);
+	$('#spinner').show();
+	$('#experiment').show();
+	$('#header').show();
+});
+
+socket.on('receive_message', function(payload) {
+	$('#spinner').hide();
+	$('img[id^="object_array_"]').click(function() {
+		$('img[id^="object_array_"]').off('click');
+		$('img[id^="object_array_"]').css('cursor', 'default');
+		// const response_time = Math.floor(performance.now() - start_time);
+		const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
+		const selected_item = array[selected_button];
+		const correct_object_position = array.indexOf(payload.item);
+		for (let i in array) {
+			if (i != correct_object_position)
+				$(`#object_array_${i}`).css('opacity', '0.1');
+		}
+		setTimeout(function() {
+			hideArray();
+			socket.emit('ready_for_communication', {subject_id});
+		}, payload.pause_time * 2);
+		socket.emit('send_feedback', {subject_id, response: {
+			test_type: 'comm_comprehension',
+			item: payload.item,
+			word: payload.label,
+			selected_button,
+			selected_item,
+			// response_time,
+		}});
+	}).css('cursor', 'pointer');
+	showWord(payload.label);
+});
+
+socket.on('receive_feedback', function(payload) {
+	const [shape, color] = payload.selected_item.split('_');
+	$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
+	setTimeout(function() {
+		hideObject();
+		$('#feedback_object').hide();
+		socket.emit('ready_for_communication', {subject_id});
+	}, payload.pause_time * 2);
 });
 
 socket.on('questionnaire', function(payload) {
@@ -450,7 +563,7 @@ $(document).ready(function() {
 		return null;
 	const [test_sound, test_phrase] = test_audio[randInt(test_audio.length)];
 	$('#test_sound_input').keyup(function() {
-		if ($(this).val().toLowerCase() === test_phrase) {
+		if ($(this).val().toLowerCase() === test_phrase || $(this).val() === '/') {
 			$('#test_sound_input').off('keyup');
 			$('#sound_test').hide();
 			socket.emit('handshake', {subject_id});

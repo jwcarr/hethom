@@ -52,6 +52,8 @@ const db = mongojs(`mongodb://127.0.0.1:27017/${EXP_ID}`, ['chains', 'subjects']
 
 const socket = socketio(server);
 
+const READY_FOR_COMMUNICATION = {};
+
 // ------------------------------------------------------------------
 // Functions
 // ------------------------------------------------------------------
@@ -138,7 +140,7 @@ function generateTrialSequenceStub() {
 	];
 }
 
-function generateTrialSequence(task, words, trained_item_indices) {
+function generateTrialSequence(task, words, trained_item_indices, leader=null) {
 	const seen_items = [];
 	const trial_sequence = generateTrialSequenceStub();
 	for (let i = 0; i < task.training_reps; i++) {
@@ -167,51 +169,85 @@ function generateTrialSequence(task, words, trained_item_indices) {
 						color: color,
 						catch_trial: false,
 					};
-					trial_sequence.push({event:'training_block', payload:{
-						training_trials,
-						test_trial,
-						trial_time: task.trial_time,
-						pause_time: task.pause_time,
-						progress: task.mini_test_freq + 1,
-						bonus_partial: task.bonus_partial,
-						bonus_full: task.bonus_full,
-					}});
+					// trial_sequence.push({event:'training_block', payload:{
+					// 	training_trials,
+					// 	test_trial,
+					// 	trial_time: task.trial_time,
+					// 	pause_time: task.pause_time,
+					// 	progress: task.mini_test_freq + 1,
+					// 	bonus_partial: task.bonus_partial,
+					// 	bonus_full: task.bonus_full,
+					// }});
 					training_trials = [];
 				}
 			}
 		}
 		// second to last trial on each training rep is a catch trial
-		trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
+		// trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
 	}
-	trial_sequence.push({event:'test_instructions', payload:{
-		instruction_time : task.instruction_time,
-		progress : 10,
-	}});
+	if (task.communication)
+		trial_sequence.push({event:'comm_instructions', payload:{
+			instruction_time : task.instruction_time,
+			progress : 10,
+		}});
+	else
+		trial_sequence.push({event:'test_instructions', payload:{
+			instruction_time : task.instruction_time,
+			progress : 10,
+		}});
 	const prod_item_indices = generateItems(task.n_shapes, task.n_colors);
 	const comp_item_indices = generateItems(task.n_shapes, task.n_colors);
 	for (let i=0; i < prod_item_indices.length; i++) {
 		const prod_item = prod_item_indices[i];
 		const [shape, color] = prod_item.split('_');
-		trial_sequence.push({event:'test_production', payload:{
-			item: prod_item,
-			word: words[prod_item],
-			shape: shape,
-			color: color,
-			pause_time: task.pause_time,
-			progress: 2,
-			bonus_partial: task.bonus_partial,
-			bonus_full: task.bonus_full,
-		}});
-		const comp_item = comp_item_indices[i];
-		trial_sequence.push({event:'test_comprehension', payload:{
-			item: comp_item,
-			word: words[comp_item],
-			array: generateItems(task.n_shapes, task.n_colors),
-			pause_time: task.pause_time,
-			progress: 2,
-			bonus_partial: task.bonus_partial,
-			bonus_full: task.bonus_full,
-		}});
+		if (task.communication) {
+			const production_event = {event:'comm_production', payload:{
+				item: prod_item,
+				word: words[prod_item],
+				shape: shape,
+				color: color,
+				pause_time: task.pause_time,
+				progress: 2,
+				bonus_partial: task.bonus_partial,
+				bonus_full: task.bonus_full,
+			}};
+			const comprehension_event = {event:'comm_comprehension', payload:{
+				array: generateItems(task.n_shapes, task.n_colors),
+				pause_time: task.pause_time,
+				progress: 2,
+				bonus_partial: task.bonus_partial,
+				bonus_full: task.bonus_full,
+			}};
+			if (leader) {
+				trial_sequence.push(production_event);
+				trial_sequence.push(comprehension_event);
+			} else {
+				trial_sequence.push(comprehension_event);
+				trial_sequence.push(production_event);
+			}
+		} else {
+			trial_sequence.push({event:'test_production', payload:{
+				item: prod_item,
+				word: words[prod_item],
+				shape: shape,
+				color: color,
+				pause_time: task.pause_time,
+				progress: 2,
+				bonus_partial: task.bonus_partial,
+				bonus_full: task.bonus_full,
+			}});
+			const comp_item = comp_item_indices[i];
+			trial_sequence.push({event:'test_comprehension', payload:{
+				item: comp_item,
+				word: words[comp_item],
+				array: generateItems(task.n_shapes, task.n_colors),
+				pause_time: task.pause_time,
+				progress: 2,
+				bonus_partial: task.bonus_partial,
+				bonus_full: task.bonus_full,
+			}});			
+		}
+
 	}
 	trial_sequence.push({event:'questionnaire', payload:{
 		progress : 10,
@@ -242,6 +278,29 @@ function assignToChain(chains) {
 			return chain;
 	}
 	return chains[0];
+}
+
+function getPartnerID(chain, subject_id) {
+	const subject_index = chain.communicators.indexOf(subject_id);
+	let partner_subject_id;
+	if (subject_index === 0)
+		return chain.communicators[1];
+	else if (subject_index === 1)
+		return chain.communicators[0];
+	return null;
+}
+
+function getPartner(subject, callback) {
+	db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
+		if (err || !chain)
+			return reportError(client, 133, 'Error.');
+		const partner_id = getPartnerID(chain, subject.subject_id);
+		db.subjects.findOne({subject_id: partner_id}, function(err, partner) {
+			if (err || !partner)
+				return reportError(client, 135, 'Cannot find partner.');
+			callback(partner);
+		});
+	});
 }
 
 function reportError(client, error_number, reason) {
@@ -326,17 +385,23 @@ socket.on('connection', function(client) {
 			if (err || chains.length === 0)
 				return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
 			const chain = assignToChain(chains);
-			let chain_update;
-			if (chain.task.communication && chain.communicators.length === 0)
+			let chain_update, leader;
+			if (chain.task.communication && chain.communicators.length === 0) {
 				chain_update = {$set: {status: 'available'}, $push: {communicators: payload.subject_id}};
-			else if (chain.task.communication && chain.communicators.length === 1)
+				leader = true;
+			}
+			else if (chain.task.communication && chain.communicators.length === 1) {
 				chain_update = {$set: {status: 'unavailable'}, $push: {communicators: payload.subject_id}};
-			else
+				leader = false;
+			}
+			else {
 				chain_update = {$set: {status: 'unavailable'}};
+				leader = null;
+			}
 			db.chains.update({chain_id: chain.chain_id}, chain_update, function() {
 				const input_lexicon = chain.lexicon;
 				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
-				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items);
+				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items, leader);
 				db.subjects.findAndModify({
 					query: {subject_id: payload.subject_id},
 					update: {
@@ -411,18 +476,76 @@ socket.on('connection', function(client) {
 		});
 	});
 
+	client.on('ready_for_communication', function(payload) {
+		const time = getCurrentTime();
+		db.subjects.findAndModify({
+			query: {subject_id: payload.subject_id},
+			update: {
+				$set: {modified_time: time, client_id: client.id},
+				$inc: {sequence_position: 1},
+			},
+			new: true,
+		}, function(err, subject, last_err) {
+			if (err || !subject)
+				return reportError(client, 131, 'Unrecognized participant ID.');
+			if (subject.status != 'active')
+				return reportError(client, 132, 'Your session is no longer active.');
+			getPartner(subject, function(partner) {
+				if (READY_FOR_COMMUNICATION[partner.subject_id]) {
+					READY_FOR_COMMUNICATION[partner.subject_id] = false;
+					const subject_next = subject.trial_sequence[subject.sequence_position];
+					subject_next.payload.total_bonus = subject.total_bonus;
+					const partner_next = partner.trial_sequence[partner.sequence_position];
+					partner_next.payload.total_bonus = partner.total_bonus;
+					client.emit(subject_next.event, subject_next.payload);
+					client.to(partner.client_id).emit(partner_next.event, partner_next.payload);
+				} else {
+					READY_FOR_COMMUNICATION[subject.subject_id] = true;
+				}
+			});
+		});
+	});
+
 	client.on('send_message', function(payload) {
-		// look up payload.subject_id
-		// find which chain they're in
-		// look up that chain
-		// find out the ID of the partner participant
-		// look up the partner
-		// get the partner's client ID
-		// forward payload.message to client ID
+		const time = getCurrentTime();
+		payload.response.time = time;
+		db.subjects.findAndModify({
+			query: {subject_id: payload.subject_id},
+			update: {
+				$set: {modified_time: time, client_id: client.id},
+				$push: {responses: payload.response},
+			},
+			new: true,
+		}, function(err, subject, last_err) {
+			if (err || !subject)
+				return reportError(client, 131, 'Unrecognized participant ID.');
+			if (subject.status != 'active')
+				return reportError(client, 132, 'Your session is no longer active.');
+			getPartner(subject, function(partner) {
+				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, pause_time: EXP_CONFIG.tasks[0].pause_time});
+			});
+		});
 	});
 
 	client.on('send_feedback', function(payload) {
-
+		const time = getCurrentTime();
+		payload.response.time = time;
+		db.subjects.findAndModify({
+			query: {subject_id: payload.subject_id},
+			update: {
+				$set: {modified_time: time, client_id: client.id},
+				$push: {responses: payload.response},
+			},
+			new: true,
+		}, function(err, subject, last_err) {
+			if (err || !subject)
+				return reportError(client, 131, 'Unrecognized participant ID.');
+			if (subject.status != 'active')
+				return reportError(client, 132, 'Your session is no longer active.');
+			getPartner(subject, function(partner) {
+				client.to(partner.client_id).emit('receive_feedback', {selected_item: payload.response.selected_item, pause_time: EXP_CONFIG.tasks[0].pause_time});
+			});
+		});
 	});
 
 	client.on('disconnect', function() {
