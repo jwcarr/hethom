@@ -52,8 +52,6 @@ const db = mongojs(`mongodb://127.0.0.1:27017/${EXP_ID}`, ['chains', 'subjects']
 
 const socket = socketio(server);
 
-const READY_FOR_COMMUNICATION = {};
-
 // ------------------------------------------------------------------
 // Functions
 // ------------------------------------------------------------------
@@ -140,7 +138,7 @@ function generateTrialSequenceStub() {
 	];
 }
 
-function generateTrialSequence(task, words, trained_item_indices, leader=null) {
+function generateTrialSequence(task, words, trained_item_indices, lead_communicator) {
 	const seen_items = [];
 	const trial_sequence = generateTrialSequenceStub();
 	for (let i = 0; i < task.training_reps; i++) {
@@ -218,7 +216,7 @@ function generateTrialSequence(task, words, trained_item_indices, leader=null) {
 				bonus_partial: task.bonus_partial,
 				bonus_full: task.bonus_full,
 			}};
-			if (leader) {
+			if (lead_communicator) {
 				trial_sequence.push(production_event);
 				trial_sequence.push(comprehension_event);
 			} else {
@@ -268,37 +266,44 @@ function generateTrialSequence(task, words, trained_item_indices, leader=null) {
 	return trial_sequence;
 }
 
-function assignToChain(chains) {
+function assignToChain(chains, subject_id) {
+	// first look for a communicative chain where communicator B has been
+	// assigned but we have lost communicator A for some reason - this is
+	// most urgent
 	for (let chain of chains) {
-		if (chain.task.communication && chain.communicators.length === 1)
-			return chain;
+		if (chain.task.communication && chain.communicator_a === null && chain.communicator_b)
+			return [chain, {$set: {status: 'unavailable', communicator_b: subject_id}}];
 	}
+	// then look for a communicative chain where communicator A has been
+	// assigned but we still need a communicator B
 	for (let chain of chains) {
-		if (chain.task.communication && chain.communicators.length === 0)
-			return chain;
+		if (chain.task.communication && chain.communicator_a && chain.communicator_b === null)
+			return [chain, {$set: {status: 'unavailable', communicator_b: subject_id}}];
 	}
-	return chains[0];
-}
-
-function getPartnerID(chain, subject_id) {
-	const subject_index = chain.communicators.indexOf(subject_id);
-	let partner_subject_id;
-	if (subject_index === 0)
-		return chain.communicators[1];
-	else if (subject_index === 1)
-		return chain.communicators[0];
-	return null;
+	// then look for a communicative chain where neither communicator has been
+	// assigned
+	for (let chain of chains) {
+		if (chain.task.communication && chain.communicator_a === null && chain.communicator_b === null)
+			return [chain, {$set: {status: 'available', communicator_a: subject_id}}];
+	}
+	// if no communication chains are available, return first chain in the
+	// list, which will be the one with the smallest generation count
+	return [chains[0], {$set: {status: 'unavailable'}}];
 }
 
 function getPartner(subject, callback) {
 	db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
 		if (err || !chain)
 			return reportError(client, 133, 'Error.');
-		const partner_id = getPartnerID(chain, subject.subject_id);
+		let partner_id = null;
+		if (subject.subject_id === chain.communicator_a)
+			partner_id = chain.communicator_b;
+		else if (subject.subject_id === chain.communicator_b)
+			partner_id = chain.communicator_a;
 		db.subjects.findOne({subject_id: partner_id}, function(err, partner) {
 			if (err || !partner)
 				return reportError(client, 135, 'Cannot find partner.');
-			callback(partner);
+			callback(partner, chain);
 		});
 	});
 }
@@ -313,9 +318,12 @@ function reportError(client, error_number, reason) {
 // Client connection handlers
 // ------------------------------------------------------------------
 
+const READY_FOR_COMMUNICATION = {}; // {subject_id: bool}
+
 socket.on('connection', function(client) {
 
-	// Client makes initial handshake. Check if we've seen them before, if so
+	// Client makes initial handshake. If the subject has been seen before,
+	// reinitialize them, otherwise, create a new subject.
 	client.on('handshake', function(payload) {
 		// Check for a valid subject ID
 		if (!VALID_SUBJECT_ID.test(payload.subject_id))
@@ -378,30 +386,37 @@ socket.on('connection', function(client) {
 
 	// Client is ready to start the experiment for real. At this point, we
 	// will assign the user to a chain
-	client.on('ready', function(payload) {
+	client.on('ready_to_assign', function(payload) {
 		// Check to see which chains are active and sort them by the number of
-		// participants that have taken part so far.
+		// generations that have been completed (prioritizing few generations).
 		db.chains.find({status: 'available'}).sort({current_gen: 1}, function(err, chains) {
 			if (err || chains.length === 0)
 				return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
-			const chain = assignToChain(chains);
-			let chain_update, leader;
-			if (chain.task.communication && chain.communicators.length === 0) {
-				chain_update = {$set: {status: 'available'}, $push: {communicators: payload.subject_id}};
-				leader = true;
-			}
-			else if (chain.task.communication && chain.communicators.length === 1) {
-				chain_update = {$set: {status: 'unavailable'}, $push: {communicators: payload.subject_id}};
-				leader = false;
-			}
-			else {
-				chain_update = {$set: {status: 'unavailable'}};
-				leader = null;
-			}
-			db.chains.update({chain_id: chain.chain_id}, chain_update, function() {
+			// determine chain with greatest priority and update that chain
+			const [candidate_chain, candidate_chain_update] = assignToChain(chains, payload.subject_id);
+			db.chains.findAndModify({
+				query: {chain_id: candidate_chain.chain_id, status: 'available'},
+				update: candidate_chain_update,
+				new: true,
+			}, function(err, chain, last_err) {
+				if (err || !chain)
+					return reportError(client, 141, 'Unable to assign to chain');
+				// if communicative chain, double check that one of the
+				// communicators is the present subject ID and note whether
+				// this subject is the lead communicator
+				let lead_communicator = null;
+				if (chain.task.communication && chain.communicator_a === payload.subject_id)
+					lead_communicator = true;
+				else if (chain.task.communication && chain.communicator_b === payload.subject_id)
+					lead_communicator = false;
+				else if (chain.task.communication)
+					return reportError(client, 140, 'Unable to assign to chain');
+				// Chain assignment has been successful. Generate the
+				// subject's lexicon, training items, and trial sequence, and
+				// write to the database
 				const input_lexicon = chain.lexicon;
 				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
-				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items, leader);
+				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items, lead_communicator);
 				db.subjects.findAndModify({
 					query: {subject_id: payload.subject_id},
 					update: {
@@ -421,6 +436,7 @@ socket.on('connection', function(client) {
 				}, function(err, subject, last_err) {
 					if (err || !subject)
 						return reportError(client, 128, 'Unrecognized participant ID.');
+					// tell client to begin the next trial
 					const next = subject.trial_sequence[subject.sequence_position];
 					next.payload.total_bonus = subject.total_bonus;
 					return client.emit(next.event, next.payload);
@@ -432,12 +448,14 @@ socket.on('connection', function(client) {
 	// Client requests the next trial. Store any data and tell the client
 	// which trial to run next.
 	client.on('next', function(payload) {
-		const time = getCurrentTime();
+		// Find subject in the database
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err || !subject)
 				return reportError(client, 126, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
 				return reportError(client, 127, 'Your session is no longer active.');
+			// Decide what information needs to be updated in the database...
+			const time = getCurrentTime();
 			const update = {
 				$set : {modified_time: time, client_id: client.id},
 				$inc : {sequence_position: 1},
@@ -462,9 +480,11 @@ socket.on('connection', function(client) {
 			}
 			if (payload.comments)
 				update.$set.comments = payload.comments;
+			// ...and perform the update
 			db.subjects.findAndModify({query: {subject_id: payload.subject_id}, update, new: true}, function(err, subject, last_err) {
 				if (err || !subject)
 					return reportError(client, 128, 'Unrecognized participant ID.');
+				// Tell subject to begin the next trial
 				const next = subject.trial_sequence[subject.sequence_position];
 				next.payload.total_bonus = subject.total_bonus;
 				if (next.event === 'end_of_experiment') {
@@ -476,7 +496,10 @@ socket.on('connection', function(client) {
 		});
 	});
 
-	client.on('ready_for_communication', function(payload) {
+	// Client declares that they are ready to start a new communicative trial
+	// (including the first such trial).
+	client.on('next_communication', function(payload) {
+		// find the subject and increment their sequence position
 		const time = getCurrentTime();
 		db.subjects.findAndModify({
 			query: {subject_id: payload.subject_id},
@@ -490,7 +513,11 @@ socket.on('connection', function(client) {
 				return reportError(client, 131, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
-			getPartner(subject, function(partner) {
+			// find the subject's partner
+			getPartner(subject, function(partner, chain) {
+				// if the partner has already declared themselves ready, reset
+				// the partner's ready status and initiate the next trial on
+				// both clients; else, mark this subject as ready
 				if (READY_FOR_COMMUNICATION[partner.subject_id]) {
 					READY_FOR_COMMUNICATION[partner.subject_id] = false;
 					const subject_next = subject.trial_sequence[subject.sequence_position];
@@ -506,7 +533,9 @@ socket.on('connection', function(client) {
 		});
 	});
 
-	client.on('send_message', function(payload) {
+	// Client sends communicative label to partner
+	client.on('send_label', function(payload) {
+		// Store the subject's production response
 		const time = getCurrentTime();
 		payload.response.time = time;
 		db.subjects.findAndModify({
@@ -521,13 +550,17 @@ socket.on('connection', function(client) {
 				return reportError(client, 131, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
-			getPartner(subject, function(partner) {
-				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, pause_time: EXP_CONFIG.tasks[0].pause_time});
+			// get the partner subject and forward the label to them
+			getPartner(subject, function(partner, chain) {
+				let new_bonus_if_correct = partner.total_bonus + partner.bonus_full;
+				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, new_bonus_if_correct, pause_time: chain.task.pause_time});
 			});
 		});
 	});
 
+	// Client sends communicative feedback to partner
 	client.on('send_feedback', function(payload) {
+		// Store the subject's comprehension response
 		const time = getCurrentTime();
 		payload.response.time = time;
 		db.subjects.findAndModify({
@@ -542,12 +575,22 @@ socket.on('connection', function(client) {
 				return reportError(client, 131, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
-			getPartner(subject, function(partner) {
-				client.to(partner.client_id).emit('receive_feedback', {selected_item: payload.response.selected_item, pause_time: EXP_CONFIG.tasks[0].pause_time});
+			// get the partner subject and forward the feedback to them
+			getPartner(subject, function(partner, chain) {
+				const target_item = partner.responses[partner.responses.length - 1].item;
+				const selected_item = payload.response.selected_item;
+				let new_partner_bonus = partner.total_bonus;
+				if (selected_item === target_item) {
+					db.subjects.update({subject_id: subject.subject_id}, {$inc: {total_bonus: subject.bonus_full}});
+					db.subjects.update({subject_id: partner.subject_id}, {$inc: {total_bonus: partner.bonus_full}});
+					new_partner_bonus += partner.bonus_full
+				}
+				client.to(partner.client_id).emit('receive_feedback', {selected_item, total_bonus: new_partner_bonus, pause_time: chain.task.pause_time});
 			});
 		});
 	});
 
+	// Client has disconnected from the server, set their client ID to null
 	client.on('disconnect', function() {
 		db.subjects.update({client_id: client.id}, {$set: {client_id: null}});
 	});

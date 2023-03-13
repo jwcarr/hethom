@@ -81,7 +81,9 @@ function hideArray() {
 	$('img[id^="object_array_"]').css('opacity', '1');
 }
 
-function showWord(word) {
+function showWord(word, bubble=null) {
+	if (bubble)
+		$('#word').css('background-image', `url(${bubble})`);
 	$('#word').html(word);
 	$('#word').show();
 }
@@ -92,6 +94,7 @@ function playWord(sound) {
 
 function hideWord() {
 	$('#word').hide();
+	$('#word').css('background-image', '');
 }
 
 function showLabelInput() {
@@ -125,6 +128,8 @@ function showInputError(input_id) {
 
 function validateWord(label, expected_label=null) {
 	if (!label.match(/^[a-z]{4,9}$/))
+		return false;
+	if (label.match(/(amar|anar|aran|azu|azz|bk|bl|cast|cinz|gelb|gial|gr|jal|jaun|lar|lil|negr|ner|noir|oran|pard|pin|pn|pk|pret|purp|red|roj|ros|rot|roug|rox|rubr|schw|verd|verm|vert|viol|weis|whit|wit|yel|yl|yw|yo)/))
 		return false;
 	if (expected_label) {
 		if (label.slice(0, 3) != expected_label.slice(0, 3))
@@ -206,7 +211,7 @@ socket.on('training_instructions', function(payload) {
 		$('#start_training').off('click');
 		$('#start_training').hide();
 		$('#training_instructions').hide();
-		socket.emit('ready', {subject_id});
+		socket.emit('ready_to_assign', {subject_id});
 	});
 	setTimeout(function() {
 		enableButton('#start_training');
@@ -242,7 +247,7 @@ socket.on('comm_instructions', function(payload) {
 		$('#start_test').hide();
 		$('#spinner').show();
 		setTimeout(function() {
-			socket.emit('ready_for_communication', {subject_id});
+			socket.emit('next_communication', {subject_id});
 		}, 3000);
 	});
 	setTimeout(function() {
@@ -439,9 +444,9 @@ socket.on('comm_production', function(payload) {
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
-				showWord(label);
+				showWord(label, 'images/bubble_prod.png');
 				$('#feedback_object').attr('src', 'images/waiting_comp.gif').show();
-				socket.emit('send_message', {subject_id, response: {
+				socket.emit('send_label', {subject_id, response: {
 					test_type: 'comm_production',
 					shape: payload.shape,
 					color: payload.color,
@@ -492,9 +497,11 @@ socket.on('receive_message', function(payload) {
 			if (i != correct_object_position)
 				$(`#object_array_${i}`).css('opacity', '0.1');
 		}
+		if (selected_item === payload.item)
+			updateBonus(payload.new_bonus_if_correct);
 		setTimeout(function() {
 			hideArray();
-			socket.emit('ready_for_communication', {subject_id});
+			socket.emit('next_communication', {subject_id});
 		}, payload.pause_time * 2);
 		socket.emit('send_feedback', {subject_id, response: {
 			test_type: 'comm_comprehension',
@@ -505,16 +512,17 @@ socket.on('receive_message', function(payload) {
 			// response_time,
 		}});
 	}).css('cursor', 'pointer');
-	showWord(payload.label);
+	showWord(payload.label, 'images/bubble_comp.png');
 });
 
 socket.on('receive_feedback', function(payload) {
 	const [shape, color] = payload.selected_item.split('_');
 	$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
+	updateBonus(payload.total_bonus);
 	setTimeout(function() {
 		hideObject();
 		$('#feedback_object').hide();
-		socket.emit('ready_for_communication', {subject_id});
+		socket.emit('next_communication', {subject_id});
 	}, payload.pause_time * 2);
 });
 
