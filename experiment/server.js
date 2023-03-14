@@ -585,7 +585,7 @@ socket.on('connection', function(client) {
 					db.subjects.update({subject_id: partner.subject_id}, {$inc: {total_bonus: partner.bonus_full}});
 					new_partner_bonus += partner.bonus_full
 				}
-				client.to(partner.client_id).emit('receive_feedback', {selected_item, total_bonus: new_partner_bonus, pause_time: chain.task.pause_time});
+				client.to(partner.client_id).emit('receive_feedback', {selected_item, target_item, total_bonus: new_partner_bonus, pause_time: chain.task.pause_time});
 			});
 		});
 	});

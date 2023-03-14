@@ -18,7 +18,15 @@ const test_audio = [
 	[new Audio('sounds/test3.mp4'), 'the angry lion'],
 ];
 
+const bonus_audio = [
+	new Audio('sounds/bonus0.m4a'),
+	new Audio('sounds/bonus1.m4a'),
+	new Audio('sounds/bonus2.m4a'),
+];
+
 const catch_instruction = new Audio('sounds/catch_instruction.mp4');
+
+const message_sound = new Audio('sounds/message_sound.m4a');
 
 function iterAtInterval(iterable, interval, func, final_func) {
 	// Call func on each item in an iterable with a given time interval. Once all
@@ -248,7 +256,7 @@ socket.on('comm_instructions', function(payload) {
 		$('#spinner').show();
 		setTimeout(function() {
 			socket.emit('next_communication', {subject_id});
-		}, 3000);
+		}, 100);
 	});
 	setTimeout(function() {
 		enableButton('#start_test');
@@ -316,11 +324,15 @@ socket.on('training_block', function(payload) {
 						// 3. On enter, show feedback and update the user's bonus
 						hideLabelInput();
 						showWord(diffLabels(label, payload.test_trial.word));
-						if (label === payload.test_trial.word)
+						if (label === payload.test_trial.word) {
+							bonus_audio[2].play();
 							updateBonus(payload.total_bonus + payload.bonus_full);
-						else if (label.substr(0, 3) === payload.test_trial.word.substr(0, 3))
+						} else if (label.substr(0, 3) === payload.test_trial.word.substr(0, 3)) {
+							bonus_audio[1].play();
 							updateBonus(payload.total_bonus + payload.bonus_partial);
-
+						} else {
+							bonus_audio[0].play();
+						}
 					} else {
 						showInputError('#label');
 					}
@@ -341,6 +353,7 @@ socket.on('training_block', function(payload) {
 
 socket.on('test_production', function(payload) {
 	console.log(payload);
+	$('#test_instructions').hide();
 	updateProgress(payload.progress);
 	// 1. Preload the test word
 	hideObject();
@@ -359,17 +372,23 @@ socket.on('test_production', function(payload) {
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
-				hideObject();
-				if (label === payload.word)
+				if (label === payload.word) {
+					bonus_audio[2].play();
 					updateBonus(payload.total_bonus + payload.bonus_full);
-				socket.emit('next', {subject_id, response: {
-					test_type: 'test_production',
-					shape: payload.shape,
-					color: payload.color,
-					expected_label: payload.word,
-					input_label: label,
-					response_time,
-				}});
+				} else {
+					bonus_audio[0].play();
+				}
+				setTimeout(function() {
+					hideObject();
+					socket.emit('next', {subject_id, response: {
+						test_type: 'test_production',
+						shape: payload.shape,
+						color: payload.color,
+						expected_label: payload.word,
+						input_label: label,
+						response_time,
+					}});
+				}, payload.pause_time);
 			} else {
 				playWord(payload.shape);
 				showInputError('#label');
@@ -388,6 +407,7 @@ socket.on('test_production', function(payload) {
 
 socket.on('test_comprehension', function(payload) {
 	console.log(payload);
+	$('#test_instructions').hide();
 	updateProgress(payload.progress);
 	// 1. Preload the test word
 	hideArray();
@@ -401,17 +421,23 @@ socket.on('test_comprehension', function(payload) {
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = payload.array[selected_button];
 			// 3. object clicked, hide array and move on
-			hideArray();
-			socket.emit('next', {subject_id, response: {
-				test_type: 'test_comprehension',
-				item: payload.item,
-				word: payload.word,
-				selected_button,
-				selected_item,
-				response_time,
-			}});
-			if (selected_item === payload.item)
+			if (selected_item === payload.item) {
+				bonus_audio[2].play();
 				updateBonus(payload.total_bonus + payload.bonus_full);
+			} else {
+				bonus_audio[0].play();
+			}
+			setTimeout(function() {
+				hideArray();
+				socket.emit('next', {subject_id, response: {
+					test_type: 'test_comprehension',
+					item: payload.item,
+					word: payload.word,
+					selected_button,
+					selected_item,
+					response_time,
+				}});
+			}, payload.pause_time);
 		}).css('cursor', 'pointer');
 		// 2. After pause_time, show the object and input box
 		showWord(payload.word);
@@ -497,8 +523,12 @@ socket.on('receive_message', function(payload) {
 			if (i != correct_object_position)
 				$(`#object_array_${i}`).css('opacity', '0.1');
 		}
-		if (selected_item === payload.item)
+		if (selected_item === payload.item) {
+			bonus_audio[2].play();
 			updateBonus(payload.new_bonus_if_correct);
+		} else {
+			bonus_audio[0].play();
+		}
 		setTimeout(function() {
 			hideArray();
 			socket.emit('next_communication', {subject_id});
@@ -512,6 +542,7 @@ socket.on('receive_message', function(payload) {
 			// response_time,
 		}});
 	}).css('cursor', 'pointer');
+	message_sound.play();
 	showWord(payload.label, 'images/bubble_comp.png');
 });
 
@@ -519,6 +550,10 @@ socket.on('receive_feedback', function(payload) {
 	const [shape, color] = payload.selected_item.split('_');
 	$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
 	updateBonus(payload.total_bonus);
+	if (payload.selected_item === payload.target_item)
+		bonus_audio[2].play();
+	else
+		bonus_audio[0].play();
 	setTimeout(function() {
 		hideObject();
 		$('#feedback_object').hide();
