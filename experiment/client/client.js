@@ -79,8 +79,7 @@ function preloadArray(object_array) {
 	}
 }
 
-function showArray(call_n) {
-	console.log(call_n);
+function showArray() {
 	$('#object_array').show();
 }
 
@@ -272,7 +271,6 @@ socket.on('comm_instructions', function(payload) {
 });
 
 socket.on('training_block', function(payload) {
-	console.log(payload);
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	iterAtInterval(payload.training_trials, payload.trial_time,
@@ -311,7 +309,6 @@ socket.on('training_block', function(payload) {
 					if (validateWord(label)) {
 						$("#input_form").off('submit');
 						const response_time = Math.floor(performance.now() - start_time);
-						console.log(response_time);
 						timer.stop();
 						$('#timer_bar').hide();
 						$('#timer').css('width', '998px');
@@ -334,7 +331,6 @@ socket.on('training_block', function(payload) {
 						hideLabelInput();
 						showWord(diffLabels(label, payload.test_trial.word));
 						if (response_time < payload.test_trial.max_response_time) {
-							console.log('within time');
 							if (label === payload.test_trial.word) {
 								bonus_audio[2].play();
 								updateBonus(payload.total_bonus_with_full);
@@ -368,7 +364,6 @@ socket.on('training_block', function(payload) {
 });
 
 socket.on('test_production', function(payload) {
-	console.log(payload);
 	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
@@ -424,7 +419,6 @@ socket.on('test_production', function(payload) {
 });
 
 socket.on('test_comprehension', function(payload) {
-	console.log(payload);
 	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
@@ -461,7 +455,7 @@ socket.on('test_comprehension', function(payload) {
 		}).css('cursor', 'pointer');
 		// 2. After pause_time, show the object and input box
 		showWord(payload.word);
-		showArray(1);
+		showArray();
 		const start_time = performance.now();
 	}, payload.pause_time);
 	$('#experiment').show();
@@ -469,7 +463,6 @@ socket.on('test_comprehension', function(payload) {
 });
 
 socket.on('comm_production', function(payload) {
-	console.log(payload);
 	$('#comm_instructions').hide();
 	$('#spinner').hide();
 	updateBonus(payload.total_bonus);
@@ -519,14 +512,13 @@ socket.on('comm_production', function(payload) {
 });
 
 socket.on('comm_comprehension', function(payload) {
-	console.log(payload);
 	$('#comm_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	hideArray();
 	hideWord();
 	preloadArray(payload.array);
-	showArray(2);
+	showArray();
 	$('#spinner').show();
 	$('#experiment').show();
 	$('#header').show();
