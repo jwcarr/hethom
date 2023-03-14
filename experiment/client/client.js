@@ -215,6 +215,7 @@ socket.on('consent', function(payload) {
 });
 
 socket.on('training_instructions', function(payload) {
+	updateBonus(payload.total_bonus);
 	$('#start_training').click(function() {
 		$('#start_training').off('click');
 		$('#start_training').hide();
@@ -232,6 +233,7 @@ socket.on('training_instructions', function(payload) {
 });
 
 socket.on('test_instructions', function(payload) {
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	$('#start_test').click(function() {
 		$('#start_test').off('click');
@@ -249,6 +251,7 @@ socket.on('test_instructions', function(payload) {
 });
 
 socket.on('comm_instructions', function(payload) {
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	$('#start_test').click(function() {
 		$('#start_test').off('click');
@@ -270,6 +273,7 @@ socket.on('comm_instructions', function(payload) {
 
 socket.on('training_block', function(payload) {
 	console.log(payload);
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	iterAtInterval(payload.training_trials, payload.trial_time,
 		// func: On each passive exposure trial...
@@ -307,9 +311,14 @@ socket.on('training_block', function(payload) {
 					if (validateWord(label)) {
 						$("#input_form").off('submit');
 						const response_time = Math.floor(performance.now() - start_time);
+						console.log(response_time);
+						timer.stop();
+						$('#timer_bar').hide();
+						$('#timer').css('width', '998px');
 						setTimeout(function() {
 							// 4. After 2*pause_time, hide the word and object buttons and request the next trial
 							hideObject();
+							hideWord();
 							socket.emit('next', {subject_id, response: {
 								test_type: 'mini_test',
 								shape: payload.test_trial.shape,
@@ -324,14 +333,18 @@ socket.on('training_block', function(payload) {
 						// 3. On enter, show feedback and update the user's bonus
 						hideLabelInput();
 						showWord(diffLabels(label, payload.test_trial.word));
-						if (label === payload.test_trial.word) {
-							bonus_audio[2].play();
-							updateBonus(payload.total_bonus + payload.bonus_full);
-						} else if (label.substr(0, 3) === payload.test_trial.word.substr(0, 3)) {
-							bonus_audio[1].play();
-							updateBonus(payload.total_bonus + payload.bonus_partial);
-						} else {
-							bonus_audio[0].play();
+						if (response_time < payload.test_trial.max_response_time) {
+							console.log('within time');
+							if (label === payload.test_trial.word) {
+								bonus_audio[2].play();
+								updateBonus(payload.total_bonus_with_full);
+							} else if (label.substr(0, 3) === payload.test_trial.word.substr(0, 3)) {
+								bonus_audio[1].play();
+								updateBonus(payload.total_bonus_with_part);
+							} else {
+								bonus_audio[0].play();
+								updateBonus(payload.total_bonus);
+							}
 						}
 					} else {
 						showInputError('#label');
@@ -340,10 +353,13 @@ socket.on('training_block', function(payload) {
 				});
 				// 2. After pause_time, show the object and input box
 				showObject();
+				$('#timer').css('width', '998px');
+				$('#timer_bar').show();
+				const timer = $('#timer').animate({width: 0}, payload.test_trial.max_response_time, 'linear');
+				const start_time = performance.now();
 				showLabelInput();
 				if (payload.test_trial.catch_trial)
 					catch_instruction.play();
-				const start_time = performance.now();
 			}, payload.pause_time);
 		}
 	);
@@ -354,6 +370,7 @@ socket.on('training_block', function(payload) {
 socket.on('test_production', function(payload) {
 	console.log(payload);
 	$('#test_instructions').hide();
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	// 1. Preload the test word
 	hideObject();
@@ -374,8 +391,9 @@ socket.on('test_production', function(payload) {
 				hideLabelInput();
 				if (label === payload.word) {
 					bonus_audio[2].play();
-					updateBonus(payload.total_bonus + payload.bonus_full);
+					updateBonus(payload.total_bonus_with_full);
 				} else {
+					updateBonus(payload.total_bonus);
 					bonus_audio[0].play();
 				}
 				setTimeout(function() {
@@ -408,6 +426,7 @@ socket.on('test_production', function(payload) {
 socket.on('test_comprehension', function(payload) {
 	console.log(payload);
 	$('#test_instructions').hide();
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	// 1. Preload the test word
 	hideArray();
@@ -423,9 +442,10 @@ socket.on('test_comprehension', function(payload) {
 			// 3. object clicked, hide array and move on
 			if (selected_item === payload.item) {
 				bonus_audio[2].play();
-				updateBonus(payload.total_bonus + payload.bonus_full);
+				updateBonus(payload.total_bonus_with_full);
 			} else {
 				bonus_audio[0].play();
+				updateBonus(payload.total_bonus);
 			}
 			setTimeout(function() {
 				hideArray();
@@ -452,6 +472,7 @@ socket.on('comm_production', function(payload) {
 	console.log(payload);
 	$('#comm_instructions').hide();
 	$('#spinner').hide();
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	// 1. Preload the test word
 	hideObject();
@@ -500,6 +521,7 @@ socket.on('comm_production', function(payload) {
 socket.on('comm_comprehension', function(payload) {
 	console.log(payload);
 	$('#comm_instructions').hide();
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	hideArray();
 	hideWord();
@@ -525,7 +547,7 @@ socket.on('receive_message', function(payload) {
 		}
 		if (selected_item === payload.item) {
 			bonus_audio[2].play();
-			updateBonus(payload.new_bonus_if_correct);
+			updateBonus(payload.total_bonus_with_full);
 		} else {
 			bonus_audio[0].play();
 		}
@@ -562,6 +584,7 @@ socket.on('receive_feedback', function(payload) {
 });
 
 socket.on('questionnaire', function(payload) {
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	$('#experiment').hide();
 	$('#submit_questionnaire').click(function() {
@@ -582,6 +605,7 @@ socket.on('questionnaire', function(payload) {
 });
 
 socket.on('end_of_experiment', function(payload) {
+	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	$('#questionnaire').hide();
 	$('#basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));

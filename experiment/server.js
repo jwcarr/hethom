@@ -166,6 +166,7 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 						shape: shape,
 						color: color,
 						catch_trial: false,
+						max_response_time: EXP_CONFIG.max_response_time,
 					};
 					// trial_sequence.push({event:'training_block', payload:{
 					// 	training_trials,
@@ -173,8 +174,6 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 					// 	trial_time: task.trial_time,
 					// 	pause_time: task.pause_time,
 					// 	progress: task.mini_test_freq + 1,
-					// 	bonus_partial: task.bonus_partial,
-					// 	bonus_full: task.bonus_full,
 					// }});
 					training_trials = [];
 				}
@@ -206,15 +205,11 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				color: color,
 				pause_time: task.pause_time,
 				progress: 2,
-				bonus_partial: task.bonus_partial,
-				bonus_full: task.bonus_full,
 			}};
 			const comprehension_event = {event:'comm_comprehension', payload:{
 				array: generateItems(task.n_shapes, task.n_colors),
 				pause_time: task.pause_time,
 				progress: 2,
-				bonus_partial: task.bonus_partial,
-				bonus_full: task.bonus_full,
 			}};
 			if (lead_communicator) {
 				trial_sequence.push(production_event);
@@ -231,8 +226,6 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				color: color,
 				pause_time: task.pause_time,
 				progress: 2,
-				bonus_partial: task.bonus_partial,
-				bonus_full: task.bonus_full,
 			}});
 			const comp_item = comp_item_indices[i];
 			trial_sequence.push({event:'test_comprehension', payload:{
@@ -241,8 +234,6 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				array: generateItems(task.n_shapes, task.n_colors),
 				pause_time: task.pause_time,
 				progress: 2,
-				bonus_partial: task.bonus_partial,
-				bonus_full: task.bonus_full,
 			}});			
 		}
 
@@ -251,9 +242,9 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 		progress : 10,
 	}});
 	trial_sequence.push({event:'end_of_experiment', payload:{
-		return_url : task.return_url,
-		basic_pay : task.basic_pay,
-		progress : 0,
+		return_url: EXP_CONFIG.return_url,
+		basic_pay: EXP_CONFIG.basic_pay,
+		progress: 0,
 	}});
 	let total_units_of_progress = 0;
 	for (let i = 0; i < trial_sequence.length; i++) {
@@ -339,7 +330,7 @@ socket.on('connection', function(client) {
 				db.subjects.update({subject_id: subject.subject_id}, { $set:{client_id: client.id}, $inc: {n_reinitializations: 1} }, function() {
 					return client.emit('initialize', {
 						total_bonus: subject.total_bonus,
-						basic_pay: subject.basic_pay,
+						basic_pay: EXP_CONFIG.basic_pay,
 						max_pay: EXP_CONFIG.max_pay,
 						session_time: EXP_CONFIG.session_time,
 						object_array_dims: EXP_CONFIG.object_array_dims,
@@ -358,9 +349,6 @@ socket.on('connection', function(client) {
 					input_lexicon: null,
 					training_items: null,
 					trial_sequence: generateTrialSequenceStub(),
-					basic_pay: EXP_CONFIG.basic_pay,
-					bonus_partial: EXP_CONFIG.bonus_partial,
-					bonus_full: EXP_CONFIG.bonus_full,
 					n_reinitializations: 0,
 					sequence_position: 0,
 					total_bonus: 0,
@@ -374,7 +362,7 @@ socket.on('connection', function(client) {
 					// Tell the client to initialize
 					return client.emit('initialize', {
 						total_bonus: subject.total_bonus,
-						basic_pay: subject.basic_pay,
+						basic_pay: EXP_CONFIG.basic_pay,
 						max_pay: EXP_CONFIG.max_pay,
 						session_time: EXP_CONFIG.session_time,
 						object_array_dims: EXP_CONFIG.object_array_dims,
@@ -439,6 +427,8 @@ socket.on('connection', function(client) {
 					// tell client to begin the next trial
 					const next = subject.trial_sequence[subject.sequence_position];
 					next.payload.total_bonus = subject.total_bonus;
+					next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
+					next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
 					return client.emit(next.event, next.payload);
 				});
 			});
@@ -466,16 +456,18 @@ socket.on('connection', function(client) {
 				payload.response.time = time;
 				update.$push = {responses:payload.response};
 				if (payload.response.test_type === 'mini_test') {
-					if (payload.response.input_label === payload.response.expected_label)
-						update.$inc.total_bonus = subject.bonus_full;
-					else if (payload.response.input_label.substr(0, 3) === payload.response.expected_label.substr(0, 3))
-						update.$inc.total_bonus = subject.bonus_partial;
+					if (payload.response.response_time < EXP_CONFIG.max_response_time) {
+						if (payload.response.input_label === payload.response.expected_label)
+							update.$inc.total_bonus = EXP_CONFIG.bonus_full;
+						else if (payload.response.input_label.substr(0, 3) === payload.response.expected_label.substr(0, 3))
+							update.$inc.total_bonus = EXP_CONFIG.bonus_part;
+					}
 				} else if (payload.response.test_type === 'test_production') {
 					if (payload.response.input_label === payload.response.expected_label)
-						update.$inc.total_bonus = subject.bonus_full;
+						update.$inc.total_bonus = EXP_CONFIG.bonus_full;
 				} else if (payload.response.test_type === 'test_comprehension') {
 					if (payload.response.selected_item === payload.response.item)
-						update.$inc.total_bonus = subject.bonus_full;
+						update.$inc.total_bonus = EXP_CONFIG.bonus_full;
 				}
 			}
 			if (payload.comments)
@@ -487,6 +479,8 @@ socket.on('connection', function(client) {
 				// Tell subject to begin the next trial
 				const next = subject.trial_sequence[subject.sequence_position];
 				next.payload.total_bonus = subject.total_bonus;
+				next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
+				next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
 				if (next.event === 'end_of_experiment') {
 					db.subjects.update({subject_id: subject.subject_id}, {$set: {status: 'approval_needed'}});
 					db.chains.update({chain_id: subject.chain_id}, {$set: {status: `approval_needed ${subject.subject_id}`}});
@@ -522,8 +516,12 @@ socket.on('connection', function(client) {
 					READY_FOR_COMMUNICATION[partner.subject_id] = false;
 					const subject_next = subject.trial_sequence[subject.sequence_position];
 					subject_next.payload.total_bonus = subject.total_bonus;
+					subject_next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
+					subject_next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
 					const partner_next = partner.trial_sequence[partner.sequence_position];
 					partner_next.payload.total_bonus = partner.total_bonus;
+					partner_next.payload.total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
+					partner_next.payload.total_bonus_with_part = partner.total_bonus + EXP_CONFIG.bonus_part;
 					client.emit(subject_next.event, subject_next.payload);
 					client.to(partner.client_id).emit(partner_next.event, partner_next.payload);
 				} else {
@@ -552,8 +550,8 @@ socket.on('connection', function(client) {
 				return reportError(client, 132, 'Your session is no longer active.');
 			// get the partner subject and forward the label to them
 			getPartner(subject, function(partner, chain) {
-				let new_bonus_if_correct = partner.total_bonus + partner.bonus_full;
-				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, new_bonus_if_correct, pause_time: chain.task.pause_time});
+				const total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
+				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, total_bonus_with_full, pause_time: chain.task.pause_time});
 			});
 		});
 	});
@@ -581,9 +579,9 @@ socket.on('connection', function(client) {
 				const selected_item = payload.response.selected_item;
 				let new_partner_bonus = partner.total_bonus;
 				if (selected_item === target_item) {
-					db.subjects.update({subject_id: subject.subject_id}, {$inc: {total_bonus: subject.bonus_full}});
-					db.subjects.update({subject_id: partner.subject_id}, {$inc: {total_bonus: partner.bonus_full}});
-					new_partner_bonus += partner.bonus_full
+					db.subjects.update({subject_id: subject.subject_id}, {$inc: {total_bonus: EXP_CONFIG.bonus_full}});
+					db.subjects.update({subject_id: partner.subject_id}, {$inc: {total_bonus: EXP_CONFIG.bonus_full}});
+					new_partner_bonus += EXP_CONFIG.bonus_full;
 				}
 				client.to(partner.client_id).emit('receive_feedback', {selected_item, target_item, total_bonus: new_partner_bonus, pause_time: chain.task.pause_time});
 			});
