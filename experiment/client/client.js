@@ -384,6 +384,12 @@ socket.on('test_production', function(payload) {
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
+
+				////////////////////////////////////
+				// RICH FEEDBACK
+				showWord(diffLabels(label, payload.word));
+				////////////////////////////////////
+
 				if (label === payload.word) {
 					bonus_audio[2].play();
 					updateBonus(payload.total_bonus_with_full);
@@ -401,7 +407,7 @@ socket.on('test_production', function(payload) {
 						input_label: label,
 						response_time,
 					}});
-				}, payload.pause_time);
+				}, payload.pause_time * 2);
 			} else {
 				playWord(payload.shape);
 				showInputError('#label');
