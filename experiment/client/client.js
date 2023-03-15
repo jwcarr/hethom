@@ -145,25 +145,24 @@ function validateWord(label, expected_label=null) {
 	return true;
 }
 
+const span_red = '<span style="color: red; text-decoration: line-through;">';
+const span_green = '<span style="color: green; font-weight:bold;">';
+const span_close = '</span>';
 function diffLabels(s1, s2) {
+	if (s1 === s2)
+		return s1;
 	const sequence_matchcer = new difflib.SequenceMatcher(null, s1, s2);
-	const red = '<span style="color: red; text-decoration: line-through;">';
-	const green = '<span style="color: green; font-weight:bold;">';
-	const close = '</span>';
 	let feedback = '';
 	for (let [tag, i1, i2, j1, j2] of sequence_matchcer.getOpcodes()) {
 		if (tag === 'equal') {
 			feedback += s1.slice(i1, i2);
-		}
-		else if (tag === 'delete') {
-			feedback += red + s1.slice(i1, i2) + close;
-		}
-		else if (tag === 'insert') {
-			feedback += green + s2.slice(j1, j2) + close;
-		}
-		else if (tag === 'replace') {
-			feedback += red + s1.slice(i1, i2) + close;
-			feedback += green + s2.slice(j1, j2) + close;
+		} else if (tag === 'delete') {
+			feedback += span_red + s1.slice(i1, i2) + span_close;
+		} else if (tag === 'insert') {
+			feedback += span_green + s2.slice(j1, j2) + span_close;
+		} else if (tag === 'replace') {
+			feedback += span_red + s1.slice(i1, i2) + span_close;
+			feedback += span_green + s2.slice(j1, j2) + span_close;
 		}
 	}
 	return feedback;
