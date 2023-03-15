@@ -313,7 +313,11 @@ function prepareNextTrial(subject) {
 	next.payload.total_bonus = subject.total_bonus;
 	next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
 	next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
-	return next
+	if (next.event === 'end_of_experiment') {
+		db.subjects.update({subject_id: subject.subject_id}, {$set: {status: 'approval_needed'}});
+		db.chains.update({chain_id: subject.chain_id}, {$set: {status: 'approval_needed'}});
+	}
+	return next;
 }
 
 function reportError(client, error_number, reason) {
@@ -492,10 +496,6 @@ socket.on('connection', function(client) {
 					return reportError(client, 128, 'Unrecognized participant ID.');
 				// Tell subject to begin the next trial
 				const next = prepareNextTrial(subject);
-				if (next.event === 'end_of_experiment') {
-					db.subjects.update({subject_id: subject.subject_id}, {$set: {status: 'approval_needed'}});
-					db.chains.update({chain_id: subject.chain_id}, {$set: {status: `approval_needed ${subject.subject_id}`}});
-				}
 				return client.emit(next.event, next.payload);
 			});
 		});
