@@ -544,7 +544,7 @@ socket.on('receive_message', function(payload) {
 	$('img[id^="object_array_"]').click(function() {
 		$('img[id^="object_array_"]').off('click');
 		$('img[id^="object_array_"]').css('cursor', 'default');
-		// const response_time = Math.floor(performance.now() - start_time);
+		const response_time = Math.floor(performance.now() - start_time);
 		const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 		const selected_item = array[selected_button];
 		const correct_object_position = array.indexOf(payload.item);
@@ -568,11 +568,12 @@ socket.on('receive_message', function(payload) {
 			word: payload.label,
 			selected_button,
 			selected_item,
-			// response_time,
+			response_time,
 		}});
 	}).css('cursor', 'pointer');
 	message_sound.play();
 	showWord(payload.label, 'images/bubble_comp.png');
+	const start_time = performance.now();
 });
 
 socket.on('receive_feedback', function(payload) {
