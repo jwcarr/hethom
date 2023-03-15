@@ -299,6 +299,14 @@ function getPartner(subject, callback) {
 	});
 }
 
+function prepareNextTrial(subject) {
+	const next = subject.trial_sequence[subject.sequence_position];
+	next.payload.total_bonus = subject.total_bonus;
+	next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
+	next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
+	return next
+}
+
 function reportError(client, error_number, reason) {
 	const message = 'Error ' + error_number + ': ' + reason;
 	console.log(getCurrentTime() + ' ' + message);
@@ -425,10 +433,7 @@ socket.on('connection', function(client) {
 					if (err || !subject)
 						return reportError(client, 128, 'Unrecognized participant ID.');
 					// tell client to begin the next trial
-					const next = subject.trial_sequence[subject.sequence_position];
-					next.payload.total_bonus = subject.total_bonus;
-					next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
-					next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
+					const next = prepareNextTrial(subject);
 					return client.emit(next.event, next.payload);
 				});
 			});
@@ -477,10 +482,7 @@ socket.on('connection', function(client) {
 				if (err || !subject)
 					return reportError(client, 128, 'Unrecognized participant ID.');
 				// Tell subject to begin the next trial
-				const next = subject.trial_sequence[subject.sequence_position];
-				next.payload.total_bonus = subject.total_bonus;
-				next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
-				next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
+				const next = prepareNextTrial(subject);
 				if (next.event === 'end_of_experiment') {
 					db.subjects.update({subject_id: subject.subject_id}, {$set: {status: 'approval_needed'}});
 					db.chains.update({chain_id: subject.chain_id}, {$set: {status: `approval_needed ${subject.subject_id}`}});
@@ -514,16 +516,10 @@ socket.on('connection', function(client) {
 				// both clients; else, mark this subject as ready
 				if (READY_FOR_COMMUNICATION[partner.subject_id]) {
 					READY_FOR_COMMUNICATION[partner.subject_id] = false;
-					const subject_next = subject.trial_sequence[subject.sequence_position];
-					subject_next.payload.total_bonus = subject.total_bonus;
-					subject_next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
-					subject_next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
-					const partner_next = partner.trial_sequence[partner.sequence_position];
-					partner_next.payload.total_bonus = partner.total_bonus;
-					partner_next.payload.total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
-					partner_next.payload.total_bonus_with_part = partner.total_bonus + EXP_CONFIG.bonus_part;
-					client.emit(subject_next.event, subject_next.payload);
+					const subject_next = prepareNextTrial(subject);
+					const partner_next = prepareNextTrial(partner);
 					client.to(partner.client_id).emit(partner_next.event, partner_next.payload);
+					client.emit(subject_next.event, subject_next.payload);
 				} else {
 					READY_FOR_COMMUNICATION[subject.subject_id] = true;
 				}
