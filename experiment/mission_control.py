@@ -200,11 +200,11 @@ def convert_to_pounds(int_bonus_in_pence):
 		pennys = str(int_bonus_in_pence).zfill(2)
 	return f'{pounds}.{pennys}'
 
-def log_approval(subject_id, bonus):
+def log_approval(exp_id, sub_id, bonus):
 	with open(DATA_DIR / f'{exp_id}_approval_log', 'a') as file:
 		file.write(f'{sub_id}\n')
 	with open(DATA_DIR / f'{exp_id}_bonus_log', 'a') as file:
-		bonus = convert_to_pounds(subject['total_bonus'])
+		bonus = convert_to_pounds(bonus)
 		file.write(f'{sub_id},{bonus}\n')
 
 def approve(exp_id, sub_id=None):
@@ -215,16 +215,14 @@ def approve(exp_id, sub_id=None):
 		raise ValueError('Subject not yet reviewed or already approved')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'approved'}})
 	chain = db[exp_id].chains.find_one({'chain_id': subject['chain_id']})
-	if chain['current_gen'] >= (chain['max_gen'] - 1):
-		update_status = 'completed'
-	else:
-		update_status = 'available'
+	# need some logic here to decide whether to reopen the chain, maybe based on convergence
+	update_status = 'available'
 	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {
 		'$set': {'status': update_status, 'lexicon': subject['lexicon']},
 		'$push': {'subjects': subject['subject_id']},
 		'$inc': {'current_gen': 1},
 	})
-	log_approval(subject['subject_id'], subject['total_bonus'])
+	log_approval(exp_id, subject['subject_id'], subject['total_bonus'])
 
 def reject(exp_id, sub_id=None):
 	if sub_id is None:
@@ -234,7 +232,7 @@ def reject(exp_id, sub_id=None):
 		raise ValueError('Subject not yet reviewed or already approved')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'rejected'}})
 	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available'}})
-	log_approval(subject['subject_id'], subject['total_bonus'])
+	log_approval(exp_id, subject['subject_id'], subject['total_bonus'])
 
 def drop(exp_id, sub_id=None):
 	if sub_id is None:
