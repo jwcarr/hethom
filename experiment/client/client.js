@@ -433,8 +433,17 @@ socket.on('test_comprehension', function(payload) {
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = payload.array[selected_button];
+
+			////////////////////////////////////
+			// RICH FEEDBACK
+			for (let i in array) {
+				if (!payload.items.includes(array[i]))
+					$(`#object_array_${i}`).css('opacity', '0.1');
+			}
+			////////////////////////////////////
+
 			// 3. object clicked, hide array and move on
-			if (selected_item === payload.item) {
+			if (payload.items.includes(selected_item)) {
 				bonus_audio[2].play();
 				updateBonus(payload.total_bonus_with_full);
 			} else {
@@ -445,13 +454,14 @@ socket.on('test_comprehension', function(payload) {
 				hideArray();
 				socket.emit('next', {subject_id, response: {
 					test_type: 'test_comprehension',
-					item: payload.item,
 					word: payload.word,
+					items: payload.items,
+					array: payload.array,
 					selected_button,
 					selected_item,
 					response_time,
 				}});
-			}, payload.pause_time);
+			}, payload.pause_time * 2);
 		}).css('cursor', 'pointer');
 		// 2. After pause_time, show the object and input box
 		showWord(payload.word);

@@ -131,6 +131,15 @@ function generateItems(n, m, bottleneck=null) {
 	return selected_items;
 }
 
+function itemsWithSameWord(lexicon, target_word) {
+	const compatible_items = [];
+	for (let item in lexicon) {
+		if (lexicon[item] === target_word)
+			compatible_items.push(item);
+	}
+	return compatible_items;
+}
+
 function generateTrialSequenceStub() {
 	return [
 		{event: 'consent', payload: {progress: 0}},
@@ -229,12 +238,12 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 			}});
 			const comp_item = comp_item_indices[i];
 			trial_sequence.push({event:'test_comprehension', payload:{
-				item: comp_item,
 				word: words[comp_item],
+				items: itemsWithSameWord(words, words[comp_item]),
 				array: generateItems(task.n_shapes, task.n_colors),
 				pause_time: task.pause_time,
 				progress: 2,
-			}});			
+			}});
 		}
 
 	}
@@ -471,7 +480,7 @@ socket.on('connection', function(client) {
 					if (payload.response.input_label === payload.response.expected_label)
 						update.$inc.total_bonus = EXP_CONFIG.bonus_full;
 				} else if (payload.response.test_type === 'test_comprehension') {
-					if (payload.response.selected_item === payload.response.item)
+					if (payload.response.items.includes(payload.response.selected_item))
 						update.$inc.total_bonus = EXP_CONFIG.bonus_full;
 				}
 			}
