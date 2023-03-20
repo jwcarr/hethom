@@ -5,17 +5,17 @@ const socket = io.connect();
 const subject_id = (new URL(window.location.href)).searchParams.get('PROLIFIC_PID');
 
 const word_audio = [
-	new Audio('sounds/0.mp4'),
-	new Audio('sounds/1.mp4'),
-	new Audio('sounds/2.mp4'),
-	new Audio('sounds/3.mp4'),
+	new Audio('sounds/0.m4a'),
+	new Audio('sounds/1.m4a'),
+	new Audio('sounds/2.m4a'),
+	new Audio('sounds/3.m4a'),
 ];
 
 const test_audio = [
-	[new Audio('sounds/test0.mp4'), 'the quick cat'],
-	[new Audio('sounds/test1.mp4'), 'the green bird'],
-	[new Audio('sounds/test2.mp4'), 'the hungry dog'],
-	[new Audio('sounds/test3.mp4'), 'the angry lion'],
+	[new Audio('sounds/test0.m4a'), 'the quick cat'],
+	[new Audio('sounds/test1.m4a'), 'the green bird'],
+	[new Audio('sounds/test2.m4a'), 'the hungry dog'],
+	[new Audio('sounds/test3.m4a'), 'the angry lion'],
 ];
 
 const bonus_audio = [
@@ -24,7 +24,7 @@ const bonus_audio = [
 	new Audio('sounds/bonus2.m4a'),
 ];
 
-const catch_instruction = new Audio('sounds/catch_instruction.mp4');
+const catch_instruction = new Audio('sounds/catch_instruction.m4a');
 
 const message_sound = new Audio('sounds/message_sound.m4a');
 
