@@ -136,7 +136,9 @@ function showInputError(input_id) {
 function validateWord(label, expected_label=null) {
 	if (!label.match(/^[a-z]{4,9}$/))
 		return false;
-	if (label.match(/(amar|anar|aran|azu|azz|bk|bl|cast|cinz|gelb|gial|gr|jal|jaun|lar|lil|negr|ner|noir|oran|pard|pin|pn|pk|pret|purp|red|roj|ros|rot|roug|rox|rubr|schw|verd|verm|vert|viol|weis|whit|wit|yel|yl|yw|yo)/))
+	if (label.match(/(p|r|b|y|g)$/))
+		return false;
+	if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
 		return false;
 	if (expected_label) {
 		if (label.slice(0, 3) != expected_label.slice(0, 3))
