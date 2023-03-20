@@ -95,7 +95,7 @@ def launch(exp_id, _=None):
 		raise ValueError('Database already exsits; cannot launch')
 	for task in exp['tasks']:
 		task['return_url'] = exp['return_url']
-		for chain_i in range(exp['chains_per_task']):
+		for chain_i in range(task['n_chains']):
 			db[exp_id].chains.insert_one({
 				'chain_id': f'{task["task_id"]}_{chain_i}',
 				'task': task,
@@ -150,8 +150,8 @@ def review(exp_id, sub_id=None):
 	if sub_id is None:
 		raise ValueError('Subject ID must be specified')
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
-	if subject['status'] != 'approval_needed':
-		raise ValueError(f'Cannot review subject with status {subject["status"]}')
+	if subject is None:
+		raise ValueError('Subject not found')
 	minutes = (subject['modified_time'] - subject['creation_time']) // 60
 	seconds = (subject['modified_time'] - subject['creation_time']) % 60
 	lexicon = {}
@@ -161,18 +161,19 @@ def review(exp_id, sub_id=None):
 	object_distributon = np.zeros(len(subject['input_lexicon']))
 	item_to_index_map = sorted(list(subject['input_lexicon'].keys()))
 	for trial in subject['responses']:
-		if trial['test_type'] == 'mini_test':
-			if trial['catch_trial']:
-				attention_checks_passed += trial['object_clicked']
-			response_times.append(trial['response_time'])
-		elif trial['test_type'] == 'test_production':
-			trial['item'] = f'{trial["shape"]}_{trial["color"]}'
-			lexicon[trial['item']] = trial['input_label']
-			response_times.append(trial['response_time'])
-		elif trial['test_type'] == 'test_comprehension':
-			button_distributon[trial['selected_button']] += 1
-			object_distributon[item_to_index_map.index(trial['selected_item'])] += 1
-			response_times.append(trial['response_time'])
+		match trial['test_type']:
+			case 'mini_test':
+				if trial['catch_trial']:
+					attention_checks_passed += trial['object_clicked']
+				response_times.append(trial['response_time'])
+			case 'test_production' | 'comm_production':
+				trial['item'] = f'{trial["shape"]}_{trial["color"]}'
+				lexicon[trial['item']] = trial['input_label']
+				response_times.append(trial['response_time'])
+			case 'test_comprehension' | 'comm_comprehension':
+				button_distributon[trial['selected_button']] += 1
+				object_distributon[item_to_index_map.index(trial['selected_item'])] += 1
+				response_times.append(trial['response_time'])
 	lexicon = {item: lexicon[item] for item in sorted(lexicon)}
 	for item, word in lexicon.items():
 		taught_word = subject['input_lexicon'][item]
