@@ -277,23 +277,19 @@ socket.on('training_block', function(payload) {
 	iterAtInterval(payload.training_trials, payload.trial_time,
 		// func: On each passive exposure trial...
 		function(trial) {
-			// 1. Preload the object and word
 			hideObject();
 			hideWord();
 			preloadObject(trial.shape, trial.color);
 			setTimeout(function() {
 				setTimeout(function() {
-					// 3. After pause_time, show the word
 					playWord(trial.shape);
 					showWord(trial.word);
 				}, payload.pause_time);
-				// 2. After pause_time, show the object
 				showObject();
 			}, payload.pause_time);
 		},
 		// final_func: On each mini-test trial...
 		function() {
-			// 1. Preload the test word
 			hideObject();
 			hideWord();
 			preloadObject(payload.test_trial.shape, payload.test_trial.color);
@@ -314,7 +310,6 @@ socket.on('training_block', function(payload) {
 						$('#timer_bar').hide();
 						$('#timer').css('width', '998px');
 						setTimeout(function() {
-							// 4. After 2*pause_time, hide the word and object buttons and request the next trial
 							hideObject();
 							hideWord();
 							socket.emit('next', {subject_id, response: {
@@ -328,7 +323,6 @@ socket.on('training_block', function(payload) {
 								object_clicked,
 							}});
 						}, payload.pause_time * 2);
-						// 3. On enter, show feedback and update the user's bonus
 						hideLabelInput();
 						showWord(diffLabels(label, payload.test_trial.word));
 						if (response_time < payload.test_trial.max_response_time) {
@@ -348,7 +342,6 @@ socket.on('training_block', function(payload) {
 					}
 					return false;
 				});
-				// 2. After pause_time, show the object and input box
 				showObject();
 				$('#timer').css('width', '998px');
 				$('#timer_bar').show();
@@ -368,7 +361,6 @@ socket.on('test_production', function(payload) {
 	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	// 1. Preload the test word
 	hideObject();
 	hideWord();
 	preloadObject(payload.shape, payload.color);
@@ -381,16 +373,13 @@ socket.on('test_production', function(payload) {
 			event.preventDefault();
 			let label = $("#label").val();
 			if (validateWord(label, payload.word)) {
-				// 3. On enter, update the user's bonus
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
-
 				////////////////////////////////////
 				// RICH FEEDBACK
-				showWord(diffLabels(label, payload.word));
+				// showWord(diffLabels(label, payload.word));
 				////////////////////////////////////
-
 				if (label === payload.word) {
 					bonus_audio[2].play();
 					updateBonus(payload.total_bonus_with_full);
@@ -415,7 +404,6 @@ socket.on('test_production', function(payload) {
 			}
 			return false;
 		});
-		// 2. After pause_time, show the object and input box
 		playWord(payload.shape);
 		showObject();
 		showLabelInput();
@@ -429,7 +417,6 @@ socket.on('test_comprehension', function(payload) {
 	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	// 1. Preload the test word
 	hideArray();
 	hideWord();
 	preloadArray(payload.array);
@@ -440,16 +427,13 @@ socket.on('test_comprehension', function(payload) {
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = payload.array[selected_button];
-
 			////////////////////////////////////
 			// RICH FEEDBACK
-			for (let i in array) {
-				if (!payload.items.includes(array[i]))
-					$(`#object_array_${i}`).css('opacity', '0.1');
-			}
+			// for (let i in array) {
+			// 	if (!payload.items.includes(array[i]))
+			// 		$(`#object_array_${i}`).css('opacity', '0.1');
+			// }
 			////////////////////////////////////
-
-			// 3. object clicked, hide array and move on
 			if (payload.items.includes(selected_item)) {
 				bonus_audio[2].play();
 				updateBonus(payload.total_bonus_with_full);
@@ -470,7 +454,6 @@ socket.on('test_comprehension', function(payload) {
 				}});
 			}, payload.pause_time * 2);
 		}).css('cursor', 'pointer');
-		// 2. After pause_time, show the object and input box
 		showWord(payload.word);
 		showArray();
 		const start_time = performance.now();
@@ -484,7 +467,6 @@ socket.on('comm_production', function(payload) {
 	$('#spinner').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	// 1. Preload the test word
 	hideObject();
 	hideWord();
 	preloadObject(payload.shape, payload.color);
@@ -497,7 +479,6 @@ socket.on('comm_production', function(payload) {
 			event.preventDefault();
 			let label = $("#label").val();
 			if (validateWord(label, payload.word)) {
-				// 3. On enter, update the user's bonus
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
@@ -518,7 +499,6 @@ socket.on('comm_production', function(payload) {
 			}
 			return false;
 		});
-		// 2. After pause_time, show the object and input box
 		playWord(payload.shape);
 		showObject();
 		showLabelInput();
