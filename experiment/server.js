@@ -180,8 +180,8 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 					trial_sequence.push({event:'training_block', payload:{
 						training_trials,
 						test_trial,
-						trial_time: task.trial_time,
-						pause_time: task.pause_time,
+						exposure_time: EXP_CONFIG.exposure_time,
+						pause_time: EXP_CONFIG.pause_time,
 						progress: task.mini_test_freq + 1,
 					}});
 					training_trials = [];
@@ -212,12 +212,12 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				word: words[prod_item],
 				shape: shape,
 				color: color,
-				pause_time: task.pause_time,
+				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}};
 			const comprehension_event = {event:'comm_comprehension', payload:{
 				array: generateItems(task.n_shapes, task.n_colors),
-				pause_time: task.pause_time,
+				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}};
 			if (lead_communicator) {
@@ -233,7 +233,7 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				word: words[prod_item],
 				shape: shape,
 				color: color,
-				pause_time: task.pause_time,
+				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}});
 			const comp_item = comp_item_indices[i];
@@ -241,7 +241,7 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				word: words[comp_item],
 				items: itemsWithSameWord(words, words[comp_item]),
 				array: generateItems(task.n_shapes, task.n_colors),
-				pause_time: task.pause_time,
+				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}});
 		}
@@ -556,7 +556,7 @@ socket.on('connection', function(client) {
 			// get the partner subject and forward the label to them
 			getPartner(subject, function(partner, chain) {
 				const total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
-				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, total_bonus_with_full, pause_time: chain.task.pause_time});
+				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, total_bonus_with_full, pause_time: EXP_CONFIG.pause_time});
 			});
 		});
 	});
@@ -588,7 +588,7 @@ socket.on('connection', function(client) {
 					db.subjects.update({subject_id: partner.subject_id}, {$inc: {total_bonus: EXP_CONFIG.bonus_full}});
 					new_partner_bonus += EXP_CONFIG.bonus_full;
 				}
-				client.to(partner.client_id).emit('receive_feedback', {selected_item, target_item, total_bonus: new_partner_bonus, pause_time: chain.task.pause_time});
+				client.to(partner.client_id).emit('receive_feedback', {selected_item, target_item, total_bonus: new_partner_bonus, pause_time: EXP_CONFIG.pause_time});
 			});
 		});
 	});

@@ -274,7 +274,7 @@ socket.on('comm_instructions', function(payload) {
 socket.on('training_block', function(payload) {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	iterAtInterval(payload.training_trials, payload.trial_time,
+	iterAtInterval(payload.training_trials, payload.exposure_time,
 		// func: On each passive exposure trial...
 		function(trial) {
 			hideObject();
