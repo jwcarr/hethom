@@ -177,19 +177,19 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 						catch_trial: false,
 						max_response_time: EXP_CONFIG.max_response_time,
 					};
-					// trial_sequence.push({event:'training_block', payload:{
-					// 	training_trials,
-					// 	test_trial,
-					// 	trial_time: task.trial_time,
-					// 	pause_time: task.pause_time,
-					// 	progress: task.mini_test_freq + 1,
-					// }});
+					trial_sequence.push({event:'training_block', payload:{
+						training_trials,
+						test_trial,
+						trial_time: task.trial_time,
+						pause_time: task.pause_time,
+						progress: task.mini_test_freq + 1,
+					}});
 					training_trials = [];
 				}
 			}
 		}
 		// second to last trial on each training rep is a catch trial
-		// trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
+		trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
 	}
 	if (task.communication)
 		trial_sequence.push({event:'comm_instructions', payload:{
