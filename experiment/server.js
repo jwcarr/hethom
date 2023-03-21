@@ -143,7 +143,7 @@ function itemsWithSameWord(lexicon, target_word) {
 function generateTrialSequenceStub() {
 	return [
 		{event: 'consent', payload: {progress: 0}},
-		{event: 'training_instructions', payload: {progress: 0}},
+		{event: 'training_instructions', payload: {progress: 0, instruction_time: EXP_CONFIG.instruction_time}},
 	];
 }
 
@@ -193,13 +193,13 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 	}
 	if (task.communication)
 		trial_sequence.push({event:'comm_instructions', payload:{
-			instruction_time : task.instruction_time,
-			progress : 10,
+			instruction_time: EXP_CONFIG.instruction_time,
+			progress: 10,
 		}});
 	else
 		trial_sequence.push({event:'test_instructions', payload:{
-			instruction_time : task.instruction_time,
-			progress : 10,
+			instruction_time: EXP_CONFIG.instruction_time,
+			progress: 10,
 		}});
 	const prod_item_indices = generateItems(task.n_shapes, task.n_colors);
 	const comp_item_indices = generateItems(task.n_shapes, task.n_colors);
