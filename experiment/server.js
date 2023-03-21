@@ -1,9 +1,9 @@
+if (process.argv.length != 3)
+    process.exit(1);
+
 // ------------------------------------------------------------------
 // Parameters
 // ------------------------------------------------------------------
-
-// Name used for the MongoDB database
-const EXP_ID = 'test';
 
 // Regex defining valid Prolific participant IDs (24 hex digits)
 const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
@@ -32,6 +32,7 @@ const socketio = require('socket.io');
 // Load experiment config data
 // ------------------------------------------------------------------
 
+const EXP_ID = process.argv[2];
 const EXP_CONFIG = JSON.parse(fs.readFileSync(`config/${EXP_ID}.json`));
 
 // ------------------------------------------------------------------
