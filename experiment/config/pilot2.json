@@ -13,30 +13,90 @@
 	"object_array_dims": [4, 4],
 	"tasks": [
 		{
-			"task_id": "lrn_hiVar",
-			"n_chains": 2,
+			"task_id": "lrn_trans",
+			"n_chains": 1,
 			"n_shapes": 4,
 			"n_colors": 4,
 			"bottleneck": 12,
 			"mini_test_freq": 4,
 			"training_reps": 3,
 			"test_reps": 1,
-			"stems": [
-				"buv",
-				"zet",
-				"gaf",
-				"wop"
-			],
-			"seed_suffix_spellings": [
-				["ee", "i", "y"],
-				["c", "ch", "k"],
-				["oe", "oh", "ow"]
-			],
-			"seed_suffix_variation": [
-				3,
-				3,
-				3
-			],
+			"lexicon": {
+				"0_0": "buviko",
+				"0_1": "buviko",
+				"0_2": "buviko",
+				"0_3": "buviko",
+				"1_0": "zetiko",
+				"1_1": "zetiko",
+				"1_2": "zetiko",
+				"1_3": "zetiko",
+				"2_0": "gafiko",
+				"2_1": "gafiko",
+				"2_2": "gafiko",
+				"2_3": "gafiko",
+				"3_0": "wopiko",
+				"3_1": "wopiko",
+				"3_2": "wopiko",
+				"3_3": "wopiko"
+			},
+			"communication": false
+		},
+		{
+			"task_id": "lrn_redun",
+			"n_chains": 1,
+			"n_shapes": 4,
+			"n_colors": 4,
+			"bottleneck": 12,
+			"mini_test_freq": 4,
+			"training_reps": 3,
+			"test_reps": 1,
+			"lexicon": {
+				"0_0": "buvikoh",
+				"0_1": "buvikoh",
+				"0_2": "buvikoh",
+				"0_3": "buvikoh",
+				"1_0": "zeteeco",
+				"1_1": "zeteeco",
+				"1_2": "zeteeco",
+				"1_3": "zeteeco",
+				"2_0": "gafykoe",
+				"2_1": "gafykoe",
+				"2_2": "gafykoe",
+				"2_3": "gafykoe",
+				"3_0": "wopycow",
+				"3_1": "wopycow",
+				"3_2": "wopycow",
+				"3_3": "wopycow"
+			},
+			"communication": false
+		},
+		{
+			"task_id": "lrn_exprs",
+			"n_chains": 1,
+			"n_shapes": 4,
+			"n_colors": 4,
+			"bottleneck": 12,
+			"mini_test_freq": 4,
+			"training_reps": 3,
+			"test_reps": 1,
+			"lexicon": {
+				"0_0": "buvikoh",
+				"0_1": "buveeco",
+				"0_2": "buvykoe",
+				"0_3": "buvycow",
+				"1_0": "zetikoh",
+				"1_1": "zeteeco",
+				"1_2": "zetykoe",
+				"1_3": "zetycow",
+				"2_0": "gafikoh",
+				"2_1": "gafeeco",
+				"2_2": "gafykoe",
+				"2_3": "gafycow",
+				"3_0": "wopikoh",
+				"3_1": "wopeeco",
+				"3_2": "wopykoe",
+				"3_3": "wopycow"
+			},
 			"communication": false
 		},
 		{
@@ -56,7 +116,7 @@
 			],
 			"seed_suffix_spellings": [
 				["ee", "i", "y"],
-				["c", "ch", "k"],
+				["c", "ck", "k"],
 				["oe", "oh", "ow"]
 			],
 			"seed_suffix_variation": [

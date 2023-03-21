@@ -96,6 +96,10 @@ def launch(exp_id, _=None):
 	for task in exp['tasks']:
 		task['return_url'] = exp['return_url']
 		for chain_i in range(task['n_chains']):
+			if 'lexicon' in task:
+				lexicon = task['lexicon']
+			else:
+				lexicon = create_seed_lexicon(task)
 			db[exp_id].chains.insert_one({
 				'chain_id': f'{task["task_id"]}_{chain_i}',
 				'task': task,
@@ -104,7 +108,7 @@ def launch(exp_id, _=None):
 				'subjects': [],
 				'communicator_a': None,
 				'communicator_b': None,
-				'lexicon': create_seed_lexicon(task),
+				'lexicon': lexicon,
 			})
 	print('Launched task:', exp['exp_id'])
 
