@@ -44,16 +44,12 @@
 
 	<div id='experiment' style='display: none;'>
 
-		<div id='training_instructions' class='instructions' style='display: none;'>
-			<img src='images/instructions/training.png' width='1000' height='400' />
-		</div>
-
-		<div id='test_instructions' class='instructions' style='display: none;'>
-			<img src='images/instructions/test.png' width='1000' height='400' />
-		</div>
-
-		<div id='comm_instructions' class='instructions' style='display: none;'>
-			<img src='images/instructions/communication.png' width='1000' height='400' />
+		<div id='instructions' class='instructions' style='display: none;'>
+			<img id='inst_training' src='images/instructions/training.png' width='1000' height='400' style='display: none;' />
+			<img id='inst_training_for_communication' src='images/instructions/training_for_communication.png' width='1000' height='400' style='display: none;' />
+			<img id='inst_training_for_test' src='images/instructions/training_for_test.png' width='1000' height='400' style='display: none;' />
+			<img id='inst_test' src='images/instructions/test.png' width='1000' height='400' style='display: none;' />
+			<img id='inst_communication' src='images/instructions/communication.png' width='1000' height='400' style='display: none;' />
 		</div>
 
 		<div id='object' style='display: none;'>
@@ -70,8 +66,7 @@
 			<div id='label_input' style='display: none;'>
 				<form id='input_form' autocomplete="off"><input type="text" id='label' autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="9" /></form>
 			</div>
-			<button id='start_training' style='display: none;'>START</button>
-			<button id='start_test' style='display: none;'>START</button>
+			<button id='start' style='display: none;'>START</button>
 			<div id='spinner' style='display: none;'><img src='images/waiting_prod.gif' width="200" height="104" /></div>
 		</div>
 

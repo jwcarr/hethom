@@ -144,13 +144,32 @@ function itemsWithSameWord(lexicon, target_word) {
 function generateTrialSequenceStub() {
 	return [
 		{event: 'consent', payload: {progress: 0}},
-		{event: 'training_instructions', payload: {progress: 0, instruction_time: EXP_CONFIG.instruction_time}},
+		{event: 'instructions', payload: {
+			instruction_screen: 'training',
+			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'ready_to_assign',
+			progress: 0
+		}},
 	];
 }
 
 function generateTrialSequence(task, words, trained_item_indices, lead_communicator) {
-	const seen_items = [];
 	const trial_sequence = generateTrialSequenceStub();
+	if (task.communication)
+		trial_sequence.push({event:'instructions', payload:{
+			instruction_screen: 'training_for_communication',
+			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'next',
+			progress: 10,
+		}});
+	else
+		trial_sequence.push({event:'instructions', payload:{
+			instruction_screen: 'training_for_test',
+			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'next',
+			progress: 10,
+		}});
+	const seen_items = [];
 	for (let i = 0; i < task.training_reps; i++) {
 		for (let j = 0; j < task.mini_test_freq; j++) {
 			let training_trials = [];
@@ -193,13 +212,17 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 		trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
 	}
 	if (task.communication)
-		trial_sequence.push({event:'comm_instructions', payload:{
+		trial_sequence.push({event:'instructions', payload: {
+			instruction_screen: 'communication',
 			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'next_communication',
 			progress: 10,
 		}});
 	else
-		trial_sequence.push({event:'test_instructions', payload:{
+		trial_sequence.push({event:'instructions', payload: {
+			instruction_screen: 'test',
 			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'next',
 			progress: 10,
 		}});
 	const prod_item_indices = generateItems(task.n_shapes, task.n_colors);

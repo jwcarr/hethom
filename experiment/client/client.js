@@ -214,59 +214,23 @@ socket.on('consent', function(payload) {
 	$('#consent_screen').show();
 });
 
-socket.on('training_instructions', function(payload) {
-	updateBonus(payload.total_bonus);
-	$('#start_training').click(function() {
-		$('#start_training').off('click');
-		$('#start_training').hide();
-		$('#training_instructions').hide();
-		socket.emit('ready_to_assign', {subject_id});
-	});
-	setTimeout(function() {
-		enableButton('#start_training');
-	}, payload.instruction_time);
-	disableButton('#start_training');
-	$('#training_instructions').show();
-	$('#start_training').show();
-	$('#header').show();
-	$('#experiment').show();
-});
-
-socket.on('test_instructions', function(payload) {
+socket.on('instructions', function(payload) {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	$('#start_test').click(function() {
-		$('#start_test').off('click');
-		$('#start_test').hide();
-		socket.emit('next', {subject_id});
+	$('#start').click(function() {
+		$('#start').off('click');
+		$('#start').hide();
+		$('#instructions').hide();
+		$('img[id^="inst_"]').hide();
+		socket.emit(payload.response_kind, {subject_id});
 	});
 	setTimeout(function() {
-		enableButton('#start_test');
+		enableButton('#start');
 	}, payload.instruction_time);
-	disableButton('#start_test');
-	$('#test_instructions').show();
-	$('#start_test').show();
-	$('#header').show();
-	$('#experiment').show();
-});
-
-socket.on('comm_instructions', function(payload) {
-	updateBonus(payload.total_bonus);
-	updateProgress(payload.progress);
-	$('#start_test').click(function() {
-		$('#start_test').off('click');
-		$('#start_test').hide();
-		$('#spinner').show();
-		setTimeout(function() {
-			socket.emit('next_communication', {subject_id});
-		}, 100);
-	});
-	setTimeout(function() {
-		enableButton('#start_test');
-	}, payload.instruction_time);
-	disableButton('#start_test');
-	$('#comm_instructions').show();
-	$('#start_test').show();
+	disableButton('#start');
+	$(`#inst_${payload.instruction_screen}`).show();
+	$('#instructions').show();
+	$('#start').show();
 	$('#header').show();
 	$('#experiment').show();
 });
