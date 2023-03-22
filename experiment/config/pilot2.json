@@ -1,19 +1,19 @@
 {
 	"exp_id": "pilot2",
-	"return_url": "",
+	"return_url": "https://app.prolific.co/submissions/complete?cc=CJ7QYYRQ",
 	"session_time": 20,
 	"basic_pay": 300,
 	"bonus_part": 1,
 	"bonus_full": 2,
 	"max_pay": 436,
-	"instruction_time": 10000,
+	"instruction_time": 5000,
 	"exposure_time": 2000,
 	"pause_time": 500,
 	"max_response_time": 20000,
 	"object_array_dims": [4, 4],
 	"tasks": [
 		{
-			"task_id": "lrn_trans",
+			"task_id": "com_noVar",
 			"n_chains": 1,
 			"n_shapes": 4,
 			"n_colors": 4,
@@ -21,24 +21,49 @@
 			"mini_test_freq": 4,
 			"training_reps": 3,
 			"test_reps": 1,
-			"lexicon": {
-				"0_0": "buviko",
-				"0_1": "buviko",
-				"0_2": "buviko",
-				"0_3": "buviko",
-				"1_0": "zetiko",
-				"1_1": "zetiko",
-				"1_2": "zetiko",
-				"1_3": "zetiko",
-				"2_0": "gafiko",
-				"2_1": "gafiko",
-				"2_2": "gafiko",
-				"2_3": "gafiko",
-				"3_0": "wopiko",
-				"3_1": "wopiko",
-				"3_2": "wopiko",
-				"3_3": "wopiko"
-			},
+			"stems": [
+				"buv",
+				"zet",
+				"gaf",
+				"wop"
+			],
+			"seed_suffix_spellings": [
+				["ee", "i", "y"],
+				["c", "ck", "k"],
+				["oe", "oh", "ow"]
+			],
+			"seed_suffix_variation": [
+				1,
+				1,
+				1
+			],
+			"communication": true
+		},
+		{
+			"task_id": "lrn_noVar",
+			"n_chains": 1,
+			"n_shapes": 4,
+			"n_colors": 4,
+			"bottleneck": 12,
+			"mini_test_freq": 4,
+			"training_reps": 3,
+			"test_reps": 1,
+			"stems": [
+				"buv",
+				"zet",
+				"gaf",
+				"wop"
+			],
+			"seed_suffix_spellings": [
+				["ee", "i", "y"],
+				["c", "ck", "k"],
+				["oe", "oh", "ow"]
+			],
+			"seed_suffix_variation": [
+				1,
+				1,
+				1
+			],
 			"communication": false
 		},
 		{
@@ -98,33 +123,6 @@
 				"3_3": "wopycow"
 			},
 			"communication": false
-		},
-		{
-			"task_id": "com_hiVar",
-			"n_chains": 1,
-			"n_shapes": 4,
-			"n_colors": 4,
-			"bottleneck": 12,
-			"mini_test_freq": 4,
-			"training_reps": 3,
-			"test_reps": 1,
-			"stems": [
-				"buv",
-				"zet",
-				"gaf",
-				"wop"
-			],
-			"seed_suffix_spellings": [
-				["ee", "i", "y"],
-				["c", "ck", "k"],
-				["oe", "oh", "ow"]
-			],
-			"seed_suffix_variation": [
-				3,
-				3,
-				3
-			],
-			"communication": true
 		}
 	]
 }
