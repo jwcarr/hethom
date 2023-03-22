@@ -220,8 +220,12 @@ socket.on('instructions', function(payload) {
 	$('#start').click(function() {
 		$('#start').off('click');
 		$('#start').hide();
-		$('#instructions').hide();
-		$('img[id^="inst_"]').hide();
+		if (payload.response_kind === 'next_communication') {
+			$('#spinner').show();
+		} else {
+			$('#instructions').hide();
+			$('img[id^="inst_"]').hide();
+		}
 		socket.emit(payload.response_kind, {subject_id});
 	});
 	setTimeout(function() {
@@ -322,7 +326,6 @@ socket.on('training_block', function(payload) {
 });
 
 socket.on('test_production', function(payload) {
-	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	hideObject();
@@ -378,7 +381,6 @@ socket.on('test_production', function(payload) {
 });
 
 socket.on('test_comprehension', function(payload) {
-	$('#test_instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	hideArray();
@@ -427,7 +429,7 @@ socket.on('test_comprehension', function(payload) {
 });
 
 socket.on('comm_production', function(payload) {
-	$('#comm_instructions').hide();
+	$('#instructions').hide();
 	$('#spinner').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
@@ -473,7 +475,7 @@ socket.on('comm_production', function(payload) {
 });
 
 socket.on('comm_comprehension', function(payload) {
-	$('#comm_instructions').hide();
+	$('#instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	hideArray();
