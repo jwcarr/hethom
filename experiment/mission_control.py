@@ -105,9 +105,9 @@ def launch(exp_id, _=None):
 				'task': task,
 				'status': 'available',
 				'current_gen': 0,
+				'subject_a': None,
+				'subject_b': None,
 				'subjects': [],
-				'communicator_a': None,
-				'communicator_b': None,
 				'lexicon': lexicon,
 			})
 	print('Launched task:', exp['exp_id'])
@@ -119,20 +119,20 @@ def erase(exp_id, _=None):
 def status(exp_id, _=None):
 	n_available = 0
 	for chain in db[exp_id].chains.find():
-		print(chain['chain_id'], chain['current_gen'], chain['status'])
+		print(chain['chain_id'], chain['current_gen'], chain['status'], chain['subject_a'], chain['subject_b'])
 		if chain['status'] == 'available':
 			n_available += 1
 	print('AVAILABLE PLACES', n_available)
 
-def monitor(exp_id, sub_id=None):
-	if sub_id is None:
+def monitor(exp_id, chain_id=None):
+	if chain_id is None:
 		subjects = db[exp_id].subjects.find({'status': 'active'})
 	else:
-		subjects = [ db[exp_id].subjects.find_one({'subject_id': sub_id}) ]
+		subjects = db[exp_id].subjects.find({'status': 'active', 'chain_id': chain_id})
 	current_time = int(time.time())
 	for subject in subjects:
 		print('------------------------------------------')
-		print(subject['subject_id'])
+		print(subject['subject_id'], subject['chain_id'])
 		print('------------------------------------------')
 		print('Status:', subject['status'])
 		minutes = (current_time - subject['creation_time']) // 60
@@ -150,9 +150,9 @@ def entropy(distribution):
 	distribution /= distribution.sum()
 	return -sum([p * np.log(p) for p in distribution if p > 0])
 
-def review(exp_id, sub_id=None):
+def review_subject(exp_id, sub_id=None):
 	if sub_id is None:
-		raise ValueError('Subject ID must be specified')
+		return None
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject is None:
 		raise ValueError('Subject not found')
@@ -212,42 +212,86 @@ def log_approval(exp_id, sub_id, bonus):
 		bonus = convert_to_pounds(bonus)
 		file.write(f'{sub_id},{bonus}\n')
 
-def approve(exp_id, sub_id=None):
+def approve_subject(exp_id, sub_id=None):
 	if sub_id is None:
-		raise ValueError('Subject ID must be specified')
+		return None
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
+	if subject is None:
+		raise ValueError('Subject not found')
 	if subject['status'] != 'reviewed':
 		raise ValueError('Subject not yet reviewed or already approved')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'approved'}})
-	chain = db[exp_id].chains.find_one({'chain_id': subject['chain_id']})
-	# need some logic here to decide whether to reopen the chain, maybe based on convergence
-	update_status = 'available'
-	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {
-		'$set': {'status': update_status, 'lexicon': subject['lexicon']},
-		'$push': {'subjects': subject['subject_id']},
-		'$inc': {'current_gen': 1},
-	})
 	log_approval(exp_id, subject['subject_id'], subject['total_bonus'])
+	return subject
 
-def reject(exp_id, sub_id=None):
+def reject_subject(exp_id, sub_id=None):
 	if sub_id is None:
-		raise ValueError('Subject ID must be specified')
+		return None
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
+	if subject is None:
+		raise ValueError('Subject not found')
 	if subject['status'] != 'reviewed':
 		raise ValueError('Subject not yet reviewed or already approved')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'rejected'}})
-	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available'}})
 	log_approval(exp_id, subject['subject_id'], subject['total_bonus'])
+	return subject
 
-def drop(exp_id, sub_id=None):
+def drop_subject(exp_id, sub_id=None):
 	if sub_id is None:
-		raise ValueError('Subject ID must be specified')
+		return None
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
-	if subject['status'] == 'active':
-		db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
-		db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available'}})
+	if subject is None:
+		raise ValueError('Subject not found')
+	if subject['status'] != 'active':
+		raise ValueError('Subject not currently active')
+	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
+
+def review(exp_id, chain_id=None):
+	if chain_id is None:
+		raise ValueError('Chain ID must be specified')
+	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
+	if chain['status'] != 'approval_needed':
+		raise ValueError('Chain not awaiting approval')
+	review_subject(exp_id, chain['subject_a'])
+	review_subject(exp_id, chain['subject_b'])
+
+def approve(exp_id, chain_id=None):
+	if chain_id is None:
+		raise ValueError('Chain ID must be specified')
+	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
+	if chain is None:
+		raise ValueError('Chain not found')
+	if chain['status'] != 'approval_needed':
+		raise ValueError('Chain not awaiting approval')
+	subject_a = approve_subject(exp_id, chain['subject_a'])
+	subject_b = approve_subject(exp_id, chain['subject_b'])
+	chain_converged = False
+	for item, word in chain['lexicon'].items():
+		if subject_a['lexicon'][item] != word:
+			break
+	else: # for loop exits normally, all words match, chain has converged
+		chain_converged = True
+	if chain_converged:
+		update_status = 'converged'
 	else:
-		print('Subject not currently active')
+		update_status = 'available'
+	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {
+		'$set': {'status': update_status, 'lexicon': subject_a['lexicon'], 'subject_a': None, 'subject_b': None},
+		'$push': {'subjects': [chain['subject_a'], chain['subject_b']]},
+		'$inc': {'current_gen': 1},
+	})
+
+def reject(exp_id, chain_id=None):
+	if chain_id is None:
+		raise ValueError('Chain ID must be specified')
+	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
+	if chain is None:
+		raise ValueError('Chain not found')
+	if chain['status'] != 'approval_needed':
+		raise ValueError('Chain not awaiting approval')
+	reject_subject(exp_id, chain['subject_a'])
+	reject_subject(exp_id, chain['subject_b'])
+	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available', 'subject_a': None, 'subject_b': None}})
 
 def dump(exp_id, _=None):
 	subject_id_map = {}
@@ -293,7 +337,7 @@ if __name__ == '__main__':
 		'monitor': monitor,
 		'review': review,
 		'approve': approve,
-		'drop': drop,
-		'reject': reject,
+		# 'drop': drop,
+		# 'reject': reject,
 		'dump': dump,
 	}[args.action](args.exp_id, args.sub_id)
