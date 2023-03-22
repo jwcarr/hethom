@@ -291,28 +291,28 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 }
 
 function assignToChain(chains, subject_id) {
-	// first look for a communicative chain where communicator B has been
-	// assigned but we have lost communicator A for some reason - this is
+	// first look for a communicative chain where subject B has been
+	// assigned but we have lost subject A for some reason - this is
 	// most urgent
 	for (let chain of chains) {
-		if (chain.task.communication && chain.communicator_a === null && chain.communicator_b)
-			return [chain, {$set: {status: 'unavailable', communicator_b: subject_id}}];
+		if (chain.task.communication && chain.subject_a === null && chain.subject_b)
+			return [chain, {$set: {status: 'unavailable', subject_b: subject_id}}];
 	}
-	// then look for a communicative chain where communicator A has been
-	// assigned but we still need a communicator B
+	// then look for a communicative chain where subject A has been
+	// assigned but we still need a subject B
 	for (let chain of chains) {
-		if (chain.task.communication && chain.communicator_a && chain.communicator_b === null)
-			return [chain, {$set: {status: 'unavailable', communicator_b: subject_id}}];
+		if (chain.task.communication && chain.subject_a && chain.subject_b === null)
+			return [chain, {$set: {status: 'unavailable', subject_b: subject_id}}];
 	}
-	// then look for a communicative chain where neither communicator has been
+	// then look for a communicative chain where neither subject has been
 	// assigned
 	for (let chain of chains) {
-		if (chain.task.communication && chain.communicator_a === null && chain.communicator_b === null)
-			return [chain, {$set: {status: 'available', communicator_a: subject_id}}];
+		if (chain.task.communication && chain.subject_a === null && chain.subject_b === null)
+			return [chain, {$set: {status: 'available', subject_a: subject_id}}];
 	}
 	// if no communication chains are available, return first chain in the
 	// list, which will be the one with the smallest generation count
-	return [chains[0], {$set: {status: 'unavailable'}}];
+	return [chains[0], {$set: {status: 'unavailable', subject_a: subject_id}}];
 }
 
 function getPartner(subject, callback) {
@@ -320,10 +320,10 @@ function getPartner(subject, callback) {
 		if (err || !chain)
 			return reportError(client, 133, 'Error.');
 		let partner_id = null;
-		if (subject.subject_id === chain.communicator_a)
-			partner_id = chain.communicator_b;
-		else if (subject.subject_id === chain.communicator_b)
-			partner_id = chain.communicator_a;
+		if (subject.subject_id === chain.subject_a)
+			partner_id = chain.subject_b;
+		else if (subject.subject_id === chain.subject_b)
+			partner_id = chain.subject_a;
 		db.subjects.findOne({subject_id: partner_id}, function(err, partner) {
 			if (err || !partner)
 				return reportError(client, 135, 'Cannot find partner.');
@@ -435,12 +435,12 @@ socket.on('connection', function(client) {
 				if (err || !chain)
 					return reportError(client, 141, 'Unable to assign to chain');
 				// if communicative chain, double check that one of the
-				// communicators is the present subject ID and note whether
-				// this subject is the lead communicator
+				// subjects is the present subject ID and note whether
+				// this subject is the lead subject
 				let lead_communicator = null;
-				if (chain.task.communication && chain.communicator_a === payload.subject_id)
+				if (chain.task.communication && chain.subject_a === payload.subject_id)
 					lead_communicator = true;
-				else if (chain.task.communication && chain.communicator_b === payload.subject_id)
+				else if (chain.task.communication && chain.subject_b === payload.subject_id)
 					lead_communicator = false;
 				else if (chain.task.communication)
 					return reportError(client, 140, 'Unable to assign to chain');
