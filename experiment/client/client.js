@@ -25,6 +25,7 @@ const bonus_audio = [
 ];
 
 const catch_instruction = new Audio('sounds/catch_instruction.m4a');
+const catch_acknowledge = new Audio('sounds/catch_acknowledge.m4a');
 
 const message_sound = new Audio('sounds/message_sound.m4a');
 
@@ -263,7 +264,8 @@ socket.on('training_block', function(payload) {
 			preloadObject(payload.test_trial.shape, payload.test_trial.color);
 			let object_clicked = false;
 			$('#object_image').click(function() {
-				playWord(payload.test_trial.shape);
+				if (payload.test_trial.catch_trial)
+					catch_acknowledge.play();
 				$('#label').focus();
 				object_clicked = true;
 			}).css('cursor', 'pointer');
@@ -331,10 +333,6 @@ socket.on('test_production', function(payload) {
 	hideObject();
 	hideWord();
 	preloadObject(payload.shape, payload.color);
-	$('#object_image').click(function() {
-		playWord(payload.shape);
-		$('#label').focus();
-	}).css('cursor', 'pointer');
 	setTimeout(function() {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
@@ -436,10 +434,6 @@ socket.on('comm_production', function(payload) {
 	hideObject();
 	hideWord();
 	preloadObject(payload.shape, payload.color);
-	$('#object_image').click(function() {
-		playWord(payload.shape);
-		$('#label').focus();
-	}).css('cursor', 'pointer');
 	setTimeout(function() {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
