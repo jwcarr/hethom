@@ -315,7 +315,7 @@ function assignToChain(chains, subject_id) {
 	return [chains[0], {$set: {status: 'unavailable', subject_a: subject_id}}];
 }
 
-function getPartner(subject, callback) {
+function getPartner(client, subject, callback) {
 	db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
 		if (err || !chain)
 			return reportError(client, 133, 'Error.');
@@ -385,7 +385,7 @@ socket.on('connection', function(client) {
 				const time = getCurrentTime();
 				const subject = {
 					subject_id: payload.subject_id,
-					client: client.id,
+					client_id: client.id,
 					creation_time: time,
 					modified_time: time,
 					status: 'active',
@@ -543,7 +543,7 @@ socket.on('connection', function(client) {
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
 			// find the subject's partner
-			getPartner(subject, function(partner, chain) {
+			getPartner(client, subject, function(partner, chain) {
 				// if the partner has already declared themselves ready, reset
 				// the partner's ready status and initiate the next trial on
 				// both clients; else, mark this subject as ready
@@ -578,7 +578,7 @@ socket.on('connection', function(client) {
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
 			// get the partner subject and forward the label to them
-			getPartner(subject, function(partner, chain) {
+			getPartner(client, subject, function(partner, chain) {
 				const total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
 				client.to(partner.client_id).emit('receive_message', {label: payload.response.input_label, item: payload.response.item, total_bonus_with_full, pause_time: EXP_CONFIG.pause_time});
 			});
@@ -603,7 +603,7 @@ socket.on('connection', function(client) {
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
 			// get the partner subject and forward the feedback to them
-			getPartner(subject, function(partner, chain) {
+			getPartner(client, subject, function(partner, chain) {
 				const target_item = partner.responses[partner.responses.length - 1].item;
 				const selected_item = payload.response.selected_item;
 				let new_partner_bonus = partner.total_bonus;
