@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import product
 from pathlib import Path
 import json
 import numpy as np
@@ -58,9 +59,12 @@ def structure(lexicon):
 def plot_response_time(dataset):
 	res = defaultdict(list)
 	for chain, generations in dataset.items():
-		for subject in generations:
-			for trial in subject['responses']:
-				res[trial['test_type']].append(trial['reaction_time'] / 1000)
+		for subject_a, subject_b in generations:
+			for trial in subject_a['responses']:
+				res[trial['test_type']].append(trial['response_time'] / 1000)
+			if subject_b:
+				for trial in subject_b['responses']:
+					res[trial['test_type']].append(trial['response_time'] / 1000)
 	res_mt = res['mini_test']
 	res_tp = res['test_production']
 	res_tc = res['test_comprehension']
@@ -72,45 +76,87 @@ def plot_response_time(dataset):
 def plot_transmission_error(dataset):
 	for chain, generations in dataset.items():
 		error = []
-		for generation in generations:
+		for subject_a, subject_b in generations:
 			error.append(
-				transmission_error(generation['input_lexicon'], generation['lexicon'])
+				transmission_error(subject_a['input_lexicon'], subject_a['lexicon'])
 			)
-		plt.plot(range(1, len(error) + 1), error)
-		plt.xlim(0, 5)
-		plt.ylim(0, 3)
+		plt.plot(range(1, len(error) + 1), error, label=chain)
+		plt.xlim(0, 10)
+		plt.ylim(-0.05, 3.05)
 		plt.xlabel('Generation')
 		plt.ylabel('Transmission error')
+		plt.legend()
 	plt.show()
 
 def plot_expressivity(dataset):
 	for chain, generations in dataset.items():
 		expr = []
-		gen0 = {'lexicon': generations[0]['input_lexicon']}
-		for generation in [gen0] + generations:
+		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
+		for subject_a, subject_b in [gen0] + generations:
 			expr.append(
-				expressivity(generation['lexicon'])
+				expressivity(subject_a['lexicon'])
 			)
-		plt.plot(expr)
-		plt.xlim(0, 5)
+		plt.plot(expr, label=chain)
+		plt.xlim(0, 10)
 		plt.ylim(0, 16)
 		plt.xlabel('Generation')
 		plt.ylabel('Expressivity')
+		plt.legend()
+	plt.show()
+
+import voi
+transparent = {
+	"0_0": "buviko",
+	"0_1": "buviko",
+	"0_2": "buviko",
+	"0_3": "buviko",
+	"1_0": "zetiko",
+	"1_1": "zetiko",
+	"1_2": "zetiko",
+	"1_3": "zetiko",
+	"2_0": "gafiko",
+	"2_1": "gafiko",
+	"2_2": "gafiko",
+	"2_3": "gafiko",
+	"3_0": "wopiko",
+	"3_1": "wopiko",
+	"3_2": "wopiko",
+	"3_3": "wopiko"
+}
+trans_mat = matrix.make_matrix(transparent)
+def informativeness(lexicon):
+	mat = matrix.make_matrix(lexicon)
+	return voi.variation_of_information(trans_mat, mat)
+
+def plot_informativeness(dataset):
+	for chain, generations in dataset.items():
+		expr = []
+		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
+		for subject_a, subject_b in [gen0] + generations:
+			expr.append(
+				informativeness(subject_a['lexicon'])
+			)
+		plt.plot(expr, label=chain)
+		plt.xlim(0, 10)
+		plt.ylim(0, 4)
+		plt.xlabel('Generation')
+		plt.ylabel('Informativeness')
+		plt.legend()
 	plt.show()
 
 def plot_structure(dataset):
 	for chain, generations in dataset.items():
 		expr = []
-		gen0 = {'lexicon': generations[0]['input_lexicon']}
-		for generation in [gen0] + generations:
+		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
+		for subject_a, subject_b in [gen0] + generations:
 			expr.append(
-				structure(generation['lexicon'])
+				structure(subject_a['lexicon'])
 			)
-		plt.plot(expr)
-		plt.xlim(0, 5)
-		plt.ylim(4, 6.2)
+		plt.plot(expr, label=chain)
+		plt.xlim(0, 10)
 		plt.xlabel('Generation')
 		plt.ylabel('Structure')
+		plt.legend()
 	plt.show()
 
 def scramble(word):
@@ -186,42 +232,51 @@ def baseline_structure():
 
 def print_word_chains(dataset):
 	for chain, generations in dataset.items():
-		for item, word in generations[0]['input_lexicon'].items():
-			print(item, word)
-		for generation in generations:
-			print('-------------')
-			for item, word in generation['lexicon'].items():
-				bottleneck = '➡️' if item in generation['training_items'] else '  '
-				print(bottleneck, word)
+		print('-------------')
+		print(chain)
+		print('-------------')
+		table = [[] for _ in range(16)]
+		for item_i, (shape, color) in enumerate(product(range(4), range(4))):
+			item = f'{shape}_{color}'
+			word = generations[0][0]['input_lexicon'][item]
+			table[item_i].append(word.ljust(9, ' '))
+			for subject_a, subject_b in generations:
+				bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
+				word = subject_a['lexicon'][item]
+				table[item_i].append(bottleneck + word.ljust(9, ' '))
+		print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
+		for row in table:
+			print(' '.join(row).strip())
 
 def print_comments(dataset):
 	for chain, generations in dataset.items():
-		for generation in generations:
-			print(generation['subject_id'], generation['comments'])
+		for gen_i, (subject_a, subject_b) in enumerate(generations, 1):
+			if subject_b:
+				print(chain, gen_i, 'A', subject_a['comments'])
+				print(chain, gen_i, 'B', subject_b['comments'])
+			else:
+				print(chain, gen_i, subject_a['comments'])
 
-import mds
 def draw_matrices(dataset):
 	for chain, generations in dataset.items():
 		output_path = ROOT / 'plots' / chain
 		if not output_path.exists():
 			output_path.mkdir(parents=True)
-		gen0 = {'lexicon': generations[0]['input_lexicon']}
+		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
 		generations = [gen0] + generations
 		suffix_spellings = []
 		for gen in generations:
-			for word in gen['lexicon'].values():
+			for word in gen[0]['lexicon'].values():
 				suffix_spellings.append(word[3:])
 		suffix_spellings = sorted(list(set(suffix_spellings)))
 		cp = generate_color_palette(suffix_spellings)
 		for gen, generation in enumerate(generations):
-			mat, _ = matrix.make_matrix(generation['lexicon'], suffix_spellings)
-			print(mat)
-			print(model.posterior_over_grammars(mat))
+			mat = matrix.make_matrix(generation[0]['lexicon'], suffix_spellings)
 			matrix.draw(mat, cp, str(output_path / f'{gen}.pdf'))
 		
 def generate_color_palette(suffix_spellings):
 	n_spellings = len(suffix_spellings)
-	hues = list(np.linspace(0, 2 * np.pi, n_spellings))
+	hues = list(np.linspace(0, 2 * np.pi, n_spellings + 1))
 	return {suffix_spellings.index(suffix): hsv_to_rgb(hues.pop(), 0.8, 0.8) for suffix in suffix_spellings}
 
 # Convert hue [0,2pi], saturation [0,1], and brightness [0,1] into RGB
@@ -247,22 +302,28 @@ def plot_typ_dist(distribution):
 
 def typ_dist(dataset):
 	for chain, generations in dataset.items():
-		for gen_i, generation in enumerate(generations):
-			mat = matrix.make_matrix(generation['lexicon'])
-			# print(mat)
+		for gen_i, (subject_a, subject_b) in enumerate(generations):
+			mat = matrix.make_matrix(subject_a['lexicon'])
 			dist = matrix.typological_distribution(mat, probabilistic=True)
 			fig, axis = plot_typ_dist(dist)
 			axis.set_title(chain + str(gen_i))
 			plt.show()
 
-
+chain_name_colors = {
+	'com_hiVar_0':'blue',
+	'com_noVar_0':'purple',
+	'lrn_hiVar_0':'black',
+	'lrn_noVar_0':'orange',
+	'lrn_redun_0':'green',
+	'lrn_exprs_0':'red',
+}
 def training_curve(dataset, window=12):
 	fig, axis = plt.subplots(1, 1)
 	for chain, generations in dataset.items():
-		for gen_i, generation in enumerate(generations):
+		for gen_i, (subject_a, subject_b) in enumerate(generations):
 			full_correct = []
 			part_correct = []
-			for trial in generation['responses']:
+			for trial in subject_a['responses']:
 				if trial['test_type'] == 'mini_test':
 					if trial['input_label'] == trial['expected_label']:
 						full_correct.append(1)
@@ -279,7 +340,7 @@ def training_curve(dataset, window=12):
 				x.append(i + window )
 				y.append(mean)
 			y = np.array(y) + (np.random.random() * 0.1 - 0.05)
-			axis.plot(x, y)
+			axis.plot(x, y, color=chain_name_colors[chain])
 	axis.set_ylim(-0.05, 1.05)
 	axis.set_xlim(1, 36)
 	axis.set_xticks([1, 12, 24, 36])
@@ -289,22 +350,18 @@ def training_curve(dataset, window=12):
 	axis.axvline(24, color='black', linestyle='--')
 	plt.show()
 
-					
-					# correct.append(trial['correct'])
 
 
-dataset = json_load(ROOT / 'data' / 'pilot1.json')
+dataset = json_load(ROOT / 'data' / 'pilot3_merged.json')
 
 # plot_response_time(dataset)
 # plot_transmission_error(dataset)
 # plot_expressivity(dataset)
+plot_informativeness(dataset)
 # plot_structure(dataset)
 # baseline_structure()
 # print_word_chains(dataset)
 # print_comments(dataset)
 # draw_matrices(dataset)
 # typ_dist(dataset)
-training_curve(dataset)
-
-
-
+# training_curve(dataset)
