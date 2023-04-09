@@ -156,6 +156,8 @@ def review_subject(exp_id, sub_id=None):
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject is None:
 		raise ValueError('Subject not found')
+	if subject['status'] != 'approval_needed':
+		raise ValueError('Subject not yet awaiting approval')
 	minutes = (subject['modified_time'] - subject['creation_time']) // 60
 	seconds = (subject['modified_time'] - subject['creation_time']) % 60
 	lexicon = {}
@@ -245,6 +247,7 @@ def drop_subject(exp_id, sub_id=None):
 	if subject['status'] != 'active':
 		raise ValueError('Subject not currently active')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
+	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_a': None}})
 
 def review(exp_id, chain_id=None):
 	if chain_id is None:
@@ -294,14 +297,14 @@ def reject(exp_id, chain_id=None):
 	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': 'available', 'subject_a': None, 'subject_b': None}})
 
 def dump(exp_id, _=None):
-	subject_id_map = {}
-	subject_data = {}
+	subject_id_map = {None: None}
+	subject_data = {None: None}
 	exp_dir = DATA_DIR / exp_id
 	if not exp_dir.exists():
 		exp_dir.mkdir()
 	for i, subject in enumerate(db[exp_id].subjects.find({'status': 'approved'}), 1):
 		del subject['_id']
-		anon_subject_id = f'{exp_id}_{str(i).zfill(3)}' 
+		anon_subject_id = f'{exp_id}_{str(i).zfill(3)}'
 		subject_id_map[ subject['subject_id'] ] = anon_subject_id
 		subject['subject_id'] = anon_subject_id
 		with open(exp_dir / f'{anon_subject_id}.json', 'w') as file:
@@ -311,13 +314,15 @@ def dump(exp_id, _=None):
 	for chain in db[exp_id].chains.find({}):
 		del chain['_id']
 		chain['subjects'] = [
-			subject_id_map[subject_id] for subject_id in chain['subjects']
+			(subject_id_map[subject_a], subject_id_map[subject_b]) for subject_a, subject_b in chain['subjects']
 		]
 		with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 			file.write(dumps(chain, indent='\t'))
-		dataset[ chain['chain_id'] ] = [ subject_data[subject_id] for subject_id in chain['subjects'] ]
+		dataset[ chain['chain_id'] ] = [
+			(subject_data[subject_a], subject_data[subject_b]) for subject_a, subject_b in chain['subjects']
+		]
 	with open(DATA_DIR / f'{exp_id}.json', 'w') as file:
-		file.write(dumps(dataset), indent='\t')
+		file.write(dumps(dataset, indent='\t'))
 
 
 if __name__ == '__main__':
@@ -336,8 +341,9 @@ if __name__ == '__main__':
 		'status': status,
 		'monitor': monitor,
 		'review': review,
+		'review_subject': review_subject,
 		'approve': approve,
-		# 'drop': drop,
+		'drop_subject': drop_subject,
 		# 'reject': reject,
 		'dump': dump,
 	}[args.action](args.exp_id, args.sub_id)
