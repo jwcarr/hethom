@@ -586,7 +586,7 @@ $(document).ready(function() {
 		return null;
 	const [test_sound, test_phrase] = test_audio[randInt(test_audio.length)];
 	$('#test_sound_input').keyup(function() {
-		if ($(this).val().toLowerCase() === test_phrase || $(this).val() === '/') {
+		if ($(this).val().toLowerCase() === test_phrase) {
 			$('#test_sound_input').off('keyup');
 			$('#sound_test').hide();
 			socket.emit('handshake', {subject_id});
