@@ -7,6 +7,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import mantel
 import matrix
+import grammarette
 
 
 ROOT = Path(__file__).parent.parent.resolve()
@@ -104,29 +105,21 @@ def plot_expressivity(dataset):
 		plt.legend()
 	plt.show()
 
-import voi
-transparent = {
-	"0_0": "buviko",
-	"0_1": "buviko",
-	"0_2": "buviko",
-	"0_3": "buviko",
-	"1_0": "zetiko",
-	"1_1": "zetiko",
-	"1_2": "zetiko",
-	"1_3": "zetiko",
-	"2_0": "gafiko",
-	"2_1": "gafiko",
-	"2_2": "gafiko",
-	"2_3": "gafiko",
-	"3_0": "wopiko",
-	"3_1": "wopiko",
-	"3_2": "wopiko",
-	"3_3": "wopiko"
-}
-trans_mat = matrix.make_matrix(transparent)
-def informativeness(lexicon):
-	mat = matrix.make_matrix(lexicon)
-	return voi.variation_of_information(trans_mat, mat)
+def convert_lexicon_meanings_to_tuple(lexicon):
+	converted_lexicon = {}
+	for item, signal in lexicon.items():
+		meaning = tuple(map(int, item.split('_')))
+		converted_lexicon[meaning] = signal
+	return converted_lexicon
+
+def cost(lexicon, dims):
+	lexicon = convert_lexicon_meanings_to_tuple(lexicon)
+	reverse_lexicon = defaultdict(set)
+	for meaning, signal in lexicon.items():
+		reverse_lexicon[signal].add(meaning)
+	U = product(*[range(n_values) for n_values in dims])
+	U_size = np.product(dims)
+	return 1 / U_size * sum([-np.log2(1 / len(reverse_lexicon[lexicon[m]])) for m in U])
 
 def plot_informativeness(dataset):
 	for chain, generations in dataset.items():
@@ -134,15 +127,159 @@ def plot_informativeness(dataset):
 		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
 		for subject_a, subject_b in [gen0] + generations:
 			expr.append(
-				informativeness(subject_a['lexicon'])
+				cost(subject_a['lexicon'], (4, 4))
 			)
 		plt.plot(expr, label=chain)
 		plt.xlim(0, 10)
-		plt.ylim(0, 4)
+		plt.ylim(0, 2)
 		plt.xlabel('Generation')
-		plt.ylabel('Informativeness')
+		plt.ylabel('Communicative cost (bits)')
 		plt.legend()
 	plt.show()
+
+def complexity(lexicon, dims):
+	lexicon = convert_lexicon_meanings_to_tuple(lexicon)
+	grammar = grammarette.induce(lexicon, dims)
+	return grammar.codelength
+
+def plot_simplicity(dataset):
+	for chain, generations in dataset.items():
+		expr = []
+		gen0 = [{'lexicon': generations[0][0]['input_lexicon']}] * 2
+		for subject_a, subject_b in [gen0] + generations:
+			expr.append(
+				complexity(subject_a['lexicon'], (4, 4))
+			)
+		plt.plot(expr, label=chain)
+		plt.xlim(0, 10)
+		plt.xlabel('Generation')
+		plt.ylabel('Complexity (bits)')
+		plt.legend()
+	plt.show()
+
+
+
+import matplotlib.patches as patches
+def arrowplot(axes, x, y, nArrs=30, mutateSize=5, color='gray', markerStyle='o'): 
+	'''arrowplot : plots arrows along a path on a set of axes
+		axes   :  the axes the path will be plotted on
+		x      :  list of x coordinates of points defining path
+		y      :  list of y coordinates of points defining path
+		nArrs  :  Number of arrows that will be drawn along the path
+		mutateSize :  Size parameter for arrows
+		color  :  color of the edge and face of the arrow head
+		markerStyle : Symbol
+	
+		Bugs: If a path is straight vertical, the matplotlab FanceArrowPatch bombs out.
+		  My kludge is to test for a vertical path, and perturb the second x value
+		  by 0.1 pixel. The original x & y arrays are not changed
+	
+		MHuster 2016, based on code by 
+	'''
+	# recast the data into numpy arrays
+	x = np.array(x, dtype='f')
+	y = np.array(y, dtype='f')
+	nPts = len(x)
+
+	# Plot the points first to set up the display coordinates
+	axes.plot(x,y, markerStyle, ms=10, color=color)
+
+	# get inverse coord transform
+	inv = axes.transData.inverted()
+
+	# transform x & y into display coordinates
+	# Variable with a 'D' at the end are in display coordinates
+	xyDisp = np.array(axes.transData.transform(list(zip(x,y))))
+	xD = xyDisp[:,0]
+	yD = xyDisp[:,1]
+
+	# drD is the distance spanned between pairs of points
+	# in display coordinates
+	dxD = xD[1:] - xD[:-1]
+	dyD = yD[1:] - yD[:-1]
+	drD = np.sqrt(dxD**2 + dyD**2)
+
+	# Compensating for matplotlib bug
+	dxD[np.where(dxD==0.0)] = 0.1
+
+
+	# rtotS is the total path length
+	rtotD = np.sum(drD)
+
+	# based on nArrs, set the nominal arrow spacing
+	arrSpaceD = rtotD / nArrs
+
+	# Loop over the path segments
+	iSeg = 0
+	while iSeg < nPts - 1:
+		# Figure out how many arrows in this segment.
+		# Plot at least one.
+		nArrSeg = max(1, int(drD[iSeg] / arrSpaceD + 0.5))
+		xArr = (dxD[iSeg]) / nArrSeg # x size of each arrow
+		segSlope = dyD[iSeg] / dxD[iSeg]
+		# Get display coordinates of first arrow in segment
+		xBeg = xD[iSeg]
+		xEnd = xBeg + xArr
+		yBeg = yD[iSeg]
+		yEnd = yBeg + segSlope * xArr
+		# Now loop over the arrows in this segment
+		for iArr in range(nArrSeg):
+			# Transform the oints back to data coordinates
+			xyData = inv.transform(((xBeg, yBeg),(xEnd,yEnd)))
+			# Use a patch to draw the arrow
+			# I draw the arrows with an alpha of 0.5
+			p = patches.FancyArrowPatch( 
+				xyData[0], xyData[1], 
+				arrowstyle='simple',
+				mutation_scale=mutateSize,
+				color=color, alpha=1.0)
+			axes.add_patch(p)
+			# Increment to the next arrow
+			xBeg = xEnd
+			xEnd += xArr
+			yBeg = yEnd
+			yEnd += segSlope * xArr
+		# Increment segment number
+		iSeg += 1
+
+def plot_simplicity_informativeness(dataset):
+	simp = [
+		[573.1087206239592, 538.7026969437203, 413.0861637257097, 470.60543986551664, 431.70531792231776, 393.11068992214194, 335.0913617625357, 439.3275789848815, 309.92194229384563, 271.965276246367, 323.35493941436675],
+		[591.6751444173998, 440.34198518156006, 383.2835671103883, 466.5813837111495, 340.6108966905434, 359.42147265972216, 396.101151026367, 482.4223830616061, 338.9923319076298, 219.26353873315173, 139.19929909169417],
+		[592.1867711964184, 457.8865826418728, 508.9304804657626, 430.04702999900263, 384.0064793733731, 466.6081489699085, 493.3217795544788, 500.9404769518681, 351.99432958416725, 230.2261782820019, 230.2261782820019],
+	]
+	infm = [
+		[0.0, 0.125, 0.625, 0.375, 0.375, 0.5, 0.25, 0.7971804688852169, 1.1721804688852169, 1.5943609377704338, 1.3915414066556508],
+		[0.0, 0.5, 1.0943609377704338, 0.7193609377704335, 0.7971804688852168, 0.6721804688852169, 1.0471804688852169, 1.1721804688852169, 1.0, 1.75, 2.0],
+		[0.0, 0.25, 0.375, 0.7193609377704336, 0.625, 0.9693609377704335, 0.7971804688852168, 0.4221804688852168, 0.625, 0.5, 0.5],
+	]
+	fig, axis = plt.subplots(1, 1)
+	for s, i in zip(simp, infm):
+		n_arrows = total_distance(s, i) // 10
+		arrowplot(axis, s, i, nArrs=n_arrows, color='MediumSeaGreen')
+	axis.set_xlim(75, 625)
+	axis.set_ylim(-0.1, 2.1)
+	axis.set_xlabel('Complexity (bits)')
+	axis.set_ylabel('Cost (bits)')
+	plt.show()
+
+def distance(point1, point2):
+	return ((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2) ** 0.5
+
+def total_distance(X, Y):
+	total_dist = 0.0
+	curr_pos = (X[0], Y[0])
+	for next_pos in zip(X[1:], Y[1:]):
+
+		d = distance(curr_pos, next_pos)
+		total_dist += d
+		curr_pos = next_pos
+	return total_dist
+
+
+
+
+
 
 def plot_structure(dataset):
 	for chain, generations in dataset.items():
@@ -352,12 +489,14 @@ def training_curve(dataset, window=12):
 
 
 
-dataset = json_load(ROOT / 'data' / 'pilot3_merged.json')
+dataset = json_load(ROOT / 'data' / 'pilot3.json')
 
 # plot_response_time(dataset)
 # plot_transmission_error(dataset)
 # plot_expressivity(dataset)
-plot_informativeness(dataset)
+# plot_informativeness(dataset)
+# plot_simplicity(dataset)
+plot_simplicity_informativeness(dataset)
 # plot_structure(dataset)
 # baseline_structure()
 # print_word_chains(dataset)
