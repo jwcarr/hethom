@@ -5,6 +5,7 @@ import json
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import mantel
 import matrix
 import grammarette
@@ -157,90 +158,14 @@ def plot_simplicity(dataset):
 		plt.legend()
 	plt.show()
 
-
-
-import matplotlib.patches as patches
-def arrowplot(axes, x, y, nArrs=30, mutateSize=5, color='gray', markerStyle='o'): 
-	'''arrowplot : plots arrows along a path on a set of axes
-		axes   :  the axes the path will be plotted on
-		x      :  list of x coordinates of points defining path
-		y      :  list of y coordinates of points defining path
-		nArrs  :  Number of arrows that will be drawn along the path
-		mutateSize :  Size parameter for arrows
-		color  :  color of the edge and face of the arrow head
-		markerStyle : Symbol
-	
-		Bugs: If a path is straight vertical, the matplotlab FanceArrowPatch bombs out.
-		  My kludge is to test for a vertical path, and perturb the second x value
-		  by 0.1 pixel. The original x & y arrays are not changed
-	
-		MHuster 2016, based on code by 
-	'''
-	# recast the data into numpy arrays
-	x = np.array(x, dtype='f')
-	y = np.array(y, dtype='f')
-	nPts = len(x)
-
-	# Plot the points first to set up the display coordinates
-	axes.plot(x,y, markerStyle, ms=10, color=color)
-
-	# get inverse coord transform
-	inv = axes.transData.inverted()
-
-	# transform x & y into display coordinates
-	# Variable with a 'D' at the end are in display coordinates
-	xyDisp = np.array(axes.transData.transform(list(zip(x,y))))
-	xD = xyDisp[:,0]
-	yD = xyDisp[:,1]
-
-	# drD is the distance spanned between pairs of points
-	# in display coordinates
-	dxD = xD[1:] - xD[:-1]
-	dyD = yD[1:] - yD[:-1]
-	drD = np.sqrt(dxD**2 + dyD**2)
-
-	# Compensating for matplotlib bug
-	dxD[np.where(dxD==0.0)] = 0.1
-
-
-	# rtotS is the total path length
-	rtotD = np.sum(drD)
-
-	# based on nArrs, set the nominal arrow spacing
-	arrSpaceD = rtotD / nArrs
-
-	# Loop over the path segments
-	iSeg = 0
-	while iSeg < nPts - 1:
-		# Figure out how many arrows in this segment.
-		# Plot at least one.
-		nArrSeg = max(1, int(drD[iSeg] / arrSpaceD + 0.5))
-		xArr = (dxD[iSeg]) / nArrSeg # x size of each arrow
-		segSlope = dyD[iSeg] / dxD[iSeg]
-		# Get display coordinates of first arrow in segment
-		xBeg = xD[iSeg]
-		xEnd = xBeg + xArr
-		yBeg = yD[iSeg]
-		yEnd = yBeg + segSlope * xArr
-		# Now loop over the arrows in this segment
-		for iArr in range(nArrSeg):
-			# Transform the oints back to data coordinates
-			xyData = inv.transform(((xBeg, yBeg),(xEnd,yEnd)))
-			# Use a patch to draw the arrow
-			# I draw the arrows with an alpha of 0.5
-			p = patches.FancyArrowPatch( 
-				xyData[0], xyData[1], 
-				arrowstyle='simple',
-				mutation_scale=mutateSize,
-				color=color, alpha=1.0)
-			axes.add_patch(p)
-			# Increment to the next arrow
-			xBeg = xEnd
-			xEnd += xArr
-			yBeg = yEnd
-			yEnd += segSlope * xArr
-		# Increment segment number
-		iSeg += 1
+def arrowplot(axis, X, Y, color=None):
+	plt.scatter(X, Y, color=color)
+	XY = np.column_stack([X, Y])
+	for i in range(len(XY) - 1):
+		start = XY[i]
+		end = XY[i + 1]
+		patch = patches.FancyArrowPatch(start, end, color=color, mutation_scale=10, alpha=0.3)
+		axis.add_patch(patch)
 
 def plot_simplicity_informativeness(dataset):
 	simp = [
@@ -255,30 +180,12 @@ def plot_simplicity_informativeness(dataset):
 	]
 	fig, axis = plt.subplots(1, 1)
 	for s, i in zip(simp, infm):
-		n_arrows = total_distance(s, i) // 10
-		arrowplot(axis, s, i, nArrs=n_arrows, color='MediumSeaGreen')
+		arrowplot(axis, s, i, color='MediumSeaGreen')
 	axis.set_xlim(75, 625)
 	axis.set_ylim(-0.1, 2.1)
 	axis.set_xlabel('Complexity (bits)')
 	axis.set_ylabel('Cost (bits)')
 	plt.show()
-
-def distance(point1, point2):
-	return ((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2) ** 0.5
-
-def total_distance(X, Y):
-	total_dist = 0.0
-	curr_pos = (X[0], Y[0])
-	for next_pos in zip(X[1:], Y[1:]):
-
-		d = distance(curr_pos, next_pos)
-		total_dist += d
-		curr_pos = next_pos
-	return total_dist
-
-
-
-
 
 
 def plot_structure(dataset):
@@ -495,8 +402,8 @@ dataset = json_load(ROOT / 'data' / 'pilot3.json')
 # plot_transmission_error(dataset)
 # plot_expressivity(dataset)
 # plot_informativeness(dataset)
-# plot_simplicity(dataset)
-plot_simplicity_informativeness(dataset)
+plot_simplicity(dataset)
+# plot_simplicity_informativeness(dataset)
 # plot_structure(dataset)
 # baseline_structure()
 # print_word_chains(dataset)
