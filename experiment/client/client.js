@@ -142,8 +142,11 @@ function validateWord(label, expected_label=null) {
 	if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
 		return false;
 	if (expected_label) {
-		if (label.slice(0, 3) != expected_label.slice(0, 3))
+		let expected_prefix = expected_label.slice(0, 3);
+		if (label.slice(0, 3) != expected_prefix) {
+			alert(`Please check your spelling. This word should begin with ${expected_prefix}...`);
 			return false;
+		}
 	}
 	return true;
 }
