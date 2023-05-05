@@ -42,6 +42,13 @@ DATA_DIR = Path('../data')
 DOMAIN = 'localhost'
 PORT = 27017
 
+STATUS_EMOJI = {
+	'available': '🟢',
+	'unavailable': '🔴',
+	'converged': '⚫️',
+	'closed': '🟡',
+	'approval_needed': '🔵',
+}
 
 db = MongoClient(DOMAIN, PORT)
 
@@ -120,9 +127,9 @@ def status(exp_id, _=None):
 	n_available = 0
 	for chain in db[exp_id].chains.find():
 		if chain['task']['communication']:
-			print(chain['chain_id'], chain['current_gen'], chain['status'], chain['subject_a'], chain['subject_b'])
+			print(chain['chain_id'], chain['current_gen'], STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'], chain['subject_b'])
 		else:
-			print(chain['chain_id'], chain['current_gen'], chain['status'], chain['subject_a'])
+			print(chain['chain_id'], chain['current_gen'], STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'])
 		if chain['status'] == 'available':
 			if chain['task']['communication']:
 				n_available += 2
@@ -132,7 +139,7 @@ def status(exp_id, _=None):
 
 def monitor(exp_id, chain_id=None):
 	if chain_id is None:
-		subjects = db[exp_id].subjects.find({'status': 'active'})
+		subjects = db[exp_id].subjects.find({'status': 'active'}).sort('chain_id', 1)
 	else:
 		subjects = db[exp_id].subjects.find({'status': 'active', 'chain_id': chain_id})
 	current_time = int(time.time())
@@ -151,6 +158,7 @@ def monitor(exp_id, chain_id=None):
 		print('Current event:', subject['trial_sequence'][subject['sequence_position']]['event'])
 		print('Client ID:', subject['client_id'])
 		print('Reinitializations:', subject['n_reinitializations'])
+	print('############################################################################')
 
 def open_chain(exp_id, chain_id=None):
 	if chain_id is None:
@@ -178,7 +186,7 @@ def review_subject(exp_id, sub_id=None):
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject is None:
 		raise ValueError('Subject not found')
-	if subject['status'] != 'approval_needed':
+	if subject['status'] not in ['approval_needed', 'reviewed']:
 		raise ValueError('Subject not yet awaiting approval')
 	minutes = (subject['modified_time'] - subject['creation_time']) // 60
 	seconds = (subject['modified_time'] - subject['creation_time']) % 60
@@ -334,7 +342,7 @@ def reject(exp_id, chain_id=None, do_not_reopen=False):
 		update_status = 'closed'
 	else:
 		update_status = 'available'
-	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set': {'status': update_status, 'subject_a': None, 'subject_b': None}})
+	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': update_status, 'subject_a': None, 'subject_b': None}})
 
 def dump(exp_id, _=None):
 	subject_id_map = {None: None}
