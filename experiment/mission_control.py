@@ -268,29 +268,50 @@ def reject_subject(exp_id, sub_id=None):
 	log_approval(exp_id, subject['subject_id'], subject['total_bonus'])
 	return subject
 
-def drop_subject(exp_id, sub_id=None, do_not_reopen=False):
+def drop_subject(exp_id, sub_id=None, update_chain=True):
+	'''
+	Set the subject's status to dropout, remove them from their assigned
+	chain, and set the chain's status to available so that the slot can be
+	refilled.
+	'''
 	if sub_id is None:
 		return None
 	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
 	if subject is None:
 		raise ValueError('Subject not found')
-	if subject['status'] != 'active':
-		raise ValueError('Subject not currently active')
 	db[exp_id].subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
+	if update_chain:
+		chain = db[exp_id].chains.find_one({'chain_id': subject['chain_id']})
+		if chain['subject_a'] == subject['subject_id']:
+			db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_a': None}})
+		elif chain['subject_b'] == subject['subject_id']:
+			db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_b': None}})
+
+def drop(exp_id, chain_id=None, do_not_reopen=True):
+	'''
+	Set both subjects' statuses to dropout and reset the chain.
+	'''
+	if chain_id is None:
+		raise ValueError('Chain ID must be specified')
+	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
+	if chain is None:
+		raise ValueError('Chain not found')
+	if chain['status'] != 'unavailable':
+		raise ValueError(f'Chain is currently {chain["status"]}, but should be unavailable to perform drop')
+	drop_subject(exp_id, chain['subject_a'], update_chain=False)
+	drop_subject(exp_id, chain['subject_b'], update_chain=False)
 	if do_not_reopen:
 		update_status = 'closed'
 	else:
 		update_status = 'available'
-	chain = db[exp_id].chains.find_one({'chain_id': subject['chain_id']})
-	if chain['subject_a'] == subject['subject_id']:
-		db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': update_status, 'subject_a': None}})
-	elif chain['subject_b'] == subject['subject_id']:
-		db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': update_status, 'subject_b': None}})
+	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': update_status, 'subject_a': None, 'subject_b': None}})
 
 def review(exp_id, chain_id=None):
 	if chain_id is None:
 		raise ValueError('Chain ID must be specified')
 	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
+	if chain is None:
+		raise ValueError('Chain not found')
 	if chain['status'] != 'approval_needed':
 		raise ValueError('Chain not awaiting approval')
 	review_subject(exp_id, chain['subject_a'])
