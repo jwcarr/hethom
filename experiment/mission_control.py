@@ -165,16 +165,17 @@ def open_chain(exp_id, chain_id=None):
 		raise ValueError('Chain ID must be specified')
 	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
 	if chain['status'] != 'closed':
-		raise ValueError('Cannot open: Chain not available')
+		raise ValueError('Cannot open: Chain not currently closed')
 	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'available'}})
 
 def close_chain(exp_id, chain_id=None):
 	if chain_id is None:
 		raise ValueError('Chain ID must be specified')
 	chain = db[exp_id].chains.find_one({'chain_id': chain_id})
-	if chain['status'] != 'available':
-		raise ValueError('Cannot open: Chain not available')
-	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'closed'}})
+	if chain['subject_a'] is None and chain['subject_b'] is None and chain['status'] == 'available':
+		db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'closed'}})
+	else:
+		raise ValueError('Cannot close: Chain occupied')
 
 def entropy(distribution):
 	distribution /= distribution.sum()
@@ -413,6 +414,7 @@ if __name__ == '__main__':
 		'close_chain': close_chain,
 		'review_subject': review_subject,
 		'drop_subject': drop_subject,
+		'drop': drop,
 		'review': review,
 		'approve': approve,
 		'reject': reject,
