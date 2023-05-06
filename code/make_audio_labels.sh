@@ -11,4 +11,4 @@ say "the hungry dog" -v Tessa -o ../experiment/client/sounds/test2.m4a
 say "the angry lion" -v Tessa -o ../experiment/client/sounds/test3.m4a
 
 say "This is an attention check; please click on the object." -v Tessa -o ../experiment/client/sounds/catch_instruction.m4a
-say "Thank you." -v Tessa -o ../experiment/client/sounds/catch_acknowledge.m4a
+say "Great. Please continue." -v Tessa -o ../experiment/client/sounds/catch_acknowledge.m4a
