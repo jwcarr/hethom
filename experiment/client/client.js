@@ -275,7 +275,7 @@ socket.on('training_block', function(payload) {
 			setTimeout(function() {
 				$("#input_form").submit(function(event) {
 					event.preventDefault();
-					let label = $("#label").val();
+					let label = $("#label").val().toLowerCase();
 					if (validateWord(label)) {
 						$("#input_form").off('submit');
 						const response_time = Math.floor(performance.now() - start_time);
@@ -339,7 +339,7 @@ socket.on('test_production', function(payload) {
 	setTimeout(function() {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
-			let label = $("#label").val();
+			let label = $("#label").val().toLowerCase();
 			if (validateWord(label, payload.word)) {
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
@@ -440,7 +440,7 @@ socket.on('comm_production', function(payload) {
 	setTimeout(function() {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
-			let label = $("#label").val();
+			let label = $("#label").val().toLowerCase();
 			if (validateWord(label, payload.word)) {
 				$("#input_form").off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
