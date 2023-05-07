@@ -307,7 +307,7 @@ def drop(exp_id, chain_id=None, do_not_reopen=True):
 		update_status = 'closed'
 	else:
 		update_status = 'available'
-	db[exp_id].chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': update_status, 'subject_a': None, 'subject_b': None}})
+	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set':{'status': update_status, 'subject_a': None, 'subject_b': None}})
 
 def review(exp_id, chain_id=None):
 	if chain_id is None:
@@ -367,6 +367,14 @@ def reject(exp_id, chain_id=None, do_not_reopen=False):
 	else:
 		update_status = 'available'
 	db[exp_id].chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': update_status, 'subject_a': None, 'subject_b': None}})
+
+def manual_approve(exp_id, sub_id=None):
+	if sub_id is None:
+		raise ValueError('Subject ID must be specified')
+	subject = db[exp_id].subjects.find_one({'subject_id': sub_id})
+	if subject is None:
+		raise ValueError('Subject not found')
+	log_approval(exp_id, sub_id, subject['total_bonus'])
 
 def dump(exp_id, _=None):
 	subject_id_map = {None: None}
