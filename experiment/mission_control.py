@@ -127,9 +127,9 @@ def status(exp_id, _=None):
 	n_available = 0
 	for chain in db[exp_id].chains.find():
 		if chain['task']['communication']:
-			print(chain['chain_id'], chain['current_gen'], STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'], chain['subject_b'])
+			print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'], chain['subject_b'])
 		else:
-			print(chain['chain_id'], chain['current_gen'], STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'])
+			print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'])
 		if chain['status'] == 'available':
 			if chain['task']['communication']:
 				n_available += 2
@@ -153,10 +153,12 @@ def monitor(exp_id, chain_id=None):
 		print('Time since start of experiment:', f'{minutes}:{str(seconds).zfill(2)}')
 		minutes = (current_time - subject['modified_time']) // 60
 		seconds = (current_time - subject['modified_time']) % 60
-		print('Time since last response:', f'{minutes}:{str(seconds).zfill(2)}')
+		long_time_alert = '‼️' if minutes >= 1 else ''
+		print('Time since last response:', f'{minutes}:{str(seconds).zfill(2)}', long_time_alert)
 		print('Sequence position:', subject['sequence_position'])
 		print('Current event:', subject['trial_sequence'][subject['sequence_position']]['event'])
-		print('Client ID:', subject['client_id'])
+		disconnect_alert = '‼️' if subject['client_id'] is None else ''
+		print('Client ID:', subject['client_id'], disconnect_alert)
 		print('Reinitializations:', subject['n_reinitializations'])
 	print('############################################################################')
 
