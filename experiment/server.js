@@ -296,7 +296,7 @@ function assignToChain(chains, subject_id) {
 	// most urgent
 	for (let chain of chains) {
 		if (chain.task.communication && chain.subject_a === null && chain.subject_b)
-			return [chain, {$set: {status: 'unavailable', subject_b: subject_id}}];
+			return [chain, {$set: {status: 'unavailable', subject_a: subject_id}}];
 	}
 	// then look for a communicative chain where subject A has been
 	// assigned but we still need a subject B
