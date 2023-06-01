@@ -138,21 +138,26 @@ class MissionControl:
 			print('Reinitializations:', subject['n_reinitializations'])
 		print('############################################################################')
 
-	def dump(self, _=None):
+	def dump(self, _=None, approved_IDs=None):
 		subject_id_map = {None: None}
 		subject_data = {None: None}
 		exp_dir = DATA_DIR / self.exp_id
 		if not exp_dir.exists():
 			exp_dir.mkdir()
-		for i, subject in enumerate(self.db.subjects.find({'status': 'approved'}), 1):
+		if approved_IDs is None:
+			find = {'status': 'approved'}
+		else:
+			find = {'subject_id': {'$in': approved_IDs}}
+		for i, subject in enumerate(self.db.subjects.find(find), 1):
 			del subject['_id']
+			subject['client_id'] = None
 			anon_subject_id = f'{self.exp_id}_{str(i).zfill(3)}'
 			subject_id_map[ subject['subject_id'] ] = anon_subject_id
 			subject['subject_id'] = anon_subject_id
 			with open(exp_dir / f'{anon_subject_id}.json', 'w') as file:
 				file.write(dumps(subject, indent='\t'))
 			subject_data[anon_subject_id] = subject
-		dataset = {}
+		# dataset = {}
 		for chain in self.db.chains.find({}):
 			del chain['_id']
 			chain['subjects'] = [
@@ -160,11 +165,11 @@ class MissionControl:
 			]
 			with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 				file.write(dumps(chain, indent='\t'))
-			dataset[ chain['chain_id'] ] = [
-				(subject_data[subject_a], subject_data[subject_b]) for subject_a, subject_b in chain['subjects']
-			]
-		with open(DATA_DIR / f'{self.exp_id}.json', 'w') as file:
-			file.write(dumps(dataset, indent='\t'))
+		# 	dataset[ chain['chain_id'] ] = [
+		# 		(subject_data[subject_a], subject_data[subject_b]) for subject_a, subject_b in chain['subjects']
+		# 	]
+		# with open(DATA_DIR / f'{self.exp_id}.json', 'w') as file:
+		# 	file.write(dumps(dataset, indent='\t'))
 
 	def open(self, chain_id=None):
 		if chain_id is None:
@@ -204,15 +209,12 @@ class MissionControl:
 			raise ValueError('Chain not awaiting approval')
 		subject_a = self.approve_subject(chain['subject_a'])
 		subject_b = self.approve_subject(chain['subject_b'])
-		if chain['current_gen'] >= 19:
+		chain_converged = False
+		for item, word in chain['lexicon'].items():
+			if subject_a['lexicon'][item] != word:
+				break
+		else: # for loop exits normally, all words match, chain has converged
 			chain_converged = True
-		else:
-			chain_converged = False
-			for item, word in chain['lexicon'].items():
-				if subject_a['lexicon'][item] != word:
-					break
-			else: # for loop exits normally, all words match, chain has converged
-				chain_converged = True
 		if chain_converged:
 			update_status = 'converged'
 		else:
