@@ -1,16 +1,32 @@
 import numpy as np
 import cairocffi as cairo
 import voi
+import re
 
-def make_matrix(lexicon, suffix_spellings=None, m=4, n=4):
+
+RE_STEM_SUFFIX = re.compile(r'((buv|zet|gaf|wop)\w*?)([aeiouy]\w*)')
+
+
+def parse_stem_and_suffix(word):
+	word_match = RE_STEM_SUFFIX.match(word)
+	if word_match is None:
+		raise ValueError('Cannot parse stem and suffix')
+	return word_match.group(1), word_match.group(3)
+
+def get_suffix_spellings(lexicon):
+	suffixes = []
+	for word in lexicon.values():
+		stem, suffix = parse_stem_and_suffix(word)
+		suffixes.append(suffix)
+	return sorted(list(set(suffixes)))
+
+def make_matrix(lexicon, m=4, n=4):
+	suffix_spellings = get_suffix_spellings(lexicon)
 	matrix = np.zeros((m, n), dtype=int)
-	if suffix_spellings is None:
-		suffix_spellings = sorted(list(set([word[3:] for word in lexicon.values()])))
 	for i in range(m):
 		for j in range(n):
-			item = f'{i}_{j}'
-			word_i = suffix_spellings.index(lexicon[item][3:])
-			matrix[i, j] = word_i
+			stem, suffix = parse_stem_and_suffix(lexicon[ f'{i}_{j}' ])
+			matrix[i, j] = suffix_spellings.index(suffix)
 	return matrix
 
 def generate_color_palette(matrix):
