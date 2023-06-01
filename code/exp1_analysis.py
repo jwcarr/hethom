@@ -1,0 +1,245 @@
+from pathlib import Path
+from collections import defaultdict
+from itertools import product
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from matplotlib import colormaps
+import Levenshtein
+import grammarette
+
+from utils import json_load, json_save
+
+
+ROOT = Path(__file__).parent.parent.resolve()
+
+
+COLORS = colormaps['tab10_r'].colors
+
+MEASURE_RANGES = {
+	'cost': (0, 2),
+	'complexity': (100, 600),
+	'error': (0, 3),
+	'alignment': (0, 3),
+}
+
+LABELS = {
+	'cost': 'Communicative cost (bits)',
+	'complexity': 'Complexity (bits)',
+	'error': 'Transmission error (edits)',
+	'alignment': 'Alignment (edits)',
+	'lrn_hiVar': 'Learning-only, High variation',
+	'lrn_noVar': 'Learning-only, No variation',
+	'com_hiVar': 'Learning & Communication, High variation',
+	'com_noVar': 'Learning & Communication, No variation',
+}
+
+
+def convert_lexicon_meanings_to_tuple(lexicon):
+	converted_lexicon = {}
+	for item, signal in lexicon.items():
+		meaning = tuple(map(int, item.split('_')))
+		converted_lexicon[meaning] = signal
+	return converted_lexicon
+
+def transmission_error(lexicon1, lexicon2):
+	sum_lev_dist = 0.0
+	for item, word1 in lexicon1.items():
+		word2 = lexicon2[item]
+		sum_lev_dist += Levenshtein.distance(word1, word2)
+	return sum_lev_dist / len(lexicon1)
+
+def complexity(lexicon, dims):
+	grammar = grammarette.induce(lexicon, dims)
+	return grammar.codelength
+
+def communicative_cost(lexicon, dims):
+	reverse_lexicon = defaultdict(set)
+	for meaning, signal in lexicon.items():
+		reverse_lexicon[signal].add(meaning)
+	U = product(*[range(n_values) for n_values in dims])
+	U_size = np.product(dims)
+	return 1 / U_size * sum([-np.log2(1 / len(reverse_lexicon[lexicon[m]])) for m in U])
+
+def perform_measures(exp_csv_file):
+	exp_data_file = ROOT / 'data' / 'exp1.json'
+	exp_data = json_load(exp_data_file)
+
+	table = []
+	for condition, data in exp_data.items():
+		print(condition.upper())
+		for chain_i, chain in enumerate(data):
+			print('  Chain', chain_i)
+			prev_lexicon = None
+			for generation_i, (subject_a, subject_b) in enumerate(chain):
+				print('    Generation', generation_i)
+				lexicon_a = convert_lexicon_meanings_to_tuple(subject_a['lexicon'])
+				error = transmission_error(lexicon_a, prev_lexicon) if prev_lexicon else None
+				cost = communicative_cost(lexicon_a, (4, 4))
+				comp = complexity(lexicon_a, (4, 4))
+				if subject_b:
+					lexicon_b = convert_lexicon_meanings_to_tuple(subject_b['lexicon'])
+					algn = transmission_error(lexicon_a, lexicon_b)
+				else:
+					algn = None
+				table.append([
+					condition,
+					chain_i,
+					generation_i,
+					error,
+					comp,
+					cost,
+					algn,
+				])
+				prev_lexicon = lexicon_a
+
+	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'error', 'complexity', 'cost', 'alignment'])
+	df.to_csv(exp_csv_file)
+
+
+def pad_range(lo, hi):
+	diff = hi - lo
+	pad = diff * 0.05
+	return lo - pad, hi + pad 
+
+def plot_generational_change(axis, dataset, condition, measure):
+	condition_subset = dataset[ dataset['condition'] == condition ]
+	for chain_i in sorted(condition_subset['chain'].unique()):
+		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
+		axis.plot(chain_subset['generation'], chain_subset[measure], label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
+	axis.set_xlim(0, 20)
+	axis.set_ylim(*pad_range(*MEASURE_RANGES[measure]))
+	axis.set_xticks(list(range(21)))
+	axis.set_xlabel('Generation')
+	axis.set_ylabel(LABELS[measure])
+	axis.set_title(LABELS[condition])
+
+def plot_generational_change_by_condition(dataset, measure):
+	fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+	plot_generational_change(axes[0,0], dataset, 'lrn_hiVar', measure)
+	plot_generational_change(axes[0,1], dataset, 'com_hiVar', measure)
+	plot_generational_change(axes[1,0], dataset, 'lrn_noVar', measure)
+	plot_generational_change(axes[1,1], dataset, 'com_noVar', measure)
+	fig.tight_layout()
+	plt.show()
+
+def arrowplot(axis, X, Y, color=None):
+	axis.scatter(X, Y, color=color)
+	XY = np.column_stack([X, Y])
+	for i in range(len(XY) - 1):
+		start = XY[i]
+		end = XY[i + 1]
+		patch = patches.FancyArrowPatch(start, end, color=color, mutation_scale=10, alpha=0.3)
+		axis.add_patch(patch)
+
+def plot_simplicity_informativeness(axis, dataset, condition):
+	condition_subset = dataset[ dataset['condition'] == condition ]
+	for chain_i in sorted(condition_subset['chain'].unique()):
+		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
+		arrowplot(axis, chain_subset['complexity'], chain_subset['cost'], COLORS[chain_i])
+	axis.set_xlim(*pad_range(*MEASURE_RANGES['complexity']))
+	axis.set_ylim(*pad_range(*MEASURE_RANGES['cost']))
+	axis.set_xlabel(LABELS['complexity'])
+	axis.set_ylabel(LABELS['cost'])
+	axis.set_title(LABELS[condition])
+
+def plot_simplicity_informativeness_by_condition(dataset):
+	fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+	plot_simplicity_informativeness(axes[0,0], dataset, 'lrn_hiVar')
+	plot_simplicity_informativeness(axes[0,1], dataset, 'com_hiVar')
+	plot_simplicity_informativeness(axes[1,0], dataset, 'lrn_noVar')
+	plot_simplicity_informativeness(axes[1,1], dataset, 'com_noVar')
+	fig.tight_layout()
+	plt.show()
+
+def print_word_chains(dataset, condition):
+	condition_subset = dataset[ dataset['condition'] == condition ]
+	for chain_i in sorted(condition_subset['chain'].unique()):
+		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
+		print('-------------')
+		print(chain_i)
+		print('-------------')
+		table = [[] for _ in range(16)]
+		for item_i, (shape, color) in enumerate(product(range(4), range(4))):
+			item = f'{shape}_{color}'
+			word = generations[0][0]['input_lexicon'][item]
+			table[item_i].append(word.ljust(9, ' '))
+			for subject_a, subject_b in generations:
+				bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
+				word = subject_a['lexicon'][item]
+				table[item_i].append(bottleneck + word.ljust(9, ' '))
+		print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
+		for row in table:
+			print(' '.join(row).strip())
+
+import matrix
+def draw_converged_matrixes():
+	exp_data_file = ROOT / 'data' / 'exp1.json'
+	exp_data = json_load(exp_data_file)
+	for condition, data in exp_data.items():
+		print(condition.upper())
+		for chain_i, chain in enumerate(data):
+			print('  Chain', chain_i)
+			converged_lexicon = chain[-1][0]['lexicon']
+			# for meaning, word in converged_lexicon.items():
+			# 	stem, suffix = matrix.parse_stem_and_suffix(word)
+			# 	print(meaning, f'{stem}•{suffix}')
+			mat = matrix.make_matrix(converged_lexicon)
+			cp = matrix.generate_color_palette(mat)
+			matrix.draw(mat, cp, f'/Users/jon/Desktop/converged/{condition}_{chain_i}.pdf')
+
+			print(matrix.typ_distances(mat))
+
+import disttern
+def make_ternary_plot():
+	exp_data_file = ROOT / 'data' / 'exp1.json'
+	exp_data = json_load(exp_data_file)
+	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
+	for condition, data in exp_data.items():
+		scatter_objects = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in data]
+		scatter_objects.append(matrix.typology['holistic'])
+		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information)
+
+def make_ternary_plot():
+	exp_data_file = ROOT / 'data' / 'exp1.json'
+	exp_data = json_load(exp_data_file)
+	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
+	lrn_matrices = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in exp_data['lrn_hiVar']]
+	com_matrices = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in exp_data['com_hiVar']]
+	disttern.make_ternary_plot(
+		ref_objects,
+		lrn_matrices + com_matrices,
+		matrix.voi.variation_of_information,
+		color=['CadetBlue'] * 10 + ['Crimson'] * 10,
+		jitter=True,
+	)
+
+def make_ternary_plot():
+	exp_data_file = ROOT / 'data' / 'exp1.json'
+	exp_data = json_load(exp_data_file)
+	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
+	lrn_matrices = []
+	for n_suffixes in range(2, 16):
+		lrn_matrices.extend( [np.random.randint(0, n_suffixes, 16).reshape((4,4)) for _ in range(1000)] )
+	disttern.make_ternary_plot(
+		ref_objects,
+		lrn_matrices,
+		matrix.voi.variation_of_information,
+		color='CadetBlue',
+		jitter=True,
+	)
+
+if __name__ == '__main__':
+
+	exp_csv_file = ROOT / 'data' / 'exp1.csv'
+
+	# perform_measures(exp_csv_file)
+	
+	# dataset = pd.read_csv(exp_csv_file)
+	# plot_generational_change_by_condition(dataset, 'alignment')
+	# plot_simplicity_informativeness_by_condition(dataset)
+
+	# draw_converged_matrixes()
+	make_ternary_plot()
