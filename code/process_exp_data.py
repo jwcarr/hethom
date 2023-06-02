@@ -12,18 +12,16 @@ def identical_dicts(dict1, dict2):
 			return False
 	return True
 
-
 def process_subject(exp_id, subject_id):
 	if subject_id is None:
 		return None, None
-	subject_data_file = ROOT / 'data' / exp_id / f'{subject_id}.json'
+	subject_data_file = ROOT / 'data' / exp_id / f'subject_{subject_id}.json'
 	subject_data = json_load(subject_data_file)
 	return subject_data['input_lexicon'], subject_data['lexicon']
 
-
 def process_chain(exp_id, chain_id):
 	chain_dataset = []
-	chain_data_file = ROOT / 'data' / exp_id / f'{chain_id}.json'
+	chain_data_file = ROOT / 'data' / exp_id / f'chain_{chain_id}.json'
 	chain_data = json_load(chain_data_file)
 	assert len(chain_data['subjects']) == chain_data['current_gen']
 	if len(chain_data['subjects']) > 20:
@@ -56,7 +54,6 @@ def process_chain(exp_id, chain_id):
 		chain_dataset.append(generation)
 	return chain_dataset
 
-
 def process_experiment(exp_id):
 	exp_dataset = {}
 	exp_config_file = ROOT / 'experiment' / 'config' / f'{exp_id}.json'
@@ -66,7 +63,7 @@ def process_experiment(exp_id):
 		n_chains = task['n_chains']
 		exp_dataset[task_id] = []
 		for chain_i in range(n_chains):
-			chain_id = f'chain_{task_id}_{chain_i}'
+			chain_id = f'{task_id}_{chain_i}'
 			chain_dataset = process_chain(exp_id, chain_id)
 			exp_dataset[task_id].append(chain_dataset)
 	output_path = ROOT / 'data' / f'{exp_id}.json'

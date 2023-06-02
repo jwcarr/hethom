@@ -151,13 +151,12 @@ class MissionControl:
 		for i, subject in enumerate(self.db.subjects.find(find), 1):
 			del subject['_id']
 			subject['client_id'] = None
-			anon_subject_id = f'{self.exp_id}_{str(i).zfill(3)}'
+			anon_subject_id = str(i).zfill(3)
 			subject_id_map[ subject['subject_id'] ] = anon_subject_id
 			subject['subject_id'] = anon_subject_id
-			with open(exp_dir / f'{anon_subject_id}.json', 'w') as file:
+			with open(exp_dir / f'subject_{anon_subject_id}.json', 'w') as file:
 				file.write(dumps(subject, indent='\t'))
 			subject_data[anon_subject_id] = subject
-		# dataset = {}
 		for chain in self.db.chains.find({}):
 			del chain['_id']
 			chain['subjects'] = [
@@ -165,11 +164,6 @@ class MissionControl:
 			]
 			with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 				file.write(dumps(chain, indent='\t'))
-		# 	dataset[ chain['chain_id'] ] = [
-		# 		(subject_data[subject_a], subject_data[subject_b]) for subject_a, subject_b in chain['subjects']
-		# 	]
-		# with open(DATA_DIR / f'{self.exp_id}.json', 'w') as file:
-		# 	file.write(dumps(dataset, indent='\t'))
 
 	def open(self, chain_id=None):
 		if chain_id is None:
