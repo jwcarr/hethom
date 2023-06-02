@@ -1,0 +1,2902 @@
+{
+	"subject_id": "328",
+	"client_id": null,
+	"creation_time": 1684401659,
+	"modified_time": 1684402755,
+	"status": "approved",
+	"chain_id": "com_hiVar_0",
+	"generation": 12,
+	"input_lexicon": {
+		"0_0": "buvicow",
+		"0_1": "buvicoe",
+		"0_2": "buvicow",
+		"0_3": "buvicow",
+		"1_0": "zeticow",
+		"1_1": "zeticoe",
+		"1_2": "zeticow",
+		"1_3": "zeticoe",
+		"2_0": "gaficow",
+		"2_1": "gaficoe",
+		"2_2": "gaficow",
+		"2_3": "gaficow",
+		"3_0": "wopycow",
+		"3_1": "wopycow",
+		"3_2": "wopycow",
+		"3_3": "wopycow"
+	},
+	"training_items": [
+		"3_0",
+		"3_2",
+		"0_3",
+		"1_0",
+		"2_3",
+		"0_2",
+		"0_1",
+		"3_3",
+		"0_0",
+		"1_3",
+		"2_1",
+		"1_1"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_communication",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.0364963503649635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gaficow",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.05474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.09124087591240876
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.10948905109489052
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvicoe",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.12773722627737227
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.145985401459854
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gaficoe",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.16423357664233576
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.18248175182481752
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.21897810218978103
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.23722627737226276
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gaficoe",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.25547445255474455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2737226277372263
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3102189781021898
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3284671532846715
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3467153284671533
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gaficow",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.36496350364963503
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvicoe",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.38321167883211676
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.40145985401459855
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4197080291970803
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.43795620437956206
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4562043795620438
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4744525547445255
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4927007299270073
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5109489051094891
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gaficoe",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.583941605839416
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvicoe",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6021897810218978
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvicow",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6204379562043796
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_0",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6386861313868614
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gaficow",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvicoe",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycow",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopycow",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvicow",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gaficoe",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gaficow",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6751824817518248
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "communication",
+				"instruction_time": 5000,
+				"response_kind": "next_communication",
+				"progress": 0.6934306569343066
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_2",
+					"0_3",
+					"0_0",
+					"2_1",
+					"1_2",
+					"1_3",
+					"2_3",
+					"1_0",
+					"3_1",
+					"3_0",
+					"2_0",
+					"1_1",
+					"0_1",
+					"0_2",
+					"2_2",
+					"3_3"
+				],
+				"pause_time": 500,
+				"progress": 0.7299270072992701
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_1",
+				"word": "gaficoe",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7372262773722628
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_3",
+					"1_2",
+					"3_1",
+					"1_3",
+					"0_1",
+					"0_0",
+					"3_2",
+					"1_1",
+					"0_2",
+					"3_0",
+					"2_3",
+					"2_1",
+					"2_2",
+					"1_0",
+					"2_0",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.7445255474452555
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_3",
+				"word": "buvicow",
+				"shape": "0",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7518248175182481
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"2_2",
+					"3_2",
+					"0_0",
+					"2_1",
+					"3_1",
+					"1_1",
+					"0_3",
+					"0_1",
+					"3_0",
+					"2_3",
+					"1_2",
+					"1_3",
+					"2_0",
+					"0_2",
+					"3_3"
+				],
+				"pause_time": 500,
+				"progress": 0.7591240875912408
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_2",
+				"word": "wopycow",
+				"shape": "3",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.7664233576642335
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"0_1",
+					"2_3",
+					"1_1",
+					"1_2",
+					"2_0",
+					"1_3",
+					"0_2",
+					"3_2",
+					"3_1",
+					"0_3",
+					"3_3",
+					"0_0",
+					"2_2",
+					"3_0",
+					"2_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7737226277372263
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_1",
+				"word": "wopycow",
+				"shape": "3",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.781021897810219
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_0",
+					"2_1",
+					"0_1",
+					"2_3",
+					"1_2",
+					"3_3",
+					"3_2",
+					"3_1",
+					"1_3",
+					"1_1",
+					"3_0",
+					"0_2",
+					"0_0",
+					"0_3",
+					"2_2",
+					"1_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7883211678832117
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zeticow",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.7956204379562044
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_1",
+					"0_2",
+					"2_2",
+					"2_0",
+					"1_0",
+					"2_1",
+					"0_3",
+					"3_1",
+					"3_0",
+					"3_2",
+					"1_2",
+					"0_1",
+					"2_3",
+					"3_3",
+					"0_0",
+					"1_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8029197080291971
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_0",
+				"word": "wopycow",
+				"shape": "3",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8102189781021898
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_3",
+					"2_1",
+					"3_2",
+					"2_3",
+					"1_0",
+					"1_2",
+					"0_0",
+					"2_2",
+					"3_1",
+					"3_0",
+					"3_3",
+					"1_1",
+					"0_2",
+					"2_0",
+					"0_1",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8175182481751825
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_3",
+				"word": "zeticoe",
+				"shape": "1",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8248175182481752
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_2",
+					"2_3",
+					"2_2",
+					"3_1",
+					"3_3",
+					"1_2",
+					"2_0",
+					"0_2",
+					"1_0",
+					"3_0",
+					"1_3",
+					"2_1",
+					"0_0",
+					"0_3",
+					"0_1",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8321167883211679
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zeticow",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8394160583941606
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"0_0",
+					"2_1",
+					"1_0",
+					"0_3",
+					"2_0",
+					"1_1",
+					"2_3",
+					"0_2",
+					"3_1",
+					"3_0",
+					"1_3",
+					"2_2",
+					"1_2",
+					"3_3",
+					"3_2",
+					"0_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8467153284671532
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_2",
+				"word": "gaficow",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8540145985401459
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_3",
+					"0_1",
+					"0_3",
+					"1_0",
+					"3_3",
+					"2_1",
+					"3_2",
+					"1_2",
+					"1_1",
+					"0_0",
+					"3_0",
+					"3_1",
+					"1_3",
+					"2_2",
+					"0_2",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8613138686131386
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_3",
+				"word": "gaficow",
+				"shape": "2",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8686131386861314
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_3",
+					"3_3",
+					"1_0",
+					"2_1",
+					"0_1",
+					"3_1",
+					"0_0",
+					"2_2",
+					"1_3",
+					"1_1",
+					"3_0",
+					"0_2",
+					"1_2",
+					"3_2",
+					"0_3",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8759124087591241
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buvicow",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8832116788321168
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"3_2",
+					"1_1",
+					"3_3",
+					"2_0",
+					"3_0",
+					"2_3",
+					"2_2",
+					"0_1",
+					"0_0",
+					"2_1",
+					"3_1",
+					"1_2",
+					"1_3",
+					"0_3",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8905109489051095
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_3",
+				"word": "wopycow",
+				"shape": "3",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8978102189781022
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_2",
+					"0_1",
+					"3_0",
+					"2_3",
+					"0_0",
+					"1_1",
+					"2_0",
+					"3_1",
+					"2_1",
+					"3_3",
+					"1_3",
+					"0_3",
+					"0_2",
+					"1_2",
+					"2_2",
+					"1_0"
+				],
+				"pause_time": 500,
+				"progress": 0.9051094890510949
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_0",
+				"word": "gaficow",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9124087591240876
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"0_3",
+					"2_2",
+					"2_3",
+					"2_1",
+					"3_3",
+					"0_0",
+					"3_2",
+					"1_3",
+					"1_0",
+					"1_1",
+					"3_1",
+					"3_0",
+					"0_2",
+					"2_0",
+					"0_1",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9197080291970803
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zeticoe",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.927007299270073
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_1",
+					"1_0",
+					"3_3",
+					"3_2",
+					"0_0",
+					"3_1",
+					"1_2",
+					"0_2",
+					"2_0",
+					"2_2",
+					"1_3",
+					"1_1",
+					"0_3",
+					"0_1",
+					"3_0",
+					"2_3"
+				],
+				"pause_time": 500,
+				"progress": 0.9343065693430657
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buvicoe",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9416058394160584
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"3_3",
+					"1_1",
+					"3_0",
+					"2_0",
+					"3_1",
+					"0_0",
+					"2_3",
+					"1_3",
+					"2_2",
+					"0_2",
+					"0_1",
+					"2_1",
+					"0_3",
+					"1_2",
+					"3_2"
+				],
+				"pause_time": 500,
+				"progress": 0.948905109489051
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buvicow",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9562043795620438
+			}
+		},
+		{
+			"event": "questionnaire",
+			"payload": {
+				"progress": 0.9635036496350365
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CJ7QYYRQ",
+				"basic_pay": 300,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 73,
+	"total_bonus": 64,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicoe",
+			"response_time": 5197,
+			"object_clicked": false,
+			"time": 1684401711
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gaficow",
+			"catch_trial": false,
+			"input_label": "xapycoe",
+			"response_time": 13481,
+			"object_clicked": false,
+			"time": 1684401734
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "dunnpow",
+			"response_time": 6923,
+			"object_clicked": false,
+			"time": 1684401750
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycoe",
+			"response_time": 6824,
+			"object_clicked": false,
+			"time": 1684401767
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 14211,
+			"object_clicked": false,
+			"time": 1684401791
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvicoe",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 12987,
+			"object_clicked": false,
+			"time": 1684401813
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 5879,
+			"object_clicked": false,
+			"time": 1684401829
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gaficoe",
+			"catch_trial": false,
+			"input_label": "gaficoe",
+			"response_time": 9537,
+			"object_clicked": false,
+			"time": 1684401848
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 5844,
+			"object_clicked": false,
+			"time": 1684401863
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticow",
+			"response_time": 6314,
+			"object_clicked": false,
+			"time": 1684401879
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvicow",
+			"catch_trial": true,
+			"input_label": "buvicow",
+			"response_time": 14060,
+			"object_clicked": true,
+			"time": 1684401903
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 4665,
+			"object_clicked": false,
+			"time": 1684401917
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gaficoe",
+			"catch_trial": false,
+			"input_label": "gaficow",
+			"response_time": 6419,
+			"object_clicked": false,
+			"time": 1684401933
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 4587,
+			"object_clicked": false,
+			"time": 1684401947
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 6591,
+			"object_clicked": false,
+			"time": 1684401963
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 6895,
+			"object_clicked": false,
+			"time": 1684401980
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 6649,
+			"object_clicked": false,
+			"time": 1684401996
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticow",
+			"response_time": 5175,
+			"object_clicked": false,
+			"time": 1684402011
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gaficow",
+			"catch_trial": false,
+			"input_label": "zapycoe",
+			"response_time": 10530,
+			"object_clicked": false,
+			"time": 1684402031
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvicoe",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 8379,
+			"object_clicked": false,
+			"time": 1684402049
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 5087,
+			"object_clicked": false,
+			"time": 1684402064
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 6204,
+			"object_clicked": false,
+			"time": 1684402079
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvicow",
+			"catch_trial": true,
+			"input_label": "buvicow",
+			"response_time": 9503,
+			"object_clicked": true,
+			"time": 1684402099
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 11091,
+			"object_clicked": false,
+			"time": 1684402119
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopicoe",
+			"response_time": 3621,
+			"object_clicked": false,
+			"time": 1684402132
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 8080,
+			"object_clicked": false,
+			"time": 1684402150
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticow",
+			"response_time": 4241,
+			"object_clicked": false,
+			"time": 1684402164
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicoe",
+			"response_time": 8047,
+			"object_clicked": false,
+			"time": 1684402182
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 5472,
+			"object_clicked": false,
+			"time": 1684402197
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"response_time": 3900,
+			"object_clicked": false,
+			"time": 1684402210
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gaficoe",
+			"catch_trial": false,
+			"input_label": "gaficoe",
+			"response_time": 6791,
+			"object_clicked": false,
+			"time": 1684402227
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvicoe",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 6294,
+			"object_clicked": false,
+			"time": 1684402242
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvicow",
+			"catch_trial": false,
+			"input_label": "buvicow",
+			"response_time": 4385,
+			"object_clicked": false,
+			"time": 1684402256
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopycow",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 5682,
+			"object_clicked": false,
+			"time": 1684402272
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopycow",
+			"catch_trial": true,
+			"input_label": "wopycow",
+			"response_time": 10179,
+			"object_clicked": true,
+			"time": 1684402291
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gaficow",
+			"catch_trial": false,
+			"input_label": "gaficow",
+			"response_time": 7391,
+			"object_clicked": false,
+			"time": 1684402308
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_0",
+			"word": "gaficoe",
+			"selected_button": 3,
+			"selected_item": "2_1",
+			"response_time": 8410,
+			"time": 1684402330
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "1",
+			"item": "2_1",
+			"expected_label": "gaficoe",
+			"input_label": "gaficoe",
+			"response_time": 7481,
+			"time": 1684402339
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_3",
+			"word": "buvicoe",
+			"selected_button": 4,
+			"selected_item": "0_1",
+			"response_time": 3822,
+			"time": 1684402358
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "3",
+			"item": "0_3",
+			"expected_label": "buvicow",
+			"input_label": "buvicoe",
+			"response_time": 7340,
+			"time": 1684402367
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_3",
+			"word": "wopycow",
+			"selected_button": 15,
+			"selected_item": "3_3",
+			"response_time": 6691,
+			"time": 1684402380
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "2",
+			"item": "3_2",
+			"expected_label": "wopycow",
+			"input_label": "wopycow",
+			"response_time": 5164,
+			"time": 1684402387
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_1",
+			"word": "buvicow",
+			"selected_button": 10,
+			"selected_item": "0_3",
+			"response_time": 4819,
+			"time": 1684402398
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "1",
+			"item": "3_1",
+			"expected_label": "wopycow",
+			"input_label": "wopicoe",
+			"response_time": 5296,
+			"time": 1684402405
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_2",
+			"word": "zeticoe",
+			"selected_button": 9,
+			"selected_item": "1_1",
+			"response_time": 8112,
+			"time": 1684402424
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "0",
+			"item": "1_0",
+			"expected_label": "zeticow",
+			"input_label": "zeticow",
+			"response_time": 5224,
+			"time": 1684402431
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_2",
+			"word": "wopycow",
+			"selected_button": 13,
+			"selected_item": "3_3",
+			"response_time": 5954,
+			"time": 1684402446
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "0",
+			"item": "3_0",
+			"expected_label": "wopycow",
+			"input_label": "wopycow",
+			"response_time": 7594,
+			"time": 1684402455
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_3",
+			"word": "gaficoe",
+			"selected_button": 1,
+			"selected_item": "2_1",
+			"response_time": 9180,
+			"time": 1684402471
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "3",
+			"item": "1_3",
+			"expected_label": "zeticoe",
+			"input_label": "zeticoe",
+			"response_time": 4825,
+			"time": 1684402477
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_1",
+			"word": "wopycoe",
+			"selected_button": 9,
+			"selected_item": "3_0",
+			"response_time": 7067,
+			"time": 1684402495
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "2",
+			"item": "1_2",
+			"expected_label": "zeticow",
+			"input_label": "zeticoe",
+			"response_time": 5383,
+			"time": 1684402502
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_0",
+			"word": "wopycoe",
+			"selected_button": 8,
+			"selected_item": "3_1",
+			"response_time": 8362,
+			"time": 1684402519
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "2",
+			"item": "2_2",
+			"expected_label": "gaficow",
+			"input_label": "gaficoe",
+			"response_time": 7753,
+			"time": 1684402528
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_0",
+			"word": "zeticoe",
+			"selected_button": 12,
+			"selected_item": "1_3",
+			"response_time": 3721,
+			"time": 1684402540
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "3",
+			"item": "2_3",
+			"expected_label": "gaficow",
+			"input_label": "gaficoe",
+			"response_time": 6510,
+			"time": 1684402548
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_3",
+			"word": "zeticoe",
+			"selected_button": 9,
+			"selected_item": "1_1",
+			"response_time": 4110,
+			"time": 1684402567
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "0",
+			"item": "0_0",
+			"expected_label": "buvicow",
+			"input_label": "buvicoe",
+			"response_time": 8093,
+			"time": 1684402576
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_0",
+			"word": "buvicoe",
+			"selected_button": 9,
+			"selected_item": "0_0",
+			"response_time": 4425,
+			"time": 1684402590
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "3",
+			"item": "3_3",
+			"expected_label": "wopycow",
+			"input_label": "wopycow",
+			"response_time": 7420,
+			"time": 1684402599
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_1",
+			"word": "gaficoe",
+			"selected_button": 8,
+			"selected_item": "2_1",
+			"response_time": 8566,
+			"time": 1684402614
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "0",
+			"item": "2_0",
+			"expected_label": "gaficow",
+			"input_label": "gaficow",
+			"response_time": 4439,
+			"time": 1684402620
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_1",
+			"word": "zeticoe",
+			"selected_button": 7,
+			"selected_item": "1_3",
+			"response_time": 5223,
+			"time": 1684402634
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "1",
+			"item": "1_1",
+			"expected_label": "zeticoe",
+			"input_label": "zeticoe",
+			"response_time": 5221,
+			"time": 1684402641
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_2",
+			"word": "buvicoe",
+			"selected_button": 13,
+			"selected_item": "0_1",
+			"response_time": 4198,
+			"time": 1684402653
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "1",
+			"item": "0_1",
+			"expected_label": "buvicoe",
+			"input_label": "buvicoe",
+			"response_time": 5541,
+			"time": 1684402660
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_2",
+			"word": "gaficow",
+			"selected_button": 12,
+			"selected_item": "2_1",
+			"response_time": 7750,
+			"time": 1684402681
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "2",
+			"item": "0_2",
+			"expected_label": "buvicow",
+			"input_label": "buvicow",
+			"response_time": 6706,
+			"time": 1684402690
+		}
+	],
+	"comments": "I wrote down the objects and names. But the colours made no sense at all, ending in e or w in a seemingly random way. Super boring task!",
+	"lexicon": {
+		"0_0": "buvicoe",
+		"0_1": "buvicoe",
+		"0_2": "buvicow",
+		"0_3": "buvicoe",
+		"1_0": "zeticow",
+		"1_1": "zeticoe",
+		"1_2": "zeticoe",
+		"1_3": "zeticoe",
+		"2_0": "gaficow",
+		"2_1": "gaficoe",
+		"2_2": "gaficoe",
+		"2_3": "gaficoe",
+		"3_0": "wopycow",
+		"3_1": "wopicoe",
+		"3_2": "wopycow",
+		"3_3": "wopycow"
+	}
+}

@@ -1,0 +1,3318 @@
+{
+	"subject_id": "438",
+	"client_id": null,
+	"creation_time": 1685007449,
+	"modified_time": 1685010253,
+	"status": "approved",
+	"chain_id": "lrn_hiVar_7",
+	"generation": 19,
+	"input_lexicon": {
+		"0_0": "buvikoe",
+		"0_1": "buvikcow",
+		"0_2": "buvikoe",
+		"0_3": "buvikoe",
+		"1_0": "zettykoe",
+		"1_1": "zettykcow",
+		"1_2": "zettykoe",
+		"1_3": "zettykoe",
+		"2_0": "gafikoe",
+		"2_1": "gafikcow",
+		"2_2": "gafikoe",
+		"2_3": "gafikoe",
+		"3_0": "wopikoe",
+		"3_1": "wopikcow",
+		"3_2": "wopikoe",
+		"3_3": "wopikoe"
+	},
+	"training_items": [
+		"3_0",
+		"2_0",
+		"1_1",
+		"0_2",
+		"3_2",
+		"2_3",
+		"2_1",
+		"1_2",
+		"0_3",
+		"3_3",
+		"2_2",
+		"0_0"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafikcow",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.0364963503649635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.05474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.09124087591240876
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.10948905109489052
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.12773722627737227
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.145985401459854
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zettykcow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.16423357664233576
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.18248175182481752
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zettykoe",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.21897810218978103
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.23722627737226276
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.25547445255474455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2737226277372263
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3102189781021898
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3284671532846715
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3467153284671533
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafikcow",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.36496350364963503
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zettykcow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.38321167883211676
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.40145985401459855
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4197080291970803
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.43795620437956206
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zettykoe",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4562043795620438
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4744525547445255
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4927007299270073
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafikcow",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5109489051094891
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.583941605839416
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zettykcow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6021897810218978
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafikoe",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6204379562043796
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zettykcow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopikoe",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6386861313868614
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafikcow",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zettykoe",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zettykoe",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopikoe",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafikoe",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvikoe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvikoe",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6751824817518248
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0.6934306569343066
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_2",
+				"word": "gafikoe",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.7299270072992701
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafikoe",
+				"items": [
+					"2_0",
+					"2_2",
+					"2_3"
+				],
+				"array": [
+					"3_0",
+					"1_3",
+					"3_3",
+					"1_2",
+					"0_3",
+					"2_2",
+					"1_1",
+					"3_1",
+					"2_3",
+					"0_1",
+					"0_2",
+					"1_0",
+					"0_0",
+					"2_0",
+					"3_2",
+					"2_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7372262773722628
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buvikoe",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.7445255474452555
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoe",
+				"items": [
+					"3_0",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"1_2",
+					"2_1",
+					"1_1",
+					"3_2",
+					"1_0",
+					"3_1",
+					"2_3",
+					"2_2",
+					"3_0",
+					"3_3",
+					"0_0",
+					"1_3",
+					"0_2",
+					"0_1",
+					"0_3",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7518248175182481
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_3",
+				"word": "buvikoe",
+				"shape": "0",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7591240875912408
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikcow",
+				"items": [
+					"3_1"
+				],
+				"array": [
+					"3_3",
+					"1_0",
+					"1_3",
+					"2_2",
+					"2_0",
+					"0_2",
+					"0_0",
+					"1_2",
+					"2_1",
+					"3_2",
+					"1_1",
+					"3_0",
+					"2_3",
+					"3_1",
+					"0_3",
+					"0_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7664233576642335
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buvikcow",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7737226277372263
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zettykoe",
+				"items": [
+					"1_0",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"3_0",
+					"2_0",
+					"0_2",
+					"0_1",
+					"3_1",
+					"1_3",
+					"2_3",
+					"0_0",
+					"3_2",
+					"0_3",
+					"2_2",
+					"1_0",
+					"1_2",
+					"1_1",
+					"3_3",
+					"2_1"
+				],
+				"pause_time": 500,
+				"progress": 0.781021897810219
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_1",
+				"word": "gafikcow",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7883211678832117
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoe",
+				"items": [
+					"3_0",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"3_0",
+					"0_2",
+					"0_3",
+					"1_0",
+					"0_1",
+					"2_2",
+					"2_0",
+					"0_0",
+					"1_1",
+					"1_2",
+					"3_3",
+					"2_3",
+					"3_2",
+					"2_1",
+					"1_3",
+					"3_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7956204379562044
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_3",
+				"word": "wopikoe",
+				"shape": "3",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8029197080291971
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafikcow",
+				"items": [
+					"2_1"
+				],
+				"array": [
+					"0_3",
+					"1_0",
+					"3_3",
+					"3_2",
+					"2_1",
+					"2_3",
+					"1_3",
+					"2_2",
+					"2_0",
+					"1_2",
+					"0_1",
+					"0_2",
+					"1_1",
+					"3_1",
+					"3_0",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8102189781021898
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_0",
+				"word": "gafikoe",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8175182481751825
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zettykoe",
+				"items": [
+					"1_0",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"1_3",
+					"0_2",
+					"2_1",
+					"1_2",
+					"1_0",
+					"2_3",
+					"0_3",
+					"2_2",
+					"3_2",
+					"0_0",
+					"2_0",
+					"3_3",
+					"1_1",
+					"0_1",
+					"3_0",
+					"3_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8248175182481752
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_3",
+				"word": "zettykoe",
+				"shape": "1",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8321167883211679
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zettykoe",
+				"items": [
+					"1_0",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"1_2",
+					"2_3",
+					"3_3",
+					"1_1",
+					"1_3",
+					"2_2",
+					"0_3",
+					"0_1",
+					"2_0",
+					"3_1",
+					"0_2",
+					"3_2",
+					"3_0",
+					"0_0",
+					"2_1",
+					"1_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8394160583941606
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_2",
+				"word": "wopikoe",
+				"shape": "3",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8467153284671532
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zettykcow",
+				"items": [
+					"1_1"
+				],
+				"array": [
+					"2_3",
+					"1_3",
+					"0_3",
+					"1_2",
+					"3_1",
+					"0_2",
+					"3_2",
+					"1_0",
+					"3_0",
+					"0_1",
+					"1_1",
+					"2_2",
+					"3_3",
+					"2_1",
+					"2_0",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8540145985401459
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_3",
+				"word": "gafikoe",
+				"shape": "2",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8613138686131386
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafikoe",
+				"items": [
+					"2_0",
+					"2_2",
+					"2_3"
+				],
+				"array": [
+					"1_3",
+					"3_3",
+					"2_3",
+					"0_3",
+					"2_2",
+					"0_0",
+					"0_1",
+					"3_0",
+					"0_2",
+					"3_2",
+					"3_1",
+					"1_1",
+					"2_1",
+					"1_0",
+					"2_0",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8686131386861314
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zettykoe",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8759124087591241
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikcow",
+				"items": [
+					"0_1"
+				],
+				"array": [
+					"0_0",
+					"2_0",
+					"2_3",
+					"2_1",
+					"3_0",
+					"3_2",
+					"3_3",
+					"2_2",
+					"1_1",
+					"0_1",
+					"0_2",
+					"0_3",
+					"1_3",
+					"3_1",
+					"1_0",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8832116788321168
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zettykcow",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8905109489051095
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikoe",
+				"items": [
+					"0_0",
+					"0_2",
+					"0_3"
+				],
+				"array": [
+					"2_2",
+					"0_1",
+					"2_3",
+					"0_3",
+					"0_2",
+					"1_2",
+					"2_1",
+					"0_0",
+					"3_2",
+					"3_0",
+					"2_0",
+					"1_0",
+					"1_3",
+					"3_3",
+					"3_1",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8978102189781022
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buvikoe",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9051094890510949
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafikoe",
+				"items": [
+					"2_0",
+					"2_2",
+					"2_3"
+				],
+				"array": [
+					"0_3",
+					"0_0",
+					"3_2",
+					"2_0",
+					"0_2",
+					"3_3",
+					"3_1",
+					"1_0",
+					"2_2",
+					"1_2",
+					"2_3",
+					"0_1",
+					"3_0",
+					"2_1",
+					"1_3",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.9124087591240876
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zettykoe",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9197080291970803
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikoe",
+				"items": [
+					"0_0",
+					"0_2",
+					"0_3"
+				],
+				"array": [
+					"1_3",
+					"3_0",
+					"2_0",
+					"3_3",
+					"2_3",
+					"0_3",
+					"3_1",
+					"0_2",
+					"2_1",
+					"1_2",
+					"1_1",
+					"3_2",
+					"1_0",
+					"0_1",
+					"0_0",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.927007299270073
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_1",
+				"word": "wopikcow",
+				"shape": "3",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9343065693430657
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoe",
+				"items": [
+					"3_0",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"1_2",
+					"3_1",
+					"1_0",
+					"1_1",
+					"0_1",
+					"0_2",
+					"2_0",
+					"0_3",
+					"2_3",
+					"0_0",
+					"2_1",
+					"1_3",
+					"3_3",
+					"3_2",
+					"3_0",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9416058394160584
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_0",
+				"word": "wopikoe",
+				"shape": "3",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.948905109489051
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikoe",
+				"items": [
+					"0_0",
+					"0_2",
+					"0_3"
+				],
+				"array": [
+					"0_1",
+					"1_0",
+					"3_0",
+					"2_1",
+					"1_2",
+					"2_3",
+					"3_1",
+					"3_2",
+					"2_0",
+					"0_3",
+					"1_1",
+					"3_3",
+					"2_2",
+					"0_2",
+					"1_3",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.9562043795620438
+			}
+		},
+		{
+			"event": "questionnaire",
+			"payload": {
+				"progress": 0.9635036496350365
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CJ7QYYRQ",
+				"basic_pay": 300,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 73,
+	"total_bonus": 125,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafikcow",
+			"catch_trial": false,
+			"input_label": "gufikoe",
+			"response_time": 8199,
+			"object_clicked": false,
+			"time": 1685009427
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "bubikoe",
+			"response_time": 5057,
+			"object_clicked": false,
+			"time": 1685009442
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 6544,
+			"object_clicked": false,
+			"time": 1685009458
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 5946,
+			"object_clicked": false,
+			"time": 1685009474
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 5369,
+			"object_clicked": false,
+			"time": 1685009489
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 4978,
+			"object_clicked": false,
+			"time": 1685009503
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 6637,
+			"object_clicked": false,
+			"time": 1685009520
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zettykcow",
+			"catch_trial": false,
+			"input_label": "zettykoe",
+			"response_time": 13857,
+			"object_clicked": false,
+			"time": 1685009543
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 4270,
+			"object_clicked": false,
+			"time": 1685009557
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 4817,
+			"object_clicked": false,
+			"time": 1685009572
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zettykoe",
+			"catch_trial": true,
+			"input_label": "zettycow",
+			"response_time": 12018,
+			"object_clicked": true,
+			"time": 1685009594
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 6461,
+			"object_clicked": false,
+			"time": 1685009610
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 4276,
+			"object_clicked": false,
+			"time": 1685009624
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 7492,
+			"object_clicked": false,
+			"time": 1685009641
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 6452,
+			"object_clicked": false,
+			"time": 1685009657
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 6088,
+			"object_clicked": false,
+			"time": 1685009673
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 10386,
+			"object_clicked": false,
+			"time": 1685009693
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 4188,
+			"object_clicked": false,
+			"time": 1685009707
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafikcow",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 6315,
+			"object_clicked": false,
+			"time": 1685009723
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zettykcow",
+			"catch_trial": false,
+			"input_label": "zettykow",
+			"response_time": 7605,
+			"object_clicked": false,
+			"time": 1685009741
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 4006,
+			"object_clicked": false,
+			"time": 1685009754
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 3900,
+			"object_clicked": false,
+			"time": 1685009768
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafikoe",
+			"catch_trial": true,
+			"input_label": "gafikoe",
+			"response_time": 9413,
+			"object_clicked": true,
+			"time": 1685009787
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zettykoe",
+			"catch_trial": false,
+			"input_label": "zettykoe",
+			"response_time": 4958,
+			"object_clicked": false,
+			"time": 1685009802
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 3432,
+			"object_clicked": false,
+			"time": 1685009815
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 3935,
+			"object_clicked": false,
+			"time": 1685009828
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafikcow",
+			"catch_trial": false,
+			"input_label": "gafikow",
+			"response_time": 6789,
+			"object_clicked": false,
+			"time": 1685009845
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 3492,
+			"object_clicked": false,
+			"time": 1685009858
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 3868,
+			"object_clicked": false,
+			"time": 1685009872
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 4543,
+			"object_clicked": false,
+			"time": 1685009886
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 3459,
+			"object_clicked": false,
+			"time": 1685009899
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zettykcow",
+			"catch_trial": false,
+			"input_label": "zettykcow",
+			"response_time": 3961,
+			"object_clicked": false,
+			"time": 1685009913
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafikoe",
+			"catch_trial": false,
+			"input_label": "gafikoe",
+			"response_time": 5828,
+			"object_clicked": false,
+			"time": 1685009929
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopikoe",
+			"catch_trial": false,
+			"input_label": "wopikoe",
+			"response_time": 3312,
+			"object_clicked": false,
+			"time": 1685009942
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zettykoe",
+			"catch_trial": true,
+			"input_label": "zettykoe",
+			"response_time": 8303,
+			"object_clicked": true,
+			"time": 1685009960
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvikoe",
+			"catch_trial": false,
+			"input_label": "buvikoe",
+			"response_time": 4475,
+			"object_clicked": false,
+			"time": 1685009974
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafikoe",
+			"input_label": "gafikoe",
+			"response_time": 10508,
+			"time": 1685010002
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafikoe",
+			"items": [
+				"2_0",
+				"2_2",
+				"2_3"
+			],
+			"array": [
+				"3_0",
+				"1_3",
+				"3_3",
+				"1_2",
+				"0_3",
+				"2_2",
+				"1_1",
+				"3_1",
+				"2_3",
+				"0_1",
+				"0_2",
+				"1_0",
+				"0_0",
+				"2_0",
+				"3_2",
+				"2_1"
+			],
+			"selected_button": 5,
+			"selected_item": "2_2",
+			"response_time": 2693,
+			"time": 1685010006
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvikoe",
+			"input_label": "buvikoe",
+			"response_time": 3523,
+			"time": 1685010012
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoe",
+			"items": [
+				"3_0",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"1_2",
+				"2_1",
+				"1_1",
+				"3_2",
+				"1_0",
+				"3_1",
+				"2_3",
+				"2_2",
+				"3_0",
+				"3_3",
+				"0_0",
+				"1_3",
+				"0_2",
+				"0_1",
+				"0_3",
+				"2_0"
+			],
+			"selected_button": 8,
+			"selected_item": "3_0",
+			"response_time": 2951,
+			"time": 1685010016
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvikoe",
+			"input_label": "buvikoe",
+			"response_time": 3084,
+			"time": 1685010021
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikcow",
+			"items": [
+				"3_1"
+			],
+			"array": [
+				"3_3",
+				"1_0",
+				"1_3",
+				"2_2",
+				"2_0",
+				"0_2",
+				"0_0",
+				"1_2",
+				"2_1",
+				"3_2",
+				"1_1",
+				"3_0",
+				"2_3",
+				"3_1",
+				"0_3",
+				"0_1"
+			],
+			"selected_button": 11,
+			"selected_item": "3_0",
+			"response_time": 3976,
+			"time": 1685010027
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikcow",
+			"input_label": "buvikcow",
+			"response_time": 5848,
+			"time": 1685010034
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zettykoe",
+			"items": [
+				"1_0",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"3_0",
+				"2_0",
+				"0_2",
+				"0_1",
+				"3_1",
+				"1_3",
+				"2_3",
+				"0_0",
+				"3_2",
+				"0_3",
+				"2_2",
+				"1_0",
+				"1_2",
+				"1_1",
+				"3_3",
+				"2_1"
+			],
+			"selected_button": 12,
+			"selected_item": "1_2",
+			"response_time": 5058,
+			"time": 1685010041
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafikcow",
+			"input_label": "gafikcow",
+			"response_time": 4420,
+			"time": 1685010047
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoe",
+			"items": [
+				"3_0",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"3_0",
+				"0_2",
+				"0_3",
+				"1_0",
+				"0_1",
+				"2_2",
+				"2_0",
+				"0_0",
+				"1_1",
+				"1_2",
+				"3_3",
+				"2_3",
+				"3_2",
+				"2_1",
+				"1_3",
+				"3_1"
+			],
+			"selected_button": 0,
+			"selected_item": "3_0",
+			"response_time": 3895,
+			"time": 1685010053
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopikoe",
+			"input_label": "wopikoe",
+			"response_time": 3129,
+			"time": 1685010058
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafikcow",
+			"items": [
+				"2_1"
+			],
+			"array": [
+				"0_3",
+				"1_0",
+				"3_3",
+				"3_2",
+				"2_1",
+				"2_3",
+				"1_3",
+				"2_2",
+				"2_0",
+				"1_2",
+				"0_1",
+				"0_2",
+				"1_1",
+				"3_1",
+				"3_0",
+				"0_0"
+			],
+			"selected_button": 4,
+			"selected_item": "2_1",
+			"response_time": 5951,
+			"time": 1685010065
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafikoe",
+			"input_label": "gafikoe",
+			"response_time": 4110,
+			"time": 1685010071
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zettykoe",
+			"items": [
+				"1_0",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"1_3",
+				"0_2",
+				"2_1",
+				"1_2",
+				"1_0",
+				"2_3",
+				"0_3",
+				"2_2",
+				"3_2",
+				"0_0",
+				"2_0",
+				"3_3",
+				"1_1",
+				"0_1",
+				"3_0",
+				"3_1"
+			],
+			"selected_button": 3,
+			"selected_item": "1_2",
+			"response_time": 3352,
+			"time": 1685010076
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zettykoe",
+			"input_label": "zettykoe",
+			"response_time": 3201,
+			"time": 1685010081
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zettykoe",
+			"items": [
+				"1_0",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"1_2",
+				"2_3",
+				"3_3",
+				"1_1",
+				"1_3",
+				"2_2",
+				"0_3",
+				"0_1",
+				"2_0",
+				"3_1",
+				"0_2",
+				"3_2",
+				"3_0",
+				"0_0",
+				"2_1",
+				"1_0"
+			],
+			"selected_button": 0,
+			"selected_item": "1_2",
+			"response_time": 2336,
+			"time": 1685010085
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopikoe",
+			"input_label": "wopikoe",
+			"response_time": 3971,
+			"time": 1685010091
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zettykcow",
+			"items": [
+				"1_1"
+			],
+			"array": [
+				"2_3",
+				"1_3",
+				"0_3",
+				"1_2",
+				"3_1",
+				"0_2",
+				"3_2",
+				"1_0",
+				"3_0",
+				"0_1",
+				"1_1",
+				"2_2",
+				"3_3",
+				"2_1",
+				"2_0",
+				"0_0"
+			],
+			"selected_button": 10,
+			"selected_item": "1_1",
+			"response_time": 2271,
+			"time": 1685010095
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafikoe",
+			"input_label": "gafikoe",
+			"response_time": 3093,
+			"time": 1685010100
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafikoe",
+			"items": [
+				"2_0",
+				"2_2",
+				"2_3"
+			],
+			"array": [
+				"1_3",
+				"3_3",
+				"2_3",
+				"0_3",
+				"2_2",
+				"0_0",
+				"0_1",
+				"3_0",
+				"0_2",
+				"3_2",
+				"3_1",
+				"1_1",
+				"2_1",
+				"1_0",
+				"2_0",
+				"1_2"
+			],
+			"selected_button": 2,
+			"selected_item": "2_3",
+			"response_time": 4441,
+			"time": 1685010106
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zettykoe",
+			"input_label": "zettykoe",
+			"response_time": 3088,
+			"time": 1685010111
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikcow",
+			"items": [
+				"0_1"
+			],
+			"array": [
+				"0_0",
+				"2_0",
+				"2_3",
+				"2_1",
+				"3_0",
+				"3_2",
+				"3_3",
+				"2_2",
+				"1_1",
+				"0_1",
+				"0_2",
+				"0_3",
+				"1_3",
+				"3_1",
+				"1_0",
+				"1_2"
+			],
+			"selected_button": 9,
+			"selected_item": "0_1",
+			"response_time": 3688,
+			"time": 1685010116
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zettykcow",
+			"input_label": "zettykcow",
+			"response_time": 3456,
+			"time": 1685010121
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikoe",
+			"items": [
+				"0_0",
+				"0_2",
+				"0_3"
+			],
+			"array": [
+				"2_2",
+				"0_1",
+				"2_3",
+				"0_3",
+				"0_2",
+				"1_2",
+				"2_1",
+				"0_0",
+				"3_2",
+				"3_0",
+				"2_0",
+				"1_0",
+				"1_3",
+				"3_3",
+				"3_1",
+				"1_1"
+			],
+			"selected_button": 7,
+			"selected_item": "0_0",
+			"response_time": 3335,
+			"time": 1685010126
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvikoe",
+			"input_label": "buvikoe",
+			"response_time": 3091,
+			"time": 1685010131
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafikoe",
+			"items": [
+				"2_0",
+				"2_2",
+				"2_3"
+			],
+			"array": [
+				"0_3",
+				"0_0",
+				"3_2",
+				"2_0",
+				"0_2",
+				"3_3",
+				"3_1",
+				"1_0",
+				"2_2",
+				"1_2",
+				"2_3",
+				"0_1",
+				"3_0",
+				"2_1",
+				"1_3",
+				"1_1"
+			],
+			"selected_button": 8,
+			"selected_item": "2_2",
+			"response_time": 3223,
+			"time": 1685010136
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zettykoe",
+			"input_label": "zettykoe",
+			"response_time": 3003,
+			"time": 1685010141
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikoe",
+			"items": [
+				"0_0",
+				"0_2",
+				"0_3"
+			],
+			"array": [
+				"1_3",
+				"3_0",
+				"2_0",
+				"3_3",
+				"2_3",
+				"0_3",
+				"3_1",
+				"0_2",
+				"2_1",
+				"1_2",
+				"1_1",
+				"3_2",
+				"1_0",
+				"0_1",
+				"0_0",
+				"2_2"
+			],
+			"selected_button": 14,
+			"selected_item": "0_0",
+			"response_time": 2901,
+			"time": 1685010145
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopikcow",
+			"input_label": "wopikcow",
+			"response_time": 3726,
+			"time": 1685010151
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoe",
+			"items": [
+				"3_0",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"1_2",
+				"3_1",
+				"1_0",
+				"1_1",
+				"0_1",
+				"0_2",
+				"2_0",
+				"0_3",
+				"2_3",
+				"0_0",
+				"2_1",
+				"1_3",
+				"3_3",
+				"3_2",
+				"3_0",
+				"2_2"
+			],
+			"selected_button": 13,
+			"selected_item": "3_2",
+			"response_time": 2150,
+			"time": 1685010154
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopikoe",
+			"input_label": "wopikoe",
+			"response_time": 2690,
+			"time": 1685010159
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikoe",
+			"items": [
+				"0_0",
+				"0_2",
+				"0_3"
+			],
+			"array": [
+				"0_1",
+				"1_0",
+				"3_0",
+				"2_1",
+				"1_2",
+				"2_3",
+				"3_1",
+				"3_2",
+				"2_0",
+				"0_3",
+				"1_1",
+				"3_3",
+				"2_2",
+				"0_2",
+				"1_3",
+				"0_0"
+			],
+			"selected_button": 15,
+			"selected_item": "0_0",
+			"response_time": 3368,
+			"time": 1685010164
+		}
+	],
+	"comments": "The gray shapes were spelt different from the other colors. I mostly tried to remember how the last couple words were spelled for the gray and other color shapes.",
+	"lexicon": {
+		"0_0": "buvikoe",
+		"0_1": "buvikcow",
+		"0_2": "buvikoe",
+		"0_3": "buvikoe",
+		"1_0": "zettykoe",
+		"1_1": "zettykcow",
+		"1_2": "zettykoe",
+		"1_3": "zettykoe",
+		"2_0": "gafikoe",
+		"2_1": "gafikcow",
+		"2_2": "gafikoe",
+		"2_3": "gafikoe",
+		"3_0": "wopikoe",
+		"3_1": "wopikcow",
+		"3_2": "wopikoe",
+		"3_3": "wopikoe"
+	}
+}

@@ -1,0 +1,2902 @@
+{
+	"subject_id": "201",
+	"client_id": null,
+	"creation_time": 1683388998,
+	"modified_time": 1683390253,
+	"status": "approved",
+	"chain_id": "com_hiVar_7",
+	"generation": 2,
+	"input_lexicon": {
+		"0_0": "buveecoh",
+		"0_1": "buveekoh",
+		"0_2": "buveecoh",
+		"0_3": "buvycoh",
+		"1_0": "zeteecoh",
+		"1_1": "zeticow",
+		"1_2": "zetikoh",
+		"1_3": "zetycoh",
+		"2_0": "gafeekoh",
+		"2_1": "gafeekoh",
+		"2_2": "gaficoh",
+		"2_3": "gafycoh",
+		"3_0": "wopeecoh",
+		"3_1": "wopeekoh",
+		"3_2": "wopeecoh",
+		"3_3": "wopycoh"
+	},
+	"training_items": [
+		"0_1",
+		"2_2",
+		"2_0",
+		"1_2",
+		"1_0",
+		"0_2",
+		"2_1",
+		"2_3",
+		"1_1",
+		"3_0",
+		"3_3",
+		"0_0"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_communication",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.0364963503649635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.05474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gaficoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.09124087591240876
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycoh",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.10948905109489052
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.12773722627737227
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafycoh",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.145985401459854
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.16423357664233576
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.18248175182481752
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopeecoh",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buveekoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.21897810218978103
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeteecoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.23722627737226276
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycoh",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.25547445255474455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2737226277372263
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafycoh",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3102189781021898
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3284671532846715
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buveekoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3467153284671533
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.36496350364963503
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.38321167883211676
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopeecoh",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.40145985401459855
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4197080291970803
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeteecoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.43795620437956206
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gaficoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4562043795620438
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4744525547445255
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4927007299270073
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopycoh",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5109489051094891
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gaficoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buveekoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticow",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.583941605839416
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buveecoh",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6021897810218978
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zeteecoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6204379562043796
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buveekoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "gaficoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafeekoh",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6386861313868614
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zeteecoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafeekoh",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafycoh",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafycoh",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticow",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopeecoh",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopycoh",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buveecoh",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopeecoh",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6751824817518248
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "communication",
+				"instruction_time": 5000,
+				"response_kind": "next_communication",
+				"progress": 0.6934306569343066
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_0",
+				"word": "gafeekoh",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.7299270072992701
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_1",
+					"0_2",
+					"3_2",
+					"2_0",
+					"1_3",
+					"0_1",
+					"1_2",
+					"3_3",
+					"0_3",
+					"1_0",
+					"2_1",
+					"2_2",
+					"2_3",
+					"3_0",
+					"1_1",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7372262773722628
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_1",
+				"word": "gafeekoh",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7445255474452555
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_1",
+					"0_1",
+					"2_2",
+					"1_0",
+					"1_2",
+					"1_1",
+					"0_2",
+					"3_3",
+					"2_3",
+					"2_0",
+					"3_2",
+					"3_1",
+					"3_0",
+					"0_3",
+					"1_3",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7518248175182481
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_2",
+				"word": "wopeecoh",
+				"shape": "3",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.7591240875912408
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"3_1",
+					"0_0",
+					"3_3",
+					"0_3",
+					"0_2",
+					"2_0",
+					"2_3",
+					"0_1",
+					"1_3",
+					"2_2",
+					"3_2",
+					"3_0",
+					"2_1",
+					"1_2",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7664233576642335
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zeticow",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7737226277372263
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_1",
+					"1_0",
+					"0_2",
+					"2_3",
+					"0_1",
+					"0_0",
+					"1_1",
+					"3_2",
+					"2_2",
+					"3_1",
+					"3_0",
+					"1_2",
+					"3_3",
+					"1_3",
+					"0_3",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.781021897810219
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_3",
+				"word": "gafycoh",
+				"shape": "2",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7883211678832117
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"0_3",
+					"1_2",
+					"1_0",
+					"2_0",
+					"3_3",
+					"1_3",
+					"3_0",
+					"2_3",
+					"3_2",
+					"0_2",
+					"0_1",
+					"0_0",
+					"2_1",
+					"3_1",
+					"1_1",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.7956204379562044
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_3",
+				"word": "wopycoh",
+				"shape": "3",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8029197080291971
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_3",
+					"3_2",
+					"2_0",
+					"2_3",
+					"3_0",
+					"0_2",
+					"1_3",
+					"1_2",
+					"0_3",
+					"1_1",
+					"3_1",
+					"0_0",
+					"0_1",
+					"1_0",
+					"2_1",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8102189781021898
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_3",
+				"word": "zetycoh",
+				"shape": "1",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8175182481751825
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_1",
+					"0_3",
+					"2_2",
+					"2_0",
+					"2_3",
+					"1_3",
+					"3_0",
+					"1_2",
+					"1_0",
+					"0_2",
+					"1_1",
+					"3_1",
+					"0_0",
+					"3_2",
+					"0_1",
+					"3_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8248175182481752
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buveecoh",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8321167883211679
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_0",
+					"0_2",
+					"3_3",
+					"1_2",
+					"1_0",
+					"2_2",
+					"1_3",
+					"3_0",
+					"2_1",
+					"1_1",
+					"3_2",
+					"2_3",
+					"0_0",
+					"3_1",
+					"0_1",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8394160583941606
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buveecoh",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8467153284671532
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_0",
+					"0_2",
+					"1_3",
+					"2_1",
+					"2_0",
+					"3_0",
+					"3_3",
+					"3_2",
+					"2_3",
+					"3_1",
+					"0_3",
+					"1_1",
+					"0_1",
+					"2_2",
+					"1_2",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8540145985401459
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "2_2",
+				"word": "gaficoh",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8613138686131386
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"2_0",
+					"1_1",
+					"3_1",
+					"0_0",
+					"1_2",
+					"3_2",
+					"0_2",
+					"2_1",
+					"2_3",
+					"3_0",
+					"1_0",
+					"3_3",
+					"1_3",
+					"0_1",
+					"0_3",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8686131386861314
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_1",
+				"word": "wopeekoh",
+				"shape": "3",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8759124087591241
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"0_3",
+					"1_1",
+					"3_0",
+					"2_2",
+					"3_3",
+					"3_1",
+					"1_0",
+					"2_0",
+					"0_2",
+					"1_3",
+					"0_0",
+					"2_1",
+					"0_1",
+					"1_2",
+					"2_3",
+					"3_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8832116788321168
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_3",
+				"word": "buvycoh",
+				"shape": "0",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8905109489051095
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"0_3",
+					"1_3",
+					"2_3",
+					"2_2",
+					"1_0",
+					"3_2",
+					"1_1",
+					"3_0",
+					"2_0",
+					"0_1",
+					"0_0",
+					"3_1",
+					"0_2",
+					"2_1",
+					"3_3",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8978102189781022
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zeteecoh",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9051094890510949
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_3",
+					"1_0",
+					"0_0",
+					"2_0",
+					"0_3",
+					"0_1",
+					"1_2",
+					"3_2",
+					"3_0",
+					"0_2",
+					"2_3",
+					"1_1",
+					"2_2",
+					"3_1",
+					"3_3",
+					"2_1"
+				],
+				"pause_time": 500,
+				"progress": 0.9124087591240876
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buveekoh",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9197080291970803
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_1",
+					"1_0",
+					"2_1",
+					"1_2",
+					"0_0",
+					"3_0",
+					"3_1",
+					"2_2",
+					"2_3",
+					"0_1",
+					"0_2",
+					"2_0",
+					"3_2",
+					"3_3",
+					"1_3",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.927007299270073
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "3_0",
+				"word": "wopeecoh",
+				"shape": "3",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9343065693430657
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"1_1",
+					"0_3",
+					"2_2",
+					"1_2",
+					"3_3",
+					"0_0",
+					"3_1",
+					"0_2",
+					"3_0",
+					"0_1",
+					"2_3",
+					"2_1",
+					"1_3",
+					"3_2",
+					"1_0",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.9416058394160584
+			}
+		},
+		{
+			"event": "comm_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zetikoh",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.948905109489051
+			}
+		},
+		{
+			"event": "comm_comprehension",
+			"payload": {
+				"array": [
+					"3_1",
+					"1_3",
+					"0_2",
+					"2_0",
+					"0_3",
+					"3_0",
+					"0_1",
+					"1_0",
+					"2_3",
+					"2_1",
+					"2_2",
+					"3_2",
+					"0_0",
+					"1_1",
+					"3_3",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9562043795620438
+			}
+		},
+		{
+			"event": "questionnaire",
+			"payload": {
+				"progress": 0.9635036496350365
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CJ7QYYRQ",
+				"basic_pay": 300,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 73,
+	"total_bonus": 41,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "zeticoo",
+			"response_time": 4458,
+			"object_clicked": false,
+			"time": 1683389076
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "moovicoo",
+			"response_time": 9421,
+			"object_clicked": false,
+			"time": 1683389095
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeehtico",
+			"response_time": 5586,
+			"object_clicked": false,
+			"time": 1683389111
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gaficoh",
+			"catch_trial": false,
+			"input_label": "gaficow",
+			"response_time": 2194,
+			"object_clicked": false,
+			"time": 1683389122
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycoh",
+			"catch_trial": false,
+			"input_label": "woophicow",
+			"response_time": 6500,
+			"object_clicked": false,
+			"time": 1683389139
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "buveecow",
+			"response_time": 3435,
+			"object_clicked": false,
+			"time": 1683389152
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafycoh",
+			"catch_trial": false,
+			"input_label": "gaficow",
+			"response_time": 2335,
+			"object_clicked": false,
+			"time": 1683389164
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "wopycow",
+			"response_time": 4126,
+			"object_clicked": false,
+			"time": 1683389177
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "gafeecow",
+			"response_time": 5048,
+			"object_clicked": false,
+			"time": 1683389192
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopeecoh",
+			"catch_trial": false,
+			"input_label": "buveecow",
+			"response_time": 5800,
+			"object_clicked": false,
+			"time": 1683389207
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buveekoh",
+			"catch_trial": true,
+			"input_label": "woopycow",
+			"response_time": 14828,
+			"object_clicked": true,
+			"time": 1683389232
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeteecoh",
+			"catch_trial": false,
+			"input_label": "zeeticow",
+			"response_time": 4656,
+			"object_clicked": false,
+			"time": 1683389246
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycoh",
+			"catch_trial": false,
+			"input_label": "woopicow",
+			"response_time": 5234,
+			"object_clicked": false,
+			"time": 1683389261
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zeeticow",
+			"response_time": 3709,
+			"object_clicked": false,
+			"time": 1683389274
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafycoh",
+			"catch_trial": false,
+			"input_label": "zeeticow",
+			"response_time": 8285,
+			"object_clicked": false,
+			"time": 1683389292
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeeticow",
+			"response_time": 6691,
+			"object_clicked": false,
+			"time": 1683389308
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "gafycoh",
+			"response_time": 8811,
+			"object_clicked": false,
+			"time": 1683389327
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buveekoh",
+			"catch_trial": false,
+			"input_label": "buvychow",
+			"response_time": 5727,
+			"object_clicked": false,
+			"time": 1683389342
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "gafycoh",
+			"response_time": 4527,
+			"object_clicked": false,
+			"time": 1683389356
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "buvicoh",
+			"response_time": 4260,
+			"object_clicked": false,
+			"time": 1683389370
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopeecoh",
+			"catch_trial": false,
+			"input_label": "wopycoh",
+			"response_time": 4353,
+			"object_clicked": false,
+			"time": 1683389384
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "buveecoh",
+			"response_time": 5207,
+			"object_clicked": false,
+			"time": 1683389399
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeteecoh",
+			"catch_trial": true,
+			"input_label": "zeeticow",
+			"response_time": 8221,
+			"object_clicked": true,
+			"time": 1683389417
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gaficoh",
+			"catch_trial": false,
+			"input_label": "gafeecoh",
+			"response_time": 6420,
+			"object_clicked": false,
+			"time": 1683389433
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "gafecoh",
+			"response_time": 6163,
+			"object_clicked": false,
+			"time": 1683389448
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zeetycoh",
+			"response_time": 7353,
+			"object_clicked": false,
+			"time": 1683389465
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopycoh",
+			"catch_trial": false,
+			"input_label": "wopeecoh",
+			"response_time": 3980,
+			"object_clicked": false,
+			"time": 1683389479
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gaficoh",
+			"catch_trial": false,
+			"input_label": "gafeecoh",
+			"response_time": 7542,
+			"object_clicked": false,
+			"time": 1683389496
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "buveecoh",
+			"response_time": 4133,
+			"object_clicked": false,
+			"time": 1683389510
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buveekoh",
+			"catch_trial": false,
+			"input_label": "buveecoh",
+			"response_time": 4251,
+			"object_clicked": false,
+			"time": 1683389524
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticow",
+			"catch_trial": false,
+			"input_label": "zeeticoh",
+			"response_time": 7066,
+			"object_clicked": false,
+			"time": 1683389540
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buveecoh",
+			"catch_trial": false,
+			"input_label": "buveecoh",
+			"response_time": 4359,
+			"object_clicked": false,
+			"time": 1683389554
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zeteecoh",
+			"catch_trial": false,
+			"input_label": "zehtico",
+			"response_time": 5694,
+			"object_clicked": false,
+			"time": 1683389570
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafeekoh",
+			"catch_trial": false,
+			"input_label": "gafeecoh",
+			"response_time": 4814,
+			"object_clicked": false,
+			"time": 1683389584
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafycoh",
+			"catch_trial": true,
+			"input_label": "gafeekoh",
+			"response_time": 8566,
+			"object_clicked": true,
+			"time": 1683389602
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopeecoh",
+			"catch_trial": false,
+			"input_label": "woopecoh",
+			"response_time": 3904,
+			"object_clicked": false,
+			"time": 1683389616
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "0",
+			"item": "2_0",
+			"expected_label": "gafeekoh",
+			"input_label": "gafeekoh",
+			"response_time": 14161,
+			"time": 1683389782
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_2",
+			"word": "zeticoh",
+			"selected_button": 14,
+			"selected_item": "1_1",
+			"response_time": 5976,
+			"time": 1683389804
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "1",
+			"item": "2_1",
+			"expected_label": "gafeekoh",
+			"input_label": "gafeekoh",
+			"response_time": 12231,
+			"time": 1683389818
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_0",
+			"word": "zeticoh",
+			"selected_button": 4,
+			"selected_item": "1_2",
+			"response_time": 5185,
+			"time": 1683389839
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "2",
+			"item": "3_2",
+			"expected_label": "wopeecoh",
+			"input_label": "wopeecoh",
+			"response_time": 8076,
+			"time": 1683389848
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_0",
+			"word": "gaficow",
+			"selected_button": 7,
+			"selected_item": "2_3",
+			"response_time": 8412,
+			"time": 1683389868
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "1",
+			"item": "1_1",
+			"expected_label": "zeticow",
+			"input_label": "zeticoh",
+			"response_time": 11754,
+			"time": 1683389882
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_1",
+			"word": "buveecoh",
+			"selected_button": 2,
+			"selected_item": "0_2",
+			"response_time": 3051,
+			"time": 1683389896
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "3",
+			"item": "2_3",
+			"expected_label": "gafycoh",
+			"input_label": "gafycoh",
+			"response_time": 7252,
+			"time": 1683389905
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_3",
+			"word": "gafycoh",
+			"selected_button": 7,
+			"selected_item": "2_3",
+			"response_time": 5160,
+			"time": 1683389923
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "3",
+			"item": "3_3",
+			"expected_label": "wopycoh",
+			"input_label": "wopeecoh",
+			"response_time": 7685,
+			"time": 1683389932
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_1",
+			"word": "gafeecoh",
+			"selected_button": 14,
+			"selected_item": "2_1",
+			"response_time": 8946,
+			"time": 1683389953
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "3",
+			"item": "1_3",
+			"expected_label": "zetycoh",
+			"input_label": "zeticoh",
+			"response_time": 18205,
+			"time": 1683389973
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_2",
+			"word": "wopeecoh",
+			"selected_button": 13,
+			"selected_item": "3_2",
+			"response_time": 3284,
+			"time": 1683389986
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "2",
+			"item": "0_2",
+			"expected_label": "buveecoh",
+			"input_label": "buveecoh",
+			"response_time": 4987,
+			"time": 1683389993
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_2",
+			"word": "buveecoh",
+			"selected_button": 1,
+			"selected_item": "0_2",
+			"response_time": 3796,
+			"time": 1683390003
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "0",
+			"item": "0_0",
+			"expected_label": "buveecoh",
+			"input_label": "buveecow",
+			"response_time": 7145,
+			"time": 1683390012
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_3",
+			"word": "wopicoh",
+			"selected_button": 5,
+			"selected_item": "3_0",
+			"response_time": 4362,
+			"time": 1683390026
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "2",
+			"color": "2",
+			"item": "2_2",
+			"expected_label": "gaficoh",
+			"input_label": "gaficoh",
+			"response_time": 6815,
+			"time": 1683390035
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_3",
+			"word": "zeticoh",
+			"selected_button": 10,
+			"selected_item": "1_0",
+			"response_time": 5138,
+			"time": 1683390050
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "1",
+			"item": "3_1",
+			"expected_label": "wopeekoh",
+			"input_label": "wopeecow",
+			"response_time": 9295,
+			"time": 1683390060
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_3",
+			"word": "buvycoh",
+			"selected_button": 0,
+			"selected_item": "0_3",
+			"response_time": 4260,
+			"time": 1683390085
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "3",
+			"item": "0_3",
+			"expected_label": "buvycoh",
+			"input_label": "buveecow",
+			"response_time": 5124,
+			"time": 1683390092
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "0_0",
+			"word": "buveecoh",
+			"selected_button": 0,
+			"selected_item": "0_3",
+			"response_time": 1719,
+			"time": 1683390107
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "0",
+			"item": "1_0",
+			"expected_label": "zeteecoh",
+			"input_label": "zeticoh",
+			"response_time": 11743,
+			"time": 1683390121
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_0",
+			"word": "wopicoh",
+			"selected_button": 7,
+			"selected_item": "3_2",
+			"response_time": 5246,
+			"time": 1683390137
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "0",
+			"color": "1",
+			"item": "0_1",
+			"expected_label": "buveekoh",
+			"input_label": "buvycoh",
+			"response_time": 15006,
+			"time": 1683390154
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "2_2",
+			"word": "gafeecoh",
+			"selected_button": 11,
+			"selected_item": "2_0",
+			"response_time": 5548,
+			"time": 1683390170
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "3",
+			"color": "0",
+			"item": "3_0",
+			"expected_label": "wopeecoh",
+			"input_label": "wopeecoh",
+			"response_time": 7118,
+			"time": 1683390179
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "1_1",
+			"word": "zetycoh",
+			"selected_button": 0,
+			"selected_item": "1_1",
+			"response_time": 4853,
+			"time": 1683390201
+		},
+		{
+			"test_type": "comm_production",
+			"shape": "1",
+			"color": "2",
+			"item": "1_2",
+			"expected_label": "zetikoh",
+			"input_label": "zeticow",
+			"response_time": 5541,
+			"time": 1683390208
+		},
+		{
+			"test_type": "comm_comprehension",
+			"item": "3_1",
+			"word": "wopycoh",
+			"selected_button": 0,
+			"selected_item": "3_1",
+			"response_time": 3596,
+			"time": 1683390227
+		}
+	],
+	"comments": "I did some paper notes but I could not figure out the right words for each color",
+	"lexicon": {
+		"0_0": "buveecow",
+		"0_1": "buvycoh",
+		"0_2": "buveecoh",
+		"0_3": "buveecow",
+		"1_0": "zeticoh",
+		"1_1": "zeticoh",
+		"1_2": "zeticow",
+		"1_3": "zeticoh",
+		"2_0": "gafeekoh",
+		"2_1": "gafeekoh",
+		"2_2": "gaficoh",
+		"2_3": "gafycoh",
+		"3_0": "wopeecoh",
+		"3_1": "wopeecow",
+		"3_2": "wopeecoh",
+		"3_3": "wopeecoh"
+	}
+}
