@@ -113,7 +113,7 @@ function generateItems(n, m, bottleneck=null) {
 	for (let i=0; i < min_dim; i++) {
 		const j = indices_on_longer_dim.pop();
 		let item = `${i}_${j}`;
-		if (n < m)
+		if (n > m)
 			item = `${j}_${i}`;
 		all_items.splice(all_items.indexOf(item), 1);
 		selected_items.push(item);
@@ -121,7 +121,7 @@ function generateItems(n, m, bottleneck=null) {
 	for (let j of indices_on_longer_dim) {
 		const i = randInt(min_dim);
 		let item = `${i}_${j}`;
-		if (n < m)
+		if (n > m)
 			item = `${j}_${i}`;
 		all_items.splice(all_items.indexOf(item), 1);
 		selected_items.push(item);
