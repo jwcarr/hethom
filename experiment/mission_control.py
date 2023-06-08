@@ -83,8 +83,12 @@ class MissionControl:
 			for chain_i in range(task['n_chains']):
 				if 'lexicon' in task:
 					lexicon = task['lexicon']
+				elif 'stems' in task and 'suffixes' in task:
+					lexicon = create_compositional_lexicon(task)
+				elif 'stems' in task and 'seed_suffix_spellings' in task:
+					lexicon = create_holistic_lexicon(task)
 				else:
-					lexicon = create_seed_lexicon(task)
+					raise ValueError('Invalid specification of stems and suffixes')
 				DB[self.exp_id].chains.insert_one({
 					'chain_id': f'{task["task_id"]}_{chain_i}',
 					'task': task,
@@ -366,7 +370,7 @@ def choose(choices, choose_n):
 	random.shuffle(choices)
 	return choices[:choose_n]
 
-def create_seed_lexicon(task):
+def create_holistic_lexicon(task):
 	'''
 	Use the task definition to create the generation-0 seed words and their
 	mapping onto the objects.
@@ -397,6 +401,30 @@ def create_seed_lexicon(task):
 		for j in range(task['n_colors']):
 			object_word_mapping[f'{i}_{j}'] = task['stems'][i] + endings.pop()
 	return object_word_mapping
+
+def create_compositional_lexicon(task):
+	assert task['n_shapes'] == len(task['stems'])
+	assert task['n_colors'] == len(task['suffixes'])
+	lexicon = {}
+	for i, stem in enumerate(task['stems']):
+		for j, suffix in enumerate(task['suffixes']):
+			item = f'{i}_{j}'
+			lexicon[item] = stem + suffix
+	return lexicon
+
+def institute_sound_change():
+	cons = list(range(4))
+	vowl = list(range(4))
+	random.shuffle(cons)
+	random.shuffle(vowl)
+	sounds = {}
+	for i, stem in enumerate(stems):
+		for j, suffix in enumerate(suffixes):
+			item = f'{i}_{j}'
+			sounds[item] = f'{i}_{cons[j]}_{vowl[j]}'
+	for item, sound in sounds.items():
+		print(item, sound)
+
 
 def convert_to_pounds(int_bonus_in_pence):
 	if int_bonus_in_pence >= 100:
