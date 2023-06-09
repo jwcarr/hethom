@@ -4,12 +4,34 @@ const socket = io.connect();
 // Extract Prolific ID from the URL
 const subject_id = (new URL(window.location.href)).searchParams.get('PROLIFIC_PID');
 
-const word_audio = [
-	new Audio('sounds/0.m4a'),
-	new Audio('sounds/1.m4a'),
-	new Audio('sounds/2.m4a'),
-	new Audio('sounds/3.m4a'),
-];
+// const word_audio = [
+// 	new Audio('sounds/0.m4a'),
+// 	new Audio('sounds/1.m4a'),
+// 	new Audio('sounds/2.m4a'),
+// 	new Audio('sounds/3.m4a'),
+// ];
+
+const word_audio = {
+	'0_0': new Audio('words/0_0.m4a'),
+	'0_1': new Audio('words/0_1.m4a'),
+	'0_2': new Audio('words/0_2.m4a'),
+	'0_3': new Audio('words/0_3.m4a'),
+
+	'1_0': new Audio('words/1_0.m4a'),
+	'1_1': new Audio('words/1_1.m4a'),
+	'1_2': new Audio('words/1_2.m4a'),
+	'1_3': new Audio('words/1_3.m4a'),
+
+	'2_0': new Audio('words/2_0.m4a'),
+	'2_1': new Audio('words/2_1.m4a'),
+	'2_2': new Audio('words/2_2.m4a'),
+	'2_3': new Audio('words/2_3.m4a'),
+
+	'3_0': new Audio('words/3_0.m4a'),
+	'3_1': new Audio('words/3_1.m4a'),
+	'3_2': new Audio('words/3_2.m4a'),
+	'3_3': new Audio('words/3_3.m4a'),
+};
 
 const test_audio = [
 	[new Audio('sounds/test0.m4a'), 'the quick cat'],
@@ -137,10 +159,10 @@ function showInputError(input_id) {
 function validateWord(label, expected_label=null) {
 	if (!label.match(/^[a-z]{4,9}$/))
 		return false;
-	if (label.match(/(p|r|b|y|g)$/))
-		return false;
-	if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
-		return false;
+	// if (label.match(/(p|r|b|y|g)$/))
+	// 	return false;
+	// if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
+	// 	return false;
 	if (expected_label) {
 		let expected_prefix = expected_label.slice(0, 3);
 		if (label.slice(0, 3) != expected_prefix) {
@@ -254,7 +276,7 @@ socket.on('training_block', function(payload) {
 			preloadObject(trial.shape, trial.color);
 			setTimeout(function() {
 				setTimeout(function() {
-					playWord(trial.shape);
+					playWord(trial.item);
 					showWord(trial.word);
 				}, payload.pause_time);
 				showObject();
@@ -367,12 +389,12 @@ socket.on('test_production', function(payload) {
 					}});
 				}, payload.pause_time * 2);
 			} else {
-				playWord(payload.shape);
+				playWord(payload.item);
 				showInputError('#label');
 			}
 			return false;
 		});
-		playWord(payload.shape);
+		playWord(payload.item);
 		showObject();
 		showLabelInput();
 		const start_time = performance.now();
@@ -457,12 +479,12 @@ socket.on('comm_production', function(payload) {
 					response_time,
 				}});
 			} else {
-				playWord(payload.shape);
+				playWord(payload.item);
 				showInputError('#label');
 			}
 			return false;
 		});
-		playWord(payload.shape);
+		playWord(payload.item);
 		showObject();
 		showLabelInput();
 		const start_time = performance.now();
