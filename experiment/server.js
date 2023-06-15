@@ -379,6 +379,7 @@ socket.on('connection', function(client) {
 						max_pay: EXP_CONFIG.max_pay,
 						session_time: EXP_CONFIG.session_time,
 						object_array_dims: EXP_CONFIG.object_array_dims,
+						spoken_forms: subject.spoken_forms,
 					});
 				});
 			} else { // If we haven't seen this subject before, create a new subject
@@ -392,6 +393,7 @@ socket.on('connection', function(client) {
 					chain_id: null,
 					generation: null,
 					input_lexicon: null,
+					spoken_forms: null,
 					training_items: null,
 					trial_sequence: generateTrialSequenceStub(),
 					n_reinitializations: 0,
@@ -448,6 +450,7 @@ socket.on('connection', function(client) {
 				// subject's lexicon, training items, and trial sequence, and
 				// write to the database
 				const input_lexicon = chain.lexicon;
+				const spoken_forms = chain.spoken_forms[chain.sound_epoch];
 				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
 				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items, lead_communicator);
 				db.subjects.findAndModify({
@@ -458,6 +461,7 @@ socket.on('connection', function(client) {
 							chain_id: chain.chain_id,
 							generation: chain.current_gen + 1,
 							input_lexicon: input_lexicon,
+							spoken_forms: spoken_forms,
 							training_items: training_items,
 							trial_sequence: trial_sequence,
 						},
@@ -471,6 +475,8 @@ socket.on('connection', function(client) {
 						return reportError(client, 128, 'Unrecognized participant ID.');
 					// tell client to begin the next trial
 					const next = prepareNextTrial(subject);
+					next.payload.spoken_forms = spoken_forms;
+					console.log(next);
 					return client.emit(next.event, next.payload);
 				});
 			});

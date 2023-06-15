@@ -4,35 +4,6 @@ const socket = io.connect();
 // Extract Prolific ID from the URL
 const subject_id = (new URL(window.location.href)).searchParams.get('PROLIFIC_PID');
 
-// const word_audio = [
-// 	new Audio('sounds/0.m4a'),
-// 	new Audio('sounds/1.m4a'),
-// 	new Audio('sounds/2.m4a'),
-// 	new Audio('sounds/3.m4a'),
-// ];
-
-const word_audio = {
-	'0_0': new Audio('words/0_0.m4a'),
-	'0_1': new Audio('words/0_1.m4a'),
-	'0_2': new Audio('words/0_2.m4a'),
-	'0_3': new Audio('words/0_3.m4a'),
-
-	'1_0': new Audio('words/1_0.m4a'),
-	'1_1': new Audio('words/1_1.m4a'),
-	'1_2': new Audio('words/1_2.m4a'),
-	'1_3': new Audio('words/1_3.m4a'),
-
-	'2_0': new Audio('words/2_0.m4a'),
-	'2_1': new Audio('words/2_1.m4a'),
-	'2_2': new Audio('words/2_2.m4a'),
-	'2_3': new Audio('words/2_3.m4a'),
-
-	'3_0': new Audio('words/3_0.m4a'),
-	'3_1': new Audio('words/3_1.m4a'),
-	'3_2': new Audio('words/3_2.m4a'),
-	'3_3': new Audio('words/3_3.m4a'),
-};
-
 const test_audio = [
 	[new Audio('sounds/test0.m4a'), 'the quick cat'],
 	[new Audio('sounds/test1.m4a'), 'the green bird'],
@@ -50,6 +21,8 @@ const catch_instruction = new Audio('sounds/catch_instruction.m4a');
 const catch_acknowledge = new Audio('sounds/catch_acknowledge.m4a');
 
 const message_sound = new Audio('sounds/message_sound.m4a');
+
+const word_audio = {}, spoken_forms = {};
 
 function iterAtInterval(iterable, interval, func, final_func) {
 	// Call func on each item in an iterable with a given time interval. Once all
@@ -118,8 +91,8 @@ function showWord(word, bubble=null) {
 	$('#word').show();
 }
 
-function playWord(sound) {
-	word_audio[sound].play();
+function playWord(item) {
+	word_audio[spoken_forms[item]].play();
 }
 
 function hideWord() {
@@ -215,9 +188,19 @@ function initializeObjectArray(object_array_dims) {
 	$('#object_array').html(html);
 }
 
+function initializeSpokenForms(forms) {
+	for (let item in forms) {
+		if (!(forms[item] in word_audio))
+			word_audio[forms[item]] = new Audio(`words/${forms[item]}`);
+		spoken_forms[item] = forms[item];
+	}
+}
+
 socket.on('initialize', function(payload) {
 	updateBonus(payload.total_bonus);
 	initializeObjectArray(payload.object_array_dims);
+	if (payload.spoken_forms)
+		initializeSpokenForms(payload.spoken_forms);
 	$('#consent_session_time').html(payload.session_time);
 	$('#consent_basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
 	$('#consent_max_pay').html('£' + (payload.max_pay/100).toFixed(2));
@@ -243,6 +226,8 @@ socket.on('consent', function(payload) {
 socket.on('instructions', function(payload) {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
+	if (payload.spoken_forms)
+		initializeSpokenForms(payload.spoken_forms);
 	$('#start').click(function() {
 		$('#start').off('click');
 		$('#start').hide();
