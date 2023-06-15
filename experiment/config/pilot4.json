@@ -15,11 +15,14 @@
 		{
 			"task_id": "lrn_cv",
 			"n_chains": 1,
+			"max_gens": 12,
+			"sound_change_freq": 3,
+			"stop_on_convergence": false,
 			"n_shapes": 4,
 			"n_colors": 4,
 			"bottleneck": 12,
 			"mini_test_freq": 4,
-			"training_reps": 0,
+			"training_reps": 1,
 			"test_reps": 1,
 			"stems": [
 				"buv",
@@ -27,13 +30,11 @@
 				"gaf",
 				"wop"
 			],
-			"suffixes": [
-				"itha",
-				"isu",
-				"ishe",
-				"ixo"
+			"seed_suffix_spellings": [
+				["ith", "is", "ish", "ix"],
+				["a", "e", "o", "u"]
 			],
-			"communication": true
+			"communication": false
 		}
 	]
 }
