@@ -81,23 +81,18 @@ class MissionControl:
 		for task in exp_config['tasks']:
 			task['return_url'] = exp_config['return_url']
 			for chain_i in range(task['n_chains']):
-				if 'lexicon' in task:
-					lexicon = task['lexicon']
-				elif 'stems' in task and 'suffixes' in task:
-					lexicon = create_compositional_lexicon(task)
-				elif 'stems' in task and 'seed_suffix_spellings' in task:
-					lexicon = create_holistic_lexicon(task)
-				else:
-					raise ValueError('Invalid specification of stems and suffixes')
+				lexicon, spoken_forms = create_lexicon(task)
 				DB[self.exp_id].chains.insert_one({
 					'chain_id': f'{task["task_id"]}_{chain_i}',
 					'task': task,
 					'status': 'closed',
 					'current_gen': 0,
+					'sound_epoch': 0,
 					'subject_a': None,
 					'subject_b': None,
 					'subjects': [],
 					'lexicon': lexicon,
+					'spoken_forms': spoken_forms,
 				})
 		print('Launched task:', self.exp_id)
 
@@ -207,23 +202,27 @@ class MissionControl:
 			raise ValueError('Chain not awaiting approval')
 		subject_a = self.approve_subject(chain['subject_a'])
 		subject_b = self.approve_subject(chain['subject_b'])
-		chain_converged = False
-		for item, word in chain['lexicon'].items():
-			if subject_a['lexicon'][item] != word:
-				break
-		else: # for loop exits normally, all words match, chain has converged
-			chain_converged = True
-		if chain_converged:
-			update_status = 'converged'
-		else:
-			if do_not_reopen:
-				update_status = 'closed'
+		update_status = 'closed' if do_not_reopen else 'available'
+		if chain['current_gen'] + 1 >= chain['task']['max_gens']:
+			update_status = 'completed'
+			print('🎉 CHAIN COMPLETED!')
+		elif chain['task']['stop_on_convergence']:
+			for item, word in chain['lexicon'].items():
+				if subject_a['lexicon'][item] != word:
+					break
+			else: # for loop exits normally, all words match, chain has converged
+				update_status = 'converged'
+				print('🎉 CHAIN CONVERGED!')
+		if chain['task']['sound_change_freq']:
+			if chain['current_gen'] > 0 and (chain['current_gen'] + 1) % chain['task']['sound_change_freq'] == 0:
+				sound_epoch_inc = 1
+				print('🕓 NEW SOUND EPOCH')
 			else:
-				update_status = 'available'
+				sound_epoch_inc = 0
 		self.db.chains.update_one({'chain_id': chain['chain_id']}, {
 			'$set': {'status': update_status, 'lexicon': subject_a['lexicon'], 'subject_a': None, 'subject_b': None},
 			'$push': {'subjects': [chain['subject_a'], chain['subject_b']]},
-			'$inc': {'current_gen': 1},
+			'$inc': {'current_gen': 1, 'sound_epoch': sound_epoch_inc},
 		})
 
 	def reject(self, chain_id=None, do_not_reopen=False):
@@ -236,10 +235,7 @@ class MissionControl:
 			raise ValueError('Chain not awaiting approval')
 		self.reject_subject(chain['subject_a'])
 		self.reject_subject(chain['subject_b'])
-		if do_not_reopen:
-			update_status = 'closed'
-		else:
-			update_status = 'available'
+		update_status = 'closed' if do_not_reopen else 'available'
 		self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': update_status, 'subject_a': None, 'subject_b': None}})
 
 	def drop(self, chain_id=None, do_not_reopen=True):
@@ -255,10 +251,7 @@ class MissionControl:
 			raise ValueError(f'Chain is currently {chain["status"]}, but should be unavailable to perform drop')
 		self.drop_subject(chain['subject_a'], update_chain=False)
 		self.drop_subject(chain['subject_b'], update_chain=False)
-		if do_not_reopen:
-			update_status = 'closed'
-		else:
-			update_status = 'available'
+		update_status = 'closed' if do_not_reopen else 'available'
 		self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set':{'status': update_status, 'subject_a': None, 'subject_b': None}})
 
 	def review_subject(self, sub_id=None):
@@ -370,7 +363,7 @@ def choose(choices, choose_n):
 	random.shuffle(choices)
 	return choices[:choose_n]
 
-def create_holistic_lexicon(task):
+def create_random_lexicon_with_variation(task):
 	'''
 	Use the task definition to create the generation-0 seed words and their
 	mapping onto the objects.
@@ -396,35 +389,66 @@ def create_holistic_lexicon(task):
 			endings *= (n_required_words // len(endings)) + 1
 	endings = endings[:n_required_words]
 	random.shuffle(endings)
-	object_word_mapping = {}
+	lexicon = {}
+	spoken_forms = {}
 	for i in range(task['n_shapes']):
 		for j in range(task['n_colors']):
-			object_word_mapping[f'{i}_{j}'] = task['stems'][i] + endings.pop()
-	return object_word_mapping
+			item = f'{i}_{j}'
+			lexicon[item] = task['stems'][i] + endings.pop()
+			spoken_forms[item] = f'{i}.m4a'
+	return lexicon, [spoken_forms]
 
-def create_compositional_lexicon(task):
+def create_compositional_lexicon_with_sound_change(task):
 	assert task['n_shapes'] == len(task['stems'])
-	assert task['n_colors'] == len(task['suffixes'])
-	lexicon = {}
-	for i, stem in enumerate(task['stems']):
-		for j, suffix in enumerate(task['suffixes']):
-			item = f'{i}_{j}'
-			lexicon[item] = stem + suffix
-	return lexicon
+	assert len(task['seed_suffix_spellings']) == 2
+	assert all([task['n_colors'] == len(spellings) for spellings in task['seed_suffix_spellings']])
 
-def institute_sound_change():
-	cons = list(range(4))
-	vowl = list(range(4))
+	cons = list(range(task['n_colors']))
+	vwls = list(range(task['n_colors']))
 	random.shuffle(cons)
-	random.shuffle(vowl)
-	sounds = {}
-	for i, stem in enumerate(stems):
-		for j, suffix in enumerate(suffixes):
-			item = f'{i}_{j}'
-			sounds[item] = f'{i}_{cons[j]}_{vowl[j]}'
-	for item, sound in sounds.items():
-		print(item, sound)
+	random.shuffle(vwls)
 
+	lexicon = {}
+	phonetic_lexicon = {}
+	for i, stem in enumerate(task['stems']):
+		for j, (c, v) in enumerate(zip(cons, vwls)):
+			item = f'{i}_{j}'
+			suffix = f'{task["seed_suffix_spellings"][0][c]}{task["seed_suffix_spellings"][1][v]}'
+			lexicon[item] = stem + suffix
+			phonetic_lexicon[(i, j)] = i, c, v
+	phonetic_lexicons = [phonetic_lexicon]
+
+	suffix_indices = list(range(task['n_colors']))
+	random.shuffle(suffix_indices)
+	for merger in [ suffix_indices[:2], suffix_indices[2:], suffix_indices ]:
+		suffix1, suffix2 = set([sound[1:] for item, sound in phonetic_lexicons[-1].items() if item[1] in merger])
+		if random.random() < 0.5:
+			new_suffix = [suffix1[0], suffix2[1]]
+		else:
+			new_suffix = [suffix2[0], suffix1[1]]
+		for m in merger:
+			cons[m] = new_suffix[0]
+			vwls[m] = new_suffix[1]
+		phonetic_lexicon = {}
+		for i, stem in enumerate(task['stems']):
+			for j, (c, v) in enumerate(zip(cons, vwls)):
+				phonetic_lexicon[(i, j)] = i, c, v
+		phonetic_lexicons.append(phonetic_lexicon)
+
+	phonetic_lexicons = [
+		{'_'.join(map(str, item)): '_'.join(map(str, sound)) + '.m4a' for item, sound in phonetic_lexicon.items()}
+		for phonetic_lexicon in phonetic_lexicons
+	]
+	return lexicon, phonetic_lexicons
+
+def create_lexicon(task):
+	if 'lexicon' in task and 'spoken_forms' in task:
+		return task['lexicon'], task['spoken_forms']
+	if task['sound_change_freq']:
+		return create_compositional_lexicon_with_sound_change(task)
+	elif 'seed_suffix_variation' in task:
+		return create_random_lexicon_with_variation(task)
+	raise ValueError('Cannot construct lexicon: Invalid config specification')
 
 def convert_to_pounds(int_bonus_in_pence):
 	if int_bonus_in_pence >= 100:
