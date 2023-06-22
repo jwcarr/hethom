@@ -129,16 +129,17 @@ function showInputError(input_id) {
 	}, 500);
 }
 
+const STEM_LENGTH = 4; // set to 3 in Experiment 1
 function validateWord(label, expected_label=null) {
 	if (!label.match(/^[a-z]{4,9}$/))
 		return false;
-	// if (label.match(/(p|r|b|y|g)$/))
-	// 	return false;
-	// if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
-	// 	return false;
+	if (label.match(/(p|r|b|y|g)$/))
+		return false;
+	if (label.match(/(bc|bk|bl|gr|gy|pin|pk|pn|ppl|prp|pur|rd|re|ye|yl|yw)/))
+		return false;
 	if (expected_label) {
-		let expected_prefix = expected_label.slice(0, 3);
-		if (label.slice(0, 3) != expected_prefix) {
+		let expected_prefix = expected_label.slice(0, STEM_LENGTH);
+		if (label.slice(0, STEM_LENGTH) != expected_prefix) {
 			alert(`Please check your spelling. This word should begin with ${expected_prefix}...`);
 			return false;
 		}
