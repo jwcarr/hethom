@@ -50,6 +50,7 @@ STATUS_EMOJI = {
 	'available': '🟢',
 	'unavailable': '🔴',
 	'converged': '⚫️',
+	'completed': '⚫️',
 	'closed': '🟡',
 	'approval_needed': '🔵',
 }
@@ -94,6 +95,7 @@ class MissionControl:
 					'lexicon': lexicon,
 					'spoken_forms': spoken_forms,
 				})
+		self.db = DB[self.exp_id]
 		print('Launched task:', self.exp_id)
 
 	def erase(self, _=None):
