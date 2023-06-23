@@ -17,6 +17,7 @@ def get_suffix_spellings(lexicon):
 	suffixes = []
 	for word in lexicon.values():
 		stem, suffix = parse_stem_and_suffix(word)
+		print(stem, suffix)
 		suffixes.append(suffix)
 	return sorted(list(set(suffixes)))
 
@@ -60,6 +61,16 @@ def hsv_to_rgb(h, s, v):
 			return t, p, v
 		case 5:
 			return v, p, q
+
+def generate_color_palette_many(chain):
+	suffix_spellings = []
+	for subject_a, _ in chain:
+		suffix_spellings.extend(get_suffix_spellings(subject_a['lexicon']))
+	suffix_spellings = sorted(list(set(suffix_spellings)))
+	n_spellings = len(suffix_spellings)
+	hues = list(np.linspace(0, 2 * np.pi, n_spellings + 1))
+	return {suffix_spellings.index(suffix): hsv_to_rgb(hues.pop(), 0.8, 0.8) for suffix in suffix_spellings}
+
 
 def draw(matrix, color_palette, output_path):
 	surface = cairo.PDFSurface(output_path, 4, 4)

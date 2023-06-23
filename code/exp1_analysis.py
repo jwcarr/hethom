@@ -154,43 +154,57 @@ def plot_simplicity_informativeness_by_condition(dataset):
 	fig.tight_layout()
 	plt.show()
 
-def print_word_chains(dataset, condition):
-	condition_subset = dataset[ dataset['condition'] == condition ]
-	for chain_i in sorted(condition_subset['chain'].unique()):
-		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
-		print('-------------')
-		print(chain_i)
-		print('-------------')
-		table = [[] for _ in range(16)]
-		for item_i, (shape, color) in enumerate(product(range(4), range(4))):
-			item = f'{shape}_{color}'
-			word = generations[0][0]['input_lexicon'][item]
-			table[item_i].append(word.ljust(9, ' '))
-			for subject_a, subject_b in generations:
-				bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
-				word = subject_a['lexicon'][item]
-				table[item_i].append(bottleneck + word.ljust(9, ' '))
-		print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
-		for row in table:
-			print(' '.join(row).strip())
+def print_word_chains(dataset):
+	for condition, data in dataset.items():
+		print(condition.upper())
+		for chain_i, chain in enumerate(data):
+			print('  Chain', chain_i)
+			table = [[] for _ in range(16)]
+			for item_i, (shape, color) in enumerate(product(range(4), range(4))):
+				item = f'{shape}_{color}'
+				word = chain[0][0]['lexicon'][item]
+				table[item_i].append(word.ljust(9, ' '))
+				for subject_a, subject_b in chain[1:]:
+					bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
+					word = subject_a['lexicon'][item]
+					table[item_i].append(bottleneck + word.ljust(9, ' '))
+			print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
+			for row in table:
+				print(' '.join(row).strip())
+
+def detect_convergence_generation(chain):
+	prev_lexicon = chain[0][0]['lexicon']
+	min_error = np.inf
+	convergence_gen = None
+	for gen_i, (subject_a, _) in enumerate(chain[1:], 1):
+		error = transmission_error(prev_lexicon, subject_a['lexicon'])
+		if error < min_error:
+			min_error = error
+			convergence_gen = gen_i
+		prev_lexicon = subject_a['lexicon']
+	return convergence_gen
 
 import matrix
-def draw_converged_matrixes():
-	exp_data_file = ROOT / 'data' / 'exp1.json'
-	exp_data = json_load(exp_data_file)
+def draw_converged_matrixes(exp_data):
 	for condition, data in exp_data.items():
 		print(condition.upper())
 		for chain_i, chain in enumerate(data):
 			print('  Chain', chain_i)
-			converged_lexicon = chain[-1][0]['lexicon']
-			# for meaning, word in converged_lexicon.items():
-			# 	stem, suffix = matrix.parse_stem_and_suffix(word)
-			# 	print(meaning, f'{stem}•{suffix}')
+			convergence_gen = detect_convergence_generation(chain)
+			converged_lexicon = chain[convergence_gen][0]['lexicon']
 			mat = matrix.make_matrix(converged_lexicon)
 			cp = matrix.generate_color_palette(mat)
 			matrix.draw(mat, cp, f'/Users/jon/Desktop/converged/{condition}_{chain_i}.pdf')
 
-			print(matrix.typ_distances(mat))
+def draw_all_matrixes(exp_data):
+	for condition, data in exp_data.items():
+		print(condition.upper())
+		for chain_i, chain in enumerate(data):
+			print('  Chain', chain_i)
+			cp = matrix.generate_color_palette_many(chain)
+			for gen_i, (subject_a, _) in enumerate(chain):
+				mat = matrix.make_matrix(subject_a['lexicon'])
+				matrix.draw(mat, cp, f'/Users/jon/Desktop/matrices/{condition}_{chain_i}_{gen_i}.pdf')
 
 import disttern
 def make_ternary_plot():
@@ -198,48 +212,60 @@ def make_ternary_plot():
 	exp_data = json_load(exp_data_file)
 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
 	for condition, data in exp_data.items():
-		scatter_objects = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in data]
-		scatter_objects.append(matrix.typology['holistic'])
-		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information)
+		scatter_objects = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in data]
+		for chain in data:
+			for subject_a, _ in chain:
+				scatter_objects.append(matrix.make_matrix(subject_a['lexicon']))
+		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information, jitter=True)
 
-def make_ternary_plot():
-	exp_data_file = ROOT / 'data' / 'exp1.json'
-	exp_data = json_load(exp_data_file)
-	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
-	lrn_matrices = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in exp_data['lrn_hiVar']]
-	com_matrices = [matrix.make_matrix(chain[-1][0]['lexicon']) for chain in exp_data['com_hiVar']]
-	disttern.make_ternary_plot(
-		ref_objects,
-		lrn_matrices + com_matrices,
-		matrix.voi.variation_of_information,
-		color=['CadetBlue'] * 10 + ['Crimson'] * 10,
-		jitter=True,
-	)
+# def make_ternary_plot():
+# 	exp_data_file = ROOT / 'data' / 'exp1.json'
+# 	exp_data = json_load(exp_data_file)
+# 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
+# 	lrn_matrices = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in exp_data['lrn_hiVar']]
+# 	com_matrices = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in exp_data['com_hiVar']]
+# 	disttern.make_ternary_plot(
+# 		ref_objects,
+# 		lrn_matrices + com_matrices,
+# 		matrix.voi.variation_of_information,
+# 		color=['CadetBlue'] * 10 + ['Crimson'] * 10,
+# 		jitter=True,
+# 	)
 
-def make_ternary_plot():
-	exp_data_file = ROOT / 'data' / 'exp1.json'
-	exp_data = json_load(exp_data_file)
-	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
-	lrn_matrices = []
-	for n_suffixes in range(2, 16):
-		lrn_matrices.extend( [np.random.randint(0, n_suffixes, 16).reshape((4,4)) for _ in range(1000)] )
-	disttern.make_ternary_plot(
-		ref_objects,
-		lrn_matrices,
-		matrix.voi.variation_of_information,
-		color='CadetBlue',
-		jitter=True,
-	)
+# def make_ternary_plot():
+# 	exp_data_file = ROOT / 'data' / 'exp1.json'
+# 	exp_data = json_load(exp_data_file)
+# 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
+# 	lrn_matrices = []
+# 	for n_suffixes in range(2, 16):
+# 		lrn_matrices.extend( [np.random.randint(0, n_suffixes, 16).reshape((4,4)) for _ in range(1000)] )
+# 	disttern.make_ternary_plot(
+# 		ref_objects,
+# 		lrn_matrices,
+# 		matrix.voi.variation_of_information,
+# 		color='CadetBlue',
+# 		jitter=True,
+# 	)
 
 if __name__ == '__main__':
 
+	exp_json_file = ROOT / 'data' / 'exp1.json'
 	exp_csv_file = ROOT / 'data' / 'exp1.csv'
 
 	# perform_measures(exp_csv_file)
 	
-	# dataset = pd.read_csv(exp_csv_file)
-	# plot_generational_change_by_condition(dataset, 'alignment')
-	# plot_simplicity_informativeness_by_condition(dataset)
+	dataset_json = json_load(exp_json_file)
+	# dataset_csv = pd.read_csv(exp_csv_file)
 
-	# draw_converged_matrixes()
+	# plot_generational_change_by_condition(dataset_csv, 'alignment')
+	# plot_simplicity_informativeness_by_condition(dataset_csv)
+
+	# draw_converged_matrixes(dataset_json)
+	# draw_all_matrixes(dataset_json)
 	make_ternary_plot()
+
+	# print_word_chains(dataset_json)
+
+	# lex = dataset_json['lrn_hiVar'][7][-1][0]['lexicon']
+	# for item, word in lex.items():
+	# 	print(word)
