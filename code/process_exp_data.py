@@ -14,10 +14,10 @@ def identical_dicts(dict1, dict2):
 
 def process_subject(exp_id, subject_id):
 	if subject_id is None:
-		return None, None, None
+		return None, None, None, None
 	subject_data_file = ROOT / 'data' / exp_id / f'subject_{subject_id}.json'
 	subject_data = json_load(subject_data_file)
-	return subject_data['input_lexicon'], subject_data['lexicon'], subject_data['training_items']
+	return subject_data['input_lexicon'], subject_data['lexicon'], subject_data['training_items'], subject_data['spoken_forms']
 
 def process_chain(exp_id, chain_id):
 	chain_dataset = []
@@ -27,8 +27,8 @@ def process_chain(exp_id, chain_id):
 	if len(chain_data['subjects']) > 20:
 		chain_data['subjects'] = chain_data['subjects'][:20]
 	for generation_i, (subject_a, subject_b) in enumerate(chain_data['subjects']):
-		input_lexicon_a, output_lexicon_a, training_items_a = process_subject(exp_id, subject_a)
-		input_lexicon_b, output_lexicon_b, training_items_b = process_subject(exp_id, subject_b)
+		input_lexicon_a, output_lexicon_a, training_items_a, spoken_forms_a = process_subject(exp_id, subject_a)
+		input_lexicon_b, output_lexicon_b, training_items_b, spoken_forms_b = process_subject(exp_id, subject_b)
 		if generation_i == 0:
 			generation = [
 				{'subject_id': None, 'lexicon': input_lexicon_a},
@@ -43,12 +43,12 @@ def process_chain(exp_id, chain_id):
 			assert identical_dicts(input_lexicon_a, input_lexicon_b)
 		if subject_b:
 			generation = [
-				{'subject_id': subject_a, 'lexicon': output_lexicon_a, 'training_items': training_items_a},
-				{'subject_id': subject_b, 'lexicon': output_lexicon_b, 'training_items': training_items_b}
+				{'subject_id': subject_a, 'lexicon': output_lexicon_a, 'spoken_forms': spoken_forms_a, 'training_items': training_items_a},
+				{'subject_id': subject_b, 'lexicon': output_lexicon_b, 'spoken_forms': spoken_forms_b, 'training_items': training_items_b}
 			]
 		else:
 			generation = [
-				{'subject_id': subject_a, 'lexicon': output_lexicon_a, 'training_items': training_items_a},
+				{'subject_id': subject_a, 'lexicon': output_lexicon_a, 'spoken_forms': spoken_forms_a, 'training_items': training_items_a},
 				None
 			]
 		chain_dataset.append(generation)

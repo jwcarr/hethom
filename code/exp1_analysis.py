@@ -154,6 +154,13 @@ def plot_simplicity_informativeness_by_condition(dataset):
 	fig.tight_layout()
 	plt.show()
 
+cons = ['θ', 's', 'ʃ', 'h']
+vwls = ['ə', 'ɛɪ', 'əʊ', 'u']
+def get_sound(item, data):
+	sound_file = data['spoken_forms'][item]
+	s, c, v = sound_file.split('.')[0].split('_')
+	return f'{cons[int(c)]}{vwls[int(v)]}'.ljust(4)
+
 def print_word_chains(dataset):
 	for condition, data in dataset.items():
 		print(condition.upper())
@@ -167,7 +174,8 @@ def print_word_chains(dataset):
 				for subject_a, subject_b in chain[1:]:
 					bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
 					word = subject_a['lexicon'][item]
-					table[item_i].append(bottleneck + word.ljust(9, ' '))
+					sound = get_sound(item, subject_a)
+					table[item_i].append(bottleneck + sound + word.ljust(9, ' '))
 			print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
 			for row in table:
 				print(' '.join(row).strip())
@@ -249,7 +257,7 @@ def make_ternary_plot():
 
 if __name__ == '__main__':
 
-	exp_json_file = ROOT / 'data' / 'exp1.json'
+	exp_json_file = ROOT / 'data' / 'pilot6.json'
 	exp_csv_file = ROOT / 'data' / 'exp1.csv'
 
 	# perform_measures(exp_csv_file)
@@ -262,9 +270,9 @@ if __name__ == '__main__':
 
 	# draw_converged_matrixes(dataset_json)
 	# draw_all_matrixes(dataset_json)
-	make_ternary_plot()
+	# make_ternary_plot()
 
-	# print_word_chains(dataset_json)
+	print_word_chains(dataset_json)
 
 	# lex = dataset_json['lrn_hiVar'][7][-1][0]['lexicon']
 	# for item, word in lex.items():
