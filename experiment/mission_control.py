@@ -216,7 +216,7 @@ class MissionControl:
 				update_status = 'converged'
 				print('🎉 CHAIN CONVERGED!')
 		if chain['task']['sound_change_freq']:
-			if chain['current_gen'] > 0 and (chain['current_gen'] + 1) % chain['task']['sound_change_freq'] == 0:
+			if (chain['current_gen'] > 0 and (chain['current_gen'] + 1) % chain['task']['sound_change_freq'] == 0) or (chain['task']['sound_change_freq'] == 1):
 				sound_epoch_inc = 1
 				print('🕓 NEW SOUND EPOCH')
 			else:
@@ -344,7 +344,12 @@ class MissionControl:
 		subject = self.db.subjects.find_one({'subject_id': sub_id})
 		if subject is None:
 			raise ValueError('Subject not found')
-		self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
+		pay_subject = input(f'Should subject {sub_id} get paid? ') == 'yes'
+		if pay_subject:
+			self._log_approval(sub_id, subject['total_bonus'])
+			self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'jilted'}})
+		else:
+			self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
 		if update_chain:
 			chain = self.db.chains.find_one({'chain_id': subject['chain_id']})
 			if chain['subject_a'] == subject['subject_id']:

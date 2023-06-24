@@ -344,6 +344,10 @@ function prepareNextTrial(subject) {
 	return next;
 }
 
+function jiltParticipant(client, subject) {
+	return client.emit('report', {message: `Unfortunately, the participant you were partnered with has withdrawn from the experiment, so it will not be possible to continue. However, we will still pay you in full, including any bonus earned so far. Please click this link to return to Prolific: <a href="${EXP_CONFIG.return_url}" style="color: white">${EXP_CONFIG.return_url}</a>`});
+}
+
 function reportError(client, error_number, reason) {
 	const message = 'Error ' + error_number + ': ' + reason;
 	console.log(getCurrentTime() + ' ' + message);
@@ -369,6 +373,8 @@ socket.on('connection', function(client) {
 			if (err)
 				return reportError(client, 118, 'Unable to validate participant ID.');
 			if (subject) { // If we've seen this subject before...
+				if (subject.status === 'jilted')
+					return jiltParticipant(client, subject);
 				if (subject.status != 'active')
 					return reportError(client, 116, 'You have already completed this task.');
 				// Reinitialize the subject and make a note of this in the database
@@ -476,7 +482,6 @@ socket.on('connection', function(client) {
 					// tell client to begin the next trial
 					const next = prepareNextTrial(subject);
 					next.payload.spoken_forms = spoken_forms;
-					console.log(next);
 					return client.emit(next.event, next.payload);
 				});
 			});
@@ -490,6 +495,8 @@ socket.on('connection', function(client) {
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err || !subject)
 				return reportError(client, 126, 'Unrecognized participant ID.');
+			if (subject.status === 'jilted')
+				return jiltParticipant(client, subject);
 			if (subject.status != 'active')
 				return reportError(client, 127, 'Your session is no longer active.');
 			// Decide what information needs to be updated in the database...
@@ -546,6 +553,8 @@ socket.on('connection', function(client) {
 		}, function(err, subject, last_err) {
 			if (err || !subject)
 				return reportError(client, 131, 'Unrecognized participant ID.');
+			if (subject.status === 'jilted')
+				return jiltParticipant(client, subject);
 			if (subject.status != 'active')
 				return reportError(client, 132, 'Your session is no longer active.');
 			// find the subject's partner
