@@ -318,15 +318,19 @@ function assignToChain(chains, subject_id) {
 function getPartner(client, subject, callback) {
 	db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
 		if (err || !chain)
-			return reportError(client, 133, 'Error.');
+			return reportError(client, 134, 'Cannot obtain chain.');
 		let partner_id = null;
 		if (subject.subject_id === chain.subject_a)
 			partner_id = chain.subject_b;
 		else if (subject.subject_id === chain.subject_b)
 			partner_id = chain.subject_a;
+		else
+			return reportError(client, 135, 'No longer assigned to chain.');
+		if (partner_id === null)
+			return jiltParticipant(client, subject);
 		db.subjects.findOne({subject_id: partner_id}, function(err, partner) {
 			if (err || !partner)
-				return reportError(client, 135, 'Cannot find partner.');
+				return reportError(client, 136, 'Assigned partner does not exist.');
 			callback(partner, chain);
 		});
 	});
@@ -367,7 +371,7 @@ socket.on('connection', function(client) {
 	client.on('handshake', function(payload) {
 		// Check for a valid subject ID
 		if (!VALID_SUBJECT_ID.test(payload.subject_id))
-			return reportError(client, 117, 'Unable to validate participant ID.');
+			return reportError(client, 117, 'Invalid Prolific ID.');
 		// Attempt to find the subject in the database
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err)
@@ -376,7 +380,7 @@ socket.on('connection', function(client) {
 				if (subject.status === 'jilted')
 					return jiltParticipant(client, subject);
 				if (subject.status != 'active')
-					return reportError(client, 116, 'You have already completed this task.');
+					return reportError(client, 119, 'You have already completed this task.');
 				// Reinitialize the subject and make a note of this in the database
 				db.subjects.update({subject_id: subject.subject_id}, { $set:{client_id: client.id}, $inc: {n_reinitializations: 1} }, function() {
 					return client.emit('initialize', {
@@ -411,7 +415,7 @@ socket.on('connection', function(client) {
 				// Save the new subject to the database
 				db.subjects.save(subject, function(err, saved) {
 					if (err || !saved)
-						return reportError(client, 121, 'This task is currently unavailable.');
+						return reportError(client, 120, 'Experiment unavailable. Please try again in a minute.');
 					// Tell the client to initialize
 					return client.emit('initialize', {
 						total_bonus: subject.total_bonus,
@@ -432,7 +436,7 @@ socket.on('connection', function(client) {
 		// generations that have been completed (prioritizing few generations).
 		db.chains.find({status: 'available'}).sort({current_gen: 1}, function(err, chains) {
 			if (err || chains.length === 0)
-				return reportError(client, 119, 'Experiment unavailable. Please try again in a minute.');
+				return reportError(client, 121, 'Experiment unavailable. Please try again in a minute.');
 			// determine chain with greatest priority and update that chain
 			const [candidate_chain, candidate_chain_update] = assignToChain(chains, payload.subject_id);
 			db.chains.findAndModify({
@@ -441,7 +445,7 @@ socket.on('connection', function(client) {
 				new: true,
 			}, function(err, chain, last_err) {
 				if (err || !chain)
-					return reportError(client, 141, 'Unable to assign to chain');
+					return reportError(client, 122, 'Unable to assign to chain');
 				// if communicative chain, double check that one of the
 				// subjects is the present subject ID and note whether
 				// this subject is the lead subject
@@ -451,7 +455,7 @@ socket.on('connection', function(client) {
 				else if (chain.task.communication && chain.subject_b === payload.subject_id)
 					lead_communicator = false;
 				else if (chain.task.communication)
-					return reportError(client, 140, 'Unable to assign to chain');
+					return reportError(client, 123, 'Unable to assign to chain');
 				// Chain assignment has been successful. Generate the
 				// subject's lexicon, training items, and trial sequence, and
 				// write to the database
@@ -478,7 +482,7 @@ socket.on('connection', function(client) {
 					new: true,
 				}, function(err, subject, last_err) {
 					if (err || !subject)
-						return reportError(client, 128, 'Unrecognized participant ID.');
+						return reportError(client, 124, 'Unable to assign to chain.');
 					// tell client to begin the next trial
 					const next = prepareNextTrial(subject);
 					next.payload.spoken_forms = spoken_forms;
@@ -494,11 +498,11 @@ socket.on('connection', function(client) {
 		// Find subject in the database
 		db.subjects.findOne({subject_id: payload.subject_id}, function(err, subject) {
 			if (err || !subject)
-				return reportError(client, 126, 'Unrecognized participant ID.');
+				return reportError(client, 125, 'Unrecognized participant ID.');
 			if (subject.status === 'jilted')
 				return jiltParticipant(client, subject);
 			if (subject.status != 'active')
-				return reportError(client, 127, 'Your session is no longer active.');
+				return reportError(client, 126, 'Your session is no longer active.');
 			// Decide what information needs to be updated in the database...
 			const time = getCurrentTime();
 			const update = {
@@ -530,7 +534,7 @@ socket.on('connection', function(client) {
 			// ...and perform the update
 			db.subjects.findAndModify({query: {subject_id: payload.subject_id}, update, new: true}, function(err, subject, last_err) {
 				if (err || !subject)
-					return reportError(client, 128, 'Unrecognized participant ID.');
+					return reportError(client, 127, 'Unrecognized participant ID.');
 				// Tell subject to begin the next trial
 				const next = prepareNextTrial(subject);
 				return client.emit(next.event, next.payload);
@@ -552,11 +556,11 @@ socket.on('connection', function(client) {
 			new: true,
 		}, function(err, subject, last_err) {
 			if (err || !subject)
-				return reportError(client, 131, 'Unrecognized participant ID.');
+				return reportError(client, 128, 'Unrecognized participant ID.');
 			if (subject.status === 'jilted')
 				return jiltParticipant(client, subject);
 			if (subject.status != 'active')
-				return reportError(client, 132, 'Your session is no longer active.');
+				return reportError(client, 129, 'Your session is no longer active.');
 			// find the subject's partner
 			getPartner(client, subject, function(partner, chain) {
 				// if the partner has already declared themselves ready, reset
@@ -589,9 +593,9 @@ socket.on('connection', function(client) {
 			new: true,
 		}, function(err, subject, last_err) {
 			if (err || !subject)
-				return reportError(client, 131, 'Unrecognized participant ID.');
+				return reportError(client, 130, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
-				return reportError(client, 132, 'Your session is no longer active.');
+				return reportError(client, 131, 'Your session is no longer active.');
 			// get the partner subject and forward the label to them
 			getPartner(client, subject, function(partner, chain) {
 				const total_bonus_with_full = partner.total_bonus + EXP_CONFIG.bonus_full;
@@ -614,9 +618,9 @@ socket.on('connection', function(client) {
 			new: true,
 		}, function(err, subject, last_err) {
 			if (err || !subject)
-				return reportError(client, 131, 'Unrecognized participant ID.');
+				return reportError(client, 132, 'Unrecognized participant ID.');
 			if (subject.status != 'active')
-				return reportError(client, 132, 'Your session is no longer active.');
+				return reportError(client, 133, 'Your session is no longer active.');
 			// get the partner subject and forward the feedback to them
 			getPartner(client, subject, function(partner, chain) {
 				const target_item = partner.responses[partner.responses.length - 1].item;
