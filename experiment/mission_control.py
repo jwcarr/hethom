@@ -32,6 +32,7 @@ The general workflow is:
 import json
 import random
 import time
+import requests
 import numpy as np
 from itertools import product
 from pathlib import Path
@@ -58,12 +59,20 @@ STATUS_EMOJI = {
 
 class MissionControl:
 
-	def __init__(self, exp_id):
+	def __init__(self, exp_id, prolific_study_id=None, prolific_api_token=None):
 		self.exp_id = exp_id
+		self.prolific_study_id = prolific_study_id
+		self.prolific_api_token = prolific_api_token
 		if self.exp_id in DB.list_database_names():
 			self.db = DB[self.exp_id]
 		else:
 			self.db = None
+		self.returned_subject_IDs = []
+		return_log_path = DATA_DIR / f'{self.exp_id}_return_log'
+		if return_log_path.exists():
+			with open(return_log_path) as file:
+				for line in file:
+					self.returned_subject_IDs.append(line.strip())
 
 	def _log_approval(self, sub_id, bonus):
 		with open(DATA_DIR / f'{self.exp_id}_approval_log', 'a') as file:
@@ -71,6 +80,11 @@ class MissionControl:
 		with open(DATA_DIR / f'{self.exp_id}_bonus_log', 'a') as file:
 			bonus = convert_to_pounds(bonus)
 			file.write(f'{sub_id},{bonus}\n')
+
+	def _log_return(self, sub_id):
+		with open(DATA_DIR / f'{self.exp_id}_return_log', 'a') as file:
+			file.write(f'{sub_id}\n')
+		self.returned_subject_IDs.append(sub_id)
 
 	def launch(self, _=None):
 		exp_config_file = CONFIG_DIR / f'{self.exp_id}.json'
@@ -333,7 +347,7 @@ class MissionControl:
 		self._log_approval(subject['subject_id'], subject['total_bonus'])
 		return subject
 
-	def drop_subject(self, sub_id=None, update_chain=True):
+	def drop_subject(self, sub_id=None, update_chain=True, pay_subject=None, ignore_subject_not_found=False):
 		'''
 		Set the subject's status to dropout, remove them from their assigned
 		chain, and set the chain's status to available so that the slot can be
@@ -343,24 +357,43 @@ class MissionControl:
 			return None
 		subject = self.db.subjects.find_one({'subject_id': sub_id})
 		if subject is None:
+			if ignore_subject_not_found:
+				return
 			raise ValueError('Subject not found')
-		pay_subject = input(f'Should subject {sub_id} get paid? ') == 'yes'
+		if pay_subject is None:
+			pay_subject = input(f'Should subject {sub_id} get paid? ') == 'yes'
 		if pay_subject:
 			self._log_approval(sub_id, subject['total_bonus'])
 			self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'jilted'}})
+			print(f'Status of {sub_id} changed to jilted')
 		else:
 			self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
+			print(f'Status of {sub_id} changed to dropout')
 		if update_chain:
 			chain = self.db.chains.find_one({'chain_id': subject['chain_id']})
 			if chain['subject_a'] == subject['subject_id']:
 				self.db.chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_a': None}})
+				print(f'Subject A slot opened on chain {chain["chain_id"]}')
 			elif chain['subject_b'] == subject['subject_id']:
 				self.db.chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_b': None}})
+				print(f'Subject B slot opened on chain {chain["chain_id"]}')
 
+	def drop_returns(self):
+		'''
+		Use the Prolific API to get a list of returned participants. 
+		'''
+		api_url = f'https://api.prolific.co/api/v1/submissions/?study={self.prolific_study_id}'
+		response = requests.get(api_url, headers={'Authorization': f'Token {self.prolific_api_token}'}).json()
+		for submission in response['results']:
+			subject_id = submission['participant_id']
+			if submission['status'] == 'RETURNED' and subject_id not in self.returned_subject_IDs:
+				print(f'{subject_id} has returned, dropping...')
+				self.drop_subject(subject_id, update_chain=True, pay_subject=False, ignore_subject_not_found=True)
+				self._log_return(subject_id)
 
 def entropy(distribution):
 	distribution /= distribution.sum()
-	return -sum([p * np.log(p) for p in distribution if p > 0])
+	return -sum([p * np.log2(p) for p in distribution if p > 0])
 
 def choose(choices, choose_n):
 	'''
