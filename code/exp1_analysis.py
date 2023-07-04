@@ -34,6 +34,8 @@ LABELS = {
 	'lrn_noVar': 'Learning-only, No variation',
 	'com_hiVar': 'Learning & Communication, High variation',
 	'com_noVar': 'Learning & Communication, No variation',
+	'lrn': 'Learning-only',
+	'com': 'Learning & Communication',
 }
 
 
@@ -63,8 +65,7 @@ def communicative_cost(lexicon, dims):
 	U_size = np.product(dims)
 	return 1 / U_size * sum([-np.log2(1 / len(reverse_lexicon[lexicon[m]])) for m in U])
 
-def perform_measures(exp_csv_file):
-	exp_data_file = ROOT / 'data' / 'exp1.json'
+def perform_measures(exp_data_file, exp_csv_file):
 	exp_data = json_load(exp_data_file)
 
 	table = []
@@ -104,24 +105,28 @@ def pad_range(lo, hi):
 	pad = diff * 0.05
 	return lo - pad, hi + pad 
 
-def plot_generational_change(axis, dataset, condition, measure):
+def plot_generational_change(axis, dataset, condition, measure, n_generations=20, show_mean=False):
 	condition_subset = dataset[ dataset['condition'] == condition ]
 	for chain_i in sorted(condition_subset['chain'].unique()):
 		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
 		axis.plot(chain_subset['generation'], chain_subset[measure], label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
-	axis.set_xlim(0, 20)
+	axis.set_xlim(0, n_generations)
 	axis.set_ylim(*pad_range(*MEASURE_RANGES[measure]))
-	axis.set_xticks(list(range(21)))
+	axis.set_xticks(list(range(n_generations + 1)))
 	axis.set_xlabel('Generation')
 	axis.set_ylabel(LABELS[measure])
 	axis.set_title(LABELS[condition])
 
 def plot_generational_change_by_condition(dataset, measure):
-	fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-	plot_generational_change(axes[0,0], dataset, 'lrn_hiVar', measure)
-	plot_generational_change(axes[0,1], dataset, 'com_hiVar', measure)
-	plot_generational_change(axes[1,0], dataset, 'lrn_noVar', measure)
-	plot_generational_change(axes[1,1], dataset, 'com_noVar', measure)
+	conditions = dataset['condition'].unique()
+	if len(conditions) == 2:
+		fig, axes = plt.subplots(1, 2, figsize=(15, 7))
+		n_generations = 12
+	elif len(conditions) == 4:
+		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+		n_generations = 20
+	for axis, condition in zip(np.ravel(axes), conditions):
+		plot_generational_change(axis, dataset, condition, measure, n_generations)
 	fig.tight_layout()
 	plt.show()
 
@@ -154,6 +159,36 @@ def plot_simplicity_informativeness_by_condition(dataset):
 	fig.tight_layout()
 	plt.show()
 
+def plot_training_curve(subject_id, window=12):
+	data = json_load(ROOT / 'data' / 'exp2' / f'subject_{subject_id}.json')
+	fig, axis = plt.subplots(1, 1)
+	full_correct = []
+	for trial in data['responses']:
+		if trial['test_type'] == 'mini_test':
+			if trial['input_label'] == trial['expected_label']:
+				full_correct.append(1)
+			else:
+				full_correct.append(0)
+
+	x = []
+	y = []
+	for i in range(0, len(full_correct) - (window - 1)):
+		mean = sum(full_correct[i : i + window]) / window
+		x.append(i + window )
+		y.append(mean)
+	y = np.array(y)# + (np.random.random() * 0.1 - 0.05)
+	axis.plot(x, y, color='black')
+	axis.set_ylim(-0.05, 1.05)
+	axis.set_xlim(1, 36)
+	axis.set_xticks([1, 12, 24, 36])
+	axis.set_xlabel('Mini-test trial')
+	axis.set_ylabel(f'Mean accuracy over previous {window} trials')
+	axis.axvline(12, color='black', linestyle='--')
+	axis.axvline(24, color='black', linestyle='--')
+	fig.savefig(ROOT / 'plots' / 'exp2' / f'learn_curve_{data["chain_id"]}_{data["generation"]}.pdf')
+	plt.close()
+	# plt.show()
+
 cons = ['θ', 's', 'ʃ', 'h']
 vwls = ['ə', 'ɛɪ', 'əʊ', 'u']
 def get_sound(item, data):
@@ -176,7 +211,7 @@ def print_word_chains(dataset):
 					word = subject_a['lexicon'][item]
 					sound = get_sound(item, subject_a)
 					table[item_i].append(bottleneck + sound + word.ljust(9, ' '))
-			print(''.join([str(gen_i).ljust(12, ' ') for gen_i in range(len(table[0]))]).strip())
+			print(''.join([str(gen_i).ljust(16, ' ') for gen_i in range(len(table[0]))]).strip())
 			for row in table:
 				print(' '.join(row).strip())
 
@@ -257,22 +292,27 @@ def make_ternary_plot():
 
 if __name__ == '__main__':
 
-	exp_json_file = ROOT / 'data' / 'pilot6.json'
-	exp_csv_file = ROOT / 'data' / 'exp1.csv'
+	exp_json_file = ROOT / 'data' / 'exp2.json'
+	exp_csv_file = ROOT / 'data' / 'exp2.csv'
 
-	# perform_measures(exp_csv_file)
+	# perform_measures(exp_json_file, exp_csv_file)
 	
 	dataset_json = json_load(exp_json_file)
-	# dataset_csv = pd.read_csv(exp_csv_file)
+	dataset_csv = pd.read_csv(exp_csv_file)
 
-	# plot_generational_change_by_condition(dataset_csv, 'alignment')
+	# plot_generational_change_by_condition(dataset_csv, 'cost')
 	# plot_simplicity_informativeness_by_condition(dataset_csv)
 
 	# draw_converged_matrixes(dataset_json)
 	# draw_all_matrixes(dataset_json)
 	# make_ternary_plot()
 
-	print_word_chains(dataset_json)
+	for i in range(1, 398):
+		subject_id = str(i).zfill(3)
+		plot_training_curve(subject_id)
+		json_load(ROOT / 'data' / 'exp2' / f'subject_{subject_id}.json')
+
+	# print_word_chains(dataset_json)
 
 	# lex = dataset_json['lrn_hiVar'][7][-1][0]['lexicon']
 	# for item, word in lex.items():
