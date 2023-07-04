@@ -369,7 +369,7 @@ class MissionControl:
 		else:
 			self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'dropout'}})
 			print(f'Status of {sub_id} changed to dropout')
-		if update_chain:
+		if update_chain and subject['chain_id']:
 			chain = self.db.chains.find_one({'chain_id': subject['chain_id']})
 			if chain['subject_a'] == subject['subject_id']:
 				self.db.chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_a': None}})
