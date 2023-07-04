@@ -1,0 +1,3352 @@
+{
+	"subject_id": "346",
+	"client_id": null,
+	"creation_time": 1688038582,
+	"modified_time": 1688039388,
+	"status": "approved",
+	"chain_id": "lrn_6",
+	"generation": 11,
+	"input_lexicon": {
+		"0_0": "buvice",
+		"0_1": "buvixa",
+		"0_2": "buvice",
+		"0_3": "buvixa",
+		"1_0": "zetixa",
+		"1_1": "zetixa",
+		"1_2": "zetixa",
+		"1_3": "zetixa",
+		"2_0": "gafice",
+		"2_1": "gafixa",
+		"2_2": "gafixa",
+		"2_3": "gafice",
+		"3_0": "wopixa",
+		"3_1": "wopixa",
+		"3_2": "wopixa",
+		"3_3": "wopixa"
+	},
+	"spoken_forms": {
+		"0_0": "0_2_1.m4a",
+		"0_1": "0_2_1.m4a",
+		"0_2": "0_2_1.m4a",
+		"0_3": "0_2_1.m4a",
+		"1_0": "1_2_1.m4a",
+		"1_1": "1_2_1.m4a",
+		"1_2": "1_2_1.m4a",
+		"1_3": "1_2_1.m4a",
+		"2_0": "2_2_1.m4a",
+		"2_1": "2_2_1.m4a",
+		"2_2": "2_2_1.m4a",
+		"2_3": "2_2_1.m4a",
+		"3_0": "3_2_1.m4a",
+		"3_1": "3_2_1.m4a",
+		"3_2": "3_2_1.m4a",
+		"3_3": "3_2_1.m4a"
+	},
+	"training_items": [
+		"3_1",
+		"1_1",
+		"2_3",
+		"0_1",
+		"1_2",
+		"2_1",
+		"0_0",
+		"3_2",
+		"0_3",
+		"2_0",
+		"1_3",
+		"3_0"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.0364963503649635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafixa",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.05474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafice",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.09124087591240876
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafice",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.10948905109489052
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.12773722627737227
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvice",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.145985401459854
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.16423357664233576
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.18248175182481752
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.21897810218978103
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.23722627737226276
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.25547445255474455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2737226277372263
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3102189781021898
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafice",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3284671532846715
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3467153284671533
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvice",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.36496350364963503
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafixa",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.38321167883211676
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafice",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.40145985401459855
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4197080291970803
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.43795620437956206
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4562043795620438
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4744525547445255
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_3",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4927007299270073
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5109489051094891
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvice",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafice",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvixa",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.583941605839416
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6021897810218978
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafice",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6204379562043796
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafice",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_1",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetixa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6386861313868614
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafixa",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvice",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_2",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafixa",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_3",
+						"word": "buvixa",
+						"shape": "0",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafice",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zetixa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopixa",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_2",
+					"word": "wopixa",
+					"shape": "3",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6751824817518248
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0.6934306569343066
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buvixa",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7299270072992701
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetixa",
+				"items": [
+					"1_0",
+					"1_1",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"1_3",
+					"2_3",
+					"0_3",
+					"0_1",
+					"3_3",
+					"2_1",
+					"3_0",
+					"3_2",
+					"0_0",
+					"1_1",
+					"2_0",
+					"2_2",
+					"3_1",
+					"1_2",
+					"1_0",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.7372262773722628
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zetixa",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.7445255474452555
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopixa",
+				"items": [
+					"3_0",
+					"3_1",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"0_0",
+					"3_3",
+					"1_2",
+					"3_0",
+					"3_1",
+					"1_0",
+					"2_3",
+					"0_3",
+					"1_1",
+					"1_3",
+					"3_2",
+					"2_0",
+					"0_2",
+					"2_1",
+					"0_1",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.7518248175182481
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_2",
+				"word": "gafixa",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.7591240875912408
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopixa",
+				"items": [
+					"3_0",
+					"3_1",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"0_0",
+					"0_2",
+					"2_2",
+					"2_3",
+					"1_1",
+					"1_3",
+					"0_1",
+					"3_2",
+					"3_1",
+					"2_1",
+					"2_0",
+					"1_0",
+					"1_2",
+					"0_3",
+					"3_0",
+					"3_3"
+				],
+				"pause_time": 500,
+				"progress": 0.7664233576642335
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_3",
+				"word": "buvixa",
+				"shape": "0",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7737226277372263
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvixa",
+				"items": [
+					"0_1",
+					"0_3"
+				],
+				"array": [
+					"3_0",
+					"0_2",
+					"1_0",
+					"2_2",
+					"3_2",
+					"2_1",
+					"0_0",
+					"2_0",
+					"1_2",
+					"2_3",
+					"0_1",
+					"0_3",
+					"3_3",
+					"1_1",
+					"3_1",
+					"1_3"
+				],
+				"pause_time": 500,
+				"progress": 0.781021897810219
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_3",
+				"word": "wopixa",
+				"shape": "3",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7883211678832117
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvice",
+				"items": [
+					"0_0",
+					"0_2"
+				],
+				"array": [
+					"2_1",
+					"2_3",
+					"1_3",
+					"2_2",
+					"0_3",
+					"3_0",
+					"1_2",
+					"1_0",
+					"3_3",
+					"2_0",
+					"3_1",
+					"1_1",
+					"0_2",
+					"0_1",
+					"3_2",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7956204379562044
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_1",
+				"word": "wopixa",
+				"shape": "3",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8029197080291971
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafice",
+				"items": [
+					"2_0",
+					"2_3"
+				],
+				"array": [
+					"3_3",
+					"1_0",
+					"3_2",
+					"2_1",
+					"1_2",
+					"0_0",
+					"0_2",
+					"0_1",
+					"1_3",
+					"2_3",
+					"2_0",
+					"2_2",
+					"3_0",
+					"0_3",
+					"1_1",
+					"3_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8102189781021898
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zetixa",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8175182481751825
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafixa",
+				"items": [
+					"2_1",
+					"2_2"
+				],
+				"array": [
+					"0_0",
+					"3_2",
+					"2_1",
+					"2_0",
+					"1_3",
+					"2_3",
+					"3_1",
+					"0_1",
+					"0_3",
+					"2_2",
+					"3_0",
+					"3_3",
+					"1_2",
+					"1_1",
+					"1_0",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8248175182481752
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_0",
+				"word": "gafice",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8321167883211679
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetixa",
+				"items": [
+					"1_0",
+					"1_1",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"2_3",
+					"0_2",
+					"3_1",
+					"2_0",
+					"2_2",
+					"0_0",
+					"3_0",
+					"3_2",
+					"1_0",
+					"3_3",
+					"1_2",
+					"2_1",
+					"1_1",
+					"1_3",
+					"0_1",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8394160583941606
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_3",
+				"word": "zetixa",
+				"shape": "1",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8467153284671532
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvice",
+				"items": [
+					"0_0",
+					"0_2"
+				],
+				"array": [
+					"1_0",
+					"1_2",
+					"0_1",
+					"3_2",
+					"1_1",
+					"1_3",
+					"2_2",
+					"0_3",
+					"3_3",
+					"0_0",
+					"3_1",
+					"2_1",
+					"2_0",
+					"3_0",
+					"0_2",
+					"2_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8540145985401459
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_0",
+				"word": "wopixa",
+				"shape": "3",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8613138686131386
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopixa",
+				"items": [
+					"3_0",
+					"3_1",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"2_3",
+					"1_0",
+					"3_3",
+					"0_2",
+					"2_2",
+					"0_1",
+					"3_1",
+					"0_3",
+					"3_2",
+					"1_1",
+					"3_0",
+					"0_0",
+					"1_2",
+					"2_1",
+					"2_0",
+					"1_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8686131386861314
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buvice",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8759124087591241
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafice",
+				"items": [
+					"2_0",
+					"2_3"
+				],
+				"array": [
+					"1_0",
+					"0_3",
+					"0_0",
+					"3_3",
+					"1_3",
+					"3_1",
+					"2_3",
+					"1_2",
+					"2_1",
+					"0_1",
+					"2_2",
+					"0_2",
+					"3_2",
+					"3_0",
+					"2_0",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8832116788321168
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_2",
+				"word": "wopixa",
+				"shape": "3",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8905109489051095
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetixa",
+				"items": [
+					"1_0",
+					"1_1",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"2_1",
+					"3_3",
+					"0_2",
+					"3_1",
+					"2_3",
+					"3_2",
+					"3_0",
+					"2_2",
+					"1_3",
+					"0_1",
+					"0_0",
+					"1_0",
+					"1_2",
+					"0_3",
+					"2_0",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8978102189781022
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_1",
+				"word": "gafixa",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9051094890510949
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvixa",
+				"items": [
+					"0_1",
+					"0_3"
+				],
+				"array": [
+					"3_0",
+					"0_3",
+					"2_3",
+					"3_2",
+					"1_2",
+					"0_0",
+					"2_2",
+					"1_1",
+					"1_0",
+					"0_2",
+					"1_3",
+					"3_3",
+					"0_1",
+					"2_1",
+					"2_0",
+					"3_1"
+				],
+				"pause_time": 500,
+				"progress": 0.9124087591240876
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buvice",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9197080291970803
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopixa",
+				"items": [
+					"3_0",
+					"3_1",
+					"3_2",
+					"3_3"
+				],
+				"array": [
+					"0_0",
+					"3_3",
+					"1_2",
+					"0_3",
+					"3_0",
+					"2_1",
+					"3_2",
+					"1_1",
+					"1_0",
+					"2_0",
+					"1_3",
+					"2_3",
+					"3_1",
+					"0_1",
+					"0_2",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.927007299270073
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_3",
+				"word": "gafice",
+				"shape": "2",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.9343065693430657
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafixa",
+				"items": [
+					"2_1",
+					"2_2"
+				],
+				"array": [
+					"2_0",
+					"1_1",
+					"3_1",
+					"3_0",
+					"2_3",
+					"0_0",
+					"0_1",
+					"2_2",
+					"1_2",
+					"1_0",
+					"0_3",
+					"1_3",
+					"3_3",
+					"3_2",
+					"2_1",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9416058394160584
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zetixa",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.948905109489051
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetixa",
+				"items": [
+					"1_0",
+					"1_1",
+					"1_2",
+					"1_3"
+				],
+				"array": [
+					"2_1",
+					"0_2",
+					"0_0",
+					"1_2",
+					"3_1",
+					"2_0",
+					"1_1",
+					"3_3",
+					"3_2",
+					"3_0",
+					"0_1",
+					"1_0",
+					"2_2",
+					"1_3",
+					"2_3",
+					"0_3"
+				],
+				"pause_time": 500,
+				"progress": 0.9562043795620438
+			}
+		},
+		{
+			"event": "questionnaire",
+			"payload": {
+				"progress": 0.9635036496350365
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CIYLN87N",
+				"basic_pay": 300,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 73,
+	"total_bonus": 123,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixia",
+			"response_time": 5690,
+			"object_clicked": false,
+			"time": 1688038658
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafixa",
+			"catch_trial": false,
+			"input_label": "gatixa",
+			"response_time": 5105,
+			"object_clicked": false,
+			"time": 1688038672
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 3047,
+			"object_clicked": false,
+			"time": 1688038685
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "gafixa",
+			"response_time": 2497,
+			"object_clicked": false,
+			"time": 1688038698
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "buvice",
+			"response_time": 2393,
+			"object_clicked": false,
+			"time": 1688038710
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2808,
+			"object_clicked": false,
+			"time": 1688038723
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvice",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 2515,
+			"object_clicked": false,
+			"time": 1688038735
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 2366,
+			"object_clicked": false,
+			"time": 1688038747
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 2763,
+			"object_clicked": false,
+			"time": 1688038759
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2796,
+			"object_clicked": false,
+			"time": 1688038771
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopixa",
+			"catch_trial": true,
+			"input_label": "wopixa",
+			"response_time": 11164,
+			"object_clicked": true,
+			"time": 1688038793
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 4936,
+			"object_clicked": false,
+			"time": 1688038808
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 2812,
+			"object_clicked": false,
+			"time": 1688038821
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2598,
+			"object_clicked": false,
+			"time": 1688038833
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 2765,
+			"object_clicked": false,
+			"time": 1688038845
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2918,
+			"object_clicked": false,
+			"time": 1688038858
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "gafice",
+			"response_time": 3426,
+			"object_clicked": false,
+			"time": 1688038871
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetice",
+			"response_time": 3226,
+			"object_clicked": false,
+			"time": 1688038884
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvice",
+			"catch_trial": false,
+			"input_label": "buvice",
+			"response_time": 2455,
+			"object_clicked": false,
+			"time": 1688038896
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafixa",
+			"catch_trial": false,
+			"input_label": "gafixa",
+			"response_time": 3699,
+			"object_clicked": false,
+			"time": 1688038909
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "gafixa",
+			"response_time": 6163,
+			"object_clicked": false,
+			"time": 1688038925
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 5632,
+			"object_clicked": false,
+			"time": 1688038940
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopixa",
+			"catch_trial": true,
+			"input_label": "wopixa",
+			"response_time": 7712,
+			"object_clicked": true,
+			"time": 1688038957
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 2966,
+			"object_clicked": false,
+			"time": 1688038970
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 2849,
+			"object_clicked": false,
+			"time": 1688038982
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 3917,
+			"object_clicked": false,
+			"time": 1688038996
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 3036,
+			"object_clicked": false,
+			"time": 1688039009
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2196,
+			"object_clicked": false,
+			"time": 1688039021
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvice",
+			"catch_trial": false,
+			"input_label": "buvice",
+			"response_time": 2637,
+			"object_clicked": false,
+			"time": 1688039033
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "gafice",
+			"response_time": 3660,
+			"object_clicked": false,
+			"time": 1688039047
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvixa",
+			"catch_trial": false,
+			"input_label": "buvixa",
+			"response_time": 3654,
+			"object_clicked": false,
+			"time": 1688039060
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 4403,
+			"object_clicked": false,
+			"time": 1688039074
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafice",
+			"catch_trial": false,
+			"input_label": "gafice",
+			"response_time": 3709,
+			"object_clicked": false,
+			"time": 1688039087
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetixa",
+			"catch_trial": false,
+			"input_label": "zetixa",
+			"response_time": 2795,
+			"object_clicked": false,
+			"time": 1688039100
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafixa",
+			"catch_trial": true,
+			"input_label": "gafixa",
+			"response_time": 6576,
+			"object_clicked": true,
+			"time": 1688039116
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopixa",
+			"catch_trial": false,
+			"input_label": "wopixa",
+			"response_time": 2660,
+			"object_clicked": false,
+			"time": 1688039128
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvixa",
+			"input_label": "buvixa",
+			"response_time": 8025,
+			"time": 1688039156
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetixa",
+			"items": [
+				"1_0",
+				"1_1",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"1_3",
+				"2_3",
+				"0_3",
+				"0_1",
+				"3_3",
+				"2_1",
+				"3_0",
+				"3_2",
+				"0_0",
+				"1_1",
+				"2_0",
+				"2_2",
+				"3_1",
+				"1_2",
+				"1_0",
+				"0_2"
+			],
+			"selected_button": 13,
+			"selected_item": "1_2",
+			"response_time": 6174,
+			"time": 1688039164
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetixa",
+			"input_label": "zetixa",
+			"response_time": 4051,
+			"time": 1688039169
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopixa",
+			"items": [
+				"3_0",
+				"3_1",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"0_0",
+				"3_3",
+				"1_2",
+				"3_0",
+				"3_1",
+				"1_0",
+				"2_3",
+				"0_3",
+				"1_1",
+				"1_3",
+				"3_2",
+				"2_0",
+				"0_2",
+				"2_1",
+				"0_1",
+				"2_2"
+			],
+			"selected_button": 10,
+			"selected_item": "3_2",
+			"response_time": 2051,
+			"time": 1688039173
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafixa",
+			"input_label": "gafixa",
+			"response_time": 4828,
+			"time": 1688039179
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopixa",
+			"items": [
+				"3_0",
+				"3_1",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"0_0",
+				"0_2",
+				"2_2",
+				"2_3",
+				"1_1",
+				"1_3",
+				"0_1",
+				"3_2",
+				"3_1",
+				"2_1",
+				"2_0",
+				"1_0",
+				"1_2",
+				"0_3",
+				"3_0",
+				"3_3"
+			],
+			"selected_button": 7,
+			"selected_item": "3_2",
+			"response_time": 1713,
+			"time": 1688039183
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvixa",
+			"input_label": "buvixa",
+			"response_time": 3624,
+			"time": 1688039188
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvixa",
+			"items": [
+				"0_1",
+				"0_3"
+			],
+			"array": [
+				"3_0",
+				"0_2",
+				"1_0",
+				"2_2",
+				"3_2",
+				"2_1",
+				"0_0",
+				"2_0",
+				"1_2",
+				"2_3",
+				"0_1",
+				"0_3",
+				"3_3",
+				"1_1",
+				"3_1",
+				"1_3"
+			],
+			"selected_button": 11,
+			"selected_item": "0_3",
+			"response_time": 3071,
+			"time": 1688039192
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopixa",
+			"input_label": "wopixa",
+			"response_time": 4195,
+			"time": 1688039198
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvice",
+			"items": [
+				"0_0",
+				"0_2"
+			],
+			"array": [
+				"2_1",
+				"2_3",
+				"1_3",
+				"2_2",
+				"0_3",
+				"3_0",
+				"1_2",
+				"1_0",
+				"3_3",
+				"2_0",
+				"3_1",
+				"1_1",
+				"0_2",
+				"0_1",
+				"3_2",
+				"0_0"
+			],
+			"selected_button": 15,
+			"selected_item": "0_0",
+			"response_time": 4415,
+			"time": 1688039204
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopixa",
+			"input_label": "wopixa",
+			"response_time": 2222,
+			"time": 1688039208
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafice",
+			"items": [
+				"2_0",
+				"2_3"
+			],
+			"array": [
+				"3_3",
+				"1_0",
+				"3_2",
+				"2_1",
+				"1_2",
+				"0_0",
+				"0_2",
+				"0_1",
+				"1_3",
+				"2_3",
+				"2_0",
+				"2_2",
+				"3_0",
+				"0_3",
+				"1_1",
+				"3_1"
+			],
+			"selected_button": 10,
+			"selected_item": "2_0",
+			"response_time": 7636,
+			"time": 1688039217
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetixa",
+			"input_label": "zetixa",
+			"response_time": 2634,
+			"time": 1688039221
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafixa",
+			"items": [
+				"2_1",
+				"2_2"
+			],
+			"array": [
+				"0_0",
+				"3_2",
+				"2_1",
+				"2_0",
+				"1_3",
+				"2_3",
+				"3_1",
+				"0_1",
+				"0_3",
+				"2_2",
+				"3_0",
+				"3_3",
+				"1_2",
+				"1_1",
+				"1_0",
+				"0_2"
+			],
+			"selected_button": 2,
+			"selected_item": "2_1",
+			"response_time": 6551,
+			"time": 1688039230
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafice",
+			"input_label": "gafice",
+			"response_time": 3730,
+			"time": 1688039235
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetixa",
+			"items": [
+				"1_0",
+				"1_1",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"2_3",
+				"0_2",
+				"3_1",
+				"2_0",
+				"2_2",
+				"0_0",
+				"3_0",
+				"3_2",
+				"1_0",
+				"3_3",
+				"1_2",
+				"2_1",
+				"1_1",
+				"1_3",
+				"0_1",
+				"0_3"
+			],
+			"selected_button": 10,
+			"selected_item": "1_2",
+			"response_time": 3028,
+			"time": 1688039239
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetixa",
+			"input_label": "zetixa",
+			"response_time": 2276,
+			"time": 1688039243
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvice",
+			"items": [
+				"0_0",
+				"0_2"
+			],
+			"array": [
+				"1_0",
+				"1_2",
+				"0_1",
+				"3_2",
+				"1_1",
+				"1_3",
+				"2_2",
+				"0_3",
+				"3_3",
+				"0_0",
+				"3_1",
+				"2_1",
+				"2_0",
+				"3_0",
+				"0_2",
+				"2_3"
+			],
+			"selected_button": 9,
+			"selected_item": "0_0",
+			"response_time": 5335,
+			"time": 1688039250
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopixa",
+			"input_label": "wopixa",
+			"response_time": 4364,
+			"time": 1688039256
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopixa",
+			"items": [
+				"3_0",
+				"3_1",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"2_3",
+				"1_0",
+				"3_3",
+				"0_2",
+				"2_2",
+				"0_1",
+				"3_1",
+				"0_3",
+				"3_2",
+				"1_1",
+				"3_0",
+				"0_0",
+				"1_2",
+				"2_1",
+				"2_0",
+				"1_3"
+			],
+			"selected_button": 2,
+			"selected_item": "3_3",
+			"response_time": 2570,
+			"time": 1688039260
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvice",
+			"input_label": "buvixa",
+			"response_time": 10646,
+			"time": 1688039274
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafice",
+			"items": [
+				"2_0",
+				"2_3"
+			],
+			"array": [
+				"1_0",
+				"0_3",
+				"0_0",
+				"3_3",
+				"1_3",
+				"3_1",
+				"2_3",
+				"1_2",
+				"2_1",
+				"0_1",
+				"2_2",
+				"0_2",
+				"3_2",
+				"3_0",
+				"2_0",
+				"1_1"
+			],
+			"selected_button": 14,
+			"selected_item": "2_0",
+			"response_time": 4959,
+			"time": 1688039280
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopixa",
+			"input_label": "wopixa",
+			"response_time": 2555,
+			"time": 1688039284
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetixa",
+			"items": [
+				"1_0",
+				"1_1",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"2_1",
+				"3_3",
+				"0_2",
+				"3_1",
+				"2_3",
+				"3_2",
+				"3_0",
+				"2_2",
+				"1_3",
+				"0_1",
+				"0_0",
+				"1_0",
+				"1_2",
+				"0_3",
+				"2_0",
+				"1_1"
+			],
+			"selected_button": 11,
+			"selected_item": "1_0",
+			"response_time": 2370,
+			"time": 1688039288
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafixa",
+			"input_label": "gafixa",
+			"response_time": 3895,
+			"time": 1688039294
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvixa",
+			"items": [
+				"0_1",
+				"0_3"
+			],
+			"array": [
+				"3_0",
+				"0_3",
+				"2_3",
+				"3_2",
+				"1_2",
+				"0_0",
+				"2_2",
+				"1_1",
+				"1_0",
+				"0_2",
+				"1_3",
+				"3_3",
+				"0_1",
+				"2_1",
+				"2_0",
+				"3_1"
+			],
+			"selected_button": 5,
+			"selected_item": "0_0",
+			"response_time": 4705,
+			"time": 1688039300
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvice",
+			"input_label": "buvice",
+			"response_time": 3112,
+			"time": 1688039305
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopixa",
+			"items": [
+				"3_0",
+				"3_1",
+				"3_2",
+				"3_3"
+			],
+			"array": [
+				"0_0",
+				"3_3",
+				"1_2",
+				"0_3",
+				"3_0",
+				"2_1",
+				"3_2",
+				"1_1",
+				"1_0",
+				"2_0",
+				"1_3",
+				"2_3",
+				"3_1",
+				"0_1",
+				"0_2",
+				"2_2"
+			],
+			"selected_button": 6,
+			"selected_item": "3_2",
+			"response_time": 3956,
+			"time": 1688039310
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafice",
+			"input_label": "gafice",
+			"response_time": 3782,
+			"time": 1688039315
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafixa",
+			"items": [
+				"2_1",
+				"2_2"
+			],
+			"array": [
+				"2_0",
+				"1_1",
+				"3_1",
+				"3_0",
+				"2_3",
+				"0_0",
+				"0_1",
+				"2_2",
+				"1_2",
+				"1_0",
+				"0_3",
+				"1_3",
+				"3_3",
+				"3_2",
+				"2_1",
+				"0_2"
+			],
+			"selected_button": 7,
+			"selected_item": "2_2",
+			"response_time": 7360,
+			"time": 1688039324
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetixa",
+			"input_label": "zetixa",
+			"response_time": 4306,
+			"time": 1688039330
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetixa",
+			"items": [
+				"1_0",
+				"1_1",
+				"1_2",
+				"1_3"
+			],
+			"array": [
+				"2_1",
+				"0_2",
+				"0_0",
+				"1_2",
+				"3_1",
+				"2_0",
+				"1_1",
+				"3_3",
+				"3_2",
+				"3_0",
+				"0_1",
+				"1_0",
+				"2_2",
+				"1_3",
+				"2_3",
+				"0_3"
+			],
+			"selected_button": 11,
+			"selected_item": "1_0",
+			"response_time": 3697,
+			"time": 1688039336
+		}
+	],
+	"comments": "The color didn't matter to 2 shapes, but matter to one shape when it's pink and yellow. Didn't use any external help to remember them.",
+	"lexicon": {
+		"0_0": "buvice",
+		"0_1": "buvixa",
+		"0_2": "buvixa",
+		"0_3": "buvixa",
+		"1_0": "zetixa",
+		"1_1": "zetixa",
+		"1_2": "zetixa",
+		"1_3": "zetixa",
+		"2_0": "gafice",
+		"2_1": "gafixa",
+		"2_2": "gafixa",
+		"2_3": "gafice",
+		"3_0": "wopixa",
+		"3_1": "wopixa",
+		"3_2": "wopixa",
+		"3_3": "wopixa"
+	}
+}

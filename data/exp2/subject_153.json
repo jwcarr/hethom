@@ -1,0 +1,3292 @@
+{
+	"subject_id": "153",
+	"client_id": null,
+	"creation_time": 1687949656,
+	"modified_time": 1687950481,
+	"status": "approved",
+	"chain_id": "lrn_4",
+	"generation": 5,
+	"input_lexicon": {
+		"0_0": "buvishe",
+		"0_1": "buvisu",
+		"0_2": "buvisu",
+		"0_3": "buvisa",
+		"1_0": "zetishe",
+		"1_1": "zetitho",
+		"1_2": "zetithu",
+		"1_3": "zetisa",
+		"2_0": "gafixe",
+		"2_1": "gafisu",
+		"2_2": "gafithu",
+		"2_3": "gafizu",
+		"3_0": "wopishe",
+		"3_1": "wopitho",
+		"3_2": "wopisu",
+		"3_3": "wopisa"
+	},
+	"spoken_forms": {
+		"0_0": "0_2_1.m4a",
+		"0_1": "0_0_3.m4a",
+		"0_2": "0_0_3.m4a",
+		"0_3": "0_1_0.m4a",
+		"1_0": "1_2_1.m4a",
+		"1_1": "1_0_3.m4a",
+		"1_2": "1_0_3.m4a",
+		"1_3": "1_1_0.m4a",
+		"2_0": "2_2_1.m4a",
+		"2_1": "2_0_3.m4a",
+		"2_2": "2_0_3.m4a",
+		"2_3": "2_1_0.m4a",
+		"3_0": "3_2_1.m4a",
+		"3_1": "3_0_3.m4a",
+		"3_2": "3_0_3.m4a",
+		"3_3": "3_1_0.m4a"
+	},
+	"training_items": [
+		"2_1",
+		"1_3",
+		"2_2",
+		"2_3",
+		"0_2",
+		"3_3",
+		"1_1",
+		"0_0",
+		"2_0",
+		"3_0",
+		"3_1",
+		"1_2"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopitho",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.0364963503649635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvishe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.05474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafixe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetithu",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.09124087591240876
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafithu",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.10948905109489052
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopishe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.12773722627737227
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetisa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.145985401459854
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetitho",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.16423357664233576
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafisu",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.18248175182481752
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopisa",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20072992700729927
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafizu",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.21897810218978103
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvisu",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.23722627737226276
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafithu",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.25547445255474455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafisu",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2737226277372263
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvishe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetithu",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3102189781021898
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafixe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3284671532846715
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopishe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3467153284671533
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopisa",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.36496350364963503
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetitho",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.38321167883211676
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafizu",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.40145985401459855
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopitho",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4197080291970803
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetisa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.43795620437956206
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvisu",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4562043795620438
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "3_1",
+					"word": "wopitho",
+					"shape": "3",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4744525547445255
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "3_0",
+					"word": "wopishe",
+					"shape": "3",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4927007299270073
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "3_3",
+					"word": "wopisa",
+					"shape": "3",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5109489051094891
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "gafithu",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5291970802919708
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_1",
+					"word": "gafisu",
+					"shape": "2",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5474452554744526
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zetithu",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zetitho",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.583941605839416
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_3",
+					"word": "zetisa",
+					"shape": "1",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6021897810218978
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_0",
+					"word": "buvishe",
+					"shape": "0",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6204379562043796
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_1",
+						"word": "gafisu",
+						"shape": "2",
+						"color": "1"
+					},
+					{
+						"item": "1_3",
+						"word": "zetisa",
+						"shape": "1",
+						"color": "3"
+					},
+					{
+						"item": "2_2",
+						"word": "gafithu",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "2_3",
+						"word": "gafizu",
+						"shape": "2",
+						"color": "3"
+					}
+				],
+				"test_trial": {
+					"item": "2_3",
+					"word": "gafizu",
+					"shape": "2",
+					"color": "3",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6386861313868614
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvisu",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "3_3",
+						"word": "wopisa",
+						"shape": "3",
+						"color": "3"
+					},
+					{
+						"item": "1_1",
+						"word": "zetitho",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_0",
+						"word": "buvishe",
+						"shape": "0",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_0",
+					"word": "gafixe",
+					"shape": "2",
+					"color": "0",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.656934306569343
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_0",
+						"word": "gafixe",
+						"shape": "2",
+						"color": "0"
+					},
+					{
+						"item": "3_0",
+						"word": "wopishe",
+						"shape": "3",
+						"color": "0"
+					},
+					{
+						"item": "3_1",
+						"word": "wopitho",
+						"shape": "3",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zetithu",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvisu",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6751824817518248
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0.6934306569343066
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_1",
+				"word": "wopitho",
+				"shape": "3",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7299270072992701
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafithu",
+				"items": [
+					"2_2"
+				],
+				"array": [
+					"0_1",
+					"1_0",
+					"1_1",
+					"3_3",
+					"0_0",
+					"0_3",
+					"2_2",
+					"3_1",
+					"2_3",
+					"1_2",
+					"1_3",
+					"3_2",
+					"2_1",
+					"3_0",
+					"0_2",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.7372262773722628
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zetishe",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.7445255474452555
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopisu",
+				"items": [
+					"3_2"
+				],
+				"array": [
+					"0_1",
+					"0_2",
+					"3_0",
+					"1_2",
+					"1_3",
+					"3_2",
+					"3_3",
+					"0_3",
+					"1_0",
+					"2_1",
+					"2_0",
+					"3_1",
+					"2_2",
+					"0_0",
+					"2_3",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7518248175182481
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_3",
+				"word": "wopisa",
+				"shape": "3",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.7591240875912408
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvisa",
+				"items": [
+					"0_3"
+				],
+				"array": [
+					"1_0",
+					"0_2",
+					"3_2",
+					"3_0",
+					"0_3",
+					"0_0",
+					"1_3",
+					"3_3",
+					"1_1",
+					"2_1",
+					"2_3",
+					"0_1",
+					"2_2",
+					"2_0",
+					"1_2",
+					"3_1"
+				],
+				"pause_time": 500,
+				"progress": 0.7664233576642335
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buvishe",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.7737226277372263
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvishe",
+				"items": [
+					"0_0"
+				],
+				"array": [
+					"1_0",
+					"0_3",
+					"1_3",
+					"0_0",
+					"1_2",
+					"3_0",
+					"2_2",
+					"3_2",
+					"3_3",
+					"0_1",
+					"2_0",
+					"2_1",
+					"2_3",
+					"3_1",
+					"0_2",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.781021897810219
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_1",
+				"word": "gafisu",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.7883211678832117
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetithu",
+				"items": [
+					"1_2"
+				],
+				"array": [
+					"0_0",
+					"2_0",
+					"2_2",
+					"1_0",
+					"3_0",
+					"0_1",
+					"2_3",
+					"0_2",
+					"2_1",
+					"3_3",
+					"1_1",
+					"3_1",
+					"3_2",
+					"1_2",
+					"0_3",
+					"1_3"
+				],
+				"pause_time": 500,
+				"progress": 0.7956204379562044
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_0",
+				"word": "wopishe",
+				"shape": "3",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8029197080291971
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetishe",
+				"items": [
+					"1_0"
+				],
+				"array": [
+					"3_1",
+					"2_3",
+					"1_0",
+					"0_3",
+					"2_2",
+					"1_2",
+					"0_0",
+					"2_1",
+					"2_0",
+					"3_2",
+					"1_3",
+					"3_0",
+					"1_1",
+					"0_2",
+					"3_3",
+					"0_1"
+				],
+				"pause_time": 500,
+				"progress": 0.8102189781021898
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_3",
+				"word": "zetisa",
+				"shape": "1",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8175182481751825
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetisa",
+				"items": [
+					"1_3"
+				],
+				"array": [
+					"2_2",
+					"1_1",
+					"2_3",
+					"1_2",
+					"0_3",
+					"3_1",
+					"2_1",
+					"0_1",
+					"1_3",
+					"2_0",
+					"0_0",
+					"3_3",
+					"3_2",
+					"0_2",
+					"1_0",
+					"3_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8248175182481752
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zetithu",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8321167883211679
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafixe",
+				"items": [
+					"2_0"
+				],
+				"array": [
+					"3_1",
+					"2_1",
+					"0_0",
+					"2_3",
+					"0_2",
+					"1_3",
+					"2_0",
+					"1_0",
+					"3_2",
+					"1_2",
+					"0_1",
+					"0_3",
+					"1_1",
+					"3_3",
+					"3_0",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8394160583941606
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zetitho",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8467153284671532
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopisa",
+				"items": [
+					"3_3"
+				],
+				"array": [
+					"1_3",
+					"0_1",
+					"3_0",
+					"1_0",
+					"1_2",
+					"3_1",
+					"2_1",
+					"2_0",
+					"0_0",
+					"1_1",
+					"0_2",
+					"0_3",
+					"2_2",
+					"3_2",
+					"3_3",
+					"2_3"
+				],
+				"pause_time": 500,
+				"progress": 0.8540145985401459
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buvisu",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8613138686131386
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetitho",
+				"items": [
+					"1_1"
+				],
+				"array": [
+					"2_0",
+					"2_2",
+					"1_0",
+					"1_1",
+					"3_2",
+					"2_3",
+					"3_3",
+					"0_3",
+					"2_1",
+					"3_0",
+					"1_3",
+					"3_1",
+					"1_2",
+					"0_1",
+					"0_2",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8686131386861314
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_3",
+				"word": "gafizu",
+				"shape": "2",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.8759124087591241
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopishe",
+				"items": [
+					"3_0"
+				],
+				"array": [
+					"3_1",
+					"2_2",
+					"1_2",
+					"1_1",
+					"0_1",
+					"3_3",
+					"1_3",
+					"3_0",
+					"3_2",
+					"2_3",
+					"0_3",
+					"0_2",
+					"2_0",
+					"1_0",
+					"2_1",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8832116788321168
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "3_2",
+				"word": "wopisu",
+				"shape": "3",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8905109489051095
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafisu",
+				"items": [
+					"2_1"
+				],
+				"array": [
+					"1_2",
+					"1_3",
+					"3_0",
+					"1_0",
+					"0_1",
+					"0_3",
+					"0_0",
+					"3_2",
+					"1_1",
+					"3_1",
+					"3_3",
+					"2_1",
+					"2_0",
+					"2_2",
+					"2_3",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8978102189781022
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_3",
+				"word": "buvisa",
+				"shape": "0",
+				"color": "3",
+				"pause_time": 500,
+				"progress": 0.9051094890510949
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "gafizu",
+				"items": [
+					"2_3"
+				],
+				"array": [
+					"1_2",
+					"3_0",
+					"3_2",
+					"2_1",
+					"2_2",
+					"1_1",
+					"1_3",
+					"1_0",
+					"0_2",
+					"3_1",
+					"2_0",
+					"2_3",
+					"3_3",
+					"0_1",
+					"0_3",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.9124087591240876
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buvisu",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9197080291970803
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvisu",
+				"items": [
+					"0_1",
+					"0_2"
+				],
+				"array": [
+					"2_3",
+					"1_1",
+					"3_0",
+					"2_0",
+					"0_3",
+					"2_1",
+					"0_0",
+					"1_0",
+					"1_2",
+					"3_2",
+					"3_1",
+					"3_3",
+					"0_2",
+					"1_3",
+					"2_2",
+					"0_1"
+				],
+				"pause_time": 500,
+				"progress": 0.927007299270073
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_2",
+				"word": "gafithu",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9343065693430657
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvisu",
+				"items": [
+					"0_1",
+					"0_2"
+				],
+				"array": [
+					"0_3",
+					"2_0",
+					"2_1",
+					"2_3",
+					"3_1",
+					"0_2",
+					"0_1",
+					"1_0",
+					"0_0",
+					"2_2",
+					"3_3",
+					"1_2",
+					"1_3",
+					"3_0",
+					"3_2",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.9416058394160584
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_0",
+				"word": "gafixe",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.948905109489051
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopitho",
+				"items": [
+					"3_1"
+				],
+				"array": [
+					"3_0",
+					"0_0",
+					"0_3",
+					"2_2",
+					"3_2",
+					"2_3",
+					"0_1",
+					"3_1",
+					"2_0",
+					"3_3",
+					"2_1",
+					"0_2",
+					"1_0",
+					"1_2",
+					"1_3",
+					"1_1"
+				],
+				"pause_time": 500,
+				"progress": 0.9562043795620438
+			}
+		},
+		{
+			"event": "questionnaire",
+			"payload": {
+				"progress": 0.9635036496350365
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CIYLN87N",
+				"basic_pay": 300,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 73,
+	"total_bonus": 64,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopitho",
+			"catch_trial": false,
+			"input_label": "wokipu",
+			"response_time": 12308,
+			"object_clicked": false,
+			"time": 1687949752
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvishe",
+			"catch_trial": false,
+			"input_label": "bunishe",
+			"response_time": 7077,
+			"object_clicked": false,
+			"time": 1687949769
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafixe",
+			"catch_trial": false,
+			"input_label": "gafifu",
+			"response_time": 5313,
+			"object_clicked": false,
+			"time": 1687949784
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetithu",
+			"catch_trial": false,
+			"input_label": "zetisha",
+			"response_time": 5766,
+			"object_clicked": false,
+			"time": 1687949799
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafithu",
+			"catch_trial": false,
+			"input_label": "gafifu",
+			"response_time": 9031,
+			"object_clicked": false,
+			"time": 1687949818
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopishe",
+			"catch_trial": false,
+			"input_label": "wopishe",
+			"response_time": 4537,
+			"object_clicked": false,
+			"time": 1687949832
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetisa",
+			"catch_trial": false,
+			"input_label": "zetisha",
+			"response_time": 6140,
+			"object_clicked": false,
+			"time": 1687949847
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetitho",
+			"catch_trial": false,
+			"input_label": "zetisha",
+			"response_time": 4752,
+			"object_clicked": false,
+			"time": 1687949862
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafisu",
+			"catch_trial": false,
+			"input_label": "gafithu",
+			"response_time": 4366,
+			"object_clicked": false,
+			"time": 1687949876
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopisa",
+			"catch_trial": false,
+			"input_label": "wopisa",
+			"response_time": 3309,
+			"object_clicked": false,
+			"time": 1687949889
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafizu",
+			"catch_trial": true,
+			"input_label": "gafiza",
+			"response_time": 9407,
+			"object_clicked": true,
+			"time": 1687949908
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvisu",
+			"catch_trial": false,
+			"input_label": "buvishe",
+			"response_time": 3520,
+			"object_clicked": false,
+			"time": 1687949921
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafithu",
+			"catch_trial": false,
+			"input_label": "gafithu",
+			"response_time": 4726,
+			"object_clicked": false,
+			"time": 1687949935
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafisu",
+			"catch_trial": false,
+			"input_label": "zetithu",
+			"response_time": 3619,
+			"object_clicked": false,
+			"time": 1687949948
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvishe",
+			"catch_trial": false,
+			"input_label": "buvithu",
+			"response_time": 4978,
+			"object_clicked": false,
+			"time": 1687949963
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetithu",
+			"catch_trial": false,
+			"input_label": "zetisa",
+			"response_time": 5067,
+			"object_clicked": false,
+			"time": 1687949978
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafixe",
+			"catch_trial": false,
+			"input_label": "zetisa",
+			"response_time": 5989,
+			"object_clicked": false,
+			"time": 1687949993
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopishe",
+			"catch_trial": false,
+			"input_label": "wopise",
+			"response_time": 4833,
+			"object_clicked": false,
+			"time": 1687950008
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopisa",
+			"catch_trial": false,
+			"input_label": "wopisa",
+			"response_time": 3569,
+			"object_clicked": false,
+			"time": 1687950021
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetitho",
+			"catch_trial": false,
+			"input_label": "zetisa",
+			"response_time": 4249,
+			"object_clicked": false,
+			"time": 1687950035
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafizu",
+			"catch_trial": false,
+			"input_label": "gafisu",
+			"response_time": 3934,
+			"object_clicked": false,
+			"time": 1687950048
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopitho",
+			"catch_trial": false,
+			"input_label": "wopisa",
+			"response_time": 5452,
+			"object_clicked": false,
+			"time": 1687950063
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetisa",
+			"catch_trial": true,
+			"input_label": "wopisa",
+			"response_time": 16512,
+			"object_clicked": true,
+			"time": 1687950089
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvisu",
+			"catch_trial": false,
+			"input_label": "buvisa",
+			"response_time": 6041,
+			"object_clicked": false,
+			"time": 1687950105
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopitho",
+			"catch_trial": false,
+			"input_label": "wopisa",
+			"response_time": 3862,
+			"object_clicked": false,
+			"time": 1687950118
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopishe",
+			"catch_trial": false,
+			"input_label": "wopisa",
+			"response_time": 4260,
+			"object_clicked": false,
+			"time": 1687950132
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopisa",
+			"catch_trial": false,
+			"input_label": "wopisu",
+			"response_time": 4094,
+			"object_clicked": false,
+			"time": 1687950146
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafithu",
+			"catch_trial": false,
+			"input_label": "zetitho",
+			"response_time": 5802,
+			"object_clicked": false,
+			"time": 1687950161
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafisu",
+			"catch_trial": false,
+			"input_label": "zetishu",
+			"response_time": 4340,
+			"object_clicked": false,
+			"time": 1687950175
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetithu",
+			"catch_trial": false,
+			"input_label": "zetithu",
+			"response_time": 3310,
+			"object_clicked": false,
+			"time": 1687950188
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetitho",
+			"catch_trial": false,
+			"input_label": "zetishu",
+			"response_time": 3441,
+			"object_clicked": false,
+			"time": 1687950201
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetisa",
+			"catch_trial": false,
+			"input_label": "zetishu",
+			"response_time": 2978,
+			"object_clicked": false,
+			"time": 1687950214
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvishe",
+			"catch_trial": false,
+			"input_label": "buvishe",
+			"response_time": 2932,
+			"object_clicked": false,
+			"time": 1687950226
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafizu",
+			"catch_trial": false,
+			"input_label": "gafiza",
+			"response_time": 3081,
+			"object_clicked": false,
+			"time": 1687950239
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafixe",
+			"catch_trial": true,
+			"input_label": "buvishe",
+			"response_time": 6910,
+			"object_clicked": true,
+			"time": 1687950256
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvisu",
+			"catch_trial": false,
+			"input_label": "buvishe",
+			"response_time": 3093,
+			"object_clicked": false,
+			"time": 1687950268
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "1",
+			"expected_label": "wopitho",
+			"input_label": "wopithu",
+			"response_time": 5292,
+			"time": 1687950288
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafithu",
+			"items": [
+				"2_2"
+			],
+			"array": [
+				"0_1",
+				"1_0",
+				"1_1",
+				"3_3",
+				"0_0",
+				"0_3",
+				"2_2",
+				"3_1",
+				"2_3",
+				"1_2",
+				"1_3",
+				"3_2",
+				"2_1",
+				"3_0",
+				"0_2",
+				"2_0"
+			],
+			"selected_button": 9,
+			"selected_item": "1_2",
+			"response_time": 3622,
+			"time": 1687950294
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetishe",
+			"input_label": "zetishe",
+			"response_time": 3200,
+			"time": 1687950298
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopisu",
+			"items": [
+				"3_2"
+			],
+			"array": [
+				"0_1",
+				"0_2",
+				"3_0",
+				"1_2",
+				"1_3",
+				"3_2",
+				"3_3",
+				"0_3",
+				"1_0",
+				"2_1",
+				"2_0",
+				"3_1",
+				"2_2",
+				"0_0",
+				"2_3",
+				"1_1"
+			],
+			"selected_button": 5,
+			"selected_item": "3_2",
+			"response_time": 4451,
+			"time": 1687950304
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "3",
+			"expected_label": "wopisa",
+			"input_label": "wopisa",
+			"response_time": 2727,
+			"time": 1687950309
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvisa",
+			"items": [
+				"0_3"
+			],
+			"array": [
+				"1_0",
+				"0_2",
+				"3_2",
+				"3_0",
+				"0_3",
+				"0_0",
+				"1_3",
+				"3_3",
+				"1_1",
+				"2_1",
+				"2_3",
+				"0_1",
+				"2_2",
+				"2_0",
+				"1_2",
+				"3_1"
+			],
+			"selected_button": 1,
+			"selected_item": "0_2",
+			"response_time": 1953,
+			"time": 1687950312
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvishe",
+			"input_label": "buvishe",
+			"response_time": 3319,
+			"time": 1687950317
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvishe",
+			"items": [
+				"0_0"
+			],
+			"array": [
+				"1_0",
+				"0_3",
+				"1_3",
+				"0_0",
+				"1_2",
+				"3_0",
+				"2_2",
+				"3_2",
+				"3_3",
+				"0_1",
+				"2_0",
+				"2_1",
+				"2_3",
+				"3_1",
+				"0_2",
+				"1_1"
+			],
+			"selected_button": 3,
+			"selected_item": "0_0",
+			"response_time": 1758,
+			"time": 1687950320
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "gafisu",
+			"input_label": "gafithu",
+			"response_time": 3110,
+			"time": 1687950325
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetithu",
+			"items": [
+				"1_2"
+			],
+			"array": [
+				"0_0",
+				"2_0",
+				"2_2",
+				"1_0",
+				"3_0",
+				"0_1",
+				"2_3",
+				"0_2",
+				"2_1",
+				"3_3",
+				"1_1",
+				"3_1",
+				"3_2",
+				"1_2",
+				"0_3",
+				"1_3"
+			],
+			"selected_button": 3,
+			"selected_item": "1_0",
+			"response_time": 3199,
+			"time": 1687950330
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "0",
+			"expected_label": "wopishe",
+			"input_label": "wopishe",
+			"response_time": 3101,
+			"time": 1687950335
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetishe",
+			"items": [
+				"1_0"
+			],
+			"array": [
+				"3_1",
+				"2_3",
+				"1_0",
+				"0_3",
+				"2_2",
+				"1_2",
+				"0_0",
+				"2_1",
+				"2_0",
+				"3_2",
+				"1_3",
+				"3_0",
+				"1_1",
+				"0_2",
+				"3_3",
+				"0_1"
+			],
+			"selected_button": 2,
+			"selected_item": "1_0",
+			"response_time": 3517,
+			"time": 1687950340
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "3",
+			"expected_label": "zetisa",
+			"input_label": "zetisa",
+			"response_time": 3075,
+			"time": 1687950344
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetisa",
+			"items": [
+				"1_3"
+			],
+			"array": [
+				"2_2",
+				"1_1",
+				"2_3",
+				"1_2",
+				"0_3",
+				"3_1",
+				"2_1",
+				"0_1",
+				"1_3",
+				"2_0",
+				"0_0",
+				"3_3",
+				"3_2",
+				"0_2",
+				"1_0",
+				"3_0"
+			],
+			"selected_button": 8,
+			"selected_item": "1_3",
+			"response_time": 2108,
+			"time": 1687950348
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zetithu",
+			"input_label": "zetithu",
+			"response_time": 3144,
+			"time": 1687950353
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafixe",
+			"items": [
+				"2_0"
+			],
+			"array": [
+				"3_1",
+				"2_1",
+				"0_0",
+				"2_3",
+				"0_2",
+				"1_3",
+				"2_0",
+				"1_0",
+				"3_2",
+				"1_2",
+				"0_1",
+				"0_3",
+				"1_1",
+				"3_3",
+				"3_0",
+				"2_2"
+			],
+			"selected_button": 15,
+			"selected_item": "2_2",
+			"response_time": 3206,
+			"time": 1687950358
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zetitho",
+			"input_label": "zetithu",
+			"response_time": 3509,
+			"time": 1687950363
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopisa",
+			"items": [
+				"3_3"
+			],
+			"array": [
+				"1_3",
+				"0_1",
+				"3_0",
+				"1_0",
+				"1_2",
+				"3_1",
+				"2_1",
+				"2_0",
+				"0_0",
+				"1_1",
+				"0_2",
+				"0_3",
+				"2_2",
+				"3_2",
+				"3_3",
+				"2_3"
+			],
+			"selected_button": 14,
+			"selected_item": "3_3",
+			"response_time": 2288,
+			"time": 1687950367
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvisu",
+			"input_label": "buvithu",
+			"response_time": 3527,
+			"time": 1687950372
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetitho",
+			"items": [
+				"1_1"
+			],
+			"array": [
+				"2_0",
+				"2_2",
+				"1_0",
+				"1_1",
+				"3_2",
+				"2_3",
+				"3_3",
+				"0_3",
+				"2_1",
+				"3_0",
+				"1_3",
+				"3_1",
+				"1_2",
+				"0_1",
+				"0_2",
+				"0_0"
+			],
+			"selected_button": 2,
+			"selected_item": "1_0",
+			"response_time": 3774,
+			"time": 1687950377
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "3",
+			"expected_label": "gafizu",
+			"input_label": "gafiza",
+			"response_time": 3755,
+			"time": 1687950382
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopishe",
+			"items": [
+				"3_0"
+			],
+			"array": [
+				"3_1",
+				"2_2",
+				"1_2",
+				"1_1",
+				"0_1",
+				"3_3",
+				"1_3",
+				"3_0",
+				"3_2",
+				"2_3",
+				"0_3",
+				"0_2",
+				"2_0",
+				"1_0",
+				"2_1",
+				"0_0"
+			],
+			"selected_button": 5,
+			"selected_item": "3_3",
+			"response_time": 1595,
+			"time": 1687950385
+		},
+		{
+			"test_type": "test_production",
+			"shape": "3",
+			"color": "2",
+			"expected_label": "wopisu",
+			"input_label": "wopithu",
+			"response_time": 3115,
+			"time": 1687950390
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafisu",
+			"items": [
+				"2_1"
+			],
+			"array": [
+				"1_2",
+				"1_3",
+				"3_0",
+				"1_0",
+				"0_1",
+				"0_3",
+				"0_0",
+				"3_2",
+				"1_1",
+				"3_1",
+				"3_3",
+				"2_1",
+				"2_0",
+				"2_2",
+				"2_3",
+				"0_2"
+			],
+			"selected_button": 13,
+			"selected_item": "2_2",
+			"response_time": 3542,
+			"time": 1687950395
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "3",
+			"expected_label": "buvisa",
+			"input_label": "buvisa",
+			"response_time": 3654,
+			"time": 1687950401
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "gafizu",
+			"items": [
+				"2_3"
+			],
+			"array": [
+				"1_2",
+				"3_0",
+				"3_2",
+				"2_1",
+				"2_2",
+				"1_1",
+				"1_3",
+				"1_0",
+				"0_2",
+				"3_1",
+				"2_0",
+				"2_3",
+				"3_3",
+				"0_1",
+				"0_3",
+				"0_0"
+			],
+			"selected_button": 4,
+			"selected_item": "2_2",
+			"response_time": 2544,
+			"time": 1687950405
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvisu",
+			"input_label": "buvithu",
+			"response_time": 3225,
+			"time": 1687950409
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvisu",
+			"items": [
+				"0_1",
+				"0_2"
+			],
+			"array": [
+				"2_3",
+				"1_1",
+				"3_0",
+				"2_0",
+				"0_3",
+				"2_1",
+				"0_0",
+				"1_0",
+				"1_2",
+				"3_2",
+				"3_1",
+				"3_3",
+				"0_2",
+				"1_3",
+				"2_2",
+				"0_1"
+			],
+			"selected_button": 12,
+			"selected_item": "0_2",
+			"response_time": 2226,
+			"time": 1687950413
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "gafithu",
+			"input_label": "gafithu",
+			"response_time": 3398,
+			"time": 1687950418
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvisu",
+			"items": [
+				"0_1",
+				"0_2"
+			],
+			"array": [
+				"0_3",
+				"2_0",
+				"2_1",
+				"2_3",
+				"3_1",
+				"0_2",
+				"0_1",
+				"1_0",
+				"0_0",
+				"2_2",
+				"3_3",
+				"1_2",
+				"1_3",
+				"3_0",
+				"3_2",
+				"1_1"
+			],
+			"selected_button": 5,
+			"selected_item": "0_2",
+			"response_time": 2521,
+			"time": 1687950422
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "gafixe",
+			"input_label": "gafishe",
+			"response_time": 3249,
+			"time": 1687950427
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopitho",
+			"items": [
+				"3_1"
+			],
+			"array": [
+				"3_0",
+				"0_0",
+				"0_3",
+				"2_2",
+				"3_2",
+				"2_3",
+				"0_1",
+				"3_1",
+				"2_0",
+				"3_3",
+				"2_1",
+				"0_2",
+				"1_0",
+				"1_2",
+				"1_3",
+				"1_1"
+			],
+			"selected_button": 4,
+			"selected_item": "3_2",
+			"response_time": 2239,
+			"time": 1687950431
+		}
+	],
+	"comments": "I tried to remember the differentiation of the spellings aligned to the colours, but found the speed of the test quite hard",
+	"lexicon": {
+		"0_0": "buvishe",
+		"0_1": "buvithu",
+		"0_2": "buvithu",
+		"0_3": "buvisa",
+		"1_0": "zetishe",
+		"1_1": "zetithu",
+		"1_2": "zetithu",
+		"1_3": "zetisa",
+		"2_0": "gafishe",
+		"2_1": "gafithu",
+		"2_2": "gafithu",
+		"2_3": "gafiza",
+		"3_0": "wopishe",
+		"3_1": "wopithu",
+		"3_2": "wopithu",
+		"3_3": "wopisa"
+	}
+}
