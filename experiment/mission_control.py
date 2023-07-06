@@ -55,6 +55,7 @@ STATUS_EMOJI = {
 	'closed': '🟡',
 	'approval_needed': '🔵',
 }
+EMPTY_SLOT = ' - ' * 8
 
 
 class MissionControl:
@@ -121,9 +122,9 @@ class MissionControl:
 		n_available = 0
 		for chain in self.db.chains.find():
 			if chain['task']['communication']:
-				print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'], chain['subject_b'])
+				print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'].ljust(15), f'[{chain["subject_a"] or EMPTY_SLOT}]', f'[{chain["subject_b"] or EMPTY_SLOT}]')
 			else:
-				print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'], chain['subject_a'])
+				print(chain['chain_id'], str(chain['current_gen']).rjust(2, ' '), STATUS_EMOJI[chain['status']], chain['status'].ljust(15), f'[{chain["subject_a"] or EMPTY_SLOT}]')
 			if chain['status'] == 'available':
 				if chain['task']['communication']:
 					n_available += 2
