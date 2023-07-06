@@ -132,6 +132,26 @@ function generateItems(n, m, bottleneck=null) {
 	return selected_items;
 }
 
+function generateComprehensionItems(n, m, prod_items, seen_items) {
+	const comp_items = [];
+	const unseen_items = [];
+	for (let i = 0; i < n; i++) {
+		for (let j = 0; j < m; j++) {
+			const item = `${i}_${j}`;
+			if (seen_items.includes(item))
+				comp_items.push(item);
+			else
+				unseen_items.push(item);
+		}		
+	}
+	shuffle(comp_items);
+	for (let prod_item of prod_items) {
+		if (unseen_items.includes(prod_item))
+			comp_items.splice(randInt(prod_items.indexOf(prod_item), prod_items.length), 0, prod_item);
+	}
+	return comp_items;
+}
+
 function itemsWithSameWord(lexicon, target_word) {
 	const compatible_items = [];
 	for (let item in lexicon) {
@@ -153,7 +173,7 @@ function generateTrialSequenceStub() {
 	];
 }
 
-function generateTrialSequence(task, words, trained_item_indices, lead_communicator) {
+function generateTrialSequence(task, words, training_items, lead_communicator, prod_items) {
 	const trial_sequence = generateTrialSequenceStub();
 	if (task.communication)
 		trial_sequence.push({event:'instructions', payload:{
@@ -173,9 +193,9 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 	for (let i = 0; i < task.training_reps; i++) {
 		for (let j = 0; j < task.mini_test_freq; j++) {
 			let training_trials = [];
-			shuffle(trained_item_indices);
+			shuffle(training_items);
 			for (let k = 0; k < task.bottleneck; k++) {
-				const training_item = trained_item_indices[k];
+				const training_item = training_items[k];
 				const [shape, color] = training_item.split('_');
 				const training_trial = {
 					item: training_item,
@@ -225,10 +245,11 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 			response_kind: 'next',
 			progress: 10,
 		}});
-	const prod_item_indices = generateItems(task.n_shapes, task.n_colors);
-	const comp_item_indices = generateItems(task.n_shapes, task.n_colors);
-	for (let i=0; i < prod_item_indices.length; i++) {
-		const prod_item = prod_item_indices[i];
+	if (prod_items === undefined)
+		prod_items = generateItems(task.n_shapes, task.n_colors);
+	const comp_items = generateComprehensionItems(task.n_shapes, task.n_colors, prod_items, training_items);
+	for (let i=0; i < prod_items.length; i++) {
+		const prod_item = prod_items[i];
 		const [shape, color] = prod_item.split('_');
 		if (task.communication) {
 			const production_event = {event:'comm_production', payload:{
@@ -260,7 +281,7 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}});
-			const comp_item = comp_item_indices[i];
+			const comp_item = comp_items[i];
 			trial_sequence.push({event:'test_comprehension', payload:{
 				word: words[comp_item],
 				items: itemsWithSameWord(words, words[comp_item]),
@@ -287,7 +308,7 @@ function generateTrialSequence(task, words, trained_item_indices, lead_communica
 	for (let i = 0; i < trial_sequence.length; i++) {
 		trial_sequence[i].payload.progress = trial_sequence[i].payload.progress / total_units_of_progress;
 	}
-	return trial_sequence;
+	return [trial_sequence, comp_items];
 }
 
 function assignToChain(chains, subject_id) {
@@ -363,6 +384,7 @@ function reportError(client, error_number, reason) {
 // ------------------------------------------------------------------
 
 const READY_FOR_COMMUNICATION = {}; // {subject_id: bool}
+const PARTNER_COMP_ITEMS = {} // {subject_id: array}
 
 socket.on('connection', function(client) {
 
@@ -450,10 +472,15 @@ socket.on('connection', function(client) {
 				// subjects is the present subject ID and note whether
 				// this subject is the lead subject
 				let lead_communicator = null;
-				if (chain.task.communication && chain.subject_a === payload.subject_id)
+				let partner_id = null;
+				if (chain.task.communication && chain.subject_a === payload.subject_id) {
 					lead_communicator = true;
-				else if (chain.task.communication && chain.subject_b === payload.subject_id)
+					partner_id = chain.subject_b;
+				}
+				else if (chain.task.communication && chain.subject_b === payload.subject_id) {
 					lead_communicator = false;
+					partner_id = chain.subject_a;
+				}
 				else if (chain.task.communication)
 					return reportError(client, 123, 'Unable to assign to chain');
 				// Chain assignment has been successful. Generate the
@@ -462,7 +489,8 @@ socket.on('connection', function(client) {
 				const input_lexicon = chain.lexicon;
 				const spoken_forms = chain.spoken_forms[chain.sound_epoch];
 				const training_items = generateItems(chain.task.n_shapes, chain.task.n_colors, chain.task.bottleneck);
-				const trial_sequence = generateTrialSequence(chain.task, input_lexicon, training_items, lead_communicator);
+				const [trial_sequence, comp_items] = generateTrialSequence(chain.task, input_lexicon, training_items, lead_communicator, PARTNER_COMP_ITEMS[partner_id]);
+				PARTNER_COMP_ITEMS[payload.subject_id] = comp_items;
 				db.subjects.findAndModify({
 					query: {subject_id: payload.subject_id},
 					update: {

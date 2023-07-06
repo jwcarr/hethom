@@ -218,13 +218,17 @@ class MissionControl:
 			raise ValueError('Chain not awaiting approval')
 		subject_a = self.approve_subject(chain['subject_a'])
 		subject_b = self.approve_subject(chain['subject_b'])
+		if subject_a_is_dominant(subject_a, subject_b):
+			next_lexicon = subject_a['lexicon']
+		else:
+			next_lexicon = subject_b['lexicon']
 		update_status = 'closed' if do_not_reopen else 'available'
 		if chain['current_gen'] + 1 >= chain['task']['max_gens']:
 			update_status = 'completed'
 			print('🎉 CHAIN COMPLETED!')
 		elif chain['task']['stop_on_convergence']:
 			for item, word in chain['lexicon'].items():
-				if subject_a['lexicon'][item] != word:
+				if next_lexicon[item] != word:
 					break
 			else: # for loop exits normally, all words match, chain has converged
 				update_status = 'converged'
@@ -236,7 +240,7 @@ class MissionControl:
 			else:
 				sound_epoch_inc = 0
 		self.db.chains.update_one({'chain_id': chain['chain_id']}, {
-			'$set': {'status': update_status, 'lexicon': subject_a['lexicon'], 'subject_a': None, 'subject_b': None},
+			'$set': {'status': update_status, 'lexicon': next_lexicon, 'subject_a': None, 'subject_b': None},
 			'$push': {'subjects': [chain['subject_a'], chain['subject_b']]},
 			'$inc': {'current_gen': 1, 'sound_epoch': sound_epoch_inc},
 		})
@@ -501,6 +505,25 @@ def convert_to_pounds(int_bonus_in_pence):
 		pounds = '0'
 		pennys = str(int_bonus_in_pence).zfill(2)
 	return f'{pounds}.{pennys}'
+
+def subject_a_is_dominant(subject_a, subject_b, test_alternative=True):
+	'''
+	Check to see whether subject A's trial order is dominant over subject B's.
+	The dominant subject is the one whose trial order has unseen production
+	tests before unseen comprehension tests. Usually this is subject A but it
+	can be subject B in cases where the original subject A was replaced.
+	'''
+	if subject_b is None:
+		return True
+	subject_a_prod = [trial['payload']['item'] for trial in subject_a['trial_sequence'] if trial['event'] == 'comm_production']
+	subject_a_comp = [trial['payload']['item'] for trial in subject_b['trial_sequence'] if trial['event'] == 'comm_production']
+	for production_index, item in enumerate(subject_a_prod):
+		if item not in subject_a['training_items'] and subject_a_comp.index(item) < production_index:
+			if test_alternative and subject_a_is_dominant(subject_b, subject_a, test_alternative=False) == False:
+				print('‼️ WARNING: Neither subject is dominant. Iterating subject A.')
+				return True
+			return False
+	return True
 
 
 if __name__ == '__main__':
