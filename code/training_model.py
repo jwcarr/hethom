@@ -4,10 +4,36 @@ import pandas as pd
 import arviz as az
 from utils import json_load
 
+
+def is_regular(lexicon, training_items):
+	suffixes = {'0': set(), '1': set(), '2': set(), '3': set()}
+	for item, word in lexicon.items():
+		if item not in training_items:
+			continue
+		color = item.split('_')[1]
+		suffixes[color].add(word[4:])
+	if sum([len(suffixes[s]) == 1 for s in suffixes]) == 4:
+		print(suffixes)
+		return True
+	return False
+
+def find_subjects_with_regular_input():
+	for i in range(1, 398):
+		subject_id = str(i).zfill(3)
+		if subject_id in gen_ones:
+			continue
+		data = json_load(f'../data/exp2/subject_{subject_id}.json')
+		if data['generation'] > 3:
+			continue
+		if data['status'] != 'approved':
+			continue
+		if is_regular(data['input_lexicon'], data['training_items']):
+			print(data['subject_id'], data['chain_id'], data['generation'])
+
 def get_correct(subject_id):
 	data = json_load(f'../data/exp2/subject_{subject_id}.json')
 	correct = [
-		int(trial['expected_label'][3:] == trial['input_label'][3:])
+		int(trial['expected_label'] == trial['input_label'])
 		for trial in data['responses'] if trial['test_type'] == 'mini_test'
 	]
 	trial = list(range(len(correct)))
@@ -18,30 +44,12 @@ def fit_model(trial, correct):
 		'trial': trial,
 	}
 	with pm.Model(coords=coords) as model:
-		α = pm.Normal('α', 0, 2)
-		β = pm.Normal('β', 0, 2)
+		α = pm.Normal('α', 0, 10)
+		β = pm.Normal('β', 0, 10)
 		p = pm.Deterministic('p', pm.math.invlogit(α + β * trial), dims='trial')
 		y = pm.Bernoulli('y', p, observed=correct, dims='trial')
 		trace = pm.sample(1000, tune=2000)
 	return trace
-
-def fit_all_gen1():
-	dataset_json = json_load('../data/exp2.json')
-	for condition, data in dataset_json.items():
-		for chain in data:
-			for generation in chain[1:2]:
-				for subject in generation:
-					if subject:
-						subject_id = subject['subject_id']
-						trial, correct = get_correct(subject_id)
-						trace = fit_model(trial, correct)
-						
-						# fig, axis = az.utils.plt.subplots(1, 1)
-						# make_plot(axis, trace)
-						# az.utils.plt.show()
-						# quit()
-						
-						trace.to_netcdf(f'../plots/exp2_traces/{subject_id}.netcdf')
 
 def make_plot(axis, trace):
 	post_mean = trace.posterior.p.mean(('chain', 'draw'))
@@ -67,30 +75,30 @@ def make_plot(axis, trace):
 	axis.set_ylim(0, 1)
 	axis.set_xlim(1, 36)
 
-def plot_all():
-	fig, axes = az.utils.plt.subplots(5, 6, figsize=(16, 9))
-	axes = np.ravel(axes)
-	axis_i = 0
-	dataset_json = json_load('../data/exp2.json')
-	for condition, data in dataset_json.items():
-		for chain in data:
-			for generation in chain[1:2]:
-				for subject in generation:
-					if subject:
-						subject_id = subject['subject_id']
-						trace = az.from_netcdf(f'../plots/exp2_trace_stems/{subject_id}.netcdf')
-						make_plot(axes[axis_i], trace)
-						axes[axis_i].set_title(subject_id)
-						axis_i += 1
+def plot_all_subjects(subject_ids):
+	fig, axes = az.utils.plt.subplots(5, 10, figsize=(16, 9))
+	for subject_id, axis in zip(subject_ids, np.ravel(axes)):
+		trace = az.from_netcdf(f'../plots/exp2/training_traces/{subject_id}.netcdf')
+		make_plot(axis, trace)
+		axis.set_title(subject_id)
 	fig.tight_layout()
-	fig.savefig('../plots/exp2_learning_curves_stems.pdf')
+	fig.savefig('../plots/exp2_learning_curves.pdf')
+
+def run_all_subjects(subject_ids):
+	for subject_id in subject_ids:
+		trial, correct = get_correct(subject_id)
+		trace = fit_model(trial, correct)
+		trace.to_netcdf(f'../plots/exp2/training_traces/{subject_id}.netcdf')
 
 
+if __name__ == '__main__':
 
-# fit_all_gen1()
-plot_all()
+	subjects_with_regular_input = ['008', '007', '010', '011', '009', '012', '013', '015', '026', '014', '017', '016', '018', '020', '033', '032', '021', '023', '030', '027', '002', '003', '004', '005', '006', '001', '024', '022', '028', '031',      '025', '035', '042', '045', '047', '048', '051', '052', '053', '054', '056', '058', '059', '062', '072', '077', '086', '087', '063', '076']
 
+	# subjects_with_regular_input = subjects_with_regular_input[0:13]
+	# subjects_with_regular_input = subjects_with_regular_input[13:26]
+	# subjects_with_regular_input = subjects_with_regular_input[26:39]
+	# subjects_with_regular_input = subjects_with_regular_input[39:50]
 
-
-
-
+	# run_all_subjects(subjects_with_regular_input)
+	plot_all_subjects(subjects_with_regular_input)
