@@ -160,6 +160,8 @@ def plot_simplicity_informativeness_by_condition(dataset):
 	plt.show()
 
 def plot_training_curve(subject_id, window=12):
+	if subject_id is None:
+		return
 	data = json_load(ROOT / 'data' / 'exp2' / f'subject_{subject_id}.json')
 	fig, axis = plt.subplots(1, 1)
 	full_correct = []
@@ -185,7 +187,7 @@ def plot_training_curve(subject_id, window=12):
 	axis.set_ylabel(f'Mean accuracy over previous {window} trials')
 	axis.axvline(12, color='black', linestyle='--')
 	axis.axvline(24, color='black', linestyle='--')
-	fig.savefig(ROOT / 'plots' / 'exp2' / f'learn_curve_{data["chain_id"]}_{data["generation"]}.pdf')
+	fig.savefig(ROOT / 'plots' / 'exp2' / f'learn_curve_{data["chain_id"]}_{data["generation"]}_{data["subject_id"]}.pdf')
 	plt.close()
 	# plt.show()
 
@@ -296,7 +298,7 @@ if __name__ == '__main__':
 	exp_csv_file = ROOT / 'data' / 'exp2.csv'
 
 	# perform_measures(exp_json_file, exp_csv_file)
-	
+
 	dataset_json = json_load(exp_json_file)
 	dataset_csv = pd.read_csv(exp_csv_file)
 
@@ -307,10 +309,12 @@ if __name__ == '__main__':
 	# draw_all_matrixes(dataset_json)
 	# make_ternary_plot()
 
-	for i in range(1, 398):
-		subject_id = str(i).zfill(3)
-		plot_training_curve(subject_id)
-		json_load(ROOT / 'data' / 'exp2' / f'subject_{subject_id}.json')
+	for condition, data in dataset_json.items():
+		for chain in data:
+			for subject_a, subject_b in chain[1:2]:
+				plot_training_curve(subject_a['subject_id'])
+				if subject_b:
+					plot_training_curve(subject_b['subject_id'])
 
 	# print_word_chains(dataset_json)
 
