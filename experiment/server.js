@@ -29,11 +29,15 @@ const mongojs = require('mongojs');
 const socketio = require('socket.io');
 
 // ------------------------------------------------------------------
-// Load experiment config data
+// Load experiment config data and Prolific API token if available
 // ------------------------------------------------------------------
 
 const EXP_ID = process.argv[2];
 const EXP_CONFIG = JSON.parse(fs.readFileSync(`config/${EXP_ID}.json`));
+
+let PROLIFIC_API_TOKEN = null;
+if (fs.existsSync('prolific_api_token'))
+	PROLIFIC_API_TOKEN = fs.readFileSync('prolific_api_token').toString();
 
 // ------------------------------------------------------------------
 // Server setup
@@ -41,6 +45,13 @@ const EXP_CONFIG = JSON.parse(fs.readFileSync(`config/${EXP_ID}.json`));
 
 const app = express();
 app.use(express.static(`${__dirname}/client`));
+app.use(express.json());
+if (PROLIFIC_API_TOKEN)
+	app.post('/prolific', function(req, res) {
+		res.sendStatus(200);
+		if (req.body.event_type === 'submission.status.change')
+			return handleSubmissionStatusChange(req.body.resource_id);
+	});
 
 const config = {};
 if (PROTOCOL === 'https') {
@@ -377,6 +388,38 @@ function reportError(client, error_number, reason) {
 	const message = 'Error ' + error_number + ': ' + reason;
 	console.log(getCurrentTime() + ' ' + message);
 	return client.emit('report', {message});
+}
+
+function handleSubmissionStatusChange(submission_id) {
+	http.get(
+		`https://api.prolific.co/api/v1/submissions/${submission_id}/`,
+		{headers: {'Authorization': `Token ${PROLIFIC_API_TOKEN}`}},
+		res => {
+			let raw_data = '';
+			res.on('data', chunk => {raw_data += chunk;});
+			res.on('end', () => {
+				const data = JSON.parse(raw_data);
+				if (data['status'] === 'RETURNED') {
+					db.subjects.findAndModify({
+						query: {subject_id: data['participant']},
+						update: {$set: {status: 'dropout'}},
+						new: true,
+					}, function(err, subject, last_err) {
+						if (err || !subject || subject.chain_id === null)
+							return;
+						db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
+							if (err || !chain)
+								return;
+							if (chain.subject_a === subject.subject_id)
+								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_a': null}});
+							else if (chain.subject_b === subject.subject_id)
+								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_b': null}});
+						});
+					});
+				}
+			});
+		}
+	);
 }
 
 // ------------------------------------------------------------------
