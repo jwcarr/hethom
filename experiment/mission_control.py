@@ -27,6 +27,16 @@ The general workflow is:
 - approve: approve the outcome and reopen the chain for a new generation
 - dump: pull down the data from all completed participants on a task
 
+Prior to running the experiment, create a subscription to the Prolific
+submission.status.change event by running:
+
+	create_subscription()
+
+Make a note of the subscription_id and at the end of the experiment,
+delete the subscription.
+
+	delete_subscription('<subscription_id>')
+
 '''
 
 import json
@@ -47,6 +57,18 @@ PORT = 27017
 
 DB = MongoClient(DOMAIN, PORT)
 
+try:
+	with open('prolific_api_token') as file:
+		PROLIFIC_API_TOKEN = file.read()
+except FileNotFoundError:
+	PROLIFIC_API_TOKEN = None
+
+try:
+	with open('prolific_workspace_id') as file:
+		PROLIFIC_WORKSPACE_ID = file.read()
+except FileNotFoundError:
+	PROLIFIC_WORKSPACE_ID = None
+
 STATUS_EMOJI = {
 	'available': '🟢',
 	'unavailable': '🔴',
@@ -60,10 +82,8 @@ EMPTY_SLOT = ' - ' * 8
 
 class MissionControl:
 
-	def __init__(self, exp_id, prolific_study_id=None, prolific_api_token=None):
+	def __init__(self, exp_id):
 		self.exp_id = exp_id
-		self.prolific_study_id = prolific_study_id
-		self.prolific_api_token = prolific_api_token
 		if self.exp_id in DB.list_database_names():
 			self.db = DB[self.exp_id]
 		else:
@@ -383,18 +403,6 @@ class MissionControl:
 				self.db.chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_b': None}})
 				print(f'Subject B slot opened on chain {chain["chain_id"]}')
 
-	def drop_returns(self):
-		'''
-		Use the Prolific API to get a list of returned participants. 
-		'''
-		api_url = f'https://api.prolific.co/api/v1/submissions/?study={self.prolific_study_id}'
-		response = requests.get(api_url, headers={'Authorization': f'Token {self.prolific_api_token}'}).json()
-		for submission in response['results']:
-			subject_id = submission['participant_id']
-			if submission['status'] == 'RETURNED' and subject_id not in self.returned_subject_IDs:
-				print(f'{subject_id} has returned, dropping...')
-				self.drop_subject(subject_id, update_chain=True, pay_subject=False, ignore_subject_not_found=True)
-				self._log_return(subject_id)
 
 def entropy(distribution):
 	distribution /= distribution.sum()
@@ -525,6 +533,53 @@ def subject_a_is_dominant(subject_a, subject_b, test_alternative=True):
 				return True
 			return False
 	return True
+
+
+def set_up_secret():
+	response = requests.post(
+		'https://api.prolific.co/api/v1/hooks/secrets/',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		json={'workspace_id': PROLIFIC_WORKSPACE_ID},
+	).json()
+	print(response)
+
+def list_all_secrets():
+	response = requests.get(
+		'https://api.prolific.co/api/v1/hooks/secrets/',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+	).json()
+	print(response)
+
+def list_all_subscriptions():
+	response = requests.get(
+		'https://api.prolific.co/api/v1/hooks/subscriptions/?is_enabled=true',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+	).json()
+	print(response)
+
+def create_subscription():
+	response = requests.post(
+		'https://api.prolific.co/api/v1/hooks/subscriptions/',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		json={'workspace_id': PROLIFIC_WORKSPACE_ID, 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+	)
+	subscription_id = response.json()['id']
+	x_hook_secret = response.headers['X-Hook-Secret']
+	print('Subscription ID:', subscription_id)
+	print('X-Hook-Secret:', x_hook_secret)
+	response = requests.post(
+		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_WORKSPACE_ID, 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+	)
+	print(response)
+
+def delete_subscription(subscription_id):
+	response = requests.delete(
+		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
+		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+	)
+	print(response)
 
 
 if __name__ == '__main__':
