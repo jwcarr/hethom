@@ -39,20 +39,38 @@ def get_correct(subject_id):
 	trial = list(range(len(correct)))
 	return trial, correct
 
-def fit_model(trial, correct):
+def fit_multilevel_model(trial, correct, subject_ids):
 	coords = {
-		'trial': trial,
+		'trial': list(range(1, 37)),
+		'subject': subject_ids,
 	}
 	with pm.Model(coords=coords) as model:
-		α = pm.Normal('α', 0, 10)
-		β = pm.Normal('β', 0, 10)
-		p = pm.Deterministic('p', pm.math.invlogit(α + β * trial), dims='trial')
-		y = pm.Bernoulli('y', p, observed=correct, dims='trial')
+
+		μ_α = pm.Normal('μ_α', 0, 10)
+		σ_α = pm.Exponential('σ_α', 1)
+
+		μ_β = pm.Normal('μ_β', 0, 10)
+		σ_β = pm.Exponential('σ_β', 1)
+
+		α = pm.Normal('α', μ_α, σ_α, dims='subject').T
+		β = pm.Normal('β', μ_β, σ_β, dims='subject').T
+		
+		θ = pm.Deterministic('θ', pm.math.invlogit(α + β * trial), dims=('trial', 'subject'))
+
+		c = pm.Bernoulli('c', θ, observed=correct, dims=('trial', 'subject'))
+
+		pm.Deterministic('θ_mean', pm.math.invlogit(μ_α + μ_β * trial[:, 0]))
+		
 		trace = pm.sample(1000, tune=2000)
+
 	return trace
 
-def make_plot(axis, trace):
-	post_mean = trace.posterior.p.mean(('chain', 'draw'))
+def make_plot(axis, trace, sub_i=None):
+	if sub_i is None:
+		post = trace.posterior.θ_
+	else:
+		post = trace.posterior.θ[:, :, :, sub_i]
+	post_mean = post.mean(('chain', 'draw'))
 	trial = range(1, len(post_mean) + 1)
 
 	if post_mean[-1] > 0.75:
@@ -62,7 +80,7 @@ def make_plot(axis, trace):
 
 	az.plot_hdi(
 	    trial,
-	    trace.posterior.p,
+	    post,
 	    hdi_prob=0.95,
 	    fill_kwargs={'alpha': 0.25, 'linewidth': 0},
 	    ax=axis,
@@ -75,30 +93,29 @@ def make_plot(axis, trace):
 	axis.set_ylim(0, 1)
 	axis.set_xlim(1, 36)
 
-def plot_all_subjects(subject_ids):
-	fig, axes = az.utils.plt.subplots(5, 10, figsize=(16, 9))
-	for subject_id, axis in zip(subject_ids, np.ravel(axes)):
-		trace = az.from_netcdf(f'../plots/exp2/training_traces/{subject_id}.netcdf')
-		make_plot(axis, trace)
-		axis.set_title(subject_id)
-	fig.tight_layout()
-	fig.savefig('../plots/exp2_learning_curves.pdf')
-
-def run_all_subjects(subject_ids):
+def run_multilevel(subject_ids):
+	trial_matrix = []
+	correct_matrix = []
 	for subject_id in subject_ids:
 		trial, correct = get_correct(subject_id)
-		trace = fit_model(trial, correct)
-		trace.to_netcdf(f'../plots/exp2/training_traces/{subject_id}.netcdf')
+		trial_matrix.append(trial)
+		correct_matrix.append(correct)
+	trace = fit_multilevel_model(np.column_stack(trial_matrix), np.column_stack(correct_matrix), subject_ids)
+	trace.to_netcdf('../plots/exp2/training_trace2.netcdf')
+
+def plot_multilevel(subject_ids):
+	trace = az.from_netcdf('../plots/exp2/training_trace2.netcdf')
+	fig, axes = az.utils.plt.subplots(5, 10, figsize=(16, 9))
+	for sub_i, axis in zip(range(50), np.ravel(axes)):
+		make_plot(axis, trace, sub_i)
+		axis.set_title(subject_ids[sub_i])
+	fig.tight_layout()
+	fig.savefig('../plots/exp2_learning_curves2.pdf')
 
 
 if __name__ == '__main__':
 
 	subjects_with_regular_input = ['008', '007', '010', '011', '009', '012', '013', '015', '026', '014', '017', '016', '018', '020', '033', '032', '021', '023', '030', '027', '002', '003', '004', '005', '006', '001', '024', '022', '028', '031',      '025', '035', '042', '045', '047', '048', '051', '052', '053', '054', '056', '058', '059', '062', '072', '077', '086', '087', '063', '076']
 
-	# subjects_with_regular_input = subjects_with_regular_input[0:13]
-	# subjects_with_regular_input = subjects_with_regular_input[13:26]
-	# subjects_with_regular_input = subjects_with_regular_input[26:39]
-	# subjects_with_regular_input = subjects_with_regular_input[39:50]
-
-	# run_all_subjects(subjects_with_regular_input)
-	plot_all_subjects(subjects_with_regular_input)
+	run_multilevel(subjects_with_regular_input)
+	plot_multilevel(subjects_with_regular_input)
