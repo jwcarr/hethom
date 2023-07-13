@@ -5,18 +5,19 @@ if (process.argv.length != 3)
 // Parameters
 // ------------------------------------------------------------------
 
-// Regex defining valid Prolific participant IDs (24 hex digits)
-const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
-
 // Port number to listen on
 const PORT = 8080;
 
 // Use http or https as the protocol
 const PROTOCOL = 'http';
 
-// If https, provide paths to the SSL encryption keys
+// If https, provide paths to the SSL encryption keys and Prolific credentials
 const SSL_KEY_FILE = '/etc/letsencrypt/live/joncarr.net/privkey.pem';
 const SSL_CERT_FILE = '/etc/letsencrypt/live/joncarr.net/fullchain.pem';
+const PROLIFIC_CREDENTIALS_FILE = '/home/jon/.prolific_credentials.json';
+
+// Regex defining valid Prolific participant IDs (24 hex digits)
+const VALID_SUBJECT_ID = /^[a-f0-9]{24}$/;
 
 // ------------------------------------------------------------------
 // Import modules
@@ -29,15 +30,15 @@ const mongojs = require('mongojs');
 const socketio = require('socket.io');
 
 // ------------------------------------------------------------------
-// Load experiment config data and Prolific API token if available
+// Load experiment config data and Prolific credentials if available
 // ------------------------------------------------------------------
 
 const EXP_ID = process.argv[2];
 const EXP_CONFIG = JSON.parse(fs.readFileSync(`config/${EXP_ID}.json`));
 
-let PROLIFIC_API_TOKEN = null;
-if (fs.existsSync('prolific_api_token'))
-	PROLIFIC_API_TOKEN = fs.readFileSync('prolific_api_token').toString();
+let PROLIFIC_CREDENTIALS = null;
+if (fs.existsSync(PROLIFIC_CREDENTIALS_FILE))
+	PROLIFIC_CREDENTIALS = JSON.parse(fs.readFileSync(PROLIFIC_CREDENTIALS_FILE));
 
 // ------------------------------------------------------------------
 // Server setup
@@ -45,24 +46,64 @@ if (fs.existsSync('prolific_api_token'))
 
 const app = express();
 app.use(express.static(`${__dirname}/client`));
-app.use(express.json());
-if (PROLIFIC_API_TOKEN)
-	app.post('/prolific', function(req, res) {
-		res.sendStatus(200);
-		if (req.body.event_type === 'submission.status.change')
-			return handleSubmissionStatusChange(req.body.resource_id);
-	});
 
 const config = {};
 if (PROTOCOL === 'https') {
 	config.key = fs.readFileSync(SSL_KEY_FILE);
 	config.cert = fs.readFileSync(SSL_CERT_FILE);
+	if (PROLIFIC_CREDENTIALS) {
+		app.use(express.json());
+		app.post('/prolific', handleProlificEndpoint);
+	}
 }
 const server = http.createServer(config, app);
 
 const db = mongojs(`mongodb://127.0.0.1:27017/${EXP_ID}`, ['chains', 'subjects']);
 
 const socket = socketio(server);
+
+// ------------------------------------------------------------------
+// Prolific endpoint
+// ------------------------------------------------------------------
+
+function submissionStatusChange(submission_id) {
+	http.get(
+		`https://api.prolific.co/api/v1/submissions/${submission_id}/`,
+		{headers: {'Authorization': `Token ${PROLIFIC_CREDENTIALS.api_token}`}},
+		res => {
+			let raw_data = '';
+			res.on('data', chunk => {raw_data += chunk;});
+			res.on('end', () => {
+				const data = JSON.parse(raw_data);
+				if (data['status'] === 'RETURNED') {
+					console.log(`Subject ${data.participant} has returned; dropping.`);
+					db.subjects.findAndModify({
+						query: {subject_id: data.participant},
+						update: {$set: {status: 'dropout'}},
+						new: false,
+					}, function(err, subject, last_err) {
+						if (err || !subject || subject.chain_id === null)
+							return console.log('- Subject not found');
+						db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
+							if (err || !chain)
+								return console.log('- Chain not found');
+							if (chain.subject_a === subject.subject_id)
+								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_a': null}});
+							else if (chain.subject_b === subject.subject_id)
+								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_b': null}});
+						});
+					});
+				}
+			});
+		}
+	);
+}
+
+function handleProlificEndpoint(req, res) {
+	res.sendStatus(202);
+	if (req.body.event_type === 'submission.status.change')
+		return submissionStatusChange(req.body.resource_id);
+}
 
 // ------------------------------------------------------------------
 // Functions
@@ -388,38 +429,6 @@ function reportError(client, error_number, reason) {
 	const message = 'Error ' + error_number + ': ' + reason;
 	console.log(getCurrentTime() + ' ' + message);
 	return client.emit('report', {message});
-}
-
-function handleSubmissionStatusChange(submission_id) {
-	http.get(
-		`https://api.prolific.co/api/v1/submissions/${submission_id}/`,
-		{headers: {'Authorization': `Token ${PROLIFIC_API_TOKEN}`}},
-		res => {
-			let raw_data = '';
-			res.on('data', chunk => {raw_data += chunk;});
-			res.on('end', () => {
-				const data = JSON.parse(raw_data);
-				if (data['status'] === 'RETURNED') {
-					db.subjects.findAndModify({
-						query: {subject_id: data['participant']},
-						update: {$set: {status: 'dropout'}},
-						new: true,
-					}, function(err, subject, last_err) {
-						if (err || !subject || subject.chain_id === null)
-							return;
-						db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
-							if (err || !chain)
-								return;
-							if (chain.subject_a === subject.subject_id)
-								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_a': null}});
-							else if (chain.subject_b === subject.subject_id)
-								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_b': null}});
-						});
-					});
-				}
-			});
-		}
-	);
 }
 
 // ------------------------------------------------------------------

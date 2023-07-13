@@ -54,20 +54,9 @@ CONFIG_DIR = Path('config')
 DATA_DIR = Path('../data')
 DOMAIN = 'localhost'
 PORT = 27017
+PROLIFIC_CREDENTIALS_FILE = Path.home() / '.prolific_credentials.json'
 
 DB = MongoClient(DOMAIN, PORT)
-
-try:
-	with open('prolific_api_token') as file:
-		PROLIFIC_API_TOKEN = file.read()
-except FileNotFoundError:
-	PROLIFIC_API_TOKEN = None
-
-try:
-	with open('prolific_workspace_id') as file:
-		PROLIFIC_WORKSPACE_ID = file.read()
-except FileNotFoundError:
-	PROLIFIC_WORKSPACE_ID = None
 
 STATUS_EMOJI = {
 	'available': '🟢',
@@ -535,33 +524,39 @@ def subject_a_is_dominant(subject_a, subject_b, test_alternative=True):
 	return True
 
 
+try:
+	with open(PROLIFIC_CREDENTIALS_FILE) as file:
+		PROLIFIC_CREDENTIALS = json.load(file)
+except FileNotFoundError:
+	PROLIFIC_CREDENTIALS = None
+
 def set_up_secret():
 	response = requests.post(
 		'https://api.prolific.co/api/v1/hooks/secrets/',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
-		json={'workspace_id': PROLIFIC_WORKSPACE_ID},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
+		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id']},
 	).json()
 	print(response)
 
 def list_all_secrets():
 	response = requests.get(
 		'https://api.prolific.co/api/v1/hooks/secrets/',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	).json()
 	print(response)
 
 def list_all_subscriptions():
 	response = requests.get(
 		'https://api.prolific.co/api/v1/hooks/subscriptions/?is_enabled=true',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	).json()
 	print(response)
 
 def create_subscription():
 	response = requests.post(
 		'https://api.prolific.co/api/v1/hooks/subscriptions/',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
-		json={'workspace_id': PROLIFIC_WORKSPACE_ID, 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
+		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
 	)
 	subscription_id = response.json()['id']
 	x_hook_secret = response.headers['X-Hook-Secret']
@@ -569,15 +564,15 @@ def create_subscription():
 	print('X-Hook-Secret:', x_hook_secret)
 	response = requests.post(
 		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
-		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_WORKSPACE_ID, 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
+		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
 	)
 	print(response)
 
 def delete_subscription(subscription_id):
 	response = requests.delete(
 		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
-		headers={'Authorization': f'Token {PROLIFIC_API_TOKEN}'},
+		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	)
 	print(response)
 
