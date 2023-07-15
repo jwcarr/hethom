@@ -206,6 +206,9 @@ socket.on('initialize', function(payload) {
 	$('#consent_basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
 	$('#consent_max_pay').html('£' + (payload.max_pay/100).toFixed(2));
 	socket.emit('next', {subject_id, 'initialization': true});
+	socket.on('connect', function() {
+		socket.emit('reconnect', {subject_id});
+	});
 });
 
 socket.on('consent', function(payload) {
@@ -438,6 +441,25 @@ socket.on('test_comprehension', function(payload) {
 });
 
 socket.on('comm_production', function(payload) {
+
+	socket.on('receive_feedback', function(payload) {
+		socket.off('receive_feedback');
+		const [shape, color] = payload.selected_item.split('_');
+		$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
+		updateBonus(payload.total_bonus);
+		if (payload.selected_item === payload.target_item)
+			bonus_audio[2].play();
+		else
+			bonus_audio[0].play();
+		setTimeout(function() {
+			hideWord();
+			hideObject();
+			$('#feedback_object').hide();
+			$('#spinner').show();
+			socket.emit('next_communication', {subject_id});
+		}, payload.pause_time * 2);
+	});
+
 	$('#instructions').hide();
 	$('#spinner').hide();
 	updateBonus(payload.total_bonus);
@@ -480,6 +502,47 @@ socket.on('comm_production', function(payload) {
 });
 
 socket.on('comm_comprehension', function(payload) {
+
+	socket.on('receive_message', function(payload) {
+		socket.off('receive_message');
+		$('#spinner').hide();
+		$('img[id^="object_array_"]').click(function() {
+			$('img[id^="object_array_"]').off('click');
+			$('img[id^="object_array_"]').css('cursor', 'default');
+			const response_time = Math.floor(performance.now() - start_time);
+			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
+			const selected_item = array[selected_button];
+			const correct_object_position = array.indexOf(payload.item);
+			for (let i in array) {
+				if (i != correct_object_position)
+					$(`#object_array_${i}`).css('opacity', '0.1');
+			}
+			if (selected_item === payload.item) {
+				bonus_audio[2].play();
+				updateBonus(payload.total_bonus_with_full);
+			} else {
+				bonus_audio[0].play();
+			}
+			setTimeout(function() {
+				hideArray();
+				hideWord();
+				$('#spinner').show();
+				socket.emit('next_communication', {subject_id});
+			}, payload.pause_time * 2);
+			socket.emit('send_feedback', {subject_id, response: {
+				test_type: 'comm_comprehension',
+				item: payload.item,
+				word: payload.label,
+				selected_button,
+				selected_item,
+				response_time,
+			}});
+		}).css('cursor', 'pointer');
+		message_sound.play();
+		showWord(payload.label, 'images/bubble_comp.png');
+		const start_time = performance.now();
+	});
+
 	$('#instructions').hide();
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
@@ -490,58 +553,6 @@ socket.on('comm_comprehension', function(payload) {
 	$('#spinner').show();
 	$('#experiment').show();
 	$('#header').show();
-});
-
-socket.on('receive_message', function(payload) {
-	$('#spinner').hide();
-	$('img[id^="object_array_"]').click(function() {
-		$('img[id^="object_array_"]').off('click');
-		$('img[id^="object_array_"]').css('cursor', 'default');
-		const response_time = Math.floor(performance.now() - start_time);
-		const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
-		const selected_item = array[selected_button];
-		const correct_object_position = array.indexOf(payload.item);
-		for (let i in array) {
-			if (i != correct_object_position)
-				$(`#object_array_${i}`).css('opacity', '0.1');
-		}
-		if (selected_item === payload.item) {
-			bonus_audio[2].play();
-			updateBonus(payload.total_bonus_with_full);
-		} else {
-			bonus_audio[0].play();
-		}
-		setTimeout(function() {
-			hideArray();
-			socket.emit('next_communication', {subject_id});
-		}, payload.pause_time * 2);
-		socket.emit('send_feedback', {subject_id, response: {
-			test_type: 'comm_comprehension',
-			item: payload.item,
-			word: payload.label,
-			selected_button,
-			selected_item,
-			response_time,
-		}});
-	}).css('cursor', 'pointer');
-	message_sound.play();
-	showWord(payload.label, 'images/bubble_comp.png');
-	const start_time = performance.now();
-});
-
-socket.on('receive_feedback', function(payload) {
-	const [shape, color] = payload.selected_item.split('_');
-	$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
-	updateBonus(payload.total_bonus);
-	if (payload.selected_item === payload.target_item)
-		bonus_audio[2].play();
-	else
-		bonus_audio[0].play();
-	setTimeout(function() {
-		hideObject();
-		$('#feedback_object').hide();
-		socket.emit('next_communication', {subject_id});
-	}, payload.pause_time * 2);
 });
 
 socket.on('questionnaire', function(payload) {

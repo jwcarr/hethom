@@ -388,7 +388,7 @@ function assignToChain(chains, subject_id) {
 	return [chains[0], {$set: {status: 'unavailable', subject_a: subject_id}}];
 }
 
-function getPartner(client, subject, callback) {
+function getPartner(client, subject, callback, n_retries=9) {
 	db.chains.findOne({chain_id: subject.chain_id}, function(err, chain) {
 		if (err || !chain)
 			return reportError(client, 134, 'Cannot obtain chain.');
@@ -404,13 +404,24 @@ function getPartner(client, subject, callback) {
 		db.subjects.findOne({subject_id: partner_id}, function(err, partner) {
 			if (err || !partner)
 				return reportError(client, 136, 'Assigned partner does not exist.');
+			if (partner.client_id === null) {
+				if (n_retries === 0)
+					return reportError(client, 137, 'Unable to contact partner.');
+				return setTimeout(function() {
+					getPartner(client, subject, callback, n_retries - 1);
+				}, 6000);
+			}
 			callback(partner, chain);
 		});
 	});
 }
 
-function prepareNextTrial(subject) {
-	const next = subject.trial_sequence[subject.sequence_position];
+function prepareNextTrial(subject, sequence_position=null) {
+	let next;
+	if (sequence_position === null)
+		next = subject.trial_sequence[subject.sequence_position];
+	else
+		next = subject.trial_sequence[sequence_position];
 	next.payload.total_bonus = subject.total_bonus;
 	next.payload.total_bonus_with_full = subject.total_bonus + EXP_CONFIG.bonus_full;
 	next.payload.total_bonus_with_part = subject.total_bonus + EXP_CONFIG.bonus_part;
@@ -616,7 +627,12 @@ socket.on('connection', function(client) {
 				if (err || !subject)
 					return reportError(client, 127, 'Unrecognized participant ID.');
 				// Tell subject to begin the next trial
-				const next = prepareNextTrial(subject);
+				let next = prepareNextTrial(subject);
+				if (payload.initialization && next.event === 'comm_production' && subject.responses[subject.responses.length - 1].test_type === 'comm_production') {
+					// participant appears to have interupted a production trial, fast forward them to next comprehension trial
+					next = prepareNextTrial(subject, subject.sequence_position + 1);
+					READY_FOR_COMMUNICATION[subject.subject_id] = true;
+				}
 				return client.emit(next.event, next.payload);
 			});
 		});
@@ -631,9 +647,8 @@ socket.on('connection', function(client) {
 			query: {subject_id: payload.subject_id},
 			update: {
 				$set: {modified_time: time, client_id: client.id},
-				$inc: {sequence_position: 1},
 			},
-			new: true,
+			new: false,
 		}, function(err, subject, last_err) {
 			if (err || !subject)
 				return reportError(client, 128, 'Unrecognized participant ID.');
@@ -647,11 +662,15 @@ socket.on('connection', function(client) {
 				// the partner's ready status and initiate the next trial on
 				// both clients; else, mark this subject as ready
 				if (READY_FOR_COMMUNICATION[partner.subject_id]) {
+					READY_FOR_COMMUNICATION[subject.subject_id] = false;
 					READY_FOR_COMMUNICATION[partner.subject_id] = false;
-					const subject_next = prepareNextTrial(subject);
-					const partner_next = prepareNextTrial(partner);
-					client.to(partner.client_id).emit(partner_next.event, partner_next.payload);
+					const next_sequence_position = Math.min(subject.sequence_position, partner.sequence_position) + 1;
+					db.subjects.update({subject_id: subject.subject_id}, {$set: {sequence_position: next_sequence_position}});
+					db.subjects.update({subject_id: partner.subject_id}, {$set: {sequence_position: next_sequence_position}});
+					const subject_next = prepareNextTrial(subject, next_sequence_position);
+					const partner_next = prepareNextTrial(partner, next_sequence_position);
 					client.emit(subject_next.event, subject_next.payload);
+					client.to(partner.client_id).emit(partner_next.event, partner_next.payload);
 				} else {
 					READY_FOR_COMMUNICATION[subject.subject_id] = true;
 				}
@@ -714,6 +733,11 @@ socket.on('connection', function(client) {
 				client.to(partner.client_id).emit('receive_feedback', {selected_item, target_item, total_bonus: new_partner_bonus, pause_time: EXP_CONFIG.pause_time});
 			});
 		});
+	});
+
+	// Client has reconnected to the server, update their client ID
+	client.on('reconnect', function(payload) {
+		db.subjects.update({subject_id: payload.subject_id}, {$set: {client_id: client.id}});
 	});
 
 	// Client has disconnected from the server, set their client ID to null
