@@ -63,8 +63,7 @@ function showObject() {
 
 function hideObject() {
 	$('#object').hide();
-	$('#object_image').off('click');
-	$('#object_image').css('cursor', 'default');
+	$('#object_image').off('click').css('cursor', 'default');
 }
 
 function preloadArray(object_array) {
@@ -85,8 +84,7 @@ function hideArray() {
 function showWord(word, bubble=null) {
 	if (bubble)
 		$('#word').css('background-image', `url(${bubble})`);
-	$('#word').html(word);
-	$('#word').show();
+	$('#word').html(word).show();
 }
 
 function playWord(item) {
@@ -94,8 +92,7 @@ function playWord(item) {
 }
 
 function hideWord() {
-	$('#word').hide();
-	$('#word').css('background-image', '');
+	$('#word').hide().css('background-image', '');
 }
 
 function showLabelInput() {
@@ -396,8 +393,7 @@ socket.on('test_comprehension', (payload) => {
 	preloadArray(payload.array);
 	setTimeout(() => {
 		$('img[id^="object_array_"]').one('click', function() {
-			$('img[id^="object_array_"]').off('click');
-			$('img[id^="object_array_"]').css('cursor', 'default');
+			$('img[id^="object_array_"]').off('click').css('cursor', 'default');
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = payload.array[selected_button];
@@ -504,8 +500,7 @@ socket.on('comm_comprehension', (payload) => {
 		socket.off('receive_message');
 		$('#spinner').hide();
 		$('img[id^="object_array_"]').one('click', function() {
-			$('img[id^="object_array_"]').off('click');
-			$('img[id^="object_array_"]').css('cursor', 'default');
+			$('img[id^="object_array_"]').off('click').css('cursor', 'default');
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = matcher_array[selected_button];
