@@ -67,9 +67,7 @@ function hideObject() {
 	$('#object_image').css('cursor', 'default');
 }
 
-let array = [];
 function preloadArray(object_array) {
-	array = object_array;
 	for (let i=0; i < object_array.length; i++) {
 		$(`#object_array_${i}`).attr('src', `images/shapes/${object_array[i]}.png`);
 	}
@@ -500,6 +498,7 @@ socket.on('comm_production', (payload) => {
 });
 
 socket.on('comm_comprehension', (payload) => {
+	const matcher_array = payload.array;
 
 	socket.on('receive_message', (payload) => {
 		socket.off('receive_message');
@@ -509,9 +508,9 @@ socket.on('comm_comprehension', (payload) => {
 			$('img[id^="object_array_"]').css('cursor', 'default');
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
-			const selected_item = array[selected_button];
-			const correct_object_position = array.indexOf(payload.item);
-			for (let i in array) {
+			const selected_item = matcher_array[selected_button];
+			const correct_object_position = matcher_array.indexOf(payload.item);
+			for (let i in matcher_array) {
 				if (i != correct_object_position)
 					$(`#object_array_${i}`).css('opacity', '0.1');
 			}
@@ -546,7 +545,7 @@ socket.on('comm_comprehension', (payload) => {
 	updateProgress(payload.progress);
 	hideArray();
 	hideWord();
-	preloadArray(payload.array);
+	preloadArray(matcher_array);
 	showArray();
 	$('#spinner').show();
 	$('#experiment').show();
