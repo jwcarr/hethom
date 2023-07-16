@@ -212,12 +212,11 @@ socket.on('initialize', (payload) => {
 });
 
 socket.on('consent', (payload) => {
-	$('#submit_consent').click(function() {
-		$(this).off('click');
+	$('#submit_consent').one('click', function() {
 		$('#consent_screen').hide();
 		socket.emit('next', {subject_id});
 	});
-	$('#confirm_consent').click(function() {
+	$('#confirm_consent').on('click', function() {
 		if ($(this).is(':checked'))
 			enableButton('#submit_consent');
 		else
@@ -232,8 +231,7 @@ socket.on('instructions', (payload) => {
 	updateProgress(payload.progress);
 	if (payload.spoken_forms)
 		initializeSpokenForms(payload.spoken_forms);
-	$('#start').click(function() {
-		$(this).off('click');
+	$('#start').one('click', function() {
 		$(this).hide();
 		if (payload.response_kind === 'next_communication') {
 			$('#spinner').show();
@@ -277,7 +275,7 @@ socket.on('training_block', (payload) => {
 			hideWord();
 			preloadObject(payload.test_trial.shape, payload.test_trial.color);
 			let object_clicked = false;
-			$('#object_image').click(function() {
+			$('#object_image').on('click', function() {
 				if (payload.test_trial.catch_trial)
 					catch_acknowledge.play();
 				$('#label').focus();
@@ -399,7 +397,7 @@ socket.on('test_comprehension', (payload) => {
 	hideWord();
 	preloadArray(payload.array);
 	setTimeout(() => {
-		$('img[id^="object_array_"]').click(function() {
+		$('img[id^="object_array_"]').one('click', function() {
 			$('img[id^="object_array_"]').off('click');
 			$('img[id^="object_array_"]').css('cursor', 'default');
 			const response_time = Math.floor(performance.now() - start_time);
@@ -506,7 +504,7 @@ socket.on('comm_comprehension', (payload) => {
 	socket.on('receive_message', (payload) => {
 		socket.off('receive_message');
 		$('#spinner').hide();
-		$('img[id^="object_array_"]').click(function() {
+		$('img[id^="object_array_"]').one('click', function() {
 			$('img[id^="object_array_"]').off('click');
 			$('img[id^="object_array_"]').css('cursor', 'default');
 			const response_time = Math.floor(performance.now() - start_time);
@@ -559,8 +557,7 @@ socket.on('questionnaire', (payload) => {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
 	$('#experiment').hide();
-	$('#submit_questionnaire').click(function() {
-		$(this).off('click');
+	$('#submit_questionnaire').one('click', function() {
 		const comments = $('#comments').val();
 		socket.emit('next', {subject_id, comments});
 	});
@@ -583,8 +580,7 @@ socket.on('end_of_experiment', (payload) => {
 	$('#basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
 	$('#bonus_pay').html('£' + (payload.total_bonus/100).toFixed(2));
 	$('#total_pay').html('£' + ((payload.basic_pay + payload.total_bonus)/100).toFixed(2));
-	$('#exit').click(function() {
-		$(this).off('click');
+	$('#exit').one('click', function() {
 		$(this).hide();
 		window.location.href = payload.return_url;
 	});
@@ -608,7 +604,7 @@ $(document).ready(() => {
 			socket.emit('handshake', {subject_id});
 		}
 	});
-	$('#sound_test_button').click(function() {
+	$('#sound_test_button').on('click', function() {
 		test_sound.play();
 		$('#test_sound_input').focus();
 	});
