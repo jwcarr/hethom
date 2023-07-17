@@ -541,6 +541,7 @@ socket.on('comm_comprehension', (payload) => {
 		}).css('cursor', 'pointer');
 		message_sound.play();
 		showWord(payload.label, 'images/bubble_comp.png');
+		showArray();
 		const start_time = performance.now();
 	});
 
@@ -550,7 +551,6 @@ socket.on('comm_comprehension', (payload) => {
 	hideArray();
 	hideWord();
 	preloadArray(matcher_array);
-	showArray();
 	$('#spinner').show();
 	$('#experiment').show();
 	$('#header').show();
