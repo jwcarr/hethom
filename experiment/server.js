@@ -223,6 +223,12 @@ function generateTrialSequenceStub(progress=0.05) {
 		{event: 'instructions', payload: {
 			instruction_screen: 'training',
 			instruction_time: EXP_CONFIG.instruction_time,
+			response_kind: 'next',
+			progress: progress,
+		}},
+		{event: 'instructions', payload: {
+			instruction_screen: 'object_prefixes',
+			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'ready_to_assign',
 			progress: progress,
 		}},
