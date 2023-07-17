@@ -215,29 +215,31 @@ function itemsWithSameWord(lexicon, target_word) {
 	return compatible_items;
 }
 
-function generateTrialSequenceStub() {
+function generateTrialSequenceStub(progress=0.05) {
 	return [
-		{event: 'consent', payload: {progress: 0}},
+		{event: 'consent', payload: {
+			progress: progress,
+		}},
 		{event: 'instructions', payload: {
 			instruction_screen: 'training',
 			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'ready_to_assign',
-			progress: 0
+			progress: progress,
 		}},
 	];
 }
 
 function generateTrialSequence(task, words, training_items, lead_communicator, prod_items) {
-	const trial_sequence = generateTrialSequenceStub();
+	const trial_sequence = generateTrialSequenceStub(10);
 	if (task.communication)
-		trial_sequence.push({event:'instructions', payload:{
+		trial_sequence.push({event:'instructions', payload: {
 			instruction_screen: 'training_for_communication',
 			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'next',
 			progress: 10,
 		}});
 	else
-		trial_sequence.push({event:'instructions', payload:{
+		trial_sequence.push({event:'instructions', payload: {
 			instruction_screen: 'training_for_test',
 			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'next',
@@ -306,7 +308,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 		const prod_item = prod_items[i];
 		const [shape, color] = prod_item.split('_');
 		if (task.communication) {
-			const production_event = {event:'comm_production', payload:{
+			const production_event = {event:'comm_production', payload: {
 				item: prod_item,
 				word: words[prod_item],
 				shape: shape,
@@ -314,7 +316,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
 			}};
-			const comprehension_event = {event:'comm_comprehension', payload:{
+			const comprehension_event = {event:'comm_comprehension', payload: {
 				array: generateItems(task.n_shapes, task.n_colors),
 				pause_time: EXP_CONFIG.pause_time,
 				progress: 2,
@@ -327,7 +329,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 				trial_sequence.push(production_event);
 			}
 		} else {
-			trial_sequence.push({event:'test_production', payload:{
+			trial_sequence.push({event:'test_production', payload: {
 				item: prod_item,
 				word: words[prod_item],
 				shape: shape,
@@ -336,7 +338,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 				progress: 2,
 			}});
 			const comp_item = comp_items[i];
-			trial_sequence.push({event:'test_comprehension', payload:{
+			trial_sequence.push({event:'test_comprehension', payload: {
 				word: words[comp_item],
 				items: itemsWithSameWord(words, words[comp_item]),
 				array: generateItems(task.n_shapes, task.n_colors),
@@ -346,10 +348,10 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 		}
 
 	}
-	trial_sequence.push({event:'questionnaire', payload:{
+	trial_sequence.push({event:'questionnaire', payload: {
 		progress: 10,
 	}});
-	trial_sequence.push({event:'end_of_experiment', payload:{
+	trial_sequence.push({event:'end_of_experiment', payload: {
 		return_url: EXP_CONFIG.return_url,
 		basic_pay: EXP_CONFIG.basic_pay,
 		progress: 0,
