@@ -81,9 +81,7 @@ function hideArray() {
 	$('img[id^="object_array_"]').css('opacity', '1');
 }
 
-function showWord(word, bubble=null) {
-	if (bubble)
-		$('#word').css('background-image', `url(${bubble})`);
+function showWord(word) {
 	$('#word').html(word).show();
 }
 
@@ -465,6 +463,7 @@ socket.on('comm_production', (payload) => {
 	hideObject();
 	hideWord();
 	preloadObject(payload.shape, payload.color);
+	$('#word').css('background-image', 'url(images/bubble_prod.png)');
 	setTimeout(() => {
 		const attempted_labels = [];
 		$("#input_form").submit(function(event) {
@@ -474,7 +473,7 @@ socket.on('comm_production', (payload) => {
 				$(this).off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
-				showWord(label, 'images/bubble_prod.png');
+				showWord(label);
 				$('#feedback_object').attr('src', 'images/waiting_comp.gif').show();
 				socket.emit('send_label', {subject_id, response: {
 					test_type: 'comm_production',
@@ -540,7 +539,7 @@ socket.on('comm_comprehension', (payload) => {
 			}});
 		}).css('cursor', 'pointer');
 		message_sound.play();
-		showWord(payload.label, 'images/bubble_comp.png');
+		showWord(payload.label);
 		showArray();
 		const start_time = performance.now();
 	});
@@ -551,6 +550,7 @@ socket.on('comm_comprehension', (payload) => {
 	hideArray();
 	hideWord();
 	preloadArray(matcher_array);
+	$('#word').css('background-image', 'url(images/bubble_comp.png)');
 	$('#spinner').show();
 	$('#experiment').show();
 	$('#header').show();
