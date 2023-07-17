@@ -631,7 +631,7 @@ socket.on('connection', (client) => {
 				// Tell subject to begin the next trial
 				let next = prepareNextTrial(subject);
 				if (payload.initialization && next.event === 'comm_production' && subject.responses[subject.responses.length - 1].test_type === 'comm_production') {
-					// participant appears to have interupted a production trial, fast forward them to next comprehension trial
+					// participant appears to have interupted a communicative production trial, fast forward them to next comprehension trial
 					next = prepareNextTrial(subject, subject.sequence_position + 1);
 					READY_FOR_COMMUNICATION[subject.subject_id] = true;
 				}
@@ -643,7 +643,7 @@ socket.on('connection', (client) => {
 	// Client declares that they are ready to start a new communicative trial
 	// (including the first such trial).
 	client.on('next_communication', (payload) => {
-		// find the subject and increment their sequence position
+		// find the subject
 		const time = getCurrentTime();
 		db.subjects.findAndModify({
 			query: {subject_id: payload.subject_id},
@@ -662,7 +662,8 @@ socket.on('connection', (client) => {
 			getPartner(client, subject, (partner, chain) => {
 				// if the partner has already declared themselves ready, reset
 				// the partner's ready status and initiate the next trial on
-				// both clients; else, mark this subject as ready
+				// both clients; else, mark this subject as ready. Increment
+				// both subjects' sequence positions.
 				if (READY_FOR_COMMUNICATION[partner.subject_id]) {
 					READY_FOR_COMMUNICATION[subject.subject_id] = false;
 					READY_FOR_COMMUNICATION[partner.subject_id] = false;
