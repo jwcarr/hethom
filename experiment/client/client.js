@@ -174,7 +174,7 @@ function initializeObjectArray(object_array_dims) {
 		html += '<tr>';
 		for (let j=0; j < n; j++) {
 			html += '<td>';
-			html += `<img id='object_array_${position}' src='images/empty_char.png' width='${size}' height='${size}' />`;
+			html += `<img id='object_array_${position}' src='images/shapes/${i}_${j}.png' width='${size}' height='${size}' />`;
 			html += '</td>';
 			position++;
 		}
