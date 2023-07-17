@@ -277,6 +277,7 @@ socket.on('training_block', (payload) => {
 				object_clicked = true;
 			}).css('cursor', 'pointer');
 			setTimeout(() => {
+				const attempted_labels = [];
 				$("#input_form").submit(function(event) {
 					event.preventDefault();
 					let label = $("#label").val().toLowerCase();
@@ -296,6 +297,7 @@ socket.on('training_block', (payload) => {
 								expected_label: payload.test_trial.word,
 								catch_trial: payload.test_trial.catch_trial,
 								input_label: label,
+								attempted_labels,
 								response_time,
 								object_clicked,
 							}});
@@ -316,6 +318,7 @@ socket.on('training_block', (payload) => {
 						}
 					} else {
 						showInputError('#label');
+						attempted_labels.push(label);
 					}
 					return false;
 				});
@@ -341,6 +344,7 @@ socket.on('test_production', (payload) => {
 	hideWord();
 	preloadObject(payload.shape, payload.color);
 	setTimeout(() => {
+		const attempted_labels = [];
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
 			let label = $("#label").val().toLowerCase();
@@ -367,12 +371,14 @@ socket.on('test_production', (payload) => {
 						color: payload.color,
 						expected_label: payload.word,
 						input_label: label,
+						attempted_labels,
 						response_time,
 					}});
 				}, payload.pause_time * 2);
 			} else {
 				playWord(payload.item);
 				showInputError('#label');
+				attempted_labels.push(label);
 			}
 			return false;
 		});
@@ -460,6 +466,7 @@ socket.on('comm_production', (payload) => {
 	hideWord();
 	preloadObject(payload.shape, payload.color);
 	setTimeout(() => {
+		const attempted_labels = [];
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
 			let label = $("#label").val().toLowerCase();
@@ -476,11 +483,13 @@ socket.on('comm_production', (payload) => {
 					item: payload.item,
 					expected_label: payload.word,
 					input_label: label,
+					attempted_labels,
 					response_time,
 				}});
 			} else {
 				playWord(payload.item);
 				showInputError('#label');
+				attempted_labels.push(label);
 			}
 			return false;
 		});
