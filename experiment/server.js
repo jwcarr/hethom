@@ -215,22 +215,23 @@ function itemsWithSameWord(lexicon, target_word) {
 	return compatible_items;
 }
 
-function generateTrialSequenceStub(progress=0.05) {
+function generateTrialSequenceStub(progress=null) {
+	const initial_trial_estimate = 0.05;
 	return [
 		{event: 'consent', payload: {
-			progress: progress,
+			progress: 0,
 		}},
 		{event: 'instructions', payload: {
 			instruction_screen: 'training',
 			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'next',
-			progress: progress,
+			progress: progress || (initial_trial_estimate * 1),
 		}},
 		{event: 'instructions', payload: {
 			instruction_screen: 'object_prefixes',
 			instruction_time: EXP_CONFIG.instruction_time,
 			response_kind: 'ready_to_assign',
-			progress: progress,
+			progress: progress || (initial_trial_estimate * 2),
 		}},
 	];
 }
