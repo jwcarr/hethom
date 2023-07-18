@@ -355,9 +355,9 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 		}
 
 	}
-	trial_sequence.push({event:'questionnaire', payload: {
-		progress: 10,
-	}});
+	// trial_sequence.push({event:'questionnaire', payload: {
+	// 	progress: 10,
+	// }});
 	trial_sequence.push({event:'end_of_experiment', payload: {
 		return_url: EXP_CONFIG.return_url,
 		basic_pay: EXP_CONFIG.basic_pay,
