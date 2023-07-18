@@ -106,16 +106,24 @@ def pad_range(lo, hi):
 	return lo - pad, hi + pad 
 
 def plot_generational_change(axis, dataset, condition, measure, n_generations=20, show_mean=False):
+	chain_data = []
 	condition_subset = dataset[ dataset['condition'] == condition ]
 	for chain_i in sorted(condition_subset['chain'].unique()):
 		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
+		chain_data.append(list(chain_subset[measure]))
+		if show_mean:
+			continue
 		axis.plot(chain_subset['generation'], chain_subset[measure], label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
+	if show_mean:
+		chain_data = np.array(chain_data)
+		axis.plot(chain_subset['generation'], chain_data.mean(axis=0), label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
 	axis.set_xlim(0, n_generations)
 	axis.set_ylim(*pad_range(*MEASURE_RANGES[measure]))
 	axis.set_xticks(list(range(n_generations + 1)))
 	axis.set_xlabel('Generation')
 	axis.set_ylabel(LABELS[measure])
 	axis.set_title(LABELS[condition])
+	axis.legend()
 
 def plot_generational_change_by_condition(dataset, measure):
 	conditions = dataset['condition'].unique()
@@ -126,7 +134,10 @@ def plot_generational_change_by_condition(dataset, measure):
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 		n_generations = 20
 	for axis, condition in zip(np.ravel(axes), conditions):
-		plot_generational_change(axis, dataset, condition, measure, n_generations)
+		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
+		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
+		axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
+		
 	fig.tight_layout()
 	plt.show()
 
@@ -309,15 +320,4 @@ if __name__ == '__main__':
 	# draw_all_matrixes(dataset_json)
 	# make_ternary_plot()
 
-	for condition, data in dataset_json.items():
-		for chain in data:
-			for subject_a, subject_b in chain[1:2]:
-				plot_training_curve(subject_a['subject_id'])
-				if subject_b:
-					plot_training_curve(subject_b['subject_id'])
-
 	# print_word_chains(dataset_json)
-
-	# lex = dataset_json['lrn_hiVar'][7][-1][0]['lexicon']
-	# for item, word in lex.items():
-	# 	print(word)
