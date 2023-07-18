@@ -295,7 +295,7 @@ socket.on('training_block', (payload) => {
 								response_time,
 								object_clicked,
 							}});
-						}, payload.pause_time * 2);
+						}, payload.pause_time * 4);
 						hideLabelInput();
 						showWord(diffLabels(label, payload.test_trial.word));
 						if (response_time < payload.test_trial.max_response_time) {
@@ -368,7 +368,7 @@ socket.on('test_production', (payload) => {
 						attempted_labels,
 						response_time,
 					}});
-				}, payload.pause_time * 2);
+				}, payload.pause_time * 4);
 			} else {
 				playWord(payload.item);
 				showInputError('#label');
@@ -422,7 +422,7 @@ socket.on('test_comprehension', (payload) => {
 					selected_item,
 					response_time,
 				}});
-			}, payload.pause_time * 2);
+			}, payload.pause_time * 4);
 		}).css('cursor', 'pointer');
 		showWord(payload.word);
 		showArray();
@@ -449,7 +449,7 @@ socket.on('comm_production', (payload) => {
 			$('#feedback_object').hide();
 			$('#spinner').show();
 			socket.emit('next_communication', {subject_id});
-		}, payload.pause_time * 2);
+		}, payload.pause_time * 4);
 	});
 
 	$('#instructions').hide();
@@ -524,7 +524,7 @@ socket.on('comm_comprehension', (payload) => {
 				hideWord();
 				$('#spinner').show();
 				socket.emit('next_communication', {subject_id});
-			}, payload.pause_time * 2);
+			}, payload.pause_time * 4);
 			socket.emit('send_feedback', {subject_id, response: {
 				test_type: 'comm_comprehension',
 				item: payload.item,
