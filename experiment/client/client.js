@@ -575,6 +575,7 @@ socket.on('questionnaire', (payload) => {
 socket.on('end_of_experiment', (payload) => {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
+	$('#experiment').hide();
 	$('#questionnaire').hide();
 	$('#basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
 	$('#bonus_pay').html('£' + (payload.total_bonus/100).toFixed(2));
