@@ -76,12 +76,6 @@ class MissionControl:
 			self.db = DB[self.exp_id]
 		else:
 			self.db = None
-		self.returned_subject_IDs = []
-		return_log_path = DATA_DIR / f'{self.exp_id}_return_log'
-		if return_log_path.exists():
-			with open(return_log_path) as file:
-				for line in file:
-					self.returned_subject_IDs.append(line.strip())
 
 	def _log_approval(self, sub_id, bonus):
 		with open(DATA_DIR / f'{self.exp_id}_approval_log', 'a') as file:
@@ -89,11 +83,6 @@ class MissionControl:
 		with open(DATA_DIR / f'{self.exp_id}_bonus_log', 'a') as file:
 			bonus = convert_to_pounds(bonus)
 			file.write(f'{sub_id},{bonus}\n')
-
-	def _log_return(self, sub_id):
-		with open(DATA_DIR / f'{self.exp_id}_return_log', 'a') as file:
-			file.write(f'{sub_id}\n')
-		self.returned_subject_IDs.append(sub_id)
 
 	def launch(self, _=None):
 		exp_config_file = CONFIG_DIR / f'{self.exp_id}.json'
@@ -242,12 +231,11 @@ class MissionControl:
 			else: # for loop exits normally, all words match, chain has converged
 				update_status = 'converged'
 				print('🎉 CHAIN CONVERGED!')
+		sound_epoch_inc = 0
 		if chain['task']['sound_change_freq']:
 			if (chain['current_gen'] > 0 and (chain['current_gen'] + 1) % chain['task']['sound_change_freq'] == 0) or (chain['task']['sound_change_freq'] == 1):
 				sound_epoch_inc = 1
 				print('🕓 NEW SOUND EPOCH')
-			else:
-				sound_epoch_inc = 0
 		self.db.chains.update_one({'chain_id': chain['chain_id']}, {
 			'$set': {'status': update_status, 'lexicon': next_lexicon, 'subject_a': None, 'subject_b': None},
 			'$push': {'subjects': [chain['subject_a'], chain['subject_b']]},
