@@ -43,7 +43,6 @@ import json
 import random
 import time
 import requests
-import numpy as np
 from itertools import product
 from pathlib import Path
 from pymongo import MongoClient
@@ -110,7 +109,7 @@ class MissionControl:
 				DB[self.exp_id].chains.insert_one({
 					'chain_id': f'{task["task_id"]}_{chain_i}',
 					'task': task,
-					'status': 'closed',
+					'status': 'available',
 					'current_gen': 0,
 					'sound_epoch': 0,
 					'subject_a': None,
@@ -297,8 +296,6 @@ class MissionControl:
 		lexicon = {}
 		response_times = []
 		attention_checks_passed = 0
-		button_distributon = np.zeros(len(subject['input_lexicon']))
-		object_distributon = np.zeros(len(subject['input_lexicon']))
 		item_to_index_map = sorted(list(subject['input_lexicon'].keys()))
 		for trial in subject['responses']:
 			match trial['test_type']:
@@ -311,8 +308,6 @@ class MissionControl:
 					lexicon[trial['item']] = trial['input_label']
 					response_times.append(trial['response_time'])
 				case 'test_comprehension' | 'comm_comprehension':
-					button_distributon[trial['selected_button']] += 1
-					object_distributon[item_to_index_map.index(trial['selected_item'])] += 1
 					response_times.append(trial['response_time'])
 		lexicon = {item: lexicon[item] for item in sorted(lexicon)}
 		for item, word in lexicon.items():
@@ -322,10 +317,8 @@ class MissionControl:
 			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct)
 		self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
-		print('Mean response time', round(np.mean(response_times) / 1000, 2))
+		print('Mean response time', round(sum(response_times) / len(response_times) / 1000, 2))
 		print('Attention checks:', attention_checks_passed)
-		print('Button entropy:', round(entropy(button_distributon), 2))
-		print('Object entropy:', round(entropy(object_distributon), 2))
 		print('Total bonus:', subject['total_bonus'])
 		print('Comments:', subject['comments'])
 
@@ -392,10 +385,6 @@ class MissionControl:
 				self.db.chains.update_one({'chain_id': subject['chain_id']}, {'$set':{'status': 'available', 'subject_b': None}})
 				print(f'Subject B slot opened on chain {chain["chain_id"]}')
 
-
-def entropy(distribution):
-	distribution /= distribution.sum()
-	return -sum([p * np.log2(p) for p in distribution if p > 0])
 
 def choose(choices, choose_n):
 	'''
