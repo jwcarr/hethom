@@ -472,7 +472,69 @@ def create_compositional_lexicon_with_sound_change(task):
 	]
 	return lexicon, phonetic_lexicons
 
+def create_compdet_lexicon_with_sound_change(task):
+	cons = list(range(task['n_colors']))
+	vwls = list(range(task['n_colors']))
+	random.shuffle(cons)
+	random.shuffle(vwls)
+
+	lexicon = {}
+	phonetic_lexicon = {}
+	for i, stem in enumerate(task['stems']):
+		for j, (c, v) in enumerate(zip(cons, vwls)):
+			item = f'{i}_{j}'
+			suffix = f'{task["seed_suffix_spellings"][0][c]}{task["seed_suffix_spellings"][1][v]}'
+			lexicon[item] = stem + suffix
+			phonetic_lexicon[(i, j)] = i, c, v
+	phonetic_lexicons = [phonetic_lexicon]
+
+	suffix_indices = list(range(task['n_colors']))
+	random.shuffle(suffix_indices)
+	for merger in [ suffix_indices[:2], suffix_indices ]:
+		suffix1, suffix2 = set([sound[1:] for item, sound in phonetic_lexicons[-1].items() if item[1] in merger])
+		if random.random() < 0.5:
+			new_suffix = [suffix1[0], suffix2[1]]
+		else:
+			new_suffix = [suffix2[0], suffix1[1]]
+		for m in merger:
+			cons[m] = new_suffix[0]
+			vwls[m] = new_suffix[1]
+		phonetic_lexicon = {}
+		for i, stem in enumerate(task['stems']):
+			for j, (c, v) in enumerate(zip(cons, vwls)):
+				phonetic_lexicon[(i, j)] = i, c, v
+		phonetic_lexicons.append(phonetic_lexicon)
+
+	phonetic_lexicons = [
+		{'_'.join(map(str, item)): '_'.join(map(str, sound)) + '.m4a' for item, sound in phonetic_lexicon.items()}
+		for phonetic_lexicon in phonetic_lexicons
+	]
+	return lexicon, phonetic_lexicons
+
+def create_holrand_lexicon_without_sound_change(task):
+	suffix_spellings = []
+	for suffix_spelling in product(*task['seed_suffix_spellings']):
+		suffix_spellings.append(''.join(suffix_spelling))
+	random.shuffle(suffix_spellings)
+	lexicon = {}
+	spoken_forms = {}
+	for i in range(task['n_shapes']):
+		for j in range(task['n_colors']):
+			item = f'{i}_{j}'
+			stem = task['stems'][i]
+			suffix = suffix_spellings.pop()
+			lexicon[item] = stem + suffix
+			spoken_forms[item] = f'{i}.m4a'
+	return lexicon, [spoken_forms]
+
 def create_lexicon(task):
+	if 'seed_suffix_system' in task:
+		if task['seed_suffix_system'] == 'compositional_deterministic':
+			return create_compdet_lexicon_with_sound_change(task)
+		elif task['seed_suffix_system'] == 'holistic_random':
+			return create_holrand_lexicon_without_sound_change(task)
+		else:
+			raise ValueError('Cannot construct lexicon: Invalid config specification')
 	if 'lexicon' in task and 'spoken_forms' in task:
 		return task['lexicon'], task['spoken_forms']
 	if task['sound_change_freq']:
