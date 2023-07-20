@@ -77,7 +77,7 @@ function submissionStatusChange(submission_id) {
 			});
 			res.on('end', () => {
 				const data = JSON.parse(raw_data);
-				if (data['status'] === 'RETURNED') {
+				if (data.status === 'RETURNED') {
 					console.log(`Subject ${data.participant} has returned; dropping.`);
 					db.subjects.findAndModify({
 						query: {subject_id: data.participant},
@@ -85,10 +85,10 @@ function submissionStatusChange(submission_id) {
 						new: false,
 					}, (err, subject, last_err) => {
 						if (err || !subject || subject.chain_id === null)
-							return console.log('- Subject not found');
+							return;
 						db.chains.findOne({chain_id: subject.chain_id}, (err, chain) => {
 							if (err || !chain)
-								return console.log('- Chain not found');
+								return;
 							if (chain.subject_a === subject.subject_id)
 								return db.chains.update({chain_id: chain.chain_id}, {'$set':{'status': 'available', 'subject_a': null}});
 							else if (chain.subject_b === subject.subject_id)
@@ -216,7 +216,7 @@ function itemsWithSameWord(lexicon, target_word) {
 }
 
 function generateTrialSequenceStub(progress=null) {
-	const initial_trial_estimate = 0.05;
+	const initial_trial_estimate = 0.02;
 	return [
 		{event: 'consent', payload: {
 			progress: 0,
@@ -292,7 +292,8 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 			}
 		}
 		// second to last trial on each training rep is a catch trial
-		trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
+		if (i % 2 === 0)
+			trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
 	}
 	if (task.communication)
 		trial_sequence.push({event:'instructions', payload: {
