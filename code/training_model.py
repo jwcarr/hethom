@@ -30,14 +30,22 @@ def find_subjects_with_regular_input():
 		if is_regular(data['input_lexicon'], data['training_items']):
 			print(data['subject_id'], data['chain_id'], data['generation'])
 
-def get_correct(subject_id):
-	data = json_load(f'../data/exp2/subject_{subject_id}.json')
+def get_correct(exp_id, subject_id):
+	data = json_load(f'../data/{exp_id}/subject_{subject_id}.json')
 	correct = [
 		int(trial['expected_label'] == trial['input_label'])
 		for trial in data['responses'] if trial['test_type'] == 'mini_test'
 	]
+	prod_correct = [
+		int(trial['expected_label'] == trial['input_label'])
+		for trial in data['responses'] if trial['test_type'] == 'test_production'
+	]
+	comp_correct = [
+		int(trial['selected_item'] in trial['items'])
+		for trial in data['responses'] if trial['test_type'] == 'test_comprehension'
+	]
 	trial = list(range(len(correct)))
-	return trial, correct
+	return trial, correct, (sum(prod_correct), sum(comp_correct))
 
 def fit_multilevel_model(trial, correct, subject_ids):
 	coords = {
@@ -93,29 +101,32 @@ def make_plot(axis, trace, sub_i=None):
 	axis.set_ylim(0, 1)
 	axis.set_xlim(1, 36)
 
-def run_multilevel(subject_ids):
+def run_multilevel(exp_id, subject_ids):
 	trial_matrix = []
 	correct_matrix = []
 	for subject_id in subject_ids:
-		trial, correct = get_correct(subject_id)
+		trial, correct, _ = get_correct(exp_id, subject_id)
 		trial_matrix.append(trial)
 		correct_matrix.append(correct)
 	trace = fit_multilevel_model(np.column_stack(trial_matrix), np.column_stack(correct_matrix), subject_ids)
-	trace.to_netcdf('../plots/exp2/training_trace2.netcdf')
+	trace.to_netcdf('../plots/pilot8/training_trace.netcdf')
 
-def plot_multilevel(subject_ids):
-	trace = az.from_netcdf('../plots/exp2/training_trace2.netcdf')
-	fig, axes = az.utils.plt.subplots(5, 10, figsize=(16, 9))
-	for sub_i, axis in zip(range(50), np.ravel(axes)):
+def plot_multilevel(exp_id, subject_ids):
+	trace = az.from_netcdf('../plots/pilot8/training_trace.netcdf')
+	fig, axes = az.utils.plt.subplots(4, 5, figsize=(16, 9))
+	for sub_i, axis in zip(range(20), np.ravel(axes)):
+		_, _, test_correct = get_correct(exp_id, subject_ids[sub_i])
 		make_plot(axis, trace, sub_i)
-		axis.set_title(subject_ids[sub_i])
+		axis.set_title(subject_ids[sub_i] + f', test score = {test_correct}')
 	fig.tight_layout()
-	fig.savefig('../plots/exp2_learning_curves2.pdf')
+	fig.savefig('../plots/pilot8_learning_curves.pdf')
 
 
 if __name__ == '__main__':
 
-	subjects_with_regular_input = ['008', '007', '010', '011', '009', '012', '013', '015', '026', '014', '017', '016', '018', '020', '033', '032', '021', '023', '030', '027', '002', '003', '004', '005', '006', '001', '024', '022', '028', '031',      '025', '035', '042', '045', '047', '048', '051', '052', '053', '054', '056', '058', '059', '062', '072', '077', '086', '087', '063', '076']
+	# exp2_subjects_with_regular_input = ['008', '007', '010', '011', '009', '012', '013', '015', '026', '014', '017', '016', '018', '020', '033', '032', '021', '023', '030', '027', '002', '003', '004', '005', '006', '001', '024', '022', '028', '031',      '025', '035', '042', '045', '047', '048', '051', '052', '053', '054', '056', '058', '059', '062', '072', '077', '086', '087', '063', '076']
 
-	run_multilevel(subjects_with_regular_input)
-	plot_multilevel(subjects_with_regular_input)
+	subject_ids = ['001', '002', '004', '003', '005', '006', '009', '010', '013', '014', '012', '015', '008', '016', '017', '011', '018', '007', '019', '020']
+
+	# run_multilevel('pilot8', subject_ids)
+	plot_multilevel('pilot8', subject_ids)
