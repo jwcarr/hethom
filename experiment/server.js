@@ -381,23 +381,25 @@ function assignToChain(chains, subject_id) {
 	// most urgent
 	for (let chain of chains) {
 		if (chain.task.communication && chain.subject_a === null && chain.subject_b)
-			return [chain, {$set: {status: 'unavailable', subject_a: subject_id}}];
+			return [ chain, {$set: {status: 'unavailable', subject_a: subject_id}} ];
 	}
 	// then look for a communicative chain where subject A has been
 	// assigned but we still need a subject B
 	for (let chain of chains) {
 		if (chain.task.communication && chain.subject_a && chain.subject_b === null)
-			return [chain, {$set: {status: 'unavailable', subject_b: subject_id}}];
+			return [ chain, {$set: {status: 'unavailable', subject_b: subject_id}} ];
 	}
 	// then look for a communicative chain where neither subject has been
-	// assigned
-	for (let chain of chains) {
-		if (chain.task.communication && chain.subject_a === null && chain.subject_b === null)
-			return [chain, {$set: {status: 'available', subject_a: subject_id}}];
-	}
-	// if no communication chains are available, return first chain in the
-	// list, which will be the one with the smallest generation count
-	return [chains[0], {$set: {status: 'unavailable', subject_a: subject_id}}];
+	// assigned, and, if one is available, pick one at random
+	const candidate_comm_chains = chains.filter((chain) => {
+		if (chain.task.communication)
+			return chain;
+	});
+	if (candidate_comm_chains.length > 0)
+		return [ candidate_comm_chains[randInt(candidate_comm_chains.length)], {$set: {status: 'available', subject_a: subject_id}} ];
+	// if no communication chains are available, return one of the chains at
+	// random
+	return [ chains[randInt(chains.length)], {$set: {status: 'unavailable', subject_a: subject_id}} ];
 }
 
 function getPartner(client, subject, callback, n_retries=9) {
