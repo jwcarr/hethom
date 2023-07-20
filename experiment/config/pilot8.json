@@ -1,11 +1,11 @@
 {
 	"exp_id": "pilot8",
 	"return_url": "https://app.prolific.co/submissions/complete?cc=CIYLN87N",
-	"session_time": 20,
-	"basic_pay": 250,
-	"bonus_part": 1,
+	"session_time": 13,
+	"basic_pay": 200,
+	"bonus_part": 0,
 	"bonus_full": 2,
-	"max_pay": 358,
+	"max_pay": 308,
 	"instruction_time": 5000,
 	"exposure_time": 2000,
 	"pause_time": 500,
@@ -13,27 +13,52 @@
 	"object_array_dims": [3, 3],
 	"tasks": [
 		{
-			"task_id": "com",
-			"n_chains": 5,
-			"max_gens": 9,
+			"task_id": "compo",
+			"n_chains": 10,
+			"max_gens": 1,
 			"sound_change_freq": 3,
 			"stop_on_convergence": false,
 			"n_shapes": 3,
 			"n_colors": 3,
 			"bottleneck": 6,
 			"mini_test_freq": 3,
-			"training_reps": 0,
+			"training_reps": 6,
 			"test_reps": 1,
 			"stems": [
 				"buvi",
 				"zeti",
-				"gafi"
+				"wopi"
 			],
+			"seed_suffix_system": "compositional_deterministic",
 			"seed_suffix_spellings": [
-				["th", "s", "sh"],
-				["a", "e", "o"]
+				["f", "s", "x"],
+				["oe", "a", "ei"]
 			],
-			"communication": true
+			"communication": false
+		},
+		{
+			"task_id": "holis",
+			"n_chains": 10,
+			"max_gens": 1,
+			"sound_change_freq": 0,
+			"stop_on_convergence": false,
+			"n_shapes": 3,
+			"n_colors": 3,
+			"bottleneck": 6,
+			"mini_test_freq": 3,
+			"training_reps": 6,
+			"test_reps": 1,
+			"stems": [
+				"buvi",
+				"zeti",
+				"wopi"
+			],
+			"seed_suffix_system": "holistic_random",
+			"seed_suffix_spellings": [
+				["c", "k", "q"],
+				["oe", "o", "oh"]
+			],
+			"communication": false
 		}
 	]
 }
