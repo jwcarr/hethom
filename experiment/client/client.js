@@ -124,8 +124,9 @@ function showInputError(input_id) {
 
 const STEM_LENGTH = 4; // set to 3 in Experiment 1
 function validateWord(label, expected_label=null) {
-	if (!label.match(/^[a-z]{4,9}$/))
+	if (!label.match(/^[a-z]{4,9}$/)) {
 		return false;
+	}
 	if (expected_label) {
 		let expected_prefix = expected_label.slice(0, STEM_LENGTH);
 		if (label.slice(0, STEM_LENGTH) != expected_prefix) {
@@ -140,8 +141,9 @@ const span_red = '<span style="color: red; text-decoration: line-through;">';
 const span_green = '<span style="color: green; font-weight:bold;">';
 const span_close = '</span>';
 function diffLabels(s1, s2) {
-	if (s1 === s2)
+	if (s1 === s2) {
 		return s1;
+	}
 	const sequence_matchcer = new difflib.SequenceMatcher(null, s1, s2);
 	let feedback = '';
 	for (let [tag, i1, i2, j1, j2] of sequence_matchcer.getOpcodes()) {
@@ -180,8 +182,9 @@ function initializeObjectArray(object_array_dims) {
 
 function initializeSpokenForms(forms) {
 	for (let item in forms) {
-		if (!(forms[item] in word_audio))
+		if (!(forms[item] in word_audio)) {
 			word_audio[forms[item]] = new Audio(`words/${forms[item]}`);
+		}
 		spoken_forms[item] = forms[item];
 	}
 }
@@ -189,8 +192,9 @@ function initializeSpokenForms(forms) {
 socket.on('initialize', (payload) => {
 	updateBonus(payload.total_bonus);
 	initializeObjectArray(payload.object_array_dims);
-	if (payload.spoken_forms)
+	if (payload.spoken_forms) {
 		initializeSpokenForms(payload.spoken_forms);
+	}
 	$('#consent_session_time').html(payload.session_time);
 	$('#consent_basic_pay').html('£' + (payload.basic_pay/100).toFixed(2));
 	$('#consent_max_pay').html('£' + (payload.max_pay/100).toFixed(2));
@@ -206,10 +210,11 @@ socket.on('consent', (payload) => {
 		socket.emit('next', {subject_id});
 	});
 	$('#confirm_consent').on('click', function() {
-		if ($(this).is(':checked'))
+		if ($(this).is(':checked')) {
 			enableButton('#submit_consent');
-		else
+		} else {
 			disableButton('#submit_consent');
+		}
 	});
 	disableButton('#submit_consent');
 	$('#consent_screen').show();
@@ -218,8 +223,9 @@ socket.on('consent', (payload) => {
 socket.on('instructions', (payload) => {
 	updateBonus(payload.total_bonus);
 	updateProgress(payload.progress);
-	if (payload.spoken_forms)
+	if (payload.spoken_forms) {
 		initializeSpokenForms(payload.spoken_forms);
+	}
 	$('#start').one('click', function() {
 		$(this).hide();
 		if (payload.response_kind === 'next_communication') {
@@ -265,8 +271,9 @@ socket.on('training_block', (payload) => {
 			preloadObject(payload.test_trial.shape, payload.test_trial.color);
 			let object_clicked = false;
 			$('#object_image').on('click', function() {
-				if (payload.test_trial.catch_trial)
+				if (payload.test_trial.catch_trial) {
 					catch_acknowledge.play();
+				}
 				$('#label').focus();
 				object_clicked = true;
 			}).css('cursor', 'pointer');
@@ -322,8 +329,9 @@ socket.on('training_block', (payload) => {
 				const timer = $('#timer').animate({width: 0}, payload.test_trial.max_response_time, 'linear');
 				const start_time = performance.now();
 				showLabelInput();
-				if (payload.test_trial.catch_trial)
+				if (payload.test_trial.catch_trial) {
 					catch_instruction.play();
+				}
 			}, payload.pause_time);
 		}
 	);
@@ -439,10 +447,11 @@ socket.on('comm_production', (payload) => {
 		const [shape, color] = payload.selected_item.split('_');
 		$('#feedback_object').attr('src', `images/shapes/${shape}_${color}.png`);
 		updateBonus(payload.total_bonus);
-		if (payload.selected_item === payload.target_item)
+		if (payload.selected_item === payload.target_item) {
 			bonus_audio[2].play();
-		else
+		} else {
 			bonus_audio[0].play();
+		}
 		setTimeout(() => {
 			hideWord();
 			hideObject();
@@ -510,8 +519,9 @@ socket.on('comm_comprehension', (payload) => {
 			const selected_item = matcher_array[selected_button];
 			const correct_object_position = matcher_array.indexOf(payload.item);
 			for (let i in matcher_array) {
-				if (i != correct_object_position)
+				if (i != correct_object_position) {
 					$(`#object_array_${i}`).css('opacity', '0.1');
+				}
 			}
 			if (selected_item === payload.item) {
 				bonus_audio[2].play();
@@ -561,10 +571,11 @@ socket.on('questionnaire', (payload) => {
 		socket.emit('next', {subject_id, comments});
 	});
 	$('#comments').keyup(function() {
-		if ($(this).val().length > 0)
+		if ($(this).val().length > 0) {
 			enableButton('#submit_questionnaire');
-		else
+		} else {
 			disableButton('#submit_questionnaire');
+		}
 	});
 	disableButton('#submit_questionnaire');
 	$('#questionnaire').show();
@@ -594,8 +605,9 @@ socket.on('report', (payload) => {
 });
 
 $(document).ready(() => {
-	if (/Android|webOS|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent))
+	if (/Android|webOS|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 		return null;
+	}
 	const [test_sound, test_phrase] = test_audio[randInt(test_audio.length)];
 	$('#test_sound_input').keyup(function() {
 		if ($(this).val().toLowerCase() === test_phrase) {
