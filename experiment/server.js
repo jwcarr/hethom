@@ -80,7 +80,6 @@ function submissionStatusChange(submission_id) {
 			res.on('end', () => {
 				const data = JSON.parse(raw_data);
 				if (data.status === 'RETURNED') {
-					console.log(`Subject ${data.participant} has returned; dropping.`);
 					db.subjects.findAndModify({
 						query: {subject_id: data.participant},
 						update: {$set: {status: 'dropout'}},
@@ -393,34 +392,27 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 }
 
 function assignToChain(chains, subject_id) {
-	// first look for a communicative chain where subject B has been
-	// assigned but we have lost subject A for some reason - this is
-	// most urgent
-	for (let chain of chains) {
-		if (chain.task.communication && chain.subject_a === null && chain.subject_b) {
+	const comm_chains = chains.filter((chain) => chain.task.communication);
+	if (comm_chains.length === 0) {
+		// there are no communication chains; return one of the chains at random
+		return [ chains[randInt(chains.length)], {$set: {status: 'unavailable', subject_a: subject_id}} ];
+	}
+	// first priority is a communication chain where subject B has been
+	// assigned but we have lost subject A for some reason
+	for (let chain of comm_chains) {
+		if (chain.subject_a === null && chain.subject_b) {
 			return [ chain, {$set: {status: 'unavailable', subject_a: subject_id}} ];
 		}
 	}
-	// then look for a communicative chain where subject A has been
+	// second priority is a communication chain where subject A has been
 	// assigned but we still need a subject B
-	for (let chain of chains) {
-		if (chain.task.communication && chain.subject_a && chain.subject_b === null) {
+	for (let chain of comm_chains) {
+		if (chain.subject_a && chain.subject_b === null) {
 			return [ chain, {$set: {status: 'unavailable', subject_b: subject_id}} ];
 		}
 	}
-	// then look for a communicative chain where neither subject has been
-	// assigned, and, if one is available, pick one at random
-	const candidate_comm_chains = chains.filter((chain) => {
-		if (chain.task.communication) {
-			return chain;
-		}
-	});
-	if (candidate_comm_chains.length > 0) {
-		return [ candidate_comm_chains[randInt(candidate_comm_chains.length)], {$set: {status: 'available', subject_a: subject_id}} ];
-	}
-	// if no communication chains are available, return one of the chains at
-	// random
-	return [ chains[randInt(chains.length)], {$set: {status: 'unavailable', subject_a: subject_id}} ];
+	// third priority is any communication chain; return one at random
+	return [ comm_chains[randInt(comm_chains.length)], {$set: {status: 'available', subject_a: subject_id}} ];
 }
 
 function getPartner(client, subject, callback, n_retries=9) {
@@ -563,9 +555,7 @@ socket.on('connection', (client) => {
 	// Client is ready to start the experiment for real. At this point, we
 	// will assign the user to a chain
 	client.on('ready_to_assign', (payload) => {
-		// Check to see which chains are active and sort them by the number of
-		// generations that have been completed (prioritizing few generations).
-		db.chains.find({status: 'available'}).sort({current_gen: 1}, (err, chains) => {
+		db.chains.find({status: 'available'}, (err, chains) => {
 			if (err || chains.length === 0) {
 				return reportError(client, 121, 'Experiment unavailable. Please try again in a minute.');
 			}
