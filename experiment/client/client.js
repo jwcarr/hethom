@@ -358,29 +358,21 @@ socket.on('test_production', (payload) => {
 				$(this).off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
-				////////////////////////////////////
-				// RICH FEEDBACK
-				// showWord(diffLabels(label, payload.word));
-				////////////////////////////////////
 				if (label === payload.word) {
-					bonus_audio[2].play();
 					updateBonus(payload.total_bonus_with_full);
 				} else {
 					updateBonus(payload.total_bonus);
-					bonus_audio[0].play();
 				}
-				setTimeout(() => {
-					hideObject();
-					socket.emit('next', {subject_id, response: {
-						test_type: 'test_production',
-						shape: payload.shape,
-						color: payload.color,
-						expected_label: payload.word,
-						input_label: label,
-						attempted_labels,
-						response_time,
-					}});
-				}, payload.pause_time * 4);
+				hideObject();
+				socket.emit('next', {subject_id, response: {
+					test_type: 'test_production',
+					shape: payload.shape,
+					color: payload.color,
+					expected_label: payload.word,
+					input_label: label,
+					attempted_labels,
+					response_time,
+				}});
 			} else {
 				playWord(payload.item);
 				showInputError('#label');
@@ -409,32 +401,21 @@ socket.on('test_comprehension', (payload) => {
 			const response_time = Math.floor(performance.now() - start_time);
 			const selected_button = parseInt($(this).attr('id').match(/object_array_(.+)/)[1]);
 			const selected_item = payload.array[selected_button];
-			////////////////////////////////////
-			// RICH FEEDBACK
-			// for (let i in array) {
-			// 	if (!payload.items.includes(array[i]))
-			// 		$(`#object_array_${i}`).css('opacity', '0.1');
-			// }
-			////////////////////////////////////
 			if (payload.items.includes(selected_item)) {
-				bonus_audio[2].play();
 				updateBonus(payload.total_bonus_with_full);
 			} else {
-				bonus_audio[0].play();
 				updateBonus(payload.total_bonus);
 			}
-			setTimeout(() => {
-				hideArray();
-				socket.emit('next', {subject_id, response: {
-					test_type: 'test_comprehension',
-					word: payload.word,
-					items: payload.items,
-					array: payload.array,
-					selected_button,
-					selected_item,
-					response_time,
-				}});
-			}, payload.pause_time * 4);
+			hideArray();
+			socket.emit('next', {subject_id, response: {
+				test_type: 'test_comprehension',
+				word: payload.word,
+				items: payload.items,
+				array: payload.array,
+				selected_button,
+				selected_item,
+				response_time,
+			}});
 		}).css('cursor', 'pointer');
 		showWord(payload.word);
 		showArray();
