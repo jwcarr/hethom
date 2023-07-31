@@ -313,9 +313,6 @@ socket.on('training_block', (payload) => {
 							if (label === payload.test_trial.word) {
 								bonus_audio[2].play();
 								updateBonus(payload.total_bonus_with_full);
-							// } else if (label.substr(0, 3) === payload.test_trial.word.substr(0, 3)) {
-							// 	bonus_audio[1].play();
-							// 	updateBonus(payload.total_bonus_with_part);
 							} else {
 								bonus_audio[0].play();
 								updateBonus(payload.total_bonus);
