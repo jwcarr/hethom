@@ -122,15 +122,13 @@ function showInputError(input_id) {
 	}, 500);
 }
 
-const STEM_LENGTH = 4; // set to 3 in Experiment 1
-function validateWord(label, expected_label=null) {
+function validateWord(label, expected_stem=null) {
 	if (!label.match(/^[a-z]{4,9}$/)) {
 		return false;
 	}
-	if (expected_label) {
-		let expected_prefix = expected_label.slice(0, STEM_LENGTH);
-		if (label.slice(0, STEM_LENGTH) != expected_prefix) {
-			alert(`Please check your spelling. This word should begin with ${expected_prefix}...`);
+	if (expected_stem) {
+		if (label.slice(0, expected_stem.length) !== expected_stem) {
+			alert(`Please check your spelling. This word should begin with ${expected_stem}...`);
 			return false;
 		}
 	}
@@ -351,7 +349,7 @@ socket.on('test_production', (payload) => {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
 			let label = $("#label").val().toLowerCase();
-			if (validateWord(label, payload.word)) {
+			if (validateWord(label, payload.expected_stem)) {
 				$(this).off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();
@@ -457,7 +455,7 @@ socket.on('comm_production', (payload) => {
 		$("#input_form").submit(function(event) {
 			event.preventDefault();
 			let label = $("#label").val().toLowerCase();
-			if (validateWord(label, payload.word)) {
+			if (validateWord(label, payload.expected_stem)) {
 				$(this).off('submit');
 				const response_time = Math.floor(performance.now() - start_time);
 				hideLabelInput();

@@ -335,6 +335,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 			const production_event = {event:'comm_production', payload: {
 				item: prod_item,
 				word: words[prod_item],
+				expected_stem: task.stems[shape],
 				shape: shape,
 				color: color,
 				pause_time: EXP_CONFIG.pause_time,
@@ -356,6 +357,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 			trial_sequence.push({event:'test_production', payload: {
 				item: prod_item,
 				word: words[prod_item],
+				expected_stem: task.stems[shape],
 				shape: shape,
 				color: color,
 				pause_time: EXP_CONFIG.pause_time,
