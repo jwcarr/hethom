@@ -11,11 +11,16 @@ def calculate_rates(exp_id, with_bonus=False):
 	times = []
 	amounts = []
 	rates = []
+	comments_time = []
 
 	for i in range(1, 539):
 		subject_id = str(i).zfill(3)
 		path = ROOT/'data'/exp_id/f'subject_{subject_id}.json'
-		data = json_load(path)
+		try:
+			data = json_load(path)
+
+		except:
+			break
 
 		time = data['modified_time'] - data['creation_time']
 		times.append(time)
@@ -28,9 +33,12 @@ def calculate_rates(exp_id, with_bonus=False):
 		rate = 3600 / time * amount
 		rates.append(rate)
 
+		comments_time.append(data['modified_time'] - data['responses'][-1]['time'])
+
 	print('Median completion time (mins):', np.median(times) / 60)
 	print('Median earnings (GBP):', np.median(amounts) / 100)
 	print('Median hourly rate (GBP):', np.median(rates) / 100)
+	print('Median comments time (mins):', np.median(comments_time) / 60)
 
 
 def most_common_languages(exp_id):
@@ -43,5 +51,5 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
-calculate_rates('exp1', with_bonus=True)
-most_common_languages('exp1')
+calculate_rates('exp2', with_bonus=False)
+# most_common_languages('exp2')

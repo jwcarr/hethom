@@ -73,7 +73,8 @@ def generate_color_palette_many(chain):
 
 
 def draw(matrix, color_palette, output_path):
-	surface = cairo.PDFSurface(output_path, 4, 4)
+	m, n = matrix.shape
+	surface = cairo.PDFSurface(output_path, m, n)
 	context = cairo.Context(surface)
 	for i, row in enumerate(matrix):
 		for j, cell in enumerate(row):
@@ -92,6 +93,11 @@ def typological_distribution(matrix, probabilistic=False):
 		return dist
 	dist = np.array([np.exp2(-1 * val**2) for val in dist])
 	return dist / dist.sum()
+
+def cost(system):
+	signals = list(system.flatten())
+	U_size = np.product(system.shape)
+	return 1 / U_size * sum([-np.log2(1 / signals.count(s)) for m, s in np.ndenumerate(system)])
 
 typology = {
 	'transparent': np.array([
@@ -120,10 +126,35 @@ typology = {
 	], dtype=int),
 }
 
+typology = {
+	'transparent': np.array([
+		[0, 0, 0],
+		[0, 0, 0],
+		[0, 0, 0],
+	], dtype=int),
+	'holistic': np.array([
+		[0, 1, 2],
+		[3, 4, 5],
+		[6, 7, 8],
+	], dtype=int),
+	'redundant': np.array([
+		[0, 0, 0],
+		[1, 1, 1],
+		[2, 2, 2],
+	], dtype=int),
+	'expressive': np.array([
+		[0, 1, 2],
+		[0, 1, 2],
+		[0, 1, 2],
+	], dtype=int),
+}
+
 
 if __name__ == '__main__':
 
 	for name, system in typology.items():
 		color_palette = generate_color_palette(system)
-		print(color_palette)
+		# print(color_palette)
 		draw(system, color_palette, f'/Users/jon/Desktop/{name}.pdf')
+
+		print(cost(system))

@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib import colormaps
 import Levenshtein
+import mantel
 import grammarette
 
 from utils import json_load, json_save
@@ -21,6 +22,7 @@ COLORS = colormaps['tab10_r'].colors
 MEASURE_RANGES = {
 	'cost': (0, 2),
 	'complexity': (100, 600),
+	'structure': (0, 10),
 	'error': (0, 3),
 	'alignment': (0, 3),
 }
@@ -28,11 +30,12 @@ MEASURE_RANGES = {
 LABELS = {
 	'cost': 'Communicative cost (bits)',
 	'complexity': 'Complexity (bits)',
+	'structure': 'Structure (z-score)',
 	'error': 'Transmission error (edits)',
 	'alignment': 'Alignment (edits)',
-	'lrn_hiVar': 'Learning-only, High variation',
+	'lrn_hiVar': 'Learning-only',
 	'lrn_noVar': 'Learning-only, No variation',
-	'com_hiVar': 'Learning & Communication, High variation',
+	'com_hiVar': 'Learning & Communication',
 	'com_noVar': 'Learning & Communication, No variation',
 	'lrn': 'Learning-only',
 	'com': 'Learning & Communication',
@@ -57,6 +60,17 @@ def complexity(lexicon, dims):
 	grammar = grammarette.induce(lexicon, dims)
 	return grammar.codelength
 
+def structure(lexicon, dims):
+	meaning_dists = []
+	string_dists = []
+	meanings, strings = zip(*lexicon.items())
+	for i in range(len(meanings)):
+		for j in range(i + 1, len(meanings)):
+			meaning_dists.append(Levenshtein.distance(meanings[i], meanings[j]))
+			string_dists.append(Levenshtein.distance(strings[i], strings[j]))
+	meantel_result = mantel.test(meaning_dists, string_dists)
+	return meantel_result.z
+
 def communicative_cost(lexicon, dims):
 	reverse_lexicon = defaultdict(set)
 	for meaning, signal in lexicon.items():
@@ -79,7 +93,8 @@ def perform_measures(exp_data_file, exp_csv_file):
 				lexicon_a = convert_lexicon_meanings_to_tuple(subject_a['lexicon'])
 				error = transmission_error(lexicon_a, prev_lexicon) if prev_lexicon else None
 				cost = communicative_cost(lexicon_a, (4, 4))
-				comp = complexity(lexicon_a, (4, 4))
+				# comp = complexity(lexicon_a, (4, 4))
+				struc = structure(lexicon_a, (4, 4))
 				if subject_b:
 					lexicon_b = convert_lexicon_meanings_to_tuple(subject_b['lexicon'])
 					algn = transmission_error(lexicon_a, lexicon_b)
@@ -90,13 +105,13 @@ def perform_measures(exp_data_file, exp_csv_file):
 					chain_i,
 					generation_i,
 					error,
-					comp,
+					struc,
 					cost,
 					algn,
 				])
 				prev_lexicon = lexicon_a
 
-	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'error', 'complexity', 'cost', 'alignment'])
+	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'error', 'structure', 'cost', 'alignment'])
 	df.to_csv(exp_csv_file)
 
 
@@ -123,20 +138,21 @@ def plot_generational_change(axis, dataset, condition, measure, n_generations=20
 	axis.set_xlabel('Generation')
 	axis.set_ylabel(LABELS[measure])
 	axis.set_title(LABELS[condition])
-	axis.legend()
+	# axis.legend()
 
 def plot_generational_change_by_condition(dataset, measure):
 	conditions = dataset['condition'].unique()
+	conditions = list(reversed(sorted(conditions)))
 	if len(conditions) == 2:
 		fig, axes = plt.subplots(1, 2, figsize=(15, 7))
-		n_generations = 12
+		n_generations = 20
 	elif len(conditions) == 4:
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 		n_generations = 20
 	for axis, condition in zip(np.ravel(axes), conditions):
 		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
 		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
-		axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
+		# axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
 		
 	fig.tight_layout()
 	plt.show()
@@ -313,7 +329,7 @@ if __name__ == '__main__':
 	dataset_json = json_load(exp_json_file)
 	dataset_csv = pd.read_csv(exp_csv_file)
 
-	# plot_generational_change_by_condition(dataset_csv, 'cost')
+	plot_generational_change_by_condition(dataset_csv, 'error')
 	# plot_simplicity_informativeness_by_condition(dataset_csv)
 
 	# draw_converged_matrixes(dataset_json)
