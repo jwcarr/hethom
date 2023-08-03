@@ -123,7 +123,7 @@ function showInputError(input_id) {
 }
 
 function validateWord(label, expected_stem=null) {
-	if (!label.match(/^[a-z]{4,9}$/)) {
+	if (!label.match(/^[a-z]{4,8}$/)) {
 		return false;
 	}
 	if (expected_stem) {
