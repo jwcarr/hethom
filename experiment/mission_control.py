@@ -39,6 +39,7 @@ delete the subscription.
 
 '''
 
+import re
 import json
 import random
 import time
@@ -178,22 +179,29 @@ class MissionControl:
 			with open(exp_dir / f'chain_{chain["chain_id"]}.json', 'w') as file:
 				file.write(dumps(chain, indent='\t'))
 
-	def open(self, chain_id=None):
+	def open(self, chain_id):
 		if chain_id is None:
 			raise ValueError('Chain ID must be specified')
-		chain = self.db.chains.find_one({'chain_id': chain_id})
-		if chain['status'] != 'closed':
-			raise ValueError('Cannot open: Chain not currently closed')
-		self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'available'}})
+		pattern = re.compile(chain_id)
+		for chain in self.db.chains.find():
+			if pattern.fullmatch(chain['chain_id']):
+				if chain['status'] == 'closed':
+					self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'available'}})
+					print(f'Opened {chain["chain_id"]}')
+				else:
+					print(f'Cannot open {chain["chain_id"]}: Chain not currently closed')
 
 	def close(self, chain_id=None):
 		if chain_id is None:
 			raise ValueError('Chain ID must be specified')
-		chain = self.db.chains.find_one({'chain_id': chain_id})
-		if chain['subject_a'] is None and chain['subject_b'] is None and chain['status'] == 'available':
-			self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'closed'}})
-		else:
-			raise ValueError('Cannot close: Chain occupied')
+		pattern = re.compile(chain_id)
+		for chain in self.db.chains.find():
+			if pattern.fullmatch(chain['chain_id']):
+				if chain['subject_a'] is None and chain['subject_b'] is None and chain['status'] == 'available':
+					self.db.chains.update_one({'chain_id': chain['chain_id']}, {'$set': {'status': 'closed'}})
+					print(f'Closed {chain["chain_id"]}')
+				else:
+					print(f'Cannot close {chain["chain_id"]}: Chain occupied')
 
 	def review(self, chain_id=None):
 		if chain_id is None:
@@ -206,7 +214,7 @@ class MissionControl:
 		self.review_subject(chain['subject_a'])
 		self.review_subject(chain['subject_b'])
 
-	def approve(self, chain_id=None, do_not_reopen=False):
+	def approve(self, chain_id=None, do_not_reopen=True):
 		if chain_id is None:
 			raise ValueError('Chain ID must be specified')
 		chain = self.db.chains.find_one({'chain_id': chain_id})
