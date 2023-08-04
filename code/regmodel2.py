@@ -37,8 +37,8 @@ if __name__ == '__main__':
 	data1 = generate_random_dataset(n_chains, n_generations, 0.3, 0.3)
 	data2 = generate_random_dataset(n_chains, n_generations, 0.25, 0.3)
 
-	plot_dataset(data1, data2)
-	quit()
+	# plot_dataset(data1, data2)
+	# quit()
 
 	chain_ids = []
 	np.repeat
@@ -55,5 +55,5 @@ if __name__ == '__main__':
 	df = center_variable(df, 'generation')
 	df['chain_id'] = df[['condition', 'chain']].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
 
-	model = bmb.Model('cost ~ generation * condition + (generation | chain_id) + (1 | chain_id)', df)
+	model = bmb.Model('cost ~ generation * condition + (1 + generation | chain_id)', df)
 	results = model.fit(draws=1000, chains=4)
