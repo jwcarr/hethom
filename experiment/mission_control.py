@@ -292,13 +292,14 @@ class MissionControl:
 		lexicon = {}
 		response_times = []
 		attention_checks_passed = 0
-		item_to_index_map = sorted(list(subject['input_lexicon'].keys()))
+		training_correct = []
 		for trial in subject['responses']:
 			match trial['test_type']:
 				case 'mini_test':
 					if trial['catch_trial']:
 						attention_checks_passed += trial['object_clicked']
 					response_times.append(trial['response_time'])
+					training_correct.append(trial['expected_label'] == trial['input_label'])
 				case 'test_production' | 'comm_production':
 					trial['item'] = f'{trial["shape"]}_{trial["color"]}'
 					lexicon[trial['item']] = trial['input_label']
@@ -315,6 +316,7 @@ class MissionControl:
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
 		print('Mean response time', round(sum(response_times) / len(response_times) / 1000, 2))
 		print('Attention checks:', attention_checks_passed)
+		print('Training score:', round(sum(training_correct[-12]) / 12 * 100, 0))
 		print('Total bonus:', subject['total_bonus'])
 		print('Comments:', subject['comments'])
 
