@@ -318,7 +318,7 @@ class MissionControl:
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
 		print('Mean response time', round(sum(response_times) / len(response_times) / 1000, 2))
 		print('Attention checks:', attention_checks_passed)
-		print('Training score:', round(sum(training_correct[-12]) / 12 * 100, 0))
+		print('Training score:', round(sum(training_correct[-12:]) / 12 * 100, 0))
 		print('Total bonus:', subject['total_bonus'])
 		print('Comments:', subject['comments'])
 		print()
