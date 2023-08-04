@@ -203,18 +203,16 @@ class MissionControl:
 				else:
 					print(f'Cannot close {chain["chain_id"]}: Chain occupied')
 
-	def review(self, chain_id=None):
-		if chain_id is None:
-			raise ValueError('Chain ID must be specified')
-		chain = self.db.chains.find_one({'chain_id': chain_id})
-		if chain is None:
-			raise ValueError('Chain not found')
-		if chain['status'] != 'approval_needed':
-			raise ValueError('Chain not awaiting approval')
-		self.review_subject(chain['subject_a'])
-		self.review_subject(chain['subject_b'])
+	def review(self):
+		for chain in self.db.chains.find({'status': 'approval_needed'}):
+			print(f'CHAIN: {chain["chain_id"]}')
+			print()
+			self.review_subject(chain['subject_a'])
+			self.review_subject(chain['subject_b'])
+			if input('Do you want to approve this generation? ') == 'yes':
+				self.approve(chain['chain_id'])
 
-	def approve(self, chain_id=None, do_not_reopen=True):
+	def approve(self, chain_id=None):
 		if chain_id is None:
 			raise ValueError('Chain ID must be specified')
 		chain = self.db.chains.find_one({'chain_id': chain_id})
@@ -228,7 +226,10 @@ class MissionControl:
 			next_lexicon = subject_a['lexicon']
 		else:
 			next_lexicon = subject_b['lexicon']
-		update_status = 'closed' if do_not_reopen else 'available'
+		if input('Do you want to reopen this chain? ') == 'yes':
+			update_status = 'available'
+		else:
+			update_status = 'closed'
 		if chain['current_gen'] + 1 >= chain['task']['max_gens']:
 			update_status = 'completed'
 			print('🎉 CHAIN COMPLETED!')
@@ -313,12 +314,14 @@ class MissionControl:
 			trained = '➡️ ' if item in subject['training_items'] else '  '
 			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct)
 		self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
+		print('Subject ID:', subject['subject_id'])
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
 		print('Mean response time', round(sum(response_times) / len(response_times) / 1000, 2))
 		print('Attention checks:', attention_checks_passed)
 		print('Training score:', round(sum(training_correct[-12]) / 12 * 100, 0))
 		print('Total bonus:', subject['total_bonus'])
 		print('Comments:', subject['comments'])
+		print()
 
 	def approve_subject(self, sub_id=None):
 		if sub_id is None:
