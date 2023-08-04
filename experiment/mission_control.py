@@ -312,7 +312,7 @@ class MissionControl:
 			taught_word = subject['input_lexicon'][item]
 			correct = '✅' if word == taught_word else '❌'
 			trained = '➡️ ' if item in subject['training_items'] else '  '
-			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct)
+			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct, subject['spoken_forms'][item])
 		self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
 		print('Subject ID:', subject['subject_id'])
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
