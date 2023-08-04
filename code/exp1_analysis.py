@@ -39,6 +39,10 @@ LABELS = {
 	'com_noVar': 'Learning & Communication, No variation',
 	'lrn': 'Learning-only',
 	'com': 'Learning & Communication',
+	'dif_lrn': 'Differentiation, learning',
+	'dif_com': 'Differentiation, communication',
+	'con_lrn': 'Conservation, learning',
+	'con_com': 'Conservation, communication',
 }
 
 
@@ -92,9 +96,10 @@ def perform_measures(exp_data_file, exp_csv_file):
 				print('    Generation', generation_i)
 				lexicon_a = convert_lexicon_meanings_to_tuple(subject_a['lexicon'])
 				error = transmission_error(lexicon_a, prev_lexicon) if prev_lexicon else None
-				cost = communicative_cost(lexicon_a, (4, 4))
+				cost = communicative_cost(lexicon_a, (3, 3))
 				# comp = complexity(lexicon_a, (4, 4))
-				struc = structure(lexicon_a, (4, 4))
+				# struc = structure(lexicon_a, (4, 4))
+				struc = 0
 				if subject_b:
 					lexicon_b = convert_lexicon_meanings_to_tuple(subject_b['lexicon'])
 					algn = transmission_error(lexicon_a, lexicon_b)
@@ -148,7 +153,7 @@ def plot_generational_change_by_condition(dataset, measure):
 		n_generations = 20
 	elif len(conditions) == 4:
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-		n_generations = 20
+		n_generations = 9
 	for axis, condition in zip(np.ravel(axes), conditions):
 		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
 		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
@@ -321,15 +326,15 @@ def make_ternary_plot():
 
 if __name__ == '__main__':
 
-	exp_json_file = ROOT / 'data' / 'exp2.json'
-	exp_csv_file = ROOT / 'data' / 'exp2.csv'
+	exp_json_file = ROOT / 'data' / 'exp3.json'
+	exp_csv_file = ROOT / 'data' / 'exp3.csv'
 
 	# perform_measures(exp_json_file, exp_csv_file)
 
 	dataset_json = json_load(exp_json_file)
 	dataset_csv = pd.read_csv(exp_csv_file)
 
-	plot_generational_change_by_condition(dataset_csv, 'error')
+	plot_generational_change_by_condition(dataset_csv, 'cost')
 	# plot_simplicity_informativeness_by_condition(dataset_csv)
 
 	# draw_converged_matrixes(dataset_json)
