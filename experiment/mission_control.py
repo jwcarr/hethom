@@ -205,7 +205,7 @@ class MissionControl:
 
 	def review(self):
 		for chain in self.db.chains.find({'status': 'approval_needed'}):
-			print(f'CHAIN: {chain["chain_id"]}')
+			print(f'CHAIN: {chain["chain_id"]}   GENERATION: {chain["current_gen"]+1}   EPOCH: {chain["sound_epoch"]+1}')
 			print()
 			self.review_subject(chain['subject_a'])
 			self.review_subject(chain['subject_b'])
