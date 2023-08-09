@@ -1,0 +1,2446 @@
+{
+	"subject_id": "242",
+	"client_id": null,
+	"creation_time": 1691166278,
+	"modified_time": 1691167143,
+	"status": "approved",
+	"chain_id": "dif_lrn_9",
+	"generation": 5,
+	"input_lexicon": {
+		"0_0": "buvikoh",
+		"0_1": "buvikoh",
+		"0_2": "buvico",
+		"1_0": "zetikoh",
+		"1_1": "zeticoe",
+		"1_2": "zeticoh",
+		"2_0": "wopikoh",
+		"2_1": "wopikoh",
+		"2_2": "wopikoh"
+	},
+	"spoken_forms": {
+		"0_0": "0.m4a",
+		"0_1": "0.m4a",
+		"0_2": "0.m4a",
+		"1_0": "1.m4a",
+		"1_1": "1.m4a",
+		"1_2": "1.m4a",
+		"2_0": "2.m4a",
+		"2_1": "2.m4a",
+		"2_2": "2.m4a"
+	},
+	"training_items": [
+		"1_1",
+		"0_2",
+		"2_2",
+		"0_1",
+		"1_0",
+		"1_2"
+	],
+	"trial_sequence": [
+		{
+			"event": "consent",
+			"payload": {
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "object_prefixes",
+				"instruction_time": 5000,
+				"response_kind": "ready_to_assign",
+				"progress": 0.045454545454545456
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "training_for_test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0.09090909090909091
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.13636363636363635
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.15454545454545454
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.17272727272727273
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.19090909090909092
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.20909090909090908
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.22727272727272727
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.24545454545454545
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2636363636363636
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.2818181818181818
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.3181818181818182
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.33636363636363636
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.35454545454545455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.37272727272727274
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.39090909090909093
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4090909090909091
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.42727272727272725
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.44545454545454544
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4636363636363636
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.4818181818181818
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5181818181818182
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5363636363636364
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5545454545454546
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5727272727272728
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.5909090909090909
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6090909090909091
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6272727272727273
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": true,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6454545454545455
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6636363636363637
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "1_1",
+					"word": "zeticoe",
+					"shape": "1",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.6818181818181818
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_2",
+					"word": "zeticoh",
+					"shape": "1",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.7
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					},
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					}
+				],
+				"test_trial": {
+					"item": "0_1",
+					"word": "buvikoh",
+					"shape": "0",
+					"color": "1",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.7181818181818181
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "0_2",
+					"word": "buvico",
+					"shape": "0",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.7363636363636363
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "1_1",
+						"word": "zeticoe",
+						"shape": "1",
+						"color": "1"
+					},
+					{
+						"item": "0_2",
+						"word": "buvico",
+						"shape": "0",
+						"color": "2"
+					},
+					{
+						"item": "2_2",
+						"word": "wopikoh",
+						"shape": "2",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "2_2",
+					"word": "wopikoh",
+					"shape": "2",
+					"color": "2",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.7545454545454545
+			}
+		},
+		{
+			"event": "training_block",
+			"payload": {
+				"training_trials": [
+					{
+						"item": "0_1",
+						"word": "buvikoh",
+						"shape": "0",
+						"color": "1"
+					},
+					{
+						"item": "1_0",
+						"word": "zetikoh",
+						"shape": "1",
+						"color": "0"
+					},
+					{
+						"item": "1_2",
+						"word": "zeticoh",
+						"shape": "1",
+						"color": "2"
+					}
+				],
+				"test_trial": {
+					"item": "1_0",
+					"word": "zetikoh",
+					"shape": "1",
+					"color": "0",
+					"catch_trial": false,
+					"max_response_time": 20000
+				},
+				"exposure_time": 2000,
+				"pause_time": 500,
+				"progress": 0.7727272727272727
+			}
+		},
+		{
+			"event": "instructions",
+			"payload": {
+				"instruction_screen": "test",
+				"instruction_time": 5000,
+				"response_kind": "next",
+				"progress": 0.7909090909090909
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_2",
+				"word": "zeticoh",
+				"expected_stem": "zeti",
+				"shape": "1",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.8363636363636363
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoh",
+				"items": [
+					"2_0",
+					"2_1",
+					"2_2"
+				],
+				"array": [
+					"0_0",
+					"0_1",
+					"2_1",
+					"2_2",
+					"1_0",
+					"0_2",
+					"1_2",
+					"1_1",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8454545454545455
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_0",
+				"word": "zetikoh",
+				"expected_stem": "zeti",
+				"shape": "1",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.8545454545454545
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikoh",
+				"items": [
+					"0_0",
+					"0_1"
+				],
+				"array": [
+					"0_2",
+					"0_1",
+					"2_1",
+					"1_2",
+					"2_0",
+					"1_1",
+					"0_0",
+					"1_0",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.8636363636363636
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_1",
+				"word": "wopikoh",
+				"expected_stem": "wopi",
+				"shape": "2",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8727272727272727
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zeticoh",
+				"items": [
+					"1_2"
+				],
+				"array": [
+					"1_2",
+					"2_2",
+					"1_1",
+					"0_2",
+					"2_1",
+					"1_0",
+					"2_0",
+					"0_1",
+					"0_0"
+				],
+				"pause_time": 500,
+				"progress": 0.8818181818181818
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_1",
+				"word": "buvikoh",
+				"expected_stem": "buvi",
+				"shape": "0",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.8909090909090909
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvico",
+				"items": [
+					"0_2"
+				],
+				"array": [
+					"0_0",
+					"1_2",
+					"1_1",
+					"0_1",
+					"2_0",
+					"2_1",
+					"1_0",
+					"2_2",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_0",
+				"word": "wopikoh",
+				"expected_stem": "wopi",
+				"shape": "2",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9090909090909091
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zetikoh",
+				"items": [
+					"1_0"
+				],
+				"array": [
+					"1_1",
+					"2_2",
+					"2_0",
+					"0_0",
+					"0_1",
+					"0_2",
+					"1_0",
+					"2_1",
+					"1_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9181818181818182
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_2",
+				"word": "buvico",
+				"expected_stem": "buvi",
+				"shape": "0",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9272727272727272
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "zeticoe",
+				"items": [
+					"1_1"
+				],
+				"array": [
+					"2_1",
+					"2_0",
+					"0_0",
+					"1_2",
+					"2_2",
+					"1_0",
+					"0_1",
+					"1_1",
+					"0_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9363636363636364
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "1_1",
+				"word": "zeticoe",
+				"expected_stem": "zeti",
+				"shape": "1",
+				"color": "1",
+				"pause_time": 500,
+				"progress": 0.9454545454545454
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoh",
+				"items": [
+					"2_0",
+					"2_1",
+					"2_2"
+				],
+				"array": [
+					"1_0",
+					"1_2",
+					"2_0",
+					"1_1",
+					"0_2",
+					"2_1",
+					"0_1",
+					"0_0",
+					"2_2"
+				],
+				"pause_time": 500,
+				"progress": 0.9545454545454546
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "2_2",
+				"word": "wopikoh",
+				"expected_stem": "wopi",
+				"shape": "2",
+				"color": "2",
+				"pause_time": 500,
+				"progress": 0.9636363636363636
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "wopikoh",
+				"items": [
+					"2_0",
+					"2_1",
+					"2_2"
+				],
+				"array": [
+					"0_2",
+					"2_2",
+					"2_0",
+					"0_0",
+					"0_1",
+					"1_1",
+					"1_2",
+					"2_1",
+					"1_0"
+				],
+				"pause_time": 500,
+				"progress": 0.9727272727272728
+			}
+		},
+		{
+			"event": "test_production",
+			"payload": {
+				"item": "0_0",
+				"word": "buvikoh",
+				"expected_stem": "buvi",
+				"shape": "0",
+				"color": "0",
+				"pause_time": 500,
+				"progress": 0.9818181818181818
+			}
+		},
+		{
+			"event": "test_comprehension",
+			"payload": {
+				"word": "buvikoh",
+				"items": [
+					"0_0",
+					"0_1"
+				],
+				"array": [
+					"2_1",
+					"1_0",
+					"0_1",
+					"0_0",
+					"0_2",
+					"2_2",
+					"1_2",
+					"1_1",
+					"2_0"
+				],
+				"pause_time": 500,
+				"progress": 0.990909090909091
+			}
+		},
+		{
+			"event": "end_of_experiment",
+			"payload": {
+				"return_url": "https://app.prolific.co/submissions/complete?cc=CSA91ZMA",
+				"basic_pay": 200,
+				"progress": 1
+			}
+		}
+	],
+	"n_reinitializations": 0,
+	"sequence_position": 59,
+	"total_bonus": 68,
+	"responses": [
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 5909,
+			"object_clicked": false,
+			"time": 1691166447
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 5474,
+			"object_clicked": false,
+			"time": 1691166461
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvico",
+			"attempted_labels": [],
+			"response_time": 4726,
+			"object_clicked": false,
+			"time": 1691166474
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": false,
+			"input_label": "zeticoh",
+			"attempted_labels": [],
+			"response_time": 7101,
+			"object_clicked": false,
+			"time": 1691166490
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": true,
+			"input_label": "zetico",
+			"attempted_labels": [],
+			"response_time": 11475,
+			"object_clicked": true,
+			"time": 1691166510
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvicoh",
+			"attempted_labels": [],
+			"response_time": 7299,
+			"object_clicked": false,
+			"time": 1691166526
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": false,
+			"input_label": "zeticoh",
+			"attempted_labels": [],
+			"response_time": 5793,
+			"object_clicked": false,
+			"time": 1691166540
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopicoh",
+			"attempted_labels": [],
+			"response_time": 6477,
+			"object_clicked": false,
+			"time": 1691166555
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvikoh",
+			"attempted_labels": [],
+			"response_time": 7446,
+			"object_clicked": false,
+			"time": 1691166571
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvico",
+			"attempted_labels": [],
+			"response_time": 5190,
+			"object_clicked": false,
+			"time": 1691166585
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 7657,
+			"object_clicked": false,
+			"time": 1691166601
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 9060,
+			"object_clicked": false,
+			"time": 1691166619
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 8957,
+			"object_clicked": false,
+			"time": 1691166637
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 6253,
+			"object_clicked": false,
+			"time": 1691166652
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zeticoh",
+			"attempted_labels": [],
+			"response_time": 5072,
+			"object_clicked": false,
+			"time": 1691166665
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvikoh",
+			"attempted_labels": [],
+			"response_time": 7649,
+			"object_clicked": false,
+			"time": 1691166682
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": true,
+			"input_label": "zetico",
+			"attempted_labels": [],
+			"response_time": 9112,
+			"object_clicked": true,
+			"time": 1691166699
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvicoh",
+			"attempted_labels": [],
+			"response_time": 8610,
+			"object_clicked": false,
+			"time": 1691166717
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"attempted_labels": [],
+			"response_time": 4547,
+			"object_clicked": false,
+			"time": 1691166730
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 5818,
+			"object_clicked": false,
+			"time": 1691166744
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 9654,
+			"object_clicked": false,
+			"time": 1691166763
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvikoh",
+			"attempted_labels": [],
+			"response_time": 8206,
+			"object_clicked": false,
+			"time": 1691166779
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvicoh",
+			"attempted_labels": [],
+			"response_time": 4959,
+			"object_clicked": false,
+			"time": 1691166793
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 9095,
+			"object_clicked": false,
+			"time": 1691166811
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 6802,
+			"object_clicked": false,
+			"time": 1691166826
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvico",
+			"attempted_labels": [],
+			"response_time": 3768,
+			"object_clicked": false,
+			"time": 1691166839
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"attempted_labels": [],
+			"response_time": 3777,
+			"object_clicked": false,
+			"time": 1691166851
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 5347,
+			"object_clicked": false,
+			"time": 1691166865
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": true,
+			"input_label": "zeticoh",
+			"attempted_labels": [],
+			"response_time": 9690,
+			"object_clicked": true,
+			"time": 1691166883
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvicoe",
+			"attempted_labels": [],
+			"response_time": 6263,
+			"object_clicked": false,
+			"time": 1691166898
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"catch_trial": false,
+			"input_label": "zeticoe",
+			"attempted_labels": [],
+			"response_time": 3008,
+			"object_clicked": false,
+			"time": 1691166910
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"catch_trial": false,
+			"input_label": "zeticoh",
+			"attempted_labels": [],
+			"response_time": 5726,
+			"object_clicked": false,
+			"time": 1691166924
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"catch_trial": false,
+			"input_label": "buvikoh",
+			"attempted_labels": [],
+			"response_time": 4931,
+			"object_clicked": false,
+			"time": 1691166938
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"catch_trial": false,
+			"input_label": "buvico",
+			"attempted_labels": [],
+			"response_time": 4419,
+			"object_clicked": false,
+			"time": 1691166951
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"catch_trial": false,
+			"input_label": "wopico",
+			"attempted_labels": [],
+			"response_time": 5097,
+			"object_clicked": false,
+			"time": 1691166964
+		},
+		{
+			"test_type": "mini_test",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"catch_trial": false,
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 4715,
+			"object_clicked": false,
+			"time": 1691166978
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "2",
+			"expected_label": "zeticoh",
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 12314,
+			"time": 1691167011
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoh",
+			"items": [
+				"2_0",
+				"2_1",
+				"2_2"
+			],
+			"array": [
+				"0_0",
+				"0_1",
+				"2_1",
+				"2_2",
+				"1_0",
+				"0_2",
+				"1_2",
+				"1_1",
+				"2_0"
+			],
+			"selected_button": 3,
+			"selected_item": "2_2",
+			"response_time": 4219,
+			"time": 1691167016
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "0",
+			"expected_label": "zetikoh",
+			"input_label": "zetikoh",
+			"attempted_labels": [],
+			"response_time": 5104,
+			"time": 1691167022
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikoh",
+			"items": [
+				"0_0",
+				"0_1"
+			],
+			"array": [
+				"0_2",
+				"0_1",
+				"2_1",
+				"1_2",
+				"2_0",
+				"1_1",
+				"0_0",
+				"1_0",
+				"2_2"
+			],
+			"selected_button": 1,
+			"selected_item": "0_1",
+			"response_time": 8822,
+			"time": 1691167031
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "1",
+			"expected_label": "wopikoh",
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 5807,
+			"time": 1691167037
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zeticoh",
+			"items": [
+				"1_2"
+			],
+			"array": [
+				"1_2",
+				"2_2",
+				"1_1",
+				"0_2",
+				"2_1",
+				"1_0",
+				"2_0",
+				"0_1",
+				"0_0"
+			],
+			"selected_button": 2,
+			"selected_item": "1_1",
+			"response_time": 8195,
+			"time": 1691167046
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "1",
+			"expected_label": "buvikoh",
+			"input_label": "buvicoh",
+			"attempted_labels": [],
+			"response_time": 11597,
+			"time": 1691167059
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvico",
+			"items": [
+				"0_2"
+			],
+			"array": [
+				"0_0",
+				"1_2",
+				"1_1",
+				"0_1",
+				"2_0",
+				"2_1",
+				"1_0",
+				"2_2",
+				"0_2"
+			],
+			"selected_button": 3,
+			"selected_item": "0_1",
+			"response_time": 13615,
+			"time": 1691167073
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "0",
+			"expected_label": "wopikoh",
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 7654,
+			"time": 1691167081
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zetikoh",
+			"items": [
+				"1_0"
+			],
+			"array": [
+				"1_1",
+				"2_2",
+				"2_0",
+				"0_0",
+				"0_1",
+				"0_2",
+				"1_0",
+				"2_1",
+				"1_2"
+			],
+			"selected_button": 0,
+			"selected_item": "1_1",
+			"response_time": 7610,
+			"time": 1691167089
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "2",
+			"expected_label": "buvico",
+			"input_label": "buvico",
+			"attempted_labels": [],
+			"response_time": 5901,
+			"time": 1691167096
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "zeticoe",
+			"items": [
+				"1_1"
+			],
+			"array": [
+				"2_1",
+				"2_0",
+				"0_0",
+				"1_2",
+				"2_2",
+				"1_0",
+				"0_1",
+				"1_1",
+				"0_2"
+			],
+			"selected_button": 7,
+			"selected_item": "1_1",
+			"response_time": 4665,
+			"time": 1691167101
+		},
+		{
+			"test_type": "test_production",
+			"shape": "1",
+			"color": "1",
+			"expected_label": "zeticoe",
+			"input_label": "zeticoe",
+			"attempted_labels": [],
+			"response_time": 4522,
+			"time": 1691167106
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoh",
+			"items": [
+				"2_0",
+				"2_1",
+				"2_2"
+			],
+			"array": [
+				"1_0",
+				"1_2",
+				"2_0",
+				"1_1",
+				"0_2",
+				"2_1",
+				"0_1",
+				"0_0",
+				"2_2"
+			],
+			"selected_button": 5,
+			"selected_item": "2_1",
+			"response_time": 7976,
+			"time": 1691167115
+		},
+		{
+			"test_type": "test_production",
+			"shape": "2",
+			"color": "2",
+			"expected_label": "wopikoh",
+			"input_label": "wopikoh",
+			"attempted_labels": [],
+			"response_time": 5065,
+			"time": 1691167121
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "wopikoh",
+			"items": [
+				"2_0",
+				"2_1",
+				"2_2"
+			],
+			"array": [
+				"0_2",
+				"2_2",
+				"2_0",
+				"0_0",
+				"0_1",
+				"1_1",
+				"1_2",
+				"2_1",
+				"1_0"
+			],
+			"selected_button": 1,
+			"selected_item": "2_2",
+			"response_time": 2766,
+			"time": 1691167124
+		},
+		{
+			"test_type": "test_production",
+			"shape": "0",
+			"color": "0",
+			"expected_label": "buvikoh",
+			"input_label": "buvicoh",
+			"attempted_labels": [],
+			"response_time": 6064,
+			"time": 1691167131
+		},
+		{
+			"test_type": "test_comprehension",
+			"word": "buvikoh",
+			"items": [
+				"0_0",
+				"0_1"
+			],
+			"array": [
+				"2_1",
+				"1_0",
+				"0_1",
+				"0_0",
+				"0_2",
+				"2_2",
+				"1_2",
+				"1_1",
+				"2_0"
+			],
+			"selected_button": 2,
+			"selected_item": "0_1",
+			"response_time": 11824,
+			"time": 1691167143
+		}
+	],
+	"comments": null,
+	"lexicon": {
+		"0_0": "buvicoh",
+		"0_1": "buvicoh",
+		"0_2": "buvico",
+		"1_0": "zetikoh",
+		"1_1": "zeticoe",
+		"1_2": "zetikoh",
+		"2_0": "wopikoh",
+		"2_1": "wopikoh",
+		"2_2": "wopikoh"
+	}
+}
