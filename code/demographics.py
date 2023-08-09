@@ -25,7 +25,7 @@ def calculate_rates(exp_id, with_bonus=False):
 		time = data['modified_time'] - data['creation_time']
 		times.append(time)
 
-		amount = 300
+		amount = 200
 		if with_bonus:
 			amount += data['total_bonus']
 		amounts.append(amount)
@@ -33,17 +33,14 @@ def calculate_rates(exp_id, with_bonus=False):
 		rate = 3600 / time * amount
 		rates.append(rate)
 
-		comments_time.append(data['modified_time'] - data['responses'][-1]['time'])
-
 	print('Median completion time (mins):', np.median(times) / 60)
 	print('Median earnings (GBP):', np.median(amounts) / 100)
 	print('Median hourly rate (GBP):', np.median(rates) / 100)
-	print('Median comments time (mins):', np.median(comments_time) / 60)
 
 
 def most_common_languages(exp_id):
-	df = pd.read_csv(ROOT/'private'/f'{exp_id}_demographics.csv')
-	langs = list(df['Language'])
+	df = pd.read_csv(ROOT/'private'/'prolific_demographic_data'/f'{exp_id}_demos.csv')
+	langs = list(df['Country of residence'])
 	unique_langs = list(set(langs))
 	counts = {lang: langs.count(lang) for lang in unique_langs}
 	unique_langs.sort(key=lambda k: -counts[k])
@@ -51,5 +48,5 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
-calculate_rates('exp2', with_bonus=False)
-# most_common_languages('exp2')
+calculate_rates('exp3', with_bonus=True)
+most_common_languages('exp3')

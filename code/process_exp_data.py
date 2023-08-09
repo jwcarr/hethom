@@ -27,6 +27,7 @@ def process_chain(exp_id, chain_id):
 	if len(chain_data['subjects']) > 20:
 		chain_data['subjects'] = chain_data['subjects'][:20]
 	for generation_i, (subject_a, subject_b) in enumerate(chain_data['subjects']):
+		print(subject_a, subject_b)
 		input_lexicon_a, output_lexicon_a, training_items_a, spoken_forms_a = process_subject(exp_id, subject_a)
 		input_lexicon_b, output_lexicon_b, training_items_b, spoken_forms_b = process_subject(exp_id, subject_b)
 		if generation_i == 0:
@@ -36,9 +37,9 @@ def process_chain(exp_id, chain_id):
 			]
 			chain_dataset.append(generation)
 		else:
-			assert identical_dicts(input_lexicon_a, chain_dataset[-1][0]['lexicon'])
+			assert identical_dicts(input_lexicon_a, chain_dataset[-1][0]['lexicon']) or identical_dicts(input_lexicon_a, chain_dataset[-1][1]['lexicon'])
 			if input_lexicon_b:
-				assert identical_dicts(input_lexicon_b, chain_dataset[-1][0]['lexicon'])
+				assert identical_dicts(input_lexicon_b, chain_dataset[-1][0]['lexicon']) or identical_dicts(input_lexicon_b, chain_dataset[-1][1]['lexicon'])
 		if input_lexicon_b:
 			assert identical_dicts(input_lexicon_a, input_lexicon_b)
 		if subject_b:
