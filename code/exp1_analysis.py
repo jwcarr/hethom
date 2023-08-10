@@ -155,7 +155,7 @@ def plot_generational_change_by_condition(dataset, measure):
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 		n_generations = 9
 	for axis, condition in zip(np.ravel(axes), conditions):
-		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
+		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=True)
 		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
 		# axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
 		
@@ -223,27 +223,28 @@ def plot_training_curve(subject_id, window=12):
 	plt.close()
 	# plt.show()
 
-cons = ['θ', 's', 'ʃ', 'h']
-vwls = ['ə', 'ɛɪ', 'əʊ', 'u']
+cons = ['f', 's', 'ʃ']
+vwls = ['əʊ', 'ə', 'ɛɪ']
 def get_sound(item, data):
 	sound_file = data['spoken_forms'][item]
 	s, c, v = sound_file.split('.')[0].split('_')
-	return f'{cons[int(c)]}{vwls[int(v)]}'.ljust(4)
+	return f'{cons[int(c)]}{vwls[int(v)]}'
 
 def print_word_chains(dataset):
 	for condition, data in dataset.items():
 		print(condition.upper())
 		for chain_i, chain in enumerate(data):
 			print('  Chain', chain_i)
-			table = [[] for _ in range(16)]
-			for item_i, (shape, color) in enumerate(product(range(4), range(4))):
+			table = [[] for _ in range(9)]
+			for item_i, (shape, color) in enumerate(product(range(3), range(3))):
 				item = f'{shape}_{color}'
 				word = chain[0][0]['lexicon'][item]
 				table[item_i].append(word.ljust(9, ' '))
 				for subject_a, subject_b in chain[1:]:
 					bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
 					word = subject_a['lexicon'][item]
-					sound = get_sound(item, subject_a)
+					# sound = get_sound(item, subject_a).ljust(4)
+					sound = ''
 					table[item_i].append(bottleneck + sound + word.ljust(9, ' '))
 			print(''.join([str(gen_i).ljust(16, ' ') for gen_i in range(len(table[0]))]).strip())
 			for row in table:
@@ -284,45 +285,46 @@ def draw_all_matrixes(exp_data):
 				matrix.draw(mat, cp, f'/Users/jon/Desktop/matrices/{condition}_{chain_i}_{gen_i}.pdf')
 
 import disttern
-def make_ternary_plot():
-	exp_data_file = ROOT / 'data' / 'exp1.json'
-	exp_data = json_load(exp_data_file)
+def make_ternary_plot(exp_data):
 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
 	for condition, data in exp_data.items():
-		scatter_objects = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in data]
+		scatter_objects = []
 		for chain in data:
-			for subject_a, _ in chain:
-				scatter_objects.append(matrix.make_matrix(subject_a['lexicon']))
+			# for subject_a, _ in chain:
+			# 	scatter_objects.append(
+			# 		matrix.make_matrix(subject_a['lexicon'], 3, 3)
+			# 	)
+			scatter_objects.append(
+				matrix.make_matrix(chain[-1][0]['lexicon'], 3, 3)
+			)
 		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information, jitter=True)
 
-# def make_ternary_plot():
-# 	exp_data_file = ROOT / 'data' / 'exp1.json'
-# 	exp_data = json_load(exp_data_file)
-# 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
-# 	lrn_matrices = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in exp_data['lrn_hiVar']]
-# 	com_matrices = [matrix.make_matrix(chain[detect_convergence_generation(chain)][0]['lexicon']) for chain in exp_data['com_hiVar']]
-# 	disttern.make_ternary_plot(
-# 		ref_objects,
-# 		lrn_matrices + com_matrices,
-# 		matrix.voi.variation_of_information,
-# 		color=['CadetBlue'] * 10 + ['Crimson'] * 10,
-# 		jitter=True,
-# 	)
+import visualize
+def make_panel_visualization(exp_data):
+	for condition, data in exp_data.items():
+		panel = []
+		for chain in data:
+			chain_matrices = []
+			ss, cp = matrix.generate_color_palette_many(chain)
+			for subject_a, _ in chain:
+				mat = matrix.make_matrix_with_cp(subject_a['lexicon'], ss, 3, 3)
+				sounds = []
+				if 'spoken_forms' in subject_a:
+					if 'con' in condition:
+						sounds = [get_sound(f'0_{i}', subject_a) for i in range(3)]
+					elif 'dif' in condition:
+						sounds = ['kəʊ', 'kəʊ', 'kəʊ']
+				if 'training_items' in subject_a:
+					training_items = subject_a['training_items']
+				else:
+					training_items = []
+				chain_matrices.append((mat, cp, ss, sounds, training_items))
+			panel.append(chain_matrices)
+		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.pdf', panel)
 
-# def make_ternary_plot():
-# 	exp_data_file = ROOT / 'data' / 'exp1.json'
-# 	exp_data = json_load(exp_data_file)
-# 	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
-# 	lrn_matrices = []
-# 	for n_suffixes in range(2, 16):
-# 		lrn_matrices.extend( [np.random.randint(0, n_suffixes, 16).reshape((4,4)) for _ in range(1000)] )
-# 	disttern.make_ternary_plot(
-# 		ref_objects,
-# 		lrn_matrices,
-# 		matrix.voi.variation_of_information,
-# 		color='CadetBlue',
-# 		jitter=True,
-# 	)
+
+
+
 
 if __name__ == '__main__':
 
@@ -334,11 +336,13 @@ if __name__ == '__main__':
 	dataset_json = json_load(exp_json_file)
 	dataset_csv = pd.read_csv(exp_csv_file)
 
-	plot_generational_change_by_condition(dataset_csv, 'cost')
+	# plot_generational_change_by_condition(dataset_csv, 'cost')
 	# plot_simplicity_informativeness_by_condition(dataset_csv)
 
 	# draw_converged_matrixes(dataset_json)
 	# draw_all_matrixes(dataset_json)
-	# make_ternary_plot()
+	# make_ternary_plot(dataset_json)
 
-	# print_word_chains(dataset_json)
+	print_word_chains(dataset_json)
+
+	make_panel_visualization(dataset_json)

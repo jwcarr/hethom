@@ -4,25 +4,33 @@ import voi
 import re
 
 
-RE_STEM_SUFFIX = re.compile(r'((buv|zet|gaf|wop)\w*?)([aeiouy]\w*)')
+RE_STEM_SUFFIX = re.compile(r'(buvi|zeti|gafi|wopi)(\w*)')
 
 
 def parse_stem_and_suffix(word):
 	word_match = RE_STEM_SUFFIX.match(word)
 	if word_match is None:
 		raise ValueError('Cannot parse stem and suffix')
-	return word_match.group(1), word_match.group(3)
+	return word_match.group(1), word_match.group(2)
 
 def get_suffix_spellings(lexicon):
 	suffixes = []
 	for word in lexicon.values():
 		stem, suffix = parse_stem_and_suffix(word)
-		print(stem, suffix)
 		suffixes.append(suffix)
 	return sorted(list(set(suffixes)))
 
 def make_matrix(lexicon, m=4, n=4):
 	suffix_spellings = get_suffix_spellings(lexicon)
+	matrix = np.zeros((m, n), dtype=int)
+	for i in range(m):
+		for j in range(n):
+			stem, suffix = parse_stem_and_suffix(lexicon[ f'{i}_{j}' ])
+			matrix[i, j] = suffix_spellings.index(suffix)
+	return matrix
+
+def make_matrix_with_cp(lexicon, ss, m=4, n=4):
+	suffix_spellings = ss
 	matrix = np.zeros((m, n), dtype=int)
 	for i in range(m):
 		for j in range(n):
@@ -69,7 +77,7 @@ def generate_color_palette_many(chain):
 	suffix_spellings = sorted(list(set(suffix_spellings)))
 	n_spellings = len(suffix_spellings)
 	hues = list(np.linspace(0, 2 * np.pi, n_spellings + 1))
-	return {suffix_spellings.index(suffix): hsv_to_rgb(hues.pop(), 0.8, 0.8) for suffix in suffix_spellings}
+	return suffix_spellings, {suffix_spellings.index(suffix): hsv_to_rgb(hues.pop(), 0.8, 0.8) for suffix in suffix_spellings}
 
 
 def draw(matrix, color_palette, output_path):
@@ -99,32 +107,32 @@ def cost(system):
 	U_size = np.product(system.shape)
 	return 1 / U_size * sum([-np.log2(1 / signals.count(s)) for m, s in np.ndenumerate(system)])
 
-typology = {
-	'transparent': np.array([
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-	], dtype=int),
-	'holistic': np.array([
-		[ 0, 1, 2, 3],
-		[ 4, 5, 6, 7],
-		[ 8, 9,10,11],
-		[12,13,14,15],
-	], dtype=int),
-	'redundant': np.array([
-		[1, 1, 1, 1],
-		[2, 2, 2, 2],
-		[3, 3, 3, 3],
-		[0, 0, 0, 0],
-	], dtype=int),
-	'expressive': np.array([
-		[0, 1, 2, 3],
-		[0, 1, 2, 3],
-		[0, 1, 2, 3],
-		[0, 1, 2, 3],
-	], dtype=int),
-}
+# typology = {
+# 	'transparent': np.array([
+# 		[0, 0, 0, 0],
+# 		[0, 0, 0, 0],
+# 		[0, 0, 0, 0],
+# 		[0, 0, 0, 0],
+# 	], dtype=int),
+# 	'holistic': np.array([
+# 		[ 0, 1, 2, 3],
+# 		[ 4, 5, 6, 7],
+# 		[ 8, 9,10,11],
+# 		[12,13,14,15],
+# 	], dtype=int),
+# 	'redundant': np.array([
+# 		[1, 1, 1, 1],
+# 		[2, 2, 2, 2],
+# 		[3, 3, 3, 3],
+# 		[0, 0, 0, 0],
+# 	], dtype=int),
+# 	'expressive': np.array([
+# 		[0, 1, 2, 3],
+# 		[0, 1, 2, 3],
+# 		[0, 1, 2, 3],
+# 		[0, 1, 2, 3],
+# 	], dtype=int),
+# }
 
 typology = {
 	'transparent': np.array([
