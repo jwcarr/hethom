@@ -5,71 +5,91 @@ font_size = 50
 helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 helvetica_sf = cairo.ScaledFont(helvetica, cairo.Matrix(xx=font_size, yy=font_size))
 
-suffix_font_size = 8
-suffix_helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_OBLIQUE, cairo.FONT_WEIGHT_NORMAL)
-suffix_helvetica_sf = cairo.ScaledFont(suffix_helvetica, cairo.Matrix(xx=suffix_font_size, yy=suffix_font_size))
+seen_suffix_font_size = 8
+seen_suffix_helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+seen_suffix_helvetica_sf = cairo.ScaledFont(seen_suffix_helvetica, cairo.Matrix(xx=seen_suffix_font_size, yy=seen_suffix_font_size))
+
+unseen_suffix_font_size = 8
+unseen_suffix_helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_OBLIQUE, cairo.FONT_WEIGHT_BOLD)
+unseen_suffix_helvetica_sf = cairo.ScaledFont(unseen_suffix_helvetica, cairo.Matrix(xx=unseen_suffix_font_size, yy=unseen_suffix_font_size))
 
 sound_font_size = 10
-suffix_doulos = cairo.ToyFontFace('Doulos SIL', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-suffix_doulos_sf = cairo.ScaledFont(suffix_doulos, cairo.Matrix(xx=sound_font_size, yy=sound_font_size))
+sound_doulos = cairo.ToyFontFace('Doulos SIL', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+sound_doulos_sf = cairo.ScaledFont(sound_doulos, cairo.Matrix(xx=sound_font_size, yy=sound_font_size))
 
 chain_ids = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 padding = 8
-sound_shift = 4
 
-def draw_matrix(surface, matrix, color_palette, suffix_spellings, sounds, training_items, cell_size):
+
+def draw_char(surface, char, cell_size):
+	context = cairo.Context(surface)
+	context.set_source_rgb(0, 0, 0)
+	context.set_font_face(helvetica)
+	context.set_font_size(font_size)
+	text_width = helvetica_sf.text_extents(char)[4]
+	text_height = helvetica_sf.text_extents('X')[1]
+	context.move_to(cell_size / 2 - text_width / 2, cell_size / 2 - text_height / 2)
+	context.show_text(char)
+
+
+def draw_matrix(surface, generation, cell_size):
+	matrix, color_palette, suffix_spellings, sounds, training_items = generation
 	square_size = (cell_size - (2 * padding)) / 3
 	context = cairo.Context(surface)
 	for (i, j), cell in np.ndenumerate(matrix):
-		if sounds and i == 0:
-			sound = '-' + sounds[j]
-			context.set_source_rgb(0, 0, 0)
-			context.set_font_face(suffix_doulos)
-			context.set_font_size(sound_font_size)
-			text_width = suffix_doulos_sf.text_extents(sound)[4]
-			text_height = suffix_doulos_sf.text_extents(sound)[1]
-			context.move_to(j*square_size+padding + square_size/2 - text_width/2, i*square_size+padding)
-			context.show_text(sound)
 		color = color_palette[cell]
-		suffix = '-' + suffix_spellings[cell]
+		suffix = suffix_spellings[cell]
 		context.set_source_rgb(*color)
-		context.rectangle(j*square_size + padding, i*square_size + padding + sound_shift, square_size, square_size)
+		context.rectangle(j*square_size + padding, i*square_size + padding, square_size, square_size)
 		context.fill_preserve()
 		context.set_source_rgb(1, 1, 1)
 		context.set_line_width(2)
 		context.stroke()
-		if f'{i}_{j}' in training_items:
-			context.set_source_rgb(1, 1, 1)
+		context.set_source_rgb(1, 1, 1)
+		if not sounds or f'{i}_{j}' in training_items:
+			context.set_font_face(seen_suffix_helvetica)
+			context.set_font_size(seen_suffix_font_size)
+			text_width = seen_suffix_helvetica_sf.text_extents(suffix)[4]
+			text_height = seen_suffix_helvetica_sf.text_extents('X')[1]
 		else:
-			context.set_source_rgb(1, 1, 1)
-		context.set_font_face(suffix_helvetica)
-		context.set_font_size(suffix_font_size)
-		text_width = suffix_helvetica_sf.text_extents(suffix)[4]
-		text_height = suffix_helvetica_sf.text_extents(suffix)[1]
-		context.move_to(j*square_size+padding + square_size/2 - text_width/2, i*square_size+padding + square_size/2 - text_height/2 + sound_shift)
+			context.set_font_face(unseen_suffix_helvetica)
+			context.set_font_size(unseen_suffix_font_size)
+			text_width = unseen_suffix_helvetica_sf.text_extents(suffix)[4]
+			text_height = unseen_suffix_helvetica_sf.text_extents('X')[1]
+		context.move_to(j*square_size+padding + square_size/2 - text_width/2, i*square_size+padding + square_size/2 - text_height/2)
 		context.show_text(suffix)
 
 
 def draw_chain(surface, chain, cell_size):
-	context = cairo.Context(surface)
 	x = 0
-	for generation in chain:
+	for gen_i, generation in enumerate(chain):
 		subsurface = surface.create_for_rectangle(x, 0, cell_size, cell_size)
 		if isinstance(generation, str):
-			context.set_source_rgb(0, 0, 0)
-			context.set_font_face(helvetica)
-			context.set_font_size(font_size)
-			text_width = helvetica_sf.text_extents(generation)[4]
-			text_height = helvetica_sf.text_extents(generation)[1]
-			context.move_to(x + cell_size / 2 - text_width / 2, cell_size / 2 - text_height / 2 + sound_shift)
-			context.show_text(generation)
+			draw_char(subsurface, generation, cell_size)
 		elif isinstance(generation, tuple):
-			matrix, color_palette, suffix_spellings, sounds, training_items = generation
-			draw_matrix(subsurface, matrix, color_palette, suffix_spellings, sounds, training_items, cell_size)
+			draw_matrix(subsurface, generation, cell_size)
 		x += cell_size
 
 
-def draw_panel(output_path, chains, figure_width=1000, show_generation_numbers=True, show_chain_ids=True):
+def draw_chain_sounds(surface, chain, cell_size):
+	square_size = (cell_size - (2 * padding)) / 3
+	x = 0
+	for generation in chain:
+		if isinstance(generation, tuple):
+			subsurface = surface.create_for_rectangle(x, 0, cell_size, padding * 2)
+			context = cairo.Context(subsurface)
+			for i, sound in enumerate(generation[3]):
+				context.set_source_rgb(0, 0, 0)
+				context.set_font_face(sound_doulos)
+				context.set_font_size(sound_font_size)
+				text_width = sound_doulos_sf.text_extents(sound)[4]
+				text_height = sound_doulos_sf.text_extents('X')[3]
+				context.move_to(i * square_size + square_size / 2 + padding - text_width / 2, padding + text_height / 2 + 2)
+				context.show_text(sound)
+		x += cell_size
+
+
+def draw_panel(output_path, chains, figure_width=1000, show_generation_numbers=True, show_chain_ids=True, show_sounds=True):
 	if show_chain_ids:
 		for chain, chain_id in zip(chains, chain_ids):
 			chain.insert(0, chain_id)
@@ -87,5 +107,8 @@ def draw_panel(output_path, chains, figure_width=1000, show_generation_numbers=T
 	for chain in chains:
 		subsurface = surface.create_for_rectangle(0, y, figure_width, cell_size)
 		draw_chain(subsurface, chain, cell_size)
+		if show_sounds:
+			subsurface = surface.create_for_rectangle(0, y - padding, figure_width, (padding * 2))
+			draw_chain_sounds(subsurface, chain, cell_size)
 		y += cell_size
 	surface.finish()

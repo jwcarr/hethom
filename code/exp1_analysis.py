@@ -227,6 +227,8 @@ cons = ['f', 's', 'ʃ']
 vwls = ['əʊ', 'ə', 'ɛɪ']
 def get_sound(item, data):
 	sound_file = data['spoken_forms'][item]
+	if '_' not in sound_file:
+		return 'kəʊ'
 	s, c, v = sound_file.split('.')[0].split('_')
 	return f'{cons[int(c)]}{vwls[int(v)]}'
 
@@ -243,8 +245,8 @@ def print_word_chains(dataset):
 				for subject_a, subject_b in chain[1:]:
 					bottleneck = '➤ ' if item in subject_a['training_items'] else '  '
 					word = subject_a['lexicon'][item]
-					# sound = get_sound(item, subject_a).ljust(4)
-					sound = ''
+					sound = get_sound(item, subject_a).ljust(4) if 'spoken_forms' in subject_a else ''
+					# sound = ''
 					table[item_i].append(bottleneck + sound + word.ljust(9, ' '))
 			print(''.join([str(gen_i).ljust(16, ' ') for gen_i in range(len(table[0]))]).strip())
 			for row in table:
@@ -302,6 +304,7 @@ def make_ternary_plot(exp_data):
 import visualize
 def make_panel_visualization(exp_data):
 	for condition, data in exp_data.items():
+		print(condition)
 		panel = []
 		for chain in data:
 			chain_matrices = []
@@ -320,7 +323,8 @@ def make_panel_visualization(exp_data):
 					training_items = []
 				chain_matrices.append((mat, cp, ss, sounds, training_items))
 			panel.append(chain_matrices)
-		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.pdf', panel)
+		show_sounds = True if 'con' in condition else False
+		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.pdf', panel, show_sounds=show_sounds)
 
 
 
@@ -343,6 +347,6 @@ if __name__ == '__main__':
 	# draw_all_matrixes(dataset_json)
 	# make_ternary_plot(dataset_json)
 
-	print_word_chains(dataset_json)
+	# print_word_chains(dataset_json)
 
 	make_panel_visualization(dataset_json)

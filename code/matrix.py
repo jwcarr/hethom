@@ -2,6 +2,7 @@ import numpy as np
 import cairocffi as cairo
 import voi
 import re
+import Levenshtein
 
 
 RE_STEM_SUFFIX = re.compile(r'(buvi|zeti|gafi|wopi)(\w*)')
@@ -75,9 +76,21 @@ def generate_color_palette_many(chain):
 	for subject_a, _ in chain:
 		suffix_spellings.extend(get_suffix_spellings(subject_a['lexicon']))
 	suffix_spellings = sorted(list(set(suffix_spellings)))
-	n_spellings = len(suffix_spellings)
-	hues = list(np.linspace(0, 2 * np.pi, n_spellings + 1))
-	return suffix_spellings, {suffix_spellings.index(suffix): hsv_to_rgb(hues.pop(), 0.8, 0.8) for suffix in suffix_spellings}
+	first_letters = [suffix[0] for suffix in suffix_spellings]
+	suffix_clusters = {first_letter: [s for s in suffix_spellings if s[0] == first_letter] for first_letter in first_letters}
+	first_letter_hues = np.linspace(0, 2 * np.pi, len(suffix_clusters) + 1)
+	max_cluster_size = max([len(cluster) for cluster in suffix_clusters.values()])
+	hue_increment = ((first_letter_hues[1] - first_letter_hues[0]) * 0.8) / max_cluster_size
+	suffix_spellings = []
+	hues = []
+	for cluster, base_hue in zip(suffix_clusters.values(), first_letter_hues):
+		for i, suffix in enumerate(cluster):
+			suffix_spellings.append(suffix)
+			hues.append(base_hue + i * hue_increment)
+	hues = np.array(hues)
+	hues += np.random.random() * 2*np.pi
+	hues[ hues > 2*np.pi ] -= 2*np.pi
+	return suffix_spellings, {suffix_spellings.index(suffix): hsv_to_rgb(hue, 0.7, 0.9) for suffix, hue in zip(suffix_spellings, hues)}
 
 
 def draw(matrix, color_palette, output_path):
