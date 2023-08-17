@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -7,20 +8,19 @@ from utils import json_load, json_save
 ROOT = Path(__file__).parent.parent.resolve()
 
 
-def calculate_rates(exp_id, with_bonus=False):
+def calculate_rates(exp_id, n_subjects, chain_filter='.+', with_bonus=False):
+	chain_filter = re.compile(chain_filter)
 	times = []
 	amounts = []
 	rates = []
-	comments_time = []
 
-	for i in range(1, 539):
+	for i in range(1, n_subjects + 1):
+
 		subject_id = str(i).zfill(3)
 		path = ROOT/'data'/exp_id/f'subject_{subject_id}.json'
-		try:
-			data = json_load(path)
-
-		except:
-			break
+		data = json_load(path)
+		if not chain_filter.fullmatch(data['chain_id']):
+			continue
 
 		time = data['modified_time'] - data['creation_time']
 		times.append(time)
@@ -33,6 +33,7 @@ def calculate_rates(exp_id, with_bonus=False):
 		rate = 3600 / time * amount
 		rates.append(rate)
 
+	print('Number of subjects', len(times))
 	print('Median completion time (mins):', np.median(times) / 60)
 	print('Median earnings (GBP):', np.median(amounts) / 100)
 	print('Median hourly rate (GBP):', np.median(rates) / 100)
@@ -48,5 +49,5 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
-calculate_rates('exp3', with_bonus=True)
-most_common_languages('exp3')
+calculate_rates('exp3', 584, chain_filter=r'dif.+', with_bonus=False)
+calculate_rates('exp3', 584, chain_filter=r'con.+', with_bonus=False)

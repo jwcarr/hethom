@@ -67,7 +67,7 @@ def draw_ternary_axes(axis):
 	# axis.plot([ref_r[0], centroid[0]], [ref_r[1], centroid[1]], color='gray')
 	# axis.plot([0.5, centroid[0]], [0, centroid[1]], color='gray')
 
-def make_ternary_plot(reference_objects, target_objects, distance_func, color='MediumSeaGreen', jitter=False):
+def make_ternary_plot(reference_objects, target_objects, distance_func, color='MediumSeaGreen', jitter=False, title=None):
 	'''
 	Given three reference objects (placed at the top, left, and right vertices
 	of the triangle), a collection of target objects, and a distance
@@ -88,6 +88,8 @@ def make_ternary_plot(reference_objects, target_objects, distance_func, color='M
 		points[:, 0] += (np.random.random(len(target_objects)) - 0.5) * 0.01
 		points[:, 1] += (np.random.random(len(target_objects)) - 0.5) * 0.01
 	axis.scatter(points[:, 0], points[:, 1], color=color, alpha=0.5, edgecolor='white')
+	if title:
+		axis.set_title(title)
 	axis.axis('off')
 	fig.tight_layout()
 	plt.show()

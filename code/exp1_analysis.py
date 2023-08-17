@@ -155,7 +155,7 @@ def plot_generational_change_by_condition(dataset, measure):
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 		n_generations = 9
 	for axis, condition in zip(np.ravel(axes), conditions):
-		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=True)
+		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
 		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
 		# axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
 		
@@ -299,10 +299,12 @@ def make_ternary_plot(exp_data):
 			scatter_objects.append(
 				matrix.make_matrix(chain[-1][0]['lexicon'], 3, 3)
 			)
-		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information, jitter=True)
+		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information, jitter=True, title=LABELS[condition])
 
 import visualize
 def make_panel_visualization(exp_data):
+	A_to_J = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+	K_to_T = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
 	for condition, data in exp_data.items():
 		print(condition)
 		panel = []
@@ -324,7 +326,8 @@ def make_panel_visualization(exp_data):
 				chain_matrices.append((mat, cp, ss, sounds, training_items))
 			panel.append(chain_matrices)
 		show_sounds = True if 'con' in condition else False
-		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.pdf', panel, show_sounds=show_sounds)
+		chain_ids = A_to_J if 'lrn' in condition else K_to_T
+		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.eps', panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
 
 
 
