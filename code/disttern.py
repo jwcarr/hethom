@@ -57,17 +57,11 @@ def draw_ternary_axes(axis):
 	centroid = 0.5, height / 3
 	ref_l = proportion_to_point(0.5, right_axis=False)
 	ref_r = proportion_to_point(0.5, right_axis=True)
-	# axis.add_patch( plt.Polygon([(0.5, height), (0, 0), (1, 0)], color='black', fill=False, linewidth=2) )
-
 	axis.add_patch( plt.Polygon([(0.5, height), ref_l, centroid, ref_r], fill=True, color='black', alpha=0.4, linewidth=0) )
 	axis.add_patch( plt.Polygon([(0, 0), (0.5, 0), centroid, ref_l], fill=True, color='gray', alpha=0.4, linewidth=0) )
 	axis.add_patch( plt.Polygon([(1, 0), ref_r, centroid, (0.5, 0)], fill=True, color='lightgray', alpha=0.4, linewidth=0) )
 
-	# axis.plot([ref_l[0], centroid[0]], [ref_l[1], centroid[1]], color='green')
-	# axis.plot([ref_r[0], centroid[0]], [ref_r[1], centroid[1]], color='gray')
-	# axis.plot([0.5, centroid[0]], [0, centroid[1]], color='gray')
-
-def make_ternary_plot(reference_objects, target_objects, distance_func, color='MediumSeaGreen', jitter=False, title=None):
+def make_ternary_plot(axis, reference_objects, target_objects, distance_func, color='MediumSeaGreen', jitter=False, title=None):
 	'''
 	Given three reference objects (placed at the top, left, and right vertices
 	of the triangle), a collection of target objects, and a distance
@@ -75,14 +69,16 @@ def make_ternary_plot(reference_objects, target_objects, distance_func, color='M
 	different to an ordinary ternary plot; proximity from the three
 	vertices represents distance from three reference objects.
 	'''
+	print(len(target_objects))
+	if not isinstance(color, list):
+		color = [color] * len(target_objects)
 	props = calculate_proportions(reference_objects, target_objects, distance_func)
 	points = np.zeros((len(target_objects), 2), dtype=float)
 	for i, (prop_l, prop_r) in enumerate(props):
 		x1_l, y1_l = proportion_to_point(prop_l, right_axis=False)
 		x1_r, y1_r = proportion_to_point(prop_r, right_axis=True)
 		points[i] = intersection(np.array([[(x1_l, y1_l), (1, 0), (x1_r, y1_r), (0, 0)]]))
-	
-	fig, axis = plt.subplots(1, 1)
+	print(points)
 	draw_ternary_axes(axis)
 	if jitter:
 		points[:, 0] += (np.random.random(len(target_objects)) - 0.5) * 0.01
@@ -91,5 +87,3 @@ def make_ternary_plot(reference_objects, target_objects, distance_func, color='M
 	if title:
 		axis.set_title(title)
 	axis.axis('off')
-	fig.tight_layout()
-	plt.show()

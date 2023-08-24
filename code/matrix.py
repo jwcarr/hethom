@@ -1,8 +1,6 @@
 import numpy as np
 import cairocffi as cairo
-import voi
 import re
-import Levenshtein
 
 
 RE_STEM_SUFFIX = re.compile(r'^(buvi|zeti|wopi|gafi)(\w*)$')
@@ -110,20 +108,8 @@ def draw(matrix, color_palette, output_path):
 			context.stroke()
 	surface.finish()
 
-def typological_distribution(matrix, probabilistic=False):
-	dist = [voi.variation_of_information(matrix, system) for name, system in typology.items()]
-	if probabilistic is False:
-		return dist
-	dist = np.array([np.exp2(-1 * val**2) for val in dist])
-	return dist / dist.sum()
 
-def cost(system):
-	signals = list(system.flatten())
-	U_size = np.product(system.shape)
-	return 1 / U_size * sum([-np.log2(1 / signals.count(s)) for m, s in np.ndenumerate(system)])
-
-
-typology = {
+reference_systems = {
 	'transparent': np.array([
 		[0, 0, 0],
 		[0, 0, 0],
@@ -149,9 +135,6 @@ typology = {
 
 if __name__ == '__main__':
 
-	for name, system in typology.items():
+	for name, system in reference_systems.items():
 		color_palette = generate_color_palette(system)
-		# print(color_palette)
 		draw(system, color_palette, f'/Users/jon/Desktop/{name}.pdf')
-
-		print(cost(system))

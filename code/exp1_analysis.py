@@ -16,14 +16,15 @@ from utils import json_load, json_save
 
 ROOT = Path(__file__).parent.parent.resolve()
 
+plt.rcParams.update({'font.sans-serif': 'Helvetica Neue', 'font.size': 7})
 
 COLORS = colormaps['tab10_r'].colors
 
 MEASURE_RANGES = {
-	'cost': (0, 2),
+	'cost': (0, 1.8),
 	'complexity': (100, 600),
 	'structure': (0, 10),
-	'error': (0, 3),
+	'error': (0, 2),
 	'alignment': (0, 3),
 }
 
@@ -93,6 +94,12 @@ def perform_measures(exp_data_file, exp_csv_file):
 			print('  Chain', chain_i)
 			prev_lexicon = None
 			for generation_i, (subject_a, subject_b) in enumerate(chain):
+				if generation_i < 4:
+					epoch_i = 1
+				elif generation_i < 7:
+					epoch_i = 2
+				else:
+					epoch_i = 3
 				print('    Generation', generation_i)
 				lexicon_a = convert_lexicon_meanings_to_tuple(subject_a['lexicon'])
 				error = transmission_error(lexicon_a, prev_lexicon) if prev_lexicon else None
@@ -109,6 +116,7 @@ def perform_measures(exp_data_file, exp_csv_file):
 					condition,
 					chain_i,
 					generation_i,
+					epoch_i,
 					error,
 					struc,
 					cost,
@@ -116,7 +124,7 @@ def perform_measures(exp_data_file, exp_csv_file):
 				])
 				prev_lexicon = lexicon_a
 
-	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'error', 'structure', 'cost', 'alignment'])
+	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'epoch', 'error', 'structure', 'cost', 'alignment'])
 	df.to_csv(exp_csv_file)
 
 
@@ -131,12 +139,10 @@ def plot_generational_change(axis, dataset, condition, measure, n_generations=20
 	for chain_i in sorted(condition_subset['chain'].unique()):
 		chain_subset = condition_subset[ condition_subset['chain'] == chain_i ]
 		chain_data.append(list(chain_subset[measure]))
-		if show_mean:
-			continue
 		axis.plot(chain_subset['generation'], chain_subset[measure], label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
 	if show_mean:
 		chain_data = np.array(chain_data)
-		axis.plot(chain_subset['generation'], chain_data.mean(axis=0), label=f'Chain {chain_i + 1}', color=COLORS[chain_i])
+		axis.plot(chain_subset['generation'], chain_data.mean(axis=0), label=f'Chain {chain_i + 1}', color='black', linewidth=5)
 	axis.set_xlim(0, n_generations)
 	axis.set_ylim(*pad_range(*MEASURE_RANGES[measure]))
 	axis.set_xticks(list(range(n_generations + 1)))
@@ -155,7 +161,7 @@ def plot_generational_change_by_condition(dataset, measure):
 		fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 		n_generations = 9
 	for axis, condition in zip(np.ravel(axes), conditions):
-		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=False)
+		plot_generational_change(axis, dataset, condition, measure, n_generations, show_mean=True)
 		# axis.plot(range(1, 13), [0, 0, 0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], color='gray', linewidth=10, zorder=0)
 		# axis.plot(range(1, 13), [209, 209, 209, 180, 180, 180, 206, 206, 206, 123, 123, 123], color='gray', linewidth=10, zorder=0)
 		
@@ -286,23 +292,82 @@ def draw_all_matrixes(exp_data):
 				mat = matrix.make_matrix(subject_a['lexicon'])
 				matrix.draw(mat, cp, f'/Users/jon/Desktop/matrices/{condition}_{chain_i}_{gen_i}.pdf')
 
-import disttern
-def make_ternary_plot(exp_data):
-	ref_objects = [matrix.typology['transparent'], matrix.typology['redundant'], matrix.typology['expressive']]
-	for condition, data in exp_data.items():
-		scatter_objects = []
-		for chain in data:
-			# for subject_a, _ in chain:
-			# 	scatter_objects.append(
-			# 		matrix.make_matrix(subject_a['lexicon'], 3, 3)
-			# 	)
-			scatter_objects.append(
-				matrix.make_matrix(chain[-1][0]['lexicon'], 3, 3)
-			)
-		disttern.make_ternary_plot(ref_objects, scatter_objects, matrix.voi.variation_of_information, jitter=True, title=LABELS[condition])
+def make_ternary_plot_by_condition(exp_data, conditions, output_path):
+	import disttern
+	import voi
 
-import visualize
+	ref_systems = [
+		matrix.reference_systems['transparent'],
+		matrix.reference_systems['redundant'],
+		matrix.reference_systems['expressive'],
+	]
+
+	generation_colors = colormaps['viridis'](np.linspace(0, 1, 10))
+
+	fig, axes = plt.subplots(1, len(conditions), squeeze=False)
+	for condition, axis, in zip(conditions, axes.flatten()):
+		scatter_systems = []
+		scatter_colors = []
+		for chain in exp_data[condition]:
+			for gen_i, (subject_a, _) in enumerate(chain):
+				scatter_systems.append(
+					matrix.make_matrix(subject_a['lexicon'], 3, 3)
+				)
+				scatter_colors.append(
+					generation_colors[gen_i]
+				)
+		disttern.make_ternary_plot(
+			axis,
+			ref_systems,
+			scatter_systems,
+			distance_func=voi.variation_of_information,
+			color=scatter_colors,
+			jitter=True,
+			title=LABELS[condition],
+		)
+	fig.tight_layout()
+	plt.show()
+
+
+def make_ternary_plot_by_generation(exp_data, conditions, generations, output_path):
+	import disttern
+	import voi
+
+	ref_systems = [
+		matrix.reference_systems['transparent'],
+		matrix.reference_systems['redundant'],
+		matrix.reference_systems['expressive'],
+	]
+
+	condition_colors = ['cadetblue', 'crimson']
+
+	fig, axes = plt.subplots(1, len(generations), squeeze=False)
+	for generation, axis, in zip(generations, axes.flatten()):
+		scatter_systems = []
+		scatter_colors = []
+		for condition, color in zip(conditions, condition_colors):
+			for chain in exp_data[condition]:
+				subject_a = chain[generation][0]
+				scatter_systems.append(
+					matrix.make_matrix(subject_a['lexicon'], 3, 3)
+				)
+				scatter_colors.append(color)
+		disttern.make_ternary_plot(
+			axis,
+			ref_systems,
+			scatter_systems,
+			distance_func=voi.variation_of_information,
+			color=scatter_colors,
+			jitter=True,
+			title=f'Generation {generation}',
+		)
+	fig.tight_layout()
+	plt.show()
+
+
 def make_panel_visualization(exp_data):
+	import visualize
+
 	A_to_J = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 	K_to_T = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
 	for condition, data in exp_data.items():
@@ -329,8 +394,50 @@ def make_panel_visualization(exp_data):
 		chain_ids = A_to_J if 'lrn' in condition else K_to_T
 		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.eps', panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
 
+def make_typology_plot(exp_data, conditions, generations, output_path=None, probabilistic_classification=False):
+	import voi
 
+	ref_systems = [
+		matrix.reference_systems['holistic'],
+		matrix.reference_systems['expressive'],
+		matrix.reference_systems['redundant'],
+		matrix.reference_systems['transparent'],
+	]
 
+	distribution_colors = colormaps['viridis'](np.linspace(0, 1, 4))
+
+	fig, axes = plt.subplots(len(conditions), len(generations), figsize=(6, 2), squeeze=False, sharex=True, sharey=True)
+	
+	for i, condition in enumerate(conditions):
+		for j, generation in enumerate(generations):
+			distribution = np.zeros(len(ref_systems))
+			for chain in exp_data[condition]:
+				subject_a = chain[generation][0]
+				subject_system = matrix.make_matrix(subject_a['lexicon'], 3, 3)
+				distances = np.array([
+					voi.variation_of_information(subject_system, ref_system)
+					for ref_system in ref_systems
+				])
+				if probabilistic_classification:
+					unnorm_distribution = np.exp(-distances * 3) # 3 is arbitrary scaling constant
+					distribution += unnorm_distribution / unnorm_distribution.sum()
+				else:
+					classification = np.where(distances == distances.min())[0]
+					distribution[classification] += 1 / len(classification)
+			distribution /= distribution.sum()
+			axes[i,j].bar(['H', 'E', 'R', 'D'], distribution, color=distribution_colors)
+			if i == 0:
+				axes[i,j].set_title(f'Gen. {generation}', fontsize=7)
+	
+	axes[0,0].set_ylim(0, 1)
+	axes[0,0].set_yticks([])#axes[0,0].set_yticks(np.linspace(0, 1, 6))
+	axes[0,0].set_ylabel('Trans.-only', fontsize=7)
+	axes[1,0].set_ylabel('Trans. + Comm.', fontsize=7)
+	fig.tight_layout(pad=0.5, h_pad=1, w_pad=1)
+	if output_path:
+		fig.savefig(output_path)
+	else:
+		plt.show()
 
 
 if __name__ == '__main__':
@@ -348,8 +455,19 @@ if __name__ == '__main__':
 
 	# draw_converged_matrixes(dataset_json)
 	# draw_all_matrixes(dataset_json)
-	# make_ternary_plot(dataset_json)
+	# make_ternary_plot_by_condition(dataset_json, ['con_lrn', 'con_com'], '/Users/jon/Desktop/tern.pdf')
+	# make_ternary_plot_by_generation(dataset_json, ['con_lrn', 'con_com'], [3, 6, 9], '/Users/jon/Desktop/tern.pdf')
+
+
+	make_typology_plot(dataset_json, ['dif_lrn', 'dif_com'], list(range(10)),
+		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_dif.pdf',
+		probabilistic_classification=True,
+	)
+	make_typology_plot(dataset_json, ['con_lrn', 'con_com'], list(range(10)),
+		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_con.pdf',
+		probabilistic_classification=True,
+	)
 
 	# print_word_chains(dataset_json)
 
-	make_panel_visualization(dataset_json)
+	# make_panel_visualization(dataset_json)

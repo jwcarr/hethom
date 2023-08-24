@@ -29,31 +29,57 @@ def plot_dataset(data1, data2):
 
 if __name__ == '__main__':
 
-	np.random.seed(117)
+	# np.random.seed(1177)
 
-	n_chains = 10
-	n_generations = 9
+	# n_chains = 10
+	# n_generations = 9
 
-	data1 = generate_random_dataset(n_chains, n_generations, 0.3, 0.3)
-	data2 = generate_random_dataset(n_chains, n_generations, 0.25, 0.3)
+	# data1 = generate_random_dataset(n_chains, n_generations, 0.3, 0.3)
+	# data2 = generate_random_dataset(n_chains, n_generations, 0.2, 0.3)
 
-	# plot_dataset(data1, data2)
-	# quit()
+	# # plot_dataset(data1, data2)
+	# # quit()
 
-	chain_ids = []
-	np.repeat
+	# chain_ids = []
+	# np.repeat
 
-	df = pd.DataFrame({
-		'cost': list(data1.flatten()) + list(data2.flatten()),
-		'condition': ['lrn'] * (n_chains * n_generations) + ['com'] * (n_chains * n_generations),
-		'generation': list(range(1, n_generations+1)) * (n_chains*2),
-		'chain': np.repeat(range(n_chains*2), n_generations),
-	})
+	# df = pd.DataFrame({
+	# 	'cost': list(data1.flatten()) + list(data2.flatten()),
+	# 	'condition': ['lrn'] * (n_chains * n_generations) + ['com'] * (n_chains * n_generations),
+	# 	'generation': list(range(1, n_generations+1)) * (n_chains*2),
+	# 	'chain': np.repeat(range(n_chains*2), n_generations),
+	# })
 
-	# df = pd.read_csv('../data/exp2.csv')
-	# df = df[ df['generation'] > 0 ]
+	df = pd.read_csv('data/exp3.csv')
+	df = df[ df['condition'].str.contains('^con') ]
+	df = df[ df['generation'] > 0 ]
+	df['cost'] = df['cost'] + 0.001
 	df = center_variable(df, 'generation')
 	df['chain_id'] = df[['condition', 'chain']].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
 
-	model = bmb.Model('cost ~ generation * condition + (1 + generation | chain_id)', df)
+	model = bmb.Model(
+		'cost ~ generation * epoch * condition + (1 + generation | chain_id)',
+		data=df,
+		categorical=['epoch', 'condition']
+		# family='gamma',
+		# link='log',
+	)
 	results = model.fit(draws=1000, chains=4)
+
+	
+
+
+	# df = pd.read_csv('data/exp3.csv')
+	# df = df[ df['condition'].str.contains('^con') ]
+	# df = df[ df['generation'] > 0 ]
+	# df = center_variable(df, 'generation')
+	# df['chain_id'] = df[['condition', 'chain']].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
+
+	# df_lrn = df[ df['condition'].str.contains('_lrn$') ]
+	# model1 = bmb.Model('cost ~ generation + (1 + generation | chain_id)', df_lrn)
+	# results1 = model1.fit(draws=1000, chains=4)
+
+	# df_com = df[ df['condition'].str.contains('_com$') ]
+	# model2 = bmb.Model('cost ~ generation + (1 + generation | chain_id)', df_com)
+	# results2 = model2.fit(draws=1000, chains=4)
+
