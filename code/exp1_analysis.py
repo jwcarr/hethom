@@ -419,7 +419,11 @@ def make_typology_plot(exp_data, conditions, generations, output_path=None, prob
 					for ref_system in ref_systems
 				])
 				if probabilistic_classification:
-					unnorm_distribution = np.exp(-distances * 3) # 3 is arbitrary scaling constant
+					# -2 is weighting (free parameter), this value works well
+					# because it results in almost all prob mass in
+					# generation 0 being dedicated to the holistic category,
+					# which we know to be correct.
+					unnorm_distribution = np.exp(-2 * distances**2)
 					distribution += unnorm_distribution / unnorm_distribution.sum()
 				else:
 					classification = np.where(distances == distances.min())[0]
@@ -460,11 +464,11 @@ if __name__ == '__main__':
 
 
 	make_typology_plot(dataset_json, ['dif_lrn', 'dif_com'], list(range(10)),
-		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_dif.pdf',
+		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_dif.eps',
 		probabilistic_classification=True,
 	)
 	make_typology_plot(dataset_json, ['con_lrn', 'con_com'], list(range(10)),
-		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_con.pdf',
+		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_con.eps',
 		probabilistic_classification=True,
 	)
 
