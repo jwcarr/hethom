@@ -101,13 +101,14 @@ def draw_panel(output_path, chains, figure_width=1000, chain_ids=None, show_gene
 	n_cols = len(chains[0])
 	figure_height = figure_width / n_cols * n_rows
 	cell_size = figure_width / n_cols
-	if output_path.endswith('.eps'):
-		surface = cairo.PSSurface(output_path, figure_width, figure_height)
+	filename = output_path.name
+	if filename.endswith('.eps'):
+		surface = cairo.PSSurface(str(output_path), figure_width, figure_height)
 		surface.set_eps(True)
-	elif output_path.endswith('.pdf'):
-		surface = cairo.PDFSurface(output_path, figure_width, figure_height)
-	elif output_path.endswith('.svg'):
-		surface = cairo.SVGSurface(output_path, figure_width, figure_height)
+	elif filename.endswith('.pdf'):
+		surface = cairo.PDFSurface(str(output_path), figure_width, figure_height)
+	elif filename.endswith('.svg'):
+		surface = cairo.SVGSurface(str(output_path), figure_width, figure_height)
 	else:
 		raise ValueError('Unrecognized format')
 	context = cairo.Context(surface)

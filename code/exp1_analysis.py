@@ -365,83 +365,8 @@ def make_ternary_plot_by_generation(exp_data, conditions, generations, output_pa
 	plt.show()
 
 
-def make_panel_visualization(exp_data):
-	import visualize
 
-	A_to_J = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-	K_to_T = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
-	for condition, data in exp_data.items():
-		print(condition)
-		panel = []
-		for chain in data:
-			chain_matrices = []
-			ss, cp = matrix.generate_color_palette_many(chain)
-			for subject_a, _ in chain:
-				mat = matrix.make_matrix_with_cp(subject_a['lexicon'], ss, 3, 3)
-				sounds = []
-				if 'spoken_forms' in subject_a:
-					if 'con' in condition:
-						sounds = [get_sound(f'0_{i}', subject_a) for i in range(3)]
-					elif 'dif' in condition:
-						sounds = ['kəʊ', 'kəʊ', 'kəʊ']
-				if 'training_items' in subject_a:
-					training_items = subject_a['training_items']
-				else:
-					training_items = []
-				chain_matrices.append((mat, cp, ss, sounds, training_items))
-			panel.append(chain_matrices)
-		show_sounds = True if 'con' in condition else False
-		chain_ids = A_to_J if 'lrn' in condition else K_to_T
-		visualize.draw_panel(f'/Users/jon/Desktop/{condition}.eps', panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
 
-def make_typology_plot(exp_data, conditions, generations, output_path=None, probabilistic_classification=False):
-	import voi
-
-	ref_systems = [
-		matrix.reference_systems['holistic'],
-		matrix.reference_systems['expressive'],
-		matrix.reference_systems['redundant'],
-		matrix.reference_systems['transparent'],
-	]
-
-	distribution_colors = colormaps['viridis'](np.linspace(0, 1, 4))
-
-	fig, axes = plt.subplots(len(conditions), len(generations), figsize=(6, 2), squeeze=False, sharex=True, sharey=True)
-	
-	for i, condition in enumerate(conditions):
-		for j, generation in enumerate(generations):
-			distribution = np.zeros(len(ref_systems))
-			for chain in exp_data[condition]:
-				subject_a = chain[generation][0]
-				subject_system = matrix.make_matrix(subject_a['lexicon'], 3, 3)
-				distances = np.array([
-					voi.variation_of_information(subject_system, ref_system)
-					for ref_system in ref_systems
-				])
-				if probabilistic_classification:
-					# -2 is weighting (free parameter), this value works well
-					# because it results in almost all prob mass in
-					# generation 0 being dedicated to the holistic category,
-					# which we know to be correct.
-					unnorm_distribution = np.exp(-2 * distances**2)
-					distribution += unnorm_distribution / unnorm_distribution.sum()
-				else:
-					classification = np.where(distances == distances.min())[0]
-					distribution[classification] += 1 / len(classification)
-			distribution /= distribution.sum()
-			axes[i,j].bar(['H', 'E', 'R', 'D'], distribution, color=distribution_colors)
-			if i == 0:
-				axes[i,j].set_title(f'Gen. {generation}', fontsize=7)
-	
-	axes[0,0].set_ylim(0, 1)
-	axes[0,0].set_yticks([])#axes[0,0].set_yticks(np.linspace(0, 1, 6))
-	axes[0,0].set_ylabel('Trans.-only', fontsize=7)
-	axes[1,0].set_ylabel('Trans. + Comm.', fontsize=7)
-	fig.tight_layout(pad=0.5, h_pad=1, w_pad=1)
-	if output_path:
-		fig.savefig(output_path)
-	else:
-		plt.show()
 
 
 if __name__ == '__main__':
@@ -454,7 +379,7 @@ if __name__ == '__main__':
 	dataset_json = json_load(exp_json_file)
 	dataset_csv = pd.read_csv(exp_csv_file)
 
-	# plot_generational_change_by_condition(dataset_csv, 'cost')
+	plot_generational_change_by_condition(dataset_csv, 'cost')
 	# plot_simplicity_informativeness_by_condition(dataset_csv)
 
 	# draw_converged_matrixes(dataset_json)
@@ -463,14 +388,14 @@ if __name__ == '__main__':
 	# make_ternary_plot_by_generation(dataset_json, ['con_lrn', 'con_com'], [3, 6, 9], '/Users/jon/Desktop/tern.pdf')
 
 
-	make_typology_plot(dataset_json, ['dif_lrn', 'dif_com'], list(range(10)),
-		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_dif.eps',
-		probabilistic_classification=True,
-	)
-	make_typology_plot(dataset_json, ['con_lrn', 'con_com'], list(range(10)),
-		output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_con.eps',
-		probabilistic_classification=True,
-	)
+	# make_typology_plot(dataset_json, ['dif_lrn', 'dif_com'], list(range(10)),
+	# 	output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_dif.eps',
+	# 	probabilistic_classification=True,
+	# )
+	# make_typology_plot(dataset_json, ['con_lrn', 'con_com'], list(range(10)),
+	# 	output_path=ROOT / 'manuscript' / 'figs' / 'typ_dist_con.eps',
+	# 	probabilistic_classification=True,
+	# )
 
 	# print_word_chains(dataset_json)
 

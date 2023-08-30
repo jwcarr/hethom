@@ -22,28 +22,31 @@ def plot_chains(axis, dataset, var, show_mean=False):
 
 
 def plot_predictive(axis, trace, var, color):
-	generation = np.arange(0, 10)
+	generation = np.arange(1, 10)
 	az.plot_hdi(generation, trace.posterior[var], hdi_prob=0.95, smooth=False, color=color, fill_kwargs={'alpha': 0.25, 'linewidth': 0}, ax=axis)
 	axis.plot(generation, trace.posterior[var].mean(('chain', 'draw')), color=color)
 	# axis.set_ylim(0, 1.8)
 
 
 df = pd.read_csv('../data/exp3.csv')
-trace = az.from_netcdf('../data/exp3_con.netcdf')
+trace = az.from_netcdf('../data/exp1.netcdf')
 
 fig, axes = plt.subplots(2, 2, figsize=(6, 4))
 
-plot_chains(axes[0,0], df[ df['condition'] == 'con_lrn' ], 'cost', show_mean=True)
-plot_chains(axes[0,1], df[ df['condition'] == 'con_com' ], 'cost', show_mean=True)
+plot_chains(axes[0,0], df[ df['condition'] == 'dif_lrn' ], 'cost', show_mean=True)
+plot_chains(axes[0,1], df[ df['condition'] == 'dif_com' ], 'cost', show_mean=True)
 
 axes[0,0].set_ylim(0, 1.8)
 axes[0,1].set_ylim(0, 1.8)
 
 plot_predictive(axes[1,0], trace, 'pred_lrn', 'cadetblue')
-plot_predictive(axes[1,0], trace, 'pred_com', 'crimson')
+plot_predictive(axes[1,1], trace, 'pred_com', 'crimson')
 
 axes[1,0].set_ylim(0, 1.8)
 axes[1,1].set_ylim(0, 1.8)
+
+axes[1,0].set_xlim(0, 9)
+axes[1,1].set_xlim(0, 9)
 
 axes[1,0].set_xlabel('Generation')
 axes[1,0].set_ylabel('Communicative cost (bits)')
