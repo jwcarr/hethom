@@ -93,18 +93,18 @@ def generate_color_palette_many(chain):
 	return suffix_spellings, {suffix_spellings.index(suffix): hsv_to_rgb(hue, 0.7, 0.9) for suffix, hue in zip(suffix_spellings, hues)}
 
 
-def draw(matrix, color_palette, output_path):
+def draw(matrix, color_palette, output_path, square_size_pts=10):
 	m, n = matrix.shape
-	surface = cairo.PDFSurface(output_path, m, n)
+	surface = cairo.PDFSurface(output_path, m*square_size_pts, n*square_size_pts)
 	context = cairo.Context(surface)
 	for i, row in enumerate(matrix):
 		for j, cell in enumerate(row):
 			color = color_palette[cell]
 			context.set_source_rgb(*color)
-			context.rectangle(j, i, 1, 1)
+			context.rectangle(j*square_size_pts, i*square_size_pts, square_size_pts, square_size_pts)
 			context.fill_preserve()
 			context.set_source_rgb(1, 1, 1)
-			context.set_line_width(0.05)
+			context.set_line_width(1)
 			context.stroke()
 	surface.finish()
 
@@ -135,6 +135,12 @@ reference_systems = {
 
 if __name__ == '__main__':
 
+	from matplotlib import colormaps
+
 	for name, system in reference_systems.items():
-		color_palette = generate_color_palette(system)
+
+		color_palette = colormaps['viridis'](np.linspace(0, 1, len(np.unique(system))))
+		color_palette = [color[:3] for color in color_palette]
+		np.random.shuffle(color_palette)
+
 		draw(system, color_palette, f'/Users/jon/Desktop/{name}.pdf')

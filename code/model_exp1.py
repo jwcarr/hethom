@@ -61,6 +61,6 @@ if __name__ == '__main__':
 		pm.Deterministic('pred_com', α_m[1] + b1_m[1] * gen_matrix[:, 0, 0] + b2_m[1] * gen_matrix[:, 0, 0] ** 2 + b3_m[1] * gen_matrix[:, 0, 0] ** 3)
 		pm.Deterministic('α_diff', α_m[0] - α_m[1])
 
-		trace = pm.sample(1000, tune=2000, target_accept=0.9)
+		trace = pm.sample(2000, tune=2000, target_accept=0.95, chains=6, cores=6)
 
 		trace.to_netcdf(DATA / 'exp1_cube.netcdf')

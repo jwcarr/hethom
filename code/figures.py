@@ -145,7 +145,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 			import arviz as az
 			trace = az.from_netcdf(model_trace)
 			pred_var = f'pred_{condition.split("_")[1]}'
-			generations = np.arange(1, 10)
+			generations = np.arange(0, 10)
 			az.plot_hdi(generations, trace.posterior[pred_var], ax=axes[1,i], hdi_prob=0.95, smooth=False, color=color_light, fill_kwargs={'alpha': 1, 'linewidth': 0})
 			axes[1,i].plot(generations, trace.posterior[pred_var].mean(('chain', 'draw')), color=color)
 
@@ -254,15 +254,6 @@ if __name__ == '__main__':
 	# 	model_trace=DATA / 'exp1_cube.netcdf',
 	# )
 
-	plot_communicative_cost(exp_data,
-		conditions=['con_lrn', 'con_com'],
-		output_path=FIGS / 'cost_con.eps',
-		figsize=(6, 4),
-		show_mean=True,
-		add_jitter=True,
-		# show_model=DATA / 'exp1.netcdf',
-	)
-
 	# plot_posterior(DATA / 'exp1_cube.netcdf',
 	# 	variables=[
 	# 		{'var': 'α_m', 'label': '$α$'},
@@ -273,3 +264,23 @@ if __name__ == '__main__':
 	# 	output_path=FIGS / 'posterior_dif.eps',
 	# 	show_summary=True,
 	# )
+
+	plot_communicative_cost(exp_data,
+		conditions=['con_lrn', 'con_com'],
+		output_path=FIGS / 'cost_con.pdf',
+		figsize=(6, 4),
+		show_mean=True,
+		add_jitter=True,
+		model_trace=DATA / 'exp2.netcdf',
+	)
+
+	plot_posterior(DATA / 'exp2.netcdf',
+		variables=[
+			{'var': 'α_m', 'label': '$α$'},
+			{'var': 'β1_m', 'label': '$β_1$'},
+			{'var': 'β2_m', 'label': '$β_2$'},
+			{'var': 'β3_m', 'label': '$β_3$'},
+		],
+		output_path=FIGS / 'posterior_con.pdf',
+		show_summary=True,
+	)
