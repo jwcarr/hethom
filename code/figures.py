@@ -104,11 +104,13 @@ def plot_typological_distribution(exp_data, conditions, generations, output_path
 	else:
 		plt.show()
 
+color_palette = colormaps['viridis'](np.linspace(0, 1, 5))
+color_palette = [color[:3] for color in color_palette]
 COLORS = {
-	'dif_lrn': ('cadetblue', '#AFD0D0'),
-	'dif_com': ('crimson', '#F58CA1'),
-	'con_lrn': ('cadetblue', '#AFD0D0'),
-	'con_com': ('crimson', '#F58CA1'),
+	'dif_lrn': ('darkorange', '#AFD0D0'),
+	'dif_com': ('darkslategray', '#F58CA1'),
+	'con_lrn': ('lightblue', '#AFD0D0'),
+	'con_com': ('lightcoral', '#F58CA1'),
 }
 def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 2), show_mean=True, add_jitter=False, model_trace=False):
 	import comm_cost
@@ -145,7 +147,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 			import arviz as az
 			trace = az.from_netcdf(model_trace)
 			pred_var = f'pred_{condition.split("_")[1]}'
-			generations = np.arange(0, 10)
+			generations = np.arange(1, 10)
 			az.plot_hdi(generations, trace.posterior[pred_var], ax=axes[1,i], hdi_prob=0.95, smooth=False, color=color_light, fill_kwargs={'alpha': 1, 'linewidth': 0})
 			axes[1,i].plot(generations, trace.posterior[pred_var].mean(('chain', 'draw')), color=color)
 
@@ -164,6 +166,20 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		plt.show()
 
 
+def draw_hdi(axis, lower, upper, hdi_prob):
+	mn_y, mx_y  = axis.get_ylim()
+	padding = (mx_y - mn_y) * 0.1
+	axis.plot((lower, upper), (0, 0), color='MediumSeaGreen')
+	hdi_text = f'{int(hdi_prob*100)}% HDI'
+	hdi_width = round(upper - lower, 2)
+	axis.text((lower + upper)/2, mn_y + padding, hdi_text, ha='center', color='MediumSeaGreen', fontsize=6)
+def draw_mean_and_ci(axis, mean, lower, upper):
+	mn_y, mx_y  = axis.get_ylim()
+	y_pos = (mx_y - mn_y) * 0.2
+	axis.text(lower, y_pos, str(round(lower, 2)), ha='right', color='MediumSeaGreen')
+	axis.text(mean, y_pos, str(round(mean, 2)), ha='center', color='MediumSeaGreen')
+	axis.text(upper, y_pos, str(round(upper, 2)), ha='left', color='MediumSeaGreen')
+
 def plot_posterior(model_trace, variables, output_path=None, show_summary=False):
 	import arviz as az
 	from scipy.stats import gaussian_kde
@@ -178,27 +194,46 @@ def plot_posterior(model_trace, variables, output_path=None, show_summary=False)
 		table = az.summary(trace, hdi_prob=0.95)
 		print(table)
 
-	fig, axes = plt.subplots(2, 2, figsize=(2.9, 2.9), squeeze=False)
-	
-	for variable, axis in zip(variables, axes.flatten()):
+	fig, axes = plt.subplots(2, len(variables), figsize=(6, 2.9), squeeze=False)
+
+	for i, variable in enumerate(variables):
 
 		x_min = trace.posterior[variable['var']].min()
 		x_max = trace.posterior[variable['var']].max()
 		x = np.linspace(x_min, x_max, 200)
 
-		samples = trace.posterior[variable['var']].sel(condition='lrn').to_numpy().flatten()
-		y = gaussian_kde(samples).pdf(x)
-		axis.plot(x, y, color=COLORS['dif_lrn'][0])
+		samples_lrn = trace.posterior[variable['var']].sel(condition='lrn').to_numpy().flatten()
+		y_lrn = gaussian_kde(samples_lrn).pdf(x)
+		axes[0,i].plot(x, y_lrn, color=COLORS['dif_lrn'][0])
 
-		samples = trace.posterior[variable['var']].sel(condition='com').to_numpy().flatten()
-		y = gaussian_kde(samples).pdf(x)
-		axis.plot(x, y, color=COLORS['dif_com'][0])
+		samples_com = trace.posterior[variable['var']].sel(condition='com').to_numpy().flatten()
+		y_com = gaussian_kde(samples_com).pdf(x)
+		axes[0,i].plot(x, y_com, color=COLORS['dif_com'][0])
 
-		axis.set_yticks([])
-		axis.set_xlim(x_min, x_max)
-		axis.set_xlabel(variable['label'])
+		axes[0,i].set_yticks([])
+		axes[0,i].set_xlim(x_min, x_max)
+		axes[0,i].set_xlabel(variable['label'])
 
-	fig.tight_layout(pad=1, h_pad=1, w_pad=1)
+		samples_diff = samples_com - samples_lrn
+		mx = max(abs(samples_diff.min()), abs(samples_diff.max()))
+		x_diff_min = -mx
+		x_diff_max = mx
+
+		x_diff = np.linspace(x_diff_min, x_diff_max, 200)
+		y_diff = gaussian_kde(samples_diff).pdf(x_diff)
+
+		axes[1,i].plot(x_diff, y_diff, color='black')
+		axes[1,i].set_yticks([])
+		axes[1,i].set_xlim(x_diff_min, x_diff_max)
+		axes[1,i].set_xlabel(f'Δ({variable["label"]})') 
+
+		az_hdi = az.hdi(samples_diff, hdi_prob=0.95)
+		draw_hdi(axes[1,i], float(az_hdi[0]), float(az_hdi[1]), 0.95)
+		# draw_mean_and_ci(axes[1,i], samples_diff.mean(), float(az_hdi[0]), float(az_hdi[1]))
+
+
+
+	fig.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
 	if output_path:
 		fig.savefig(output_path)
 	else:
@@ -267,7 +302,7 @@ if __name__ == '__main__':
 
 	plot_communicative_cost(exp_data,
 		conditions=['con_lrn', 'con_com'],
-		output_path=FIGS / 'cost_con.pdf',
+		output_path=FIGS / 'cost_con.eps',
 		figsize=(6, 4),
 		show_mean=True,
 		add_jitter=True,
@@ -281,6 +316,35 @@ if __name__ == '__main__':
 			{'var': 'β2_m', 'label': '$β_2$'},
 			{'var': 'β3_m', 'label': '$β_3$'},
 		],
-		output_path=FIGS / 'posterior_con.pdf',
+		output_path=FIGS / 'posterior_con.eps',
 		show_summary=True,
 	)
+
+	# import arviz as az
+	# from patsy import dmatrix
+
+	# generation = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9] * 10)
+	# # knots = np.array([0.5, 3.5, 6.5, 9.5])
+	# # B = dmatrix(
+	# # 	'bs(generation, knots=knots, degree=1, include_intercept=True) - 1',
+	# # 	{'generation': generation, 'knots': knots[1:-1]}
+	# # )
+	# # print(np.asarray(B))
+
+	# trace = az.from_netcdf(DATA / 'exp2_reduced.netcdf')
+	# az.plot_posterior(trace, var_names=['α', 'β'])
+	# plt.show()
+	# quit()
+
+
+	# β = trace.posterior['β'].mean(('chain', 'draw')).values
+	# a = trace.posterior['α'].mean(('chain', 'draw')).values
+	
+	# pred2 = a + β * generation
+
+	# plt.plot(range(len(pred2[:9])), pred2[:9])
+	# plt.show()
+
+
+
+	# # plt.show()
