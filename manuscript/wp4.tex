@@ -159,7 +159,7 @@ where $U$ is the universe of meanings that may be expressed, $\mathrm{Pr}(m)$ is
 	\begin{figure}
 	\makebox[\textwidth][c]{\includegraphics[]{figs/cost_dif.eps}}
 	\vspace*{2pt}
-	\caption{Communicative cost by generation under Transmission-only (blue) and Transmission + Communication (red). The upper panels show each individual transmission chain (thin lines; with jitter) and the mean across chains (thick lines). The lower panels show a polynomial regression model of the data (posterior mean and 95\% HDI). Generation~0 is not included in the model, since it does not represent participant data.}
+	\caption{Communicative cost by generation under Transmission-only (dark green; left) and Transmission + Communication (orange; right). The thin lines show each individual transmission chain (with a small amount of jitter added). The thick lines and shaded areas show the mean and 95\% HDI of a regression model fit to the data. Generation~0 is not included in the model, since it does not represent participant data. The black dotted lines show the communicative cost of the spoken language for comparison. In general, the orthographic systems tend to become more costly over time, but less so under communicative pressure.}
 	\label{cost_dif}
 	\end{figure}
 
@@ -168,17 +168,21 @@ Fig.~\ref{cost_dif} plots communicative cost over the nine generations of cultur
 	\begin{figure}
 	\makebox[\textwidth][c]{\includegraphics[]{figs/posterior_dif.eps}}
 	\vspace*{2pt}
-	\caption{Posterior parameter estimates for the Experiment~1 polynomial regression model. Blue curves show results for the Transmission-only condition and red curves show results for the Transmission + Communication condition. $\alpha$ represents the intercept of the polynomial (Generation~5) and the $\beta$ parameters characterize its shape.}
+	\caption{Posterior parameter estimates from the Experiment~1 regression model. In the upper panels, the dark green curves show results for the Transmission-only condition and the yellow curves show results for the Transmission + Communication condition. The dotted line in the $\alpha$ panel shows the cost of the spoken language. The lower panels show the posterior differences between conditions along with the 95\% HDI credible interval.}
 	\label{posterior_dif}
 	\end{figure}
 
-To evaluate this argument statistically, we regressed cost on generation in a Bayesian, hierarchical, polynomial regression model. 
-    \begin{align*}
-       c_i & \sim \mathrm{Normal}(\mu_i, \sigma) \\
-     \mu_i & =    \alpha_{\mathrm{CHAIN}[i]} + \beta_{\mathrm{CHAIN}[i]} g_i + \gamma_{\mathrm{CHAIN}[i]} g_i^2 + \delta_{\mathrm{CHAIN}[i]} g_i^3 \\
-    \sigma & \sim \mathrm{Exponential}(1)
-    \end{align*}
-The posterior parameter estimates are shown in Fig.~\ref{posterior_dif}. Essentially, the $\beta$ parameters of the model (characterizing the shape of the polynomial) do not differ substantially between conditions, but the intercepts ($\alpha$) do appear to differ. Since generation was centered (for the purpose of fitting the model), the $\alpha$ parameters correspond to Generation~5 and therefore represent the main plateaus of the polynomials. The posterior difference between $\alpha_\mathrm{tran}$ and $\alpha_\mathrm{comm}$ was 0.301~bits (95\%~HDI: 0.014--0.597). This difference, and its credible interval, is greater than zero, pointing to an effect of condition on the level at which cost plateaus. We emphasize, however, that this difference represents a relatively small effect size, corresponding to a 9.4 percentage point advantage (in terms of communicative accuracy) for systems that emerged in the communicative condition. Specifically, systems that emerged under Transmission-only would, on average, yield a communicative success rate of 40.7\%, whereas the equivalent value for Transmission + Communication is 50.1\%. Thus, although the presence of the communicative pressure does appear to make a difference to the informativeness of the emergent systems, that difference is not especially impressive considering that an ideal, expressive system of suffix spellings would result in zero cost and a 100\% success rate in communicative use.
+To evaluate this argument statistically, we regressed cost on generation in the following Bayesian third-degree polynomial regression model:
+	\begin{align*}
+	   c_i & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+	 \mu_i & =    \alpha + \beta_1 g_i + \beta_2 g_i^2 + \beta_3 g_i^3 \\
+	\sigma & \sim \mathrm{Exponential}(1)
+	\end{align*}
+where $g$ is a centered generation number (i.e., Generations~1 through 9 are represented as~-4 through +4). The model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by a third-degree polynomial model. The intercept $\alpha$ corresponds to Generation~5 (the central generation), and the $\beta$ parameters determine the shape of the polynomial. $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the full model specification, see the Supplementary Material.
+
+The posterior parameter estimates are shown in Fig.~\ref{posterior_dif}. Essentially, the $\beta$ parameters do not differ substantially between conditions, but the $\alpha$ parameters do appear to differ. This may be interpreted as the polynomial regression models adopting the same shape but plateauing at different levels. Indeed, the posterior difference in $\alpha$, and its credible interval, is less than zero, pointing to an effect of condition on the level at which cost plateaus.
+
+To give greater meaning to these parameter estimates, cost may be converted into the expected probability of communicative success with the equation $p=2^{-c}$. If we take Generation~5 as representative of the level at which cost plateaus, we find that estimated communicative success is $2^{-1.298} = 40.7$\% in Transmission-only and $2^{-0.985} = 50.5$\% in Transmission + Communication, representing a 9.8 percentage point advantage for the communicative condition. However, while the presence of the communicative pressure does appear to make a difference to the informativeness of the emergent systems, that difference is not especially impressive considering that an ideal, expressive system of suffix spellings would result in zero cost and a 100\% success rate in communicative use.
 
 \subsection{Summary}
 
@@ -255,7 +259,7 @@ Fig.~\ref{typ_dist_con} plots the typological distributions by generation and co
 	\begin{figure}
 	\makebox[\textwidth][c]{\includegraphics[]{figs/cost_con.eps}}
 	\vspace*{2pt}
-	\caption{Communicative cost by generation under Transmission-only (blue) and Transmission + Communication (red). The upper panels show each individual transmission chain (thin lines; with jitter) and the mean across chains (thick lines). The lower panels show a regression model of the data (posterior mean and 95\% HDI). Generation~0 is not included in the model, since it does not represent participant data.}
+	\caption{Communicative cost by generation under Transmission-only (dark green; left) and Transmission + Communication (orange; right). The thin lines show each individual transmission chain (with a small amount of jitter added). The thick lines and shaded areas show the mean and 95\% HDI of a regression model fit to the data. Generation~0 is not included in the model, since it does not represent participant data. The black dotted lines show the communicative cost of the spoken language, which increases with epoch. In general, the orthographic systems tend to remain more informative under communicative pressure.}
 	\label{cost_con}
 	\end{figure}
 
@@ -264,24 +268,19 @@ Fig.~\ref{cost_con} plots communicative cost. The mean lines reveal a fairly cle
 	\begin{figure}
 	\makebox[\textwidth][c]{\includegraphics[]{figs/posterior_con.eps}}
 	\vspace*{2pt}
-	\caption{Posterior parameter estimates for the Experiment~2 regression model. Blue curves show results for the Transmission-only condition and red curves show results for the Transmission + Communication condition.}
+	\caption{Posterior parameter estimates from the Experiment~2 regression model. In the upper panels, the dark green curves show results for the Transmission-only condition and the yellow curves show results for the Transmission + Communication condition. The dotted lines in the $\alpha$ panels show the cost of the spoken language in the corresponding epoch. The lower panels show the posterior differences between conditions along with the 95\% HDI credible interval.}
 	\label{posterior_con}
 	\end{figure}
 
-[N.B., I haven't completed this bit yet] To evaluate statistically the effect of generation (modulated by epoch) on cost, we fit the following Bayesian, hierarchical regression model
-    \begin{align*}
-     c_{i} & \sim \mathrm{Normal}(\mu, \sigma) \\
-       \mu & = \alpha + \beta_1 e_1 + \beta_2 e_2 + \beta_3 e_3 \\
-    \sigma & \sim \mathrm{Exponential}(1)
-    \end{align*}
+To evaluate statistically the effect of generation on cost across the two conditions, while also taking epoch into account, we fit the following Bayesian regression model:
+	\begin{align*}
+	   c_i & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+	 \mu_i & =    \alpha_{\mathrm{EPOCH}[i]} + \beta_{\mathrm{EPOCH}[i]} g_i \\
+	\sigma & \sim \mathrm{Exponential}(1)
+	\end{align*}
+where $g$ is an epoch-centered generation number (i.e., for Generations~1, 4, and~7, $g=-1$, for Generations~2, 5, and~8, $g=0$, and for Generations~3, 6, and~9, $g=1$). Overall, the model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by an epoch-specific linear model (i.e., each epoch has an independent intercept $\alpha$ and slope $\beta$). $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the full model specification, see the Supplementary Material.
 
-    \begin{align*}
-       c_i & \sim \mathrm{Normal}(\mu_i, \sigma) \\
-     \mu_i & =    \alpha_{\mathrm{CHAIN}[i]} + \beta_{\mathrm{CHAIN}[i]} g_i \\
-    \sigma & \sim \mathrm{Exponential}(1)
-    \end{align*}
-
-with the intercept and slope parameters fit by-chain. Essentially, $\beta_1$ represents the baseline effect of generation on cost, $\beta_2$ represents the additional effect during Epoch~II, and $\beta_3$ represents, again, the additional effect during Epoch~III. The results are shown in Fig.~\ref{posterior_con}. During the first epoch, the two conditions are identical. During the second epoch there's some difference. During the third epoch, there's a difference because Transmission-only plateaus and Communication continues. Are these slopes interpretable in any useful way?
+Fig.~\ref{posterior_con} shows the posterior estimates of the parameters of the statistical model (upper panels), along with the posterior differences between conditions (lower panels). The $\alpha$ parameters, which represent the middle generation of each epoch (Generations~2, 5, and 8 respectively), show a gradual divergence with the difference between conditions becoming more pronounced with each epoch. Nevertheless, even by Epoch~III, the posterior difference in intercepts, $\Delta(\alpha_3)$, does not conclusively exclude zero. Similarly, the $\beta$ parameters, which represent the slopes within each of the three epochs are not conclusively different between conditions, although there is some evidence to suggest that the slope is shallower in the communicative condition during Epoch~II (e.g., 89\% of the posterior probability mass on $\Delta(\beta_2)$ is below zero). In the case of $\beta_3$ the effect is reversed, with Transmission + Communication having a greater slope. Note, however, that this appears to be because cost has, by this stage, plateaued in the Transmission-only condition, so the increased homophony pressure introduced in Epoch~III has little effect in Transmission-only, but continues to exert an effect in Transmission + Communication.
 
 \subsection{Summary}
 
@@ -310,6 +309,36 @@ Nevertheless, many of the chains did eschew informativeness in favor of greater 
 	\item Conclusion: perhaps there are potentially some benefits to heterography.
 
 \end{itemize}
+
+\section{Appendix}
+
+\subsection{Model 1}
+
+	\begin{align*}
+	   c_i                   & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+	 \mu_i                   & = \alpha_{\mathrm{CHAIN}[i]} + \beta_{1,\mathrm{CHAIN}[i]} g_i + \beta_{2,\mathrm{CHAIN}[i]} g_i^2 + \beta_{3,\mathrm{CHAIN}[i]} g_i^3 \\
+	\sigma                   & \sim \mathrm{Exponential}(1) \\
+	\alpha_{\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\alpha_\mu, \alpha_\sigma) \\
+	\beta_{d,\mathrm{CHAIN}} & \sim \mathrm{Normal}(\beta_{d_\mu}, \beta_{d_\sigma}) \\
+	\alpha_\mu               & \sim \mathrm{Normal}(1, 1) \\
+	\alpha_\sigma            & \sim \mathrm{Exponential}(1) \\
+	\beta_{d_\mu}            & \sim \mathrm{Normal}(0, 1) \\
+	\beta_{d_\sigma}         & \sim \mathrm{Exponential}(1)
+	\end{align*}
+
+\subsection{Model 2}
+
+	\begin{align*}
+	   c_i                                 & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+	 \mu_i                                 & = \alpha_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} + \beta_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} g_i \\
+	\sigma                                 & \sim \mathrm{Exponential}(1) \\
+	\alpha_{\mathrm{EPOCH},\mathrm{CHAIN}} & \sim \mathrm{Normal}(\alpha_{\mathrm{EPOCH}_\mu}, \alpha_{\mathrm{EPOCH}_\sigma}) \\
+	\beta_{\mathrm{EPOCH},\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\beta_{\mathrm{EPOCH}_\mu}, \beta_{\mathrm{EPOCH}_\sigma}) \\
+	\alpha_{\mathrm{EPOCH}_\mu}            & \sim \mathrm{Normal}(0, 1) \\
+	\alpha_{\mathrm{EPOCH}_\sigma}         & \sim \mathrm{Exponential}(1) \\
+	\beta_{\mathrm{EPOCH}_\mu}             & \sim \mathrm{Normal}(0, 1) \\
+	\beta_{\mathrm{EPOCH}_\sigma}          & \sim \mathrm{Exponential}(1)
+	\end{align*}
 
 %~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%
 
