@@ -1,16 +1,18 @@
 from pathlib import Path
 import numpy as np
 import pymc as pm
-import arviz as az
-from utils import json_load
 
 
 ROOT = Path(__file__).parent.parent.resolve()
+DATA = ROOT / 'data'
 
 
-def construct_t_matrix(dataset, exp_id):
+def construct_t_matrix(data_path, experiment):
+	from utils import json_load
 	import voi
 	import matrix
+
+	dataset = json_load(data_path)
 
 	ref_systems = [
 		matrix.reference_systems['holistic'],
@@ -20,8 +22,7 @@ def construct_t_matrix(dataset, exp_id):
 	]
 
 	t = np.zeros((2, 9, 4), dtype=int)
-
-	for i, condition in enumerate([f'{exp_id}_lrn', f'{exp_id}_com']):
+	for i, condition in enumerate([f'{experiment}_lrn', f'{experiment}_com']):
 		for j, generation in enumerate(range(1, 10)):
 			for chain in dataset[condition]:
 				subject_a = chain[generation][0]
@@ -37,9 +38,11 @@ def construct_t_matrix(dataset, exp_id):
 
 if __name__ == '__main__':
 
-	dataset = json_load(ROOT / 'data' / 'exp3.json')
+	data_path = DATA / 'exp3.json'
+	experiment = 'con'
+	output_path = DATA / 'exp2_typo.netcdf'
 
-	t = construct_t_matrix(dataset, 'dif')
+	t = construct_t_matrix(data_path, experiment)
 
 	coords = {
 		'category': ['H', 'E', 'R', 'D'],
@@ -59,8 +62,5 @@ if __name__ == '__main__':
 		pm.Deterministic('diff_θ', θ[1, :, :] - θ[0, :, :], dims=('generation', 'category'))
 
 		# Sampling
-		trace = pm.sample(10000, tune=1000)
-		# trace.to_netcdf()
-
-		az.plot_posterior(trace, var_names=['diff_θ'], hdi_prob=0.9)
-		az.utils.plt.show()
+		trace = pm.sample(10000, tune=2000, chains=6, cores=6)
+		trace.to_netcdf(output_path)

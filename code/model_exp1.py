@@ -79,4 +79,4 @@ if __name__ == '__main__':
 		# Sampling
 
 		trace = pm.sample(10000, tune=2000, target_accept=0.99, chains=6, cores=6)
-		trace.to_netcdf(DATA / 'exp1.netcdf')
+		trace.to_netcdf(DATA / 'exp1_cost.netcdf')
