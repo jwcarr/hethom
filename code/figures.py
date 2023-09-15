@@ -22,6 +22,8 @@ COLORS = {
 	'con_com': ('darkorange', '#FFC680'),
 }
 
+HDI_PROB = 0.9
+
 
 def plot_transmission_chains(exp_data, condition, output_path):
 	import visualize
@@ -120,7 +122,7 @@ def plot_typological_distribution(exp_data, conditions, generations, output_path
 
 				samples = trace.posterior.diff_θ.sel(generation=generation, category=category).to_numpy().flatten()
 
-				az_hdi = az.hdi(samples, hdi_prob=0.9)
+				az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
 				lower, upper = float(az_hdi[0]), float(az_hdi[1])
 				mean = samples.mean()
 				
@@ -180,8 +182,8 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		pred_var = f'pred_{condition.split("_")[1]}'
 		
 		pred = [trace.posterior[pred_var+f'_{i}'].mean(('chain', 'draw')) for i in range(1, 10)]
-		pred_upper = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=0.9)[1]) for i in range(1, 10)]
-		pred_lower = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=0.9)[0]) for i in range(1, 10)]
+		pred_upper = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[1]) for i in range(1, 10)]
+		pred_lower = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[0]) for i in range(1, 10)]
 		
 		axis.fill_between(range(1, 10), pred_lower, pred_upper, color=color_light, zorder=1.5)
 		axis.plot(range(1, 10), pred, color=color, linewidth=4)
@@ -220,7 +222,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 			samples = trace.posterior[variable['var']].sel(epoch=variable['sub']).to_numpy().flatten()
 		else:
 			samples = trace.posterior[variable['var']].to_numpy().flatten()
-		az_hdi = az.hdi(samples, hdi_prob=0.9)
+		az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
 		lower, upper = float(az_hdi[0]), float(az_hdi[1])
 		x_min = lower - (upper - lower) / 2
 		x_max = upper + (upper - lower) / 2
@@ -254,7 +256,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		if variable['diff']:
 
 			samples_diff = trace.posterior[variable['diff']].to_numpy().flatten()
-			az_hdi = az.hdi(samples_diff, hdi_prob=0.9)
+			az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
 			mx = max(abs(float(az_hdi[0])), abs(float(az_hdi[1]))) * 1.5
 			lower, upper = float(az_hdi[0]), float(az_hdi[1])
 			x_diff_min = lower - (upper - lower) / 2
@@ -268,7 +270,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 			axis_diff.set_xlim(x_diff_min, x_diff_max)
 			# axis_diff.set_xlabel(f'Δ({variable["label"]})')
 
-			az_hdi = az.hdi(samples_diff, hdi_prob=0.9)
+			az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
 			draw_hdi(axis_diff, float(az_hdi[0]), float(az_hdi[1]), 0.9)
 
 		else:
@@ -290,6 +292,20 @@ def draw_hdi(axis, lower, upper, hdi_prob):
 	axis.text((lower + upper)/2, mn_y + padding, hdi_text, ha='center', color='MediumSeaGreen', fontsize=6)
 
 
+def model_summary(model_trace, variables=None, latex_table=False):
+	import pandas as pd
+	pd.set_option('display.width', 200)
+	pd.set_option('display.max_columns', None)
+	pd.set_option('display.max_rows', None)
+	trace = az.from_netcdf(model_trace)
+	table = az.summary(trace, hdi_prob=HDI_PROB, var_names=variables)
+	table = table[['mean', 'sd', 'hdi_5%', 'hdi_95%', 'ess_bulk', 'r_hat']]
+	if latex_table:
+		print(table.to_latex())
+	else:
+		print(table)
+
+
 def mass_below_zero(model_trace, variables):
 	trace = az.from_netcdf(model_trace)
 	for variable in variables:
@@ -301,12 +317,23 @@ def mass_below_zero(model_trace, variables):
 def convert_cost_to_p_comm_success(model_trace, variables):
 	trace = az.from_netcdf(model_trace)
 	for variable in variables:
-		posterior_samples = trace.posterior[variable['var']].sel(**variable['sub']).to_numpy().flatten()
+		posterior_samples = trace.posterior[variable['var']].sel(**variable.get('sub', {})).to_numpy().flatten()
 		transformed_samples = 2**(-posterior_samples)
-		az_hdi = az.hdi(transformed_samples, hdi_prob=0.9)
+		az_hdi = az.hdi(transformed_samples, hdi_prob=HDI_PROB)
 		lower, upper = float(az_hdi[0]), float(az_hdi[1])
 		mean = transformed_samples.mean()
 		print(variable, round(mean*100, 1), round(lower*100, 1), round(upper*100, 1))
+
+def diff_predictions(model_trace):
+	trace = az.from_netcdf(model_trace)
+	for generation in range(1, 10):
+		posterior_samples_lrn = trace.posterior[f'pred_lrn_{generation}'].to_numpy().flatten()
+		posterior_samples_com = trace.posterior[f'pred_com_{generation}'].to_numpy().flatten()
+		posterior_difference = posterior_samples_com - posterior_samples_lrn
+		az_hdi = az.hdi(posterior_difference, hdi_prob=HDI_PROB)
+		lower, upper = float(az_hdi[0]), float(az_hdi[1])
+		mean = posterior_difference.mean()
+		print(generation, round(mean, 2), round(lower, 2), round(upper, 2))
 
 
 if __name__ == '__main__':
@@ -385,6 +412,22 @@ if __name__ == '__main__':
 	# 	],
 	# )
 
+	# model_summary(
+	# 	model_trace=DATA / 'exp1_cost.netcdf',
+	# 	variables=['α_m', 'β1_m', 'β2_m', 'β3_m', 'σ', 'diff_α', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+	# 	latex_table=True,
+	# )
+
+	model_summary(
+		model_trace=DATA / 'exp2_cost.netcdf',
+		variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+		latex_table=True,
+	)
+
+	# mass_below_zero(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# 	variables=['diff_α3', 'diff_β2']
+	# )
 
 	# convert_cost_to_p_comm_success(
 	# 	model_trace=ROOT / 'data' / 'exp1_cost.netcdf',
@@ -394,7 +437,15 @@ if __name__ == '__main__':
 	# 	],
 	# )
 
-	# mass_below_zero(
-	# 	model_trace=DATA / 'exp2_cost.netcdf',
-	# 	variables=['diff_α3', 'diff_β2']
+	# convert_cost_to_p_comm_success(
+	# 	model_trace=ROOT / 'data' / 'exp2_cost.netcdf',
+	# 	variables=[
+	# 		{'var': 'pred_lrn_7'},
+	# 		{'var': 'pred_com_7'},
+	# 	],
 	# )
+
+	# diff_predictions(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# )
+
