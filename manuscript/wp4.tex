@@ -50,7 +50,9 @@ Is it possible, then, that heterography may be selected for in the cultural evol
 
 The second model, \textit{the conservation model}, explains heterography as the historical residue of sound change: Two (or more) spoken forms merge and become homophonous, but the original heterographic spellings are conserved in the orthography. In English, for example, the meat--meet merger ultimately resulted in Middle English /ɛ:/ (spelled <ea>) and /e:/ (spelled <ee>) merging into /i:/ in Early Modern English, although the spellings were never updated accordingly, thus giving rise to a set heterographic homophones that persist in present-day English: \textit{heal}--\textit{heel}, \textit{leak}--\textit{leek}, \textit{meat}--\textit{meet}, \textit{read}--\textit{reed}, \textit{sea}--\textit{see}, \textit{team}--\textit{teem}, \textit{weak}--\textit{week}, etc. Similarly, other historic sound changes have likely resulted in (or contributed to) pairs of words entering a state of heterography, such as the reduction of /kn/ into /n/ (\textit{knight}--\textit{night}, \textit{know}--\textit{no}, \textit{knot}--\textit{not}, etc.), the loss of /ç/ (\textit{eight}--\textit{ate}, \textit{right}--\textit{rite}, \textit{sight}--\textit{site}, etc.), and the merger of /ʍ/ into /w/ (\textit{whale}--\textit{wail}, \textit{which}--\textit{witch}, \textit{whine}--\textit{wine}, etc.).
 
-In this paper, we simulate the processes of differentiation and conservation experimentally using the experimental iterated learning paradigm \parencite{Kirby:2008, Kirby:2015}. In this paradigm, some linguistic system is passed along a \textit{transmission chain} of human participants, resulting in repeated cycles of learning and production. Participant $i$ in a transmission chain learns the system based on the linguistic output of participant $i-1$ and then produces new linguistic output for participant $i+1$ to learn from. Following several \textit{generations} of this process, the linguistic system can gradually adapt to the learning biases of the human learners, yielding interesting emergent phenomena, such as compositionality \parencite{Kirby:2008, Kirby:2015}, combinatoriality \parencite{Verhoef:2015}, category structure \parencite{Carr:2017, Carr:2020}, and regularization \parencite{Smith:2010, Ferdinand:2019}. Iterated learning has also been explored in a wide range of domains, such as gesture \parencite{}, population structure \parencite{}, and blah \parencite{}. For reviews, see \textcite{}.
+In this paper, we simulate the processes of differentiation and conservation experimentally using the experimental iterated learning paradigm \parencite{Kirby:2008}. In this paradigm, some linguistic system is passed along a \textit{transmission chain} of human participants, resulting in repeated cycles of learning and production. Participant $i$ in a transmission chain learns the system based on the linguistic output of participant $i-1$ and then produces new linguistic output for participant $i+1$ to learn from. Following several \textit{generations} of this process, the linguistic system can gradually adapt to the learning biases of the human learners, yielding emergent linguistic phenomena, such as compositionality \parencite{Kirby:2008, Kirby:2015, Beckner:2017}, combinatoriality \parencite{Verhoef:2015}, category structure \parencite{Carr:2017, Canini:2014, Silvey:2019}, and regularization \parencite{Smith:2010, Ferdinand:2019}. For reviews, see \textcite{Tamariz:2017, Kirby:2014, ScottPhillips:2010}.
+
+Bottleneck
 
 Preregistration: \url{https://aspredicted.org/YLG_CKD}
 
@@ -178,9 +180,11 @@ To evaluate this argument statistically, we fit the following regression model:
 	\sigma & \sim \mathrm{Exponential}(1),
 	\end{aligned}
 	\end{equation}
-where $g$ is a centered generation number (i.e., Generations~1 through 9 are represented as~$-4$ through $+4$). The model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by a third-degree polynomial model. The intercept $\alpha$ corresponds to Generation~5 (the central generation), and the $\beta$ parameters determine the shape of the polynomial. $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the full model specification, see the Supplementary Material. The posterior parameter estimates of the model are shown in Fig.~\ref{cost_dif}B. Essentially, the $\beta$ parameters do not differ substantially between conditions, but the $\alpha$ parameters do differ. This may be interpreted as the polynomial regression models adopting approximately the same shape but plateauing at different levels of cost. Additionally, we find that the $\alpha$ parameters themselves are lower than the cost of the spoken language (indicated by the dotted line), although it is unclear how this situation might unfold beyond Generation~9, especially in Transmission-only where the model predicts that cost will continue to increase further until all orthographic systems become aligned with the spoken language.
+where $g$ is a centered generation number (i.e., Generations~1 through 9 are represented as~$-4$ through $+4$). The model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by a third-degree polynomial model. The intercept $\alpha$ corresponds to Generation~5 (the central generation), and the $\beta$ parameters determine the shape of the polynomial. $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see the Supplementary Material.
 
-Finally, cost may be converted into the expected probability of communicative success with the equation $p=2^{-c}$. If we take Generation~5 as representative of the level at which cost plateaus, we find that estimated communicative success is $2^{-\alpha} = 40.8$\% (90\% HDI: 35.1--46.3) in Transmission-only and 50.6\% (90\% HDI: 45.9--54.9) in Transmission~+ Communication, representing an advantage of around 10 percentage points for the communicative condition. Overall, then, while the presence of the communicative pressure does appear to make a meaningful difference to the informativeness of the emergent systems, the levels of informativeness that were achieved were not especially impressive considering that an expressive system of suffix spellings would result in zero cost and a 100\% success rate in communicative use, while also being fairly easy to learn.
+The posterior parameter estimates of the model are shown in Fig.~\ref{cost_dif}B. Essentially, the $\beta$ parameters do not differ substantially between conditions, but the $\alpha$ parameters do differ. This may be interpreted as the polynomial regression models adopting approximately the same shape but plateauing at different levels of cost. Additionally, we find that the $\alpha$ parameters themselves are lower than the cost of the spoken language (indicated by the dotted line), although it is unclear how this situation might unfold beyond Generation~9, especially in Transmission-only where the model predicts that cost will continue to increase further until all orthographic systems become aligned with the spoken language.
+
+Finally, cost may be converted into the expected probability of communicative success with the equation $p=2^{-c}$. If we take Generation~5 as representative of the level at which cost plateaus, we find that estimated communicative success is $2^{-\alpha} = 40.8$\% (90\% HDI: [35.1, 46.3]) in Transmission-only and 50.6\% (90\% HDI: [45.9, 54.9]) in Transmission~+ Communication, representing an advantage of around 10 percentage points for the communicative condition. Overall, then, while the presence of the communicative pressure does appear to make a meaningful difference to the informativeness of the emergent systems, the levels of informativeness that were achieved were not especially impressive considering that an expressive system of suffix spellings would result in zero cost and a 100\% success rate in communicative use, while also being fairly easy to learn.
 
 \subsection{Summary}
 
@@ -188,7 +192,7 @@ Our first experiment tested whether informative, heterographic orthography could
 
 So, what was different about the present experiment? The primary difference was the presence of a spoken language that is decidedly \textit{not} informative about one of the dimensions. Indeed, the point of our experiment is to see whether orthography can resist phonology under sufficient pressure for informativeness. The presence of homophonous suffix forms acts as a cue to participants that the language itself does not mark color and that, therefore, the orthography should also not mark color. Faced with variation that could be conditioned on either dimension, learners appear to rule out the possibility that it might be conditioned on color, since such a hypothesis would be in conflict with the spoken language. As a result, any variation in spelling comes to be associated with particular stems, resulting in the emergence of redundant suffix spellings that serve no real purpose. A rough analog of this redundancy can be found in English in the spelling of /-ʃən/ (<cian>, <sion>, <ssion>, or <tion>), which is largely conditioned on the stem (e.g., \textit{magician}, \textit{expulsion}, \textit{transmission}, and \textit{station}). As we will see in the following experiment, it is indeed possible for participants to learn expressive systems, even under full homophony; the lack of such outcomes in the present experiment suggests a reluctance to defy the spoken language.
 
-It is particularly surprising that participants chose not to innovate novel systems in the communicative condition, despite their being a clear financial incentive to do so. Why might this be the case? Firstly, although innovation was not expressly forbidden, it was perhaps suggested by the overall structure of the experiment that participants were expected to use the orthography learned during training. Participants who adopted this interpretation may have feared diverging from what they had learned, either because they themselves wanted to avoid breaking the rules or because they did not know whether their partner would feel comfortable breaking the rules. Secondly, even if participants were willing to diverge, they were presented with an alignment problem: How should they decide what system of color marking to use when there is no channel through which they can agree a system with their partners? They can only use trial-and-error, and even then, the process is complicated by participants simultaneously adapting to each other's systems. These are dynamics that also exist in the real world, especially in writing where the reader and writer are separated in time and space. Deviation from spelling norms is often considered socially unacceptable or uneducated, even when novel spellings are advantageous (e.g., the non-standard spelling <thru> has struggled for decades to make any headway against <through>). Even under more progressive attitudes to change and innovation, the problem of achieving community buy-in remains, especially when the change is not imposed by top-down authority: If someone decided to start using the spelling <banque> to differentiate the financial institution from river banks, would anyone take that spelling seriously or even understand the distinction? Differentiation is hard in the written modality.
+It is particularly surprising that participants chose not to innovate novel systems in the communicative condition, despite their being a clear financial incentive to do so. Why might this be the case? Firstly, although innovation was not expressly forbidden in the instructions, it was perhaps suggested by the overall structure of the experiment that participants were expected to use the orthography learned during training. Participants who adopted this interpretation may have feared diverging from what they had learned, either because they themselves wanted to avoid breaking the rules or because they did not know whether their partner would feel comfortable breaking the rules. Secondly, even if participants were willing to diverge, they were presented with an alignment problem: How should they decide what system of color marking to use when there is no channel through which they can agree a system with their partners? They can only use trial-and-error, and even then, the process is complicated by participants simultaneously adapting to each other's systems. These are dynamics that also exist in the real world, especially in writing where the reader and writer are separated in time and space. Deviation from spelling norms is often considered socially unacceptable or uneducated, even when novel spellings are advantageous (e.g., the non-standard spelling <thru> has struggled for decades to make any headway against <through>). Even under more progressive attitudes to change and innovation, the problem of achieving community buy-in remains, especially when the change is not imposed by top-down authority: If someone decided to start using the spelling <banque> to differentiate the financial institution from river banks, would anyone take that spelling seriously or even understand the distinction? Differentiation is hard in the written modality.
 
 %~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%
 
@@ -239,7 +243,7 @@ Like Experiment~1, redundant systems are characteristic of the Transmission-only
 	\label{con_com}
 	\end{figure}
 
-The results for the Transmission~+ Communication condition (Chains~K--T) are shown in Fig.~\ref{con_com}. Like Transmission-only, the seed systems are mostly maintained faithfully through Epoch~I; perfectly in the case of Chains~K, L, N, O, and~J, and with some errors in the other five chains, although some of these errors are non-destructive changes, such as <x> being replaced with <sh> in R1. Several systems were then maintained through Epoch~II, notably Chains~O, P, R, and~T, and, in one case, through to the end of Epoch~III (Chain~R, albeit with the original <xei> spelling replaced with <shei>). The Chain~O system was preserved up to Generation~7, Chain~P was maintained up to Generation~7 and almost to Generation~9 with two modifications (<sha> instead of <xa> and <fa> instead of <fei>), and Chain~T was conserved faithfully up to Generation~8. The final form of Chain~Q was also fully expressive, albeit through a combination of both conservation and differentiation: The <fei> form was conserved from the seed orthography, the <oxie> spelling appears to derive from a misremembering of <xoe> (partial conservation), and the <fe> spelling, which began as a typo introduced in Q6, seems to have been generalized across the blue items in Q7, perhaps to differentiate them from the yellow items (indeed, the participant's partner made the same generalization). A similar case of differentiation might also have occurred in L9, where the <sol> spelling (originally a typo on <so>) was generalized across the yellow items, resulting in a semi-expressive system (although the participant's partner generalized the <sol> spelling across shape).
+The results for the Transmission~+ Communication condition (Chains~K--T) are shown in Fig.~\ref{con_com}. Like Transmission-only, the seed systems are mostly maintained faithfully through Epoch~I; perfectly in the case of Chains~K, L, N, O, and~T, and with some errors in the other five chains, although some of these errors are non-destructive changes, such as <x> being replaced with <sh> in R1. Several systems were then maintained through Epoch~II, notably Chains~O, P, R, and~T, and, in one case, through to the end of Epoch~III (Chain~R, albeit with the original <xei> spelling replaced with <shei>). The Chain~O system was preserved up to Generation~7, Chain~P was maintained up to Generation~7 and almost to Generation~9 with two modifications (<sha> instead of <xa> and <fa> instead of <fei>), and Chain~T was conserved faithfully up to Generation~8. The final form of Chain~Q was also fully expressive, albeit through a combination of both conservation and differentiation: The <fei> form was conserved from the seed orthography, the <oxie> spelling appears to derive from a misremembering of <xoe> (partial conservation), and the <fe> spelling, which began as a typo introduced in Q6, seems to have been generalized across the blue items in Q7, perhaps to differentiate them from the yellow items (indeed, the participant's partner made the same generalization). A similar case of differentiation might also have occurred in L9, where the <sol> spelling (originally a typo on <so>) was generalized across the yellow items, resulting in a semi-expressive system (although the participant's partner generalized the <sol> spelling across shape).
 
 Unlike Experiment~1, no participant pairs attempted to use English color letters and there was only one case of a pair using English color words (Generation~9 of Chain~K), although this pair was excluded and replaced (this generation was the only case in which the training input was fully degenerate, which would have resulted in a strong pressure to find a communicative solution in the form of English). Presumably, the general conservation of expressive spelling in Experiment~2 negated the need to innovate novel systems.
 
@@ -250,7 +254,7 @@ Unlike Experiment~1, no participant pairs attempted to use English color letters
 	\label{typ_dist_con}
 	\end{figure}
 
-Following the methods used in Experiment~1, Fig.~\ref{typ_dist_con} plots the typological distributions by generation and condition, and Fig.~\ref{typo_posteriors_con} plots the posterior differences between conditions. At Generation~0, all systems are expressive (by design), but the dominance of this typological category is gradually eroded over time, particularly during the second and third epochs once the spoken forms had become homophonous. Notably, however, the loss of expressive systems appears to be slower in Transmission~+ Communication, and redundant systems were also less popular in Transmission~+ Communication. Overall, there is a general trend toward degeneracy---or, in more positive terms, a trend toward transparently mirroring the spoken language---in both conditions, but this degeneration occurs more slowly under communicative pressure.
+Fig.~\ref{typ_dist_con} plots the typological distributions by generation and condition. Initially, all systems are expressive, but the dominance of this typological category is gradually eroded over time, particularly during the second and third epochs once the spoken forms had become homophonous. Notably, however, the loss of expressive systems appears to be slower in Transmission~+ Communication, and redundant systems were also less popular under communicative pressure. The clearest difference between conditions comes at Generation~7, at which point there were more expressive systems and fewer redundant systems in the communicative condition.
 
 	\begin{figure}
 	\makebox[\textwidth][c]{\includegraphics[]{figs/cost_con.eps}}
@@ -259,7 +263,7 @@ Following the methods used in Experiment~1, Fig.~\ref{typ_dist_con} plots the ty
 	\label{cost_con}
 	\end{figure}
 
-Fig.~\ref{cost_con}A plots communicative cost. The mean lines reveal a fairly clear effect of epoch. During Epoch~I, there is a shallow increase in cost with generation in both conditions. This represents a baseline level of noise when the spoken languages are fully informative. During Epoch~II, there is a steep rise in cost in the Transmission-only condition, but a relatively shallow rise in the Transmission~+ Communication condition. This difference is presumably due to the communicative pressure, which acts to slow down the rate at which the systems become transparent or redundant. In Epoch~III, the cost curve plateaus in the Transmission-only condition because the written languages have become sufficiently simple to be reliably learned and reproduced with little change. In Transmission~+ Communication, by contrast, the curve gets a little steeper because the systems still have some room to further simplify and the pressure to simplify has been ramped up.
+Fig.~\ref{cost_con}A plots communicative cost. During Epoch~I, there is a shallow increase in cost in both conditions, representing a baseline level of noise when the spoken language is fully informative. During Epoch~II, there is a steep rise in cost in the Transmission-only condition, but a comparatively shallow rise in the Transmission~+ Communication condition, presumably due to the communicative pressure, which slows the rate at which the systems become transparent or redundant. In Epoch~III, cost plateaus in the Transmission-only condition because the written languages have become sufficiently simple to be reliably learned and reproduced with little change. In Transmission~+ Communication, by contrast, cost continues to increase at much the same rate as in Epoch~II.
 
 To evaluate statistically the effect of generation on cost across the two conditions, while also taking epoch into account, we fit the following regression model:
 	\begin{equation}
@@ -269,22 +273,17 @@ To evaluate statistically the effect of generation on cost across the two condit
 	\sigma & \sim \mathrm{Exponential}(1),
 	\end{aligned}
 	\end{equation}
-where $g$ is an epoch-centered generation number (i.e., for Generations~1, 4, and~7, $g=-1$, for Generations~2, 5, and~8, $g=0$, and for Generations~3, 6, and~9, $g=1$). Overall, the model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by an epoch-specific linear model (i.e., each epoch has an independent intercept $\alpha$ and slope $\beta$). $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the full model specification, see the Supplementary Material.
+where $g$ is an epoch-centered generation number (i.e., for Generations~1, 4, and~7, $g=-1$, for Generations~2, 5, and~8, $g=0$, and for Generations~3, 6, and~9, $g=1$). Overall, the model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by an epoch-specific linear model (i.e., each epoch has an independent intercept $\alpha$ and slope $\beta$). $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see the Supplementary Material.
 
-The posterior parameter estimates are shown in Fig.~\ref{cost_con}B. The $\alpha$ parameters, which represent the middle generation of each epoch (Generations~2, 5, and 8 respectively), reveal the gradual divergence of the systems across the two conditions: By Epoch~III, the difference is xxx~bits (90\% HDI: [xxx, yyy]). Further, by Epoch~III, the orthographic systems in both conditions are more informative than the spoken language: xxx () in Transmission-only and xxx () in Transmission~+ Communication.
+The posterior parameter estimates are shown in Fig.~\ref{cost_con}B. The $\alpha$ parameters, which represent the middle generation of each epoch (Generations~2, 5, and 8 respectively), reveal the gradual divergence of the conditions: By Epoch~III, the difference is $-0.43$~bits (90\% HDI: [$-0.83$, $-0.04$]), meaning that the communicative condition is about half a bit more informative. Further, after Epoch~I, the orthographic systems tend to remain more informative than the spoken language, especially under the communicative condition. The $\beta$ parameters, which represent the slopes within each of the three epochs are not conclusively different between conditions, although there is some evidence to suggest that the slope is shallower in the communicative condition during Epoch~II (e.g., 89\% of the posterior probability mass on $\Delta(\beta_2)$ is below zero). In the case of $\beta_3$ the effect is reversed, with Transmission~+ Communication having a greater slope. Note, however, that this appears to be because cost has, by this stage, plateaued in the Transmission-only condition, so the increased homophony pressure introduced in Epoch~III has little effect in Transmission-only, but continues to exert an effect in Transmission~+ Communication.
 
-
- in terms of both (a) the difference between conditions, which becomes more pronounced with epoch, and the difference from the spoken language
-
-
-
-Similarly, the $\beta$ parameters, which represent the slopes within each of the three epochs are not conclusively different between conditions, although there is some evidence to suggest that the slope is shallower in the communicative condition during Epoch~II (e.g., 89\% of the posterior probability mass on $\Delta(\beta_2)$ is below zero). In the case of $\beta_3$ the effect is reversed, with Transmission~+ Communication having a greater slope. Note, however, that this appears to be because cost has, by this stage, plateaued in the Transmission-only condition, so the increased homophony pressure introduced in Epoch~III has little effect in Transmission-only, but continues to exert an effect in Transmission~+ Communication.
+At Generation~7---the point at which the two conditions differ most substantially---the difference in cost is $-0.6$~bits (90\% HDI: [$-1.04$, $-0.14$]). Converting cost to the probability of communicative success, we obtain an estimate of 46.5\% (90\% HDI: [38.1, 54.7]) in Transmission-only and 70.9\% (90\% HDI: [52.8, 87.8]) in Transmission~+ Communication, representing an advantage of around 25 percentage points for the communicative condition. The equivalent value for the spoken language at Generation~7 is 33.3\% (i.e., because in Epoch~III all three colors are expressed homophonously). Thus, not only are the two conditions different from each other, but also the two conditions are more informative than the spoken language, especially under communicative pressure.
 
 \subsection{Summary}
 
-Experiment~1 asked whether informative orthography can be \textit{created} under communicative pressure, and the evidence suggested that differentiation is hard to achieve in the written modality. In Experiment~2, by contrast, we asked whether informativeness can simply be \textit{maintained}, and preferentially so under communicative pressure. In the Transmission-only condition, only one chain remained expressive into Epoch~III, while in Transmission~+ Communication, five chains (O,~P, Q, R, and~T) remained expressive, albeit not necessarily all the way to Generation~9. The fact that expressive spellings persisted longer and across more chains under communicative pressure suggests that an informative orthography---despite running contrary to the spoken language---may be maintained when it serves a useful purpose.
+Experiment~1 asked whether an informative, heterographic orthography may be \textit{created} de~novo under homophony. Experiment~2, by contrast, asked whether an informative, heterographic orthography can simply be \textit{maintained}, even under the same levels of homophony encountered in Experiment~1. In the Transmission-only condition, only one chain (Chain~D) remained expressive into the fully homophonous Epoch~III, while in Transmission~+ Communication, five chains (O,~P, Q, R, and~T) remained expressive, albeit not necessarily all the way to Generation~9. The fact that expressive spellings persisted longer and across more chains under communicative pressure suggests that an informative orthography---despite running contrary to the spoken language---may be maintained when it serves a useful purpose. That being said, the fact that informativeness could, in~principle, be maintained without communicative pressure (most notably in Chain~D) suggests that a strong communicative pressure is not a strictly necessary condition for conservation: Learning alone can, to a limited extent, maintain informative heterography.
 
-Nevertheless, many of the chains did eschew informativeness in favor of greater transparency, and the inevitable consequence for all chains appears to be degeneracy in the long term. This is to be expected under Transmission-only, where the systems are adapting under a learnability pressure, but is somewhat surprising under the communicative condition. Participants were quite resistant to encoding into writing something that is not encoded in speech, even though they were---at the same time---content to conserve unusual suffix forms. This perhaps points to a general preference that readers might possess (at least, readers who are accustomed to an alphabetic writing system) in which the primary goal of writing is seen as representing speech---not representing meaning directly.
+Many of the chains did, however, eschew informativeness entirely in favor of greater transparency, and the inevitable long-term consequence for all chains appears to be degeneracy. This is to be expected under Transmission-only, where the systems are adapting under learnability pressure, but is somewhat surprising in Transmission~+ Communication. Our findings ultimately suggest that, in the long term, (alphabetic) orthographic systems favor the faithful encoding of speech over the useful encoding of meaning, although there may exist short windows of time during which informative heterography can resist the spoken language. This points to a preference that readers might possess---those accustomed to an alphabetic writing system, at least---in which the primary goal of writing is seen as representing speech, not representing meaning directly. Interestingly, although participants were quite resistant to encoding into writing something that is not encoded in speech, they were---at the same time---content to conserve spelling forms that were internally inconsistent and unusual. Tradition has a powerful
 
 %~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%
 
@@ -328,6 +327,44 @@ Nevertheless, many of the chains did eschew informativeness in favor of greater 
 	\end{aligned}
 	\end{equation}
 
+\begin{table}
+\begin{center}
+\begin{threeparttable}
+\caption{Experiment 1 posterior parameter estimates}
+\footnotesize
+\begin{tabular}{lrrrrrr}
+\toprule
+ &   Mean &     SD &  HDI (5\%) &  HDI (95\%) &  ESS &  $\hat{R}$ \\
+\midrule
+\multicolumn{7}{c}{Transmission-only} \\
+$\alpha_\mu$  &  1.298 &  0.123 &   1.098 &    1.498 &   55213 &    1.0 \\
+$\beta_{1_\mu}$ &  0.003 &  0.030 &  -0.048 &    0.051 &   19478 &    1.0 \\
+$\beta_{2_\mu}$ & -0.021 &  0.008 &  -0.034 &   -0.009 &   49158 &    1.0 \\
+$\beta_{3_\mu}$ &  0.007 &  0.002 &   0.004 &    0.010 &   13927 &    1.0 \\
+$\sigma$    &  0.192 &  0.020 &   0.160 &    0.225 &   26492 &    1.0 \\
+\midrule
+\multicolumn{7}{c}{Transmission + Communication} \\
+$\alpha_\mu$  &  0.985 &  0.079 &   0.854 &    1.112 &   22089 &    1.0 \\
+$\beta_{1_\mu}$ &  0.003 &  0.059 &  -0.091 &    0.100 &   19115 &    1.0 \\
+$\beta_{2_\mu}$ & -0.017 &  0.007 &  -0.030 &   -0.005 &   15955 &    1.0 \\
+$\beta_{3_\mu}$ &  0.004 &  0.004 &  -0.002 &    0.010 &   12773 &    1.0 \\
+$\sigma$    &  0.370 &  0.034 &   0.313 &    0.425 &   27848 &    1.0 \\
+\midrule
+\multicolumn{7}{c}{Difference} \\
+$\Delta(\alpha_\mu)$    & -0.313 &  0.147 &  -0.551 &   -0.072 &   38539 &    1.0 \\
+$\Delta(\beta_{1_\mu})$   & -0.000 &  0.066 &  -0.109 &    0.107 &   19664 &    1.0 \\
+$\Delta(\beta_{2_\mu})$   &  0.004 &  0.011 &  -0.014 &    0.022 &   24478 &    1.0 \\
+$\Delta(\beta_{3_\mu})$   & -0.003 &  0.004 &  -0.010 &    0.003 &   12532 &    1.0 \\
+$\Delta(\sigma)$    &  0.178 &  0.040 &   0.112 &    0.242 &   28446 &    1.0 \\
+\bottomrule
+\end{tabular}
+\label{exp1_parameter_estimates}
+\end{threeparttable}
+\end{center}
+\end{table}
+
+
+
 \subsection{Experiment 2 regression model}
 
 	\begin{equation}
@@ -343,6 +380,48 @@ Nevertheless, many of the chains did eschew informativeness in favor of greater 
 	\beta_{\mathrm{EPOCH}_\sigma}          & \sim \mathrm{Exponential}(1)
 	\end{aligned}
 	\end{equation}
+
+\begin{table}
+\begin{center}
+\begin{threeparttable}
+\caption{Experiment 2 posterior parameter estimates}
+\footnotesize
+\begin{tabular}{lrrrrrr}
+\toprule
+ &   Mean &     SD &  HDI (5\%) &  HDI (95\%) &  ESS &  $\hat{R}$ \\
+\midrule
+\multicolumn{7}{c}{Transmission-only} \\
+$\alpha_{1_\mu}$ &  0.099 &  0.066 &  -0.009 &    0.205 &   50911 &    1.0 \\
+$\alpha_{2_\mu}$ &  0.530 &  0.134 &   0.320 &    0.748 &   58969 &    1.0 \\
+$\alpha_{3_\mu}$ &  1.113 &  0.155 &   0.869 &    1.370 &   55884 &    1.0 \\
+$\beta_{1_\mu}$ &  0.048 &  0.044 &  -0.021 &    0.121 &   32489 &    1.0 \\
+$\beta_{2_\mu}$ &  0.216 &  0.074 &   0.096 &    0.336 &   47941 &    1.0 \\
+$\beta_{3_\mu}$ & -0.000 &  0.040 &  -0.065 &    0.065 &   32801 &    1.0 \\
+$\sigma$      &  0.145 &  0.018 &   0.116 &    0.173 &   15490 &    1.0 \\
+\midrule
+\multicolumn{7}{c}{Transmission + Communication} \\
+$\alpha_{1_\mu}$ &  0.052 &  0.042 &  -0.018 &    0.118 &   30904 &    1.0 \\
+$\alpha_{2_\mu}$ &  0.297 &  0.102 &   0.138 &    0.469 &   56334 &    1.0 \\
+$\alpha_{3_\mu}$ &  0.679 &  0.184 &   0.386 &    0.981 &   63206 &    1.0 \\
+$\beta_{1_\mu}$ &  0.033 &  0.044 &  -0.040 &    0.102 &   18241 &    1.0 \\
+$\beta_{2_\mu}$ &  0.093 &  0.073 &  -0.027 &    0.209 &   39754 &    1.0 \\
+$\beta_{3_\mu}$ &  0.167 &  0.121 &  -0.033 &    0.359 &   53767 &    1.0 \\
+$\sigma$      &  0.175 &  0.020 &   0.141 &    0.207 &   17902 &    1.0 \\
+\midrule
+\multicolumn{7}{c}{Difference} \\
+$\Delta(\alpha_{1_\mu})$     & -0.047 &  0.079 &  -0.178 &    0.077 &   40911 &    1.0 \\
+$\Delta(\alpha_{2_\mu})$     & -0.233 &  0.168 &  -0.504 &    0.040 &   55907 &    1.0 \\
+$\Delta(\alpha_{3_\mu})$     & -0.434 &  0.241 &  -0.825 &   -0.037 &   57860 &    1.0 \\
+$\Delta(\beta_{1_\mu})$     & -0.016 &  0.062 &  -0.118 &    0.084 &   23610 &    1.0 \\
+$\Delta(\beta_{2_\mu})$     & -0.124 &  0.105 &  -0.295 &    0.047 &   35386 &    1.0 \\
+$\Delta(\beta_{3_\mu})$     &  0.167 &  0.128 &  -0.045 &    0.371 &   50705 &    1.0 \\
+$\Delta(σ)$      &  0.030 &  0.027 &  -0.014 &    0.074 &   16452 &    1.0 \\
+\bottomrule
+\end{tabular}
+\label{exp2_parameter_estimates}
+\end{threeparttable}
+\end{center}
+\end{table}
 
 %~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%
 
