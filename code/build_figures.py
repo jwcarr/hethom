@@ -343,7 +343,7 @@ def diff_predictions(model_trace):
 
 if __name__ == '__main__':
 
-	exp_data = json_load(ROOT / 'data' / 'exp3.json')
+	exp_data = json_load(ROOT / 'data' / 'exp.json')
 
 	plot_transmission_chains(exp_data, 
 		condition='dif_lrn',

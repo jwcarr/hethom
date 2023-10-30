@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	chains = list(range(0, 10))
 	generations = list(range(1, 10))
 
-	df = pd.read_csv(DATA / 'exp3.csv')
+	df = pd.read_csv(DATA / 'exp.csv')
 
 	df_lrn = df[  (df['condition'].str.contains('^dif_lrn') & (df['generation'] >= min(generations)))  ]
 	cost_lrn = np.array(df_lrn['cost']).reshape((len(chains), len(generations))).T

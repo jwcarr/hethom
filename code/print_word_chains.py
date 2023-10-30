@@ -37,5 +37,5 @@ def print_word_chains(dataset):
 
 if __name__ == '__main__':
 
-	dataset = json_load(ROOT / 'data' / 'exp3.json')
+	dataset = json_load(ROOT / 'data' / 'exp.json')
 	print_word_chains(dataset)

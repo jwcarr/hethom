@@ -49,5 +49,5 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
-calculate_rates('exp3', 584, chain_filter=r'dif.+', with_bonus=False)
-calculate_rates('exp3', 584, chain_filter=r'con.+', with_bonus=False)
+calculate_rates('exp', 584, chain_filter=r'dif.+', with_bonus=False)
+calculate_rates('exp', 584, chain_filter=r'con.+', with_bonus=False)

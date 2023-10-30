@@ -298,10 +298,10 @@ def create_abridged_data_file(exp_id, conditions, n_chains):
 
 if __name__ == '__main__':
 
-	individual_check('exp3', 584)
+	individual_check('exp', 584)
 
-	iteration_check('exp3', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)
+	iteration_check('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)
 
-	communication_check('exp3', ['dif_com', 'con_com'], 10)
+	communication_check('exp', ['dif_com', 'con_com'], 10)
 
-	create_abridged_data_file('exp3', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)
+	create_abridged_data_file('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)

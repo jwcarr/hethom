@@ -78,7 +78,7 @@ def build_csv(exp_data_file, exp_csv_file):
 
 if __name__ == '__main__':
 
-	exp_json_file = ROOT / 'data' / 'exp3.json'
-	exp_csv_file = ROOT / 'data' / 'exp3.csv'
+	exp_json_file = ROOT / 'data' / 'exp.json'
+	exp_csv_file = ROOT / 'data' / 'exp.csv'
 
 	build_csv(exp_json_file, exp_csv_file)

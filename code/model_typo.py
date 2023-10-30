@@ -38,29 +38,31 @@ def construct_t_matrix(data_path, experiment):
 
 if __name__ == '__main__':
 
-	data_path = DATA / 'exp3.json'
-	experiment = 'con'
-	output_path = DATA / 'exp2_typo.netcdf'
+	data_path = DATA / 'exp.json'
 
-	t = construct_t_matrix(data_path, experiment)
+	for exp_i, condition in enumerate(['dif', 'con'], 1):
 
-	coords = {
-		'category': ['H', 'E', 'R', 'D'],
-		'generation': list(range(1, 10)),
-		'condition': ['lrn', 'com'],
-	}
+		output_path = DATA / f'exp{exp_i}_typo.netcdf'
 
-	with pm.Model(coords=coords) as model:
+		t = construct_t_matrix(data_path, condition)
 
-		# Prior
-		θ = pm.Dirichlet('θ', a=np.ones(4), dims=('condition', 'generation', 'category'))
+		coords = {
+			'category': ['H', 'E', 'R', 'D'],
+			'generation': list(range(1, 10)),
+			'condition': ['lrn', 'com'],
+		}
 
-		# Likelihood
-		pm.Multinomial('c', n=10, p=θ, observed=t, dims=('condition', 'generation', 'category'))
+		with pm.Model(coords=coords) as model:
 
-		# Deterministic parameter
-		pm.Deterministic('diff_θ', θ[1, :, :] - θ[0, :, :], dims=('generation', 'category'))
+			# Prior
+			θ = pm.Dirichlet('θ', a=np.ones(4), dims=('condition', 'generation', 'category'))
 
-		# Sampling
-		trace = pm.sample(10000, tune=2000, chains=6, cores=6)
-		trace.to_netcdf(output_path)
+			# Likelihood
+			pm.Multinomial('c', n=10, p=θ, observed=t, dims=('condition', 'generation', 'category'))
+
+			# Deterministic parameter
+			pm.Deterministic('diff_θ', θ[1, :, :] - θ[0, :, :], dims=('generation', 'category'))
+
+			# Sampling
+			trace = pm.sample(10000, tune=2000, chains=6, cores=6)
+			trace.to_netcdf(output_path)
