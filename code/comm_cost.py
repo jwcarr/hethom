@@ -18,7 +18,7 @@ def communicative_cost(lexicon, dims):
 	for meaning, signal in lexicon.items():
 		reverse_lexicon[signal].add(meaning)
 	U = product(*[range(n_values) for n_values in dims])
-	U_size = np.product(dims)
+	U_size = np.prod(dims)
 	return 1 / U_size * sum([-np.log2(1 / len(reverse_lexicon[lexicon[m]])) for m in U])
 
 

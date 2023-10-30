@@ -3,6 +3,7 @@ import numpy as np
 import arviz as az
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+import matplotlib.transforms as transforms
 from matplotlib import colormaps
 from utils import json_load
 
@@ -202,8 +203,10 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		axis.set_xticks(range(10))
 		axis.set_xticks(range(10))
 		axis.set_ylim(-0.15, 1.75)
+		
 		if i == 0:
 			axis.set_ylabel('Communicative cost (bits)')
+			axis.text(0.1, 1.0, '(A)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=8, font='Arial', weight='bold')
 		else:
 			axis.set_yticklabels([])
 
@@ -252,6 +255,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		if i == 0:
 			axis_post.set_ylabel('Posterior')
 			axis_diff.set_ylabel('Posterior difference')
+			axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
 
 		if variable['diff']:
 
@@ -357,7 +361,7 @@ if __name__ == '__main__':
 
 	# plot_transmission_chains(exp_data, 
 	# 	condition='con_com',
-	# 	output_path=FIGS / 'con_com.eps',
+	# 	output_path=FIGS / 'con_com.svg',
 	# )
 
 	# plot_typological_distribution(exp_data,
@@ -418,11 +422,11 @@ if __name__ == '__main__':
 	# 	latex_table=True,
 	# )
 
-	model_summary(
-		model_trace=DATA / 'exp2_cost.netcdf',
-		variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
-		latex_table=True,
-	)
+	# model_summary(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# 	variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+	# 	latex_table=True,
+	# )
 
 	# mass_below_zero(
 	# 	model_trace=DATA / 'exp2_cost.netcdf',
