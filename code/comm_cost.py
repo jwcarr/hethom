@@ -80,14 +80,8 @@ if __name__ == '__main__':
 		(2, 2): 'wopiqo',
 	}
 
-	print(communicative_cost(degenerate, (3, 3)))
-	print(communicative_cost(holistic, (3, 3)))
-	print(communicative_cost(redundant, (3, 3)))
-	print(communicative_cost(expressive, (3, 3)))
-	print(communicative_cost(semi_expressive, (3, 3)))
-
-
-	
-	
-
-
+	print('degenerate', communicative_cost(degenerate, (3, 3)))
+	print('holistic', communicative_cost(holistic, (3, 3)))
+	print('redundant', communicative_cost(redundant, (3, 3)))
+	print('expressive', communicative_cost(expressive, (3, 3)))
+	print('semi_expressive', communicative_cost(semi_expressive, (3, 3)))
