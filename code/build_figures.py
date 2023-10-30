@@ -27,7 +27,7 @@ HDI_PROB = 0.9
 
 
 def plot_transmission_chains(exp_data, condition, output_path):
-	import visualize
+	import draw_chains
 	import matrix
 
 	cons = ['f', 's', 'ʃ']
@@ -61,7 +61,7 @@ def plot_transmission_chains(exp_data, condition, output_path):
 		panel.append(chain_matrices)
 	show_sounds = True if 'con' in condition else False
 	chain_ids = A_to_J if 'lrn' in condition else K_to_T
-	visualize.draw_panel(output_path, panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
+	draw_chains.draw_panel(output_path, panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
 
 
 def plot_typological_distribution(exp_data, conditions, generations, output_path=None, figsize=(6, 2), probabilistic_classification=False, model_trace=None):
@@ -82,6 +82,7 @@ def plot_typological_distribution(exp_data, conditions, generations, output_path
 
 	distribution_colors = colormaps['viridis'](np.linspace(0, 1, 4))
 
+	fig, axes = plt.subplots(3, 9, figsize=figsize, sharex=True)
 	
 	for i, condition in enumerate(conditions):
 		for j, generation in enumerate(generations):
@@ -344,112 +345,112 @@ if __name__ == '__main__':
 
 	exp_data = json_load(ROOT / 'data' / 'exp3.json')
 
-	# plot_transmission_chains(exp_data, 
-	# 	condition='dif_lrn',
-	# 	output_path=FIGS / 'dif_lrn.eps',
-	# )
+	plot_transmission_chains(exp_data, 
+		condition='dif_lrn',
+		output_path=FIGS / 'dif_lrn.eps',
+	)
 
-	# plot_transmission_chains(exp_data, 
-	# 	condition='dif_com',
-	# 	output_path=FIGS / 'dif_com.eps',
-	# )
+	plot_transmission_chains(exp_data, 
+		condition='dif_com',
+		output_path=FIGS / 'dif_com.eps',
+	)
 
-	# plot_transmission_chains(exp_data, 
-	# 	condition='con_lrn',
-	# 	output_path=FIGS / 'con_lrn.eps',
-	# )
+	plot_transmission_chains(exp_data, 
+		condition='con_lrn',
+		output_path=FIGS / 'con_lrn.eps',
+	)
 
-	# plot_transmission_chains(exp_data, 
-	# 	condition='con_com',
-	# 	output_path=FIGS / 'con_com.svg',
-	# )
+	plot_transmission_chains(exp_data, 
+		condition='con_com',
+		output_path=FIGS / 'con_com.eps',
+	)
 
-	# plot_typological_distribution(exp_data,
-	# 	conditions=['dif_lrn', 'dif_com'],
-	# 	generations=list(range(1, 10)),
-	# 	output_path=FIGS / 'typ_dist_dif.eps',
-	# 	figsize=(6, 3),
-	# 	probabilistic_classification=False,
-	# 	model_trace=ROOT / 'data' / 'exp1_typo.netcdf'
-	# )
+	plot_typological_distribution(exp_data,
+		conditions=['dif_lrn', 'dif_com'],
+		generations=list(range(1, 10)),
+		output_path=FIGS / 'typ_dist_dif.eps',
+		figsize=(6, 3),
+		probabilistic_classification=False,
+		model_trace=ROOT / 'data' / 'exp1_typo.netcdf'
+	)
 
-	# plot_typological_distribution(exp_data,
-	# 	conditions=['con_lrn', 'con_com'], 
-	# 	generations=list(range(1, 10)),
-	# 	output_path=FIGS / 'typ_dist_con.eps',
-	# 	figsize=(6, 3 ),
-	# 	probabilistic_classification=False,
-	# 	model_trace=ROOT / 'data' / 'exp2_typo.netcdf'
-	# )
+	plot_typological_distribution(exp_data,
+		conditions=['con_lrn', 'con_com'], 
+		generations=list(range(1, 10)),
+		output_path=FIGS / 'typ_dist_con.eps',
+		figsize=(6, 3 ),
+		probabilistic_classification=False,
+		model_trace=ROOT / 'data' / 'exp2_typo.netcdf'
+	)
 
-	# plot_communicative_cost(exp_data,
-	# 	conditions=['dif_lrn', 'dif_com'],
-	# 	output_path=FIGS / 'cost_dif.eps',
-	# 	figsize=(6, 4.8),
-	# 	show_mean=False,
-	# 	add_jitter=True,
-	# 	model_trace=DATA / 'exp1_cost.netcdf',
-	# 	spoken_cost=[1.58496] * 10,
-	# 	variables=[
-	# 		{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
-	# 		{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
-	# 		{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
-	# 		{'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
-	# 	],
-	# )
+	plot_communicative_cost(exp_data,
+		conditions=['dif_lrn', 'dif_com'],
+		output_path=FIGS / 'cost_dif.eps',
+		figsize=(6, 4.8),
+		show_mean=False,
+		add_jitter=True,
+		model_trace=DATA / 'exp1_cost.netcdf',
+		spoken_cost=[1.58496] * 10,
+		variables=[
+			{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
+			{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
+			{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
+			{'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
+		],
+	)
 
-	# plot_communicative_cost(exp_data,
-	# 	conditions=['con_lrn', 'con_com'],
-	# 	output_path=FIGS / 'cost_con.eps',
-	# 	figsize=(6, 4.8),
-	# 	show_mean=False,
-	# 	add_jitter=True,
-	# 	model_trace=DATA / 'exp2_cost.netcdf',
-	# 	spoken_cost=[0, 0, 0, 0, 0.66666, 0.66666, 0.66666, 1.58496, 1.58496, 1.58496],
-	# 	variables=[
-	# 		{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
-	# 		{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
-	# 		{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
-	# 		{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
-	# 		{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
-	# 		{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
-	# 	],
-	# )
+	plot_communicative_cost(exp_data,
+		conditions=['con_lrn', 'con_com'],
+		output_path=FIGS / 'cost_con.eps',
+		figsize=(6, 4.8),
+		show_mean=False,
+		add_jitter=True,
+		model_trace=DATA / 'exp2_cost.netcdf',
+		spoken_cost=[0, 0, 0, 0, 0.66666, 0.66666, 0.66666, 1.58496, 1.58496, 1.58496],
+		variables=[
+			{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
+			{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
+			{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
+			{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
+			{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
+			{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
+		],
+	)
 
-	# model_summary(
-	# 	model_trace=DATA / 'exp1_cost.netcdf',
-	# 	variables=['α_m', 'β1_m', 'β2_m', 'β3_m', 'σ', 'diff_α', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
-	# 	latex_table=True,
-	# )
+	model_summary(
+		model_trace=DATA / 'exp1_cost.netcdf',
+		variables=['α_m', 'β1_m', 'β2_m', 'β3_m', 'σ', 'diff_α', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+		latex_table=True,
+	)
 
-	# model_summary(
-	# 	model_trace=DATA / 'exp2_cost.netcdf',
-	# 	variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
-	# 	latex_table=True,
-	# )
+	model_summary(
+		model_trace=DATA / 'exp2_cost.netcdf',
+		variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+		latex_table=True,
+	)
 
-	# mass_below_zero(
-	# 	model_trace=DATA / 'exp2_cost.netcdf',
-	# 	variables=['diff_α3', 'diff_β2']
-	# )
+	mass_below_zero(
+		model_trace=DATA / 'exp2_cost.netcdf',
+		variables=['diff_α3', 'diff_β2']
+	)
 
-	# convert_cost_to_p_comm_success(
-	# 	model_trace=ROOT / 'data' / 'exp1_cost.netcdf',
-	# 	variables=[
-	# 		{'var': 'α_m', 'sub': {'condition': 'lrn'}},
-	# 		{'var': 'α_m', 'sub': {'condition': 'com'}},
-	# 	],
-	# )
+	convert_cost_to_p_comm_success(
+		model_trace=ROOT / 'data' / 'exp1_cost.netcdf',
+		variables=[
+			{'var': 'α_m', 'sub': {'condition': 'lrn'}},
+			{'var': 'α_m', 'sub': {'condition': 'com'}},
+		],
+	)
 
-	# convert_cost_to_p_comm_success(
-	# 	model_trace=ROOT / 'data' / 'exp2_cost.netcdf',
-	# 	variables=[
-	# 		{'var': 'pred_lrn_7'},
-	# 		{'var': 'pred_com_7'},
-	# 	],
-	# )
+	convert_cost_to_p_comm_success(
+		model_trace=ROOT / 'data' / 'exp2_cost.netcdf',
+		variables=[
+			{'var': 'pred_lrn_7'},
+			{'var': 'pred_com_7'},
+		],
+	)
 
-	# diff_predictions(
-	# 	model_trace=DATA / 'exp2_cost.netcdf',
-	# )
+	diff_predictions(
+		model_trace=DATA / 'exp2_cost.netcdf',
+	)
 
