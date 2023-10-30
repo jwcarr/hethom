@@ -46,7 +46,7 @@ $ pip install -r requirements.txt
 ```
 
 
-Reproducable analysis pipeline
+Reproducible analysis pipeline
 ------------------------------
 
 All intermediate and processed data files are included in this repo, so it it not necessary to reproduce all these steps unless you need to. The raw data pulled down from the database is located in `data/exp/`. This raw data went through the following pipeline:
@@ -82,7 +82,7 @@ $ mongod -dbpath db
 In `server.js`, set `PROTOCOL` to `http` (easier for testing) or `https` (secure), and set `PORT` to an open port number (you may need to open this port in a firewall). If you are using https, you will also need to provide the paths to the relevant encryption keys. If everything is set up correctly, you should be able to launch the server:
 
 ```bash
-$ node server.js
+$ node server.js exp
 ```
 
 In a browser, navigate to:
@@ -91,17 +91,16 @@ In a browser, navigate to:
 protocol://domain:port/?PROLIFIC_PID=000000000000000000000001
 ```
 
-replacing protocol, domain, and port with the appropriate strings (e.g., `http://localhost:8080`). Initially, you will see "No task available", since no task has yet been added to the database. The tasks are defined in JSON files in `experiment/config/`. To launch one, run e.g.:
+replacing protocol, domain, and port with the appropriate strings (e.g., `http://localhost:8080?PROLIFIC_PID=000000000000000000000001`). Initially, you will not be able to get into the experiment, since no task has yet been added to the database. The tasks are defined in JSON files in `experiment/config/`. To launch one, run e.g.:
 
 ```bash
 python mission_control.py exp launch
 ```
 
-If the experiment has been launched successfully, it should be possible to get the status and open a chain:
+If the experiment has been launched successfully, it should be possible to get the current status:
 
 ```bash
 python mission_control.py exp status
-python mission_control.py exp open dif_lrn_0
 ```
 
-Once a chain is open, you should be able to refresh the browser and run the experiment. Check `mission_control.py` for other things you can do.
+You should now be able to access the experiment. Check `mission_control.py` for other things you can do.
