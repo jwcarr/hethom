@@ -17,9 +17,13 @@ tl;dr
 
 - If you just want to get your hands on a CSV file, check `data/exp.csv`
 
+- If you want to look at the statistical models, check `code/model_exp1.py` and `code/model_exp2.py`
+
+- If you want to see how the figures were made, check `code/build_figures.py`
+
 - If you want to inspect the experiment code, check `experiment/server.js` and `experiment/client/client.js`
 
-- If you want to look at the statistical models, check `code/model_exp1.py` and `code/model_exp2.py`
+- If you want to listen to the spoken word forms, check `experiment/client/words/`
 
 
 Replicating the analyses
@@ -94,13 +98,13 @@ protocol://domain:port/?PROLIFIC_PID=000000000000000000000001
 replacing protocol, domain, and port with the appropriate strings (e.g., `http://localhost:8080?PROLIFIC_PID=000000000000000000000001`). Initially, you will not be able to get into the experiment, since no task has yet been added to the database. The tasks are defined in JSON files in `experiment/config/`. To launch one, run e.g.:
 
 ```bash
-python mission_control.py exp launch
+$ python mission_control.py exp launch
 ```
 
 If the experiment has been launched successfully, it should be possible to get the current status:
 
 ```bash
-python mission_control.py exp status
+$ python mission_control.py exp status
 ```
 
 You should now be able to access the experiment. Check `mission_control.py` for other things you can do.
