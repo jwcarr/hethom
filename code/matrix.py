@@ -143,4 +143,4 @@ if __name__ == '__main__':
 		color_palette = [color[:3] for color in color_palette]
 		np.random.shuffle(color_palette)
 
-		draw(system, color_palette, f'/Users/jon/Desktop/{name}.pdf')
+		draw(system, color_palette, f'../plots/{name}.pdf')
