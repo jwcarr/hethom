@@ -55,6 +55,7 @@ DATA_DIR = Path('../data')
 DOMAIN = 'localhost'
 PORT = 27017
 PROLIFIC_CREDENTIALS_FILE = Path.home() / '.prolific_credentials.json'
+PROLIFIC_ENDPOINT = 'https://joncarr.net:8080/prolific'
 
 DB = MongoClient(DOMAIN, PORT)
 
@@ -608,7 +609,7 @@ def create_subscription():
 	response = requests.post(
 		'https://api.prolific.co/api/v1/hooks/subscriptions/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
-		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': PROLIFIC_ENDPOINT},
 	)
 	subscription_id = response.json()['id']
 	x_hook_secret = response.headers['X-Hook-Secret']
@@ -617,7 +618,7 @@ def create_subscription():
 	response = requests.post(
 		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
-		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': 'https://joncarr.net:8080/prolific'},
+		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': PROLIFIC_ENDPOINT},
 	)
 	print(response)
 
