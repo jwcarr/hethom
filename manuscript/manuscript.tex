@@ -16,21 +16,13 @@
 
 \shorttitle{Why do languages tolerate heterography?}
 
-% PREPRINT VERSION
-\authorsnames{Jon W. Carr, Kathleen Rastle}
+\authorsnames{Anonymous}
 
-\authorsaffiliations{{Department of Psychology, Royal Holloway, University of London, England}}
-
-\authornote{\textbf{Cite as:} Carr, J.\@ W., \& Rastle, K.\@ (2023). Why do languages tolerate heterography? An experimental investigation into the emergence of informative orthography. \textit{OSF Preprints}. Version~1. https://doi.org/10.31219/osf.io/r5n3g}
-
-% SUBMISSION VERSION
-% \authorsnames{Anonymous}
-
-% \authorsaffiliations{{Anonymous}}
+\authorsaffiliations{{Anonymous}}
 
 \abstract{It is widely acknowledged that opaque orthographies place additional demands on learning, often requiring many years to acquire fully. It is less widely recognized, however, that such orthographies may offer certain benefits in the context of reading. For example, heterographic homophones (e.g., <knight> vs. <night>) impose additional costs in learning but reduce ambiguity in reading. If correct, this would suggest that heterography---and therefore orthographic opacity---might sometimes be selected for in the evolution of writing systems, despite the cost in learning. We investigate this hypothesis by simulating the evolution of orthography as it is transmitted from one generation to the next, both with and without a communicative pressure for avoiding ambiguity. In addition, we consider two mechanisms by which informative heterography might be selected for: \textit{differentiation}, in which new spellings are created to differentiate words that are homophonous in speech (e.g., <lite> from <light> to signal low-fat), and \textit{conservation}, in which heterography arises as a byproduct of sound change (e.g., <meat> vs. <meet> resulting from the /ɛː/–/eː/ merger in the Great Vowel Shift). Under pressure from learning alone, orthographic systems become transparent, but when combined with communicative pressure, these systems can become informative, diverging from the spoken language in order to express meaning directly.}
 
-\keywords{communication; cultural evolution; informativity; iterated learning; language evolution; orthography; spelling; sound change; writing}
+\keywords{communication; iterated learning; language evolution; orthography; reading; writing}
 
 \begin{document}
 
@@ -64,7 +56,7 @@ Our aims in this paper are twofold. First, we test the idea that heterography em
 
 We therefore turn to a different approach. Here we experimentally simulate the processes of differentiation and conservation using the experimental iterated learning paradigm \parencite{Kirby:2008}. In this paradigm, an artificially constructed language (or so-called ``alien language'') is passed along a \textit{transmission chain} of human participants, simulating what happens during the cultural transmission and evolution of language. Participant $i$ in a transmission chain learns the system based on the linguistic output of participant $i-1$ and, subsequently, produces new linguistic output for participant $i+1$ to learn from, although the participants themselves are not aware of this generational structure. It has been demonstrated in a wide variety of studies that, after several generations of cultural transmission, artificial languages can gradually adapt to the biases of the human learners and the environments in which they are used, yielding emergent linguistic phenomena, such as compositionality \parencite{Beckner:2017, Kirby:2008, Kirby:2015}, combinatoriality \parencite{Verhoef:2015}, semantic category structure \parencite{Carr:2017, Canini:2014, Silvey:2019}, regularization \parencite{Ferdinand:2019, Smith:2010}, and argument marking \parencite{Motamedi:2021}, among many other things. For reviews, see \textcite{Bailes:2023, Kirby:2014, Kirby:2017, Smith:2022, Tamariz:2017}.
 
-\textcite{Kirby:2008} described the first experimental application of the iterated learning framework (which had previously been confined to computational modeling), showing that compositional structure---a systematic relationship between recombinant linguistic units and meaning---could spontaneously emerge under a \textit{bottleneck on transmission}. This ``bottleneck'' defines a limit on the amount of information that can flow from one generation to the next \parencite{Brighton:2002}. Under a tight bottleneck, where little data passes from one generation to the next, the learner must perform more generalization from less input, such that the cognitive biases that the learner brings to the table become more important in shaping the structure of the emergent language. Generalization from limited input is a big driver behind systematic structure in the language as a whole, since human learners tend to generalize in ways that increase the simplicity (i.e., systematicity) of the system, albeit unconsciously \parencite{Culbertson:2016}. However, left unchecked, this bias for simplicity would ultimately result in the emergence of maximally simple, degenerate languages. \textcite{Kirby:2015} therefore extended the framework by including a communicative task; instead of each generation consisting of a single participant, each generation now consisted of a pair of participants engaged in a shared task requiring communicative precision. Crucially, this communicative component prevented the artificial languages from degenerating; instead, the languages find a tradeoff between simplicity on the one hand and informativeness on the other, just as in natural language \parencite{Mollica:2021, KempRegier:2012, Kemp:2018, Regier:2015, Zaslavsky:2018}. We follow this experimental approach in order to compare what happens to orthography when a pressure for informativeness \textit{is} and \textit{is~not} present. [KATHY: I feel that someone could wrongly think that we're just replicating what's already been done but with spelling.  Is there a way to remind readers here that we're looking at what pressures a spelling system to diverge from spoken language?  the key in our experiment is that diverging from spoken language increases pressure on learning.]
+\textcite{Kirby:2008} described the first experimental application of the iterated learning framework (which had previously been confined to computational modeling), showing that compositional structure---a systematic relationship between recombinant linguistic units and meaning---could spontaneously emerge under a \textit{bottleneck on transmission}. This ``bottleneck'' defines a limit on the amount of information that can flow from one generation to the next \parencite{Brighton:2002}. Under a tight bottleneck, where little data passes from one generation to the next, the learner must perform more generalization from less input, such that the cognitive biases that the learner brings to the table become more important in shaping the structure of the emergent language. Generalization from limited input is a major driver of systematic structure in the language as a whole, since human learners tend to generalize in ways that increase the simplicity (i.e., systematicity) of the system, albeit unconsciously \parencite{Culbertson:2016}. However, left unchecked, this bias for simplicity would ultimately result in the emergence of maximally simple, degenerate languages. \textcite{Kirby:2015} therefore extended the framework by including a communicative task; instead of each generation consisting of a single participant, each generation now consisted of a pair of participants engaged in a shared task requiring communicative precision. Crucially, this communicative component prevented the artificial languages from degenerating; instead, the languages find a tradeoff between simplicity on the one hand and informativeness on the other, just as in natural language \parencite{Mollica:2021, KempRegier:2012, Kemp:2018, Regier:2015, Zaslavsky:2018}.
 
 Our paper reports the results of two experiments---focusing on the differentiation and conservation models respectively---with the goal of demonstrating that functional heterography arises preferentially under a communicative need for disambiguation. All data and code is available from \url{https://osf.io/7auw6/?view_only=f8c2498b4add41839f51bdbefa03392e}. Both experiments were preregistered at \url{https://aspredicted.org/YDV_MXV}. Although we did not specify a precise statistical protocol (due to the more exploratory nature of our experiments), our preregistration does cover hypotheses, conditions, measured variables, sample size, and exclusion criteria.
 
@@ -72,7 +64,7 @@ Our paper reports the results of two experiments---focusing on the differentiati
 
 \section{Experiment 1}
 
-Our first experiment tests the ability of the differentiation model to explain the emergence of informativeness in orthography [KATHY: Possible to remind readers that we mean divergence from spoken language i.e. making the orthography more complex?] (i.e., in the face of homophony). We had two main hypotheses:
+Our first experiment tests the ability of the differentiation model to explain the emergence of informative orthography. Can variant spellings become conditioned on meaning, such that the written form of the language diverges from the spoken form in a way that is expressive, despite the extra cost in learning? We had two main hypotheses:
 \begin{enumerate}
 	\item Under pressure from learning alone, we expect to see the emergence of an increasingly transparent orthography.
 	\item Under additional pressure for disambiguation, we expect to see greater use of differentiated, non-transparent spellings.
@@ -194,7 +186,7 @@ To evaluate this argument statistically, we fit the following regression model:
 	\sigma & \sim \mathrm{Exponential}(1),
 	\end{aligned}
 	\end{equation}
-where $g$ is a centered generation number (i.e., Generations~1 through 9 are represented as~$-4$ through $+4$). The model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by a third-degree polynomial model. The intercept $\alpha$ corresponds to Generation~5 (the central generation), and the $\beta$ parameters determine the shape of the polynomial. $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see the Supplementary Material.
+where $g$ is a centered generation number (i.e., Generations~1 through 9 are represented as~$-4$ through $+4$). The model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by a third-degree polynomial model. The intercept $\alpha$ corresponds to Generation~5 (the central generation), and the $\beta$ parameters determine the shape of the polynomial. $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see Appendix~A.
 
 The posterior parameter estimates of the model are shown in Fig.~\ref{cost_dif}B. Essentially, the $\beta$ parameters do not differ substantially between conditions, but the $\alpha$ parameters do differ. This may be interpreted as the polynomial regression models adopting approximately the same shape but plateauing at different levels of cost. Additionally, we find that the $\alpha$ parameters themselves are lower than the cost of the spoken language (indicated by the dotted line), although it is unclear how this situation might unfold beyond Generation~9, especially in Transmission-only where the model predicts that cost will continue to increase further until all orthographic systems become aligned with the spoken language.
 
@@ -291,7 +283,7 @@ To evaluate statistically the effect of generation on cost across the two condit
 	\sigma & \sim \mathrm{Exponential}(1),
 	\end{aligned}
 	\end{equation}
-where $g$ is an epoch-centered generation number (i.e., for Generations~1, 4, and~7, $g=-1$, for Generations~2, 5, and~8, $g=0$, and for Generations~3, 6, and~9, $g=1$). Overall, the model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by an epoch-specific linear model (i.e., each epoch has an independent intercept $\alpha$ and slope $\beta$). $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see the Supplementary Material.
+where $g$ is an epoch-centered generation number (i.e., for Generations~1, 4, and~7, $g=-1$, for Generations~2, 5, and~8, $g=0$, and for Generations~3, 6, and~9, $g=1$). Overall, the model states that the cost~$c$ of participant~$i$'s output system is drawn from a normal distribution, the mean of which is determined by an epoch-specific linear model (i.e., each epoch has an independent intercept $\alpha$ and slope $\beta$). $\sigma$ represents an across-participant noise term and is given a regularizing exponential prior. The priors on $\alpha$ and $\beta$ are not shown here, for brevity, but these parameters are estimated separately for each chain and pooled into global estimates with the use of Normal hyperpriors. For the complete model specification, see Appendix~B.
 
 The posterior parameter estimates are shown in Fig.~\ref{cost_con}B. The $\alpha$ parameters, which represent the middle generation of each epoch (Generations~2, 5, and 8 respectively), reveal the gradual divergence of the conditions: By Epoch~III, the difference is $-0.43$~bits (90\% HDI: [$-0.83$, $-0.04$]), meaning that the communicative condition is about half a bit more informative. Further, after Epoch~I, the orthographic systems tend to remain more informative than the spoken language, especially under the communicative condition. The $\beta$ parameters, which represent the slopes within each of the three epochs are not conclusively different between conditions, although there is some evidence to suggest that the slope is shallower in the communicative condition during Epoch~II (e.g., 89\% of the posterior probability mass on $\Delta(\beta_2)$ is below zero). In the case of $\beta_3$ the effect is reversed, with Transmission~+ Communication having a greater slope. Note, however, that this appears to be because cost has, by this stage, plateaued in the Transmission-only condition, so the increased homophony pressure introduced in Epoch~III has little effect in Transmission-only, but continues to exert an effect in Transmission~+ Communication.
 
@@ -317,13 +309,11 @@ Although the emergent orthographies tended to be slightly more informative under
 
 In Experiment~2, we tested a different mechanism by which orthographies may end up possessing additional informativeness beyond that of the spoken form of the language: conservation. Under this mechanism, an expressive orthography does not emerge to fulfill an adaptive role but rather it is simply maintained from an earlier form of the spoken language that was expressive. This parallels what we know about many of the heterographic homophones in English, which arose as byproducts of either the preservation of etymology or phonological changes that were never assimilated into the written forms \parencite{Berg:2021}. That is not to say, necessarily, that this form of heterography is entirely an accident of history; rather, such spellings may have been preserved, at least in part, precisely because of the informativeness they provide in reading. If correct, this would predict that expressive orthography should be preserved preferentially under communicative pressure.
 
-[JON: something about the cultural ratchet. with each successive sound change, new heterography appears, but once it's present, it's hard to let go of it. Thus, the informativeness of the writing system ratchets up with successive sound changes.]
-
-Our findings did indeed show that informative heterography may be conserved more frequently and for longer periods under communicative pressure for disambiguation. There are two important caveats, however. First, we found that cultural transmission alone---that is, blind learning and reproduction---will result in at~least some conservation, not only in form but also in the conditioning of form on meaning. Cases such as Chain~D correspond to the ``accident of history'' explanation: Expressive orthography is preserved not because it serves any useful purpose (recall that in Transmission-only there is no functional need for the language to be informative), but because participants are simply reproducing what they learned, and what they learned has not (yet) placed a significant enough burden on learning for simplification to kick~in. The additional level of conservation that occurs in Transmission~+ Communication corresponds to the exaptation/repurposing explanation; that is, expressive orthography that originally served one purpose (representing speech) is maintained for a new purpose (representing meaning directly). The second caveat is that, in the long term, it appears that transparency will ultimately win the day, even under communicative pressure. Chain~O, for example, went from expressive to degenerate in two generations under full homophony pressure, and it seems likely [KATHY: on what basis?] that all chains will ultimately undergo the same transformation eventually. Informative heterography that arises through conservation is but a temporary oasis on the march toward transparency.
+Our findings did indeed show that informative heterography may be conserved more frequently and for longer periods under communicative pressure for disambiguation. There are two important caveats, however. First, we found that cultural transmission alone---that is, blind learning and reproduction---will result in at~least some conservation, not only in form but also in the conditioning of form on meaning. Cases such as Chain~D correspond to the ``accident of history'' explanation: Expressive orthography is preserved not because it serves any useful purpose (recall that in Transmission-only there is no functional need for the language to be informative), but because participants are simply reproducing what they learned, and what they learned has not (yet) placed a significant enough burden on learning for simplification to kick~in. The additional level of conservation that occurs in Transmission~+ Communication corresponds to the repurposing explanation; that is, expressive orthography that originally served one purpose (representing speech) is maintained for a new purpose (representing meaning directly). The second caveat is that, in the long term, it appears that transparency will ultimately win the day, even under communicative pressure. Chain~O, for example, went from expressive to degenerate in two generations under full homophony pressure, and based on the trajectories of the communicative cost curves (Fig.~\ref{cost_con}), it seems likely that all chains will ultimately undergo the same transformation eventually. Informative heterography that arises through conservation is but a temporary oasis on the march toward transparency.
 
 It is important to note, at this point, that the two experiments cannot be compared directly, although we made every effort to keep the two as close as possible. Fundamentally, participants---or more generally, the evolutionary systems---are being asked to do something quite different across the two experiments: create in Experiment~1 and maintain in Experiment~2. The demands of these two tasks are different, and one task or the other may be better suited to our experimental paradigm. Similarly, we cannot draw direct conclusions from the relative strength of the results across the two experiments. For example, although the difference between conditions was perhaps a little more dramatic in Experiment~1, this does not imply that the differentiation model is a better candidate mechanism; it suggests, rather, that communicative pressure is more essential for the differentiation mechanism to operate. Nevertheless, our experiments do serve to highlight the comparative difficulties involved in differentiation vs.\@ conservation. For differentiation to operate, participants must overcome several challenging hurdles: They must grasp the mechanics of the game and its incentive structure (the apprehension problem), they must be able to put themselves in the shoes of their partners (the theory of mind problem), they must be capable of devising a linguistic solution (the innovation problem), they must be able to align with an interlocutor separated in time and space (the alignment problem), and they must be prepared to rebel against their input, overcoming various social stigmas in the process (the social problem). In~comparison, the conservation of an expressive orthography is plain~sailing. The only real hurdle is that the system of non-transparent spellings must be sufficiently learnable (the learnability problem). In general, it might be said that the maintenance of an optimal system is easier than the construction of a new one from scratch \parencite[see also][]{Smith:2002}.
 
-These conclusions must be interpreted within the limitations of these experiments, which are, after all, highly simplified simulacra of real-world processes. Besides the general scaling-down of orthography, phonology, morphology, and semantics to an experimentally tractable test case, one notable issue we faced was how to induce pressure for informativeness in the written modality. We follow a large body of recent studies by using a real-time communication game \parencite[e.g.,][]{Carr:2017, Kanwal:2017, Kirby:2015, Raviv:2018, Saldana:2019, Silvey:2019, Winters:2015}, but such games are not very representative of the dynamics involved in asynchronous written communication \parencite[although see][for some approaches]{Winters:2019}. That being said, much written communication in the present day is indeed synchronous (e.g., text messaging), potentially allowing the dynamics typically associated with synchronous communication, such as repair, stress, and emotion, to play a role in the development of written forms of the language \parencite{Lupyan:2016}.
+These conclusions must be interpreted within the limitations of these experiments, which are, after all, highly simplified simulacra of real-world processes. Besides the general scaling-down of orthography, phonology, morphology, and semantics to an experimentally tractable test case, one notable issue we faced was how to induce pressure for informativeness in the written modality. We follow a large body of recent studies by using a real-time communication game \parencite[e.g.,][]{Carr:2017, Kanwal:2017, Kirby:2015, Raviv:2018, Saldana:2019, Silvey:2019, Winters:2015}, but such games are not very representative of the dynamics involved in asynchronous written communication \parencite[although see][for some approaches]{Winters:2019}. That being said, much written communication in the present day is indeed synchronous (e.g., text messaging), potentially allowing the dynamics typically associated with synchronous communication, such as repair, to play a role in the development of written forms of the language \parencite{Lupyan:2016}.
 
 Another limitation of this work is the extent to which lexical disambiguation really matters in real-world reading scenarios, since the syntactic and semantic context usually makes the meaning clear. If \textit{knight} and \textit{night} were spelled the same way, it is hard to imagine a context in which they might be confused. That being said, cultural transmission has been argued to have a strong amplifying effect on small cognitive biases \parencite{Thompson:2016}, so perhaps even a minor benefit in reading could have a large effect on orthography. An important issue in pursuit of this hypothesis will be to better understand the mechanism by which the biases of readers might place selective pressure on a writing system that is primarily shaped by the needs and preferences of writers.
 
@@ -339,7 +329,7 @@ As a final note, heterography is often derided as a source of unnecessary comple
 
 \section{Acknowledgments}
 
-\noindent This work was funded by a Leverhulme Trust Research Project Grant (grant number: RPG-2020-034) awarded to K.R.
+\noindent This work was funded by a Leverhulme Trust Research Project Grant (grant number: RPG-2020-034).
 
 \printbibliography
 
@@ -347,43 +337,25 @@ As a final note, heterography is often derided as a source of unnecessary comple
 
 \clearpage
 
-\section{Appendix}
+\appendix
 
-\subsection{Experiment 1 regression model}
+\section{}
 
-	\begin{equation}
-	\begin{aligned}
-	   c_i                   & \sim \mathrm{Normal}(\mu_i, \sigma) \\
-	 \mu_i                   & = \alpha_{\mathrm{CHAIN}[i]} + \beta_{1,\mathrm{CHAIN}[i]} g_i + \beta_{2,\mathrm{CHAIN}[i]} g_i^2 + \beta_{3,\mathrm{CHAIN}[i]} g_i^3 \\
-	\sigma                   & \sim \mathrm{Exponential}(1) \\
-	\alpha_{\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\alpha_\mu, \alpha_\sigma) \\
-	\beta_{j,\mathrm{CHAIN}} & \sim \mathrm{Normal}(\beta_{j_\mu}, \beta_{j_\sigma}) \\
-	\alpha_\mu               & \sim \mathrm{Normal}(1, 1) \\
-	\alpha_\sigma            & \sim \mathrm{Exponential}(1) \\
-	\beta_{j_\mu}            & \sim \mathrm{Normal}(0, 1) \\
-	\beta_{j_\sigma}         & \sim \mathrm{Exponential}(1)
-	\end{aligned}
-	\end{equation}
+\begin{equation}
+\begin{aligned}
+   c_i                   & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+ \mu_i                   & = \alpha_{\mathrm{CHAIN}[i]} + \beta_{1,\mathrm{CHAIN}[i]} g_i + \beta_{2,\mathrm{CHAIN}[i]} g_i^2 + \beta_{3,\mathrm{CHAIN}[i]} g_i^3 \\
+\sigma                   & \sim \mathrm{Exponential}(1) \\
+\alpha_{\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\alpha_\mu, \alpha_\sigma) \\
+\beta_{j,\mathrm{CHAIN}} & \sim \mathrm{Normal}(\beta_{j_\mu}, \beta_{j_\sigma}) \\
+\alpha_\mu               & \sim \mathrm{Normal}(1, 1) \\
+\alpha_\sigma            & \sim \mathrm{Exponential}(1) \\
+\beta_{j_\mu}            & \sim \mathrm{Normal}(0, 1) \\
+\beta_{j_\sigma}         & \sim \mathrm{Exponential}(1)
+\end{aligned}
+\end{equation}
 
-\subsection{Experiment 2 regression model}
-
-	\begin{equation}
-	\begin{aligned}
-	   c_i                                 & \sim \mathrm{Normal}(\mu_i, \sigma) \\
-	 \mu_i                                 & = \alpha_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} + \beta_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} g_i \\
-	\sigma                                 & \sim \mathrm{Exponential}(1) \\
-	\alpha_{\mathrm{EPOCH},\mathrm{CHAIN}} & \sim \mathrm{Normal}(\alpha_{\mathrm{EPOCH}_\mu}, \alpha_{\mathrm{EPOCH}_\sigma}) \\
-	\beta_{\mathrm{EPOCH},\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\beta_{\mathrm{EPOCH}_\mu}, \beta_{\mathrm{EPOCH}_\sigma}) \\
-	\alpha_{\mathrm{EPOCH}_\mu}            & \sim \mathrm{Normal}(0, 1) \\
-	\alpha_{\mathrm{EPOCH}_\sigma}         & \sim \mathrm{Exponential}(1) \\
-	\beta_{\mathrm{EPOCH}_\mu}             & \sim \mathrm{Normal}(0, 1) \\
-	\beta_{\mathrm{EPOCH}_\sigma}          & \sim \mathrm{Exponential}(1)
-	\end{aligned}
-	\end{equation}
-
-\clearpage
-
-\begin{table}
+\begin{table}[h]
 \begin{center}
 \begin{threeparttable}
 \caption{Experiment 1 posterior parameter estimates}
@@ -421,7 +393,23 @@ $\Delta(\sigma)$        &  0.178 &  0.040 &   0.112 &    0.242 &   28446 &    1.
 
 \clearpage
 
-\begin{table}
+\section{}
+
+\begin{equation}
+\begin{aligned}
+   c_i                                 & \sim \mathrm{Normal}(\mu_i, \sigma) \\
+ \mu_i                                 & = \alpha_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} + \beta_{\mathrm{EPOCH}[i],\mathrm{CHAIN}[i]} g_i \\
+\sigma                                 & \sim \mathrm{Exponential}(1) \\
+\alpha_{\mathrm{EPOCH},\mathrm{CHAIN}} & \sim \mathrm{Normal}(\alpha_{\mathrm{EPOCH}_\mu}, \alpha_{\mathrm{EPOCH}_\sigma}) \\
+\beta_{\mathrm{EPOCH},\mathrm{CHAIN}}  & \sim \mathrm{Normal}(\beta_{\mathrm{EPOCH}_\mu}, \beta_{\mathrm{EPOCH}_\sigma}) \\
+\alpha_{\mathrm{EPOCH}_\mu}            & \sim \mathrm{Normal}(0, 1) \\
+\alpha_{\mathrm{EPOCH}_\sigma}         & \sim \mathrm{Exponential}(1) \\
+\beta_{\mathrm{EPOCH}_\mu}             & \sim \mathrm{Normal}(0, 1) \\
+\beta_{\mathrm{EPOCH}_\sigma}          & \sim \mathrm{Exponential}(1)
+\end{aligned}
+\end{equation}
+
+\begin{table}[h]
 \begin{center}
 \begin{threeparttable}
 \caption{Experiment 2 posterior parameter estimates}
