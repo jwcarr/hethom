@@ -152,7 +152,8 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 	import comm_cost
 	from scipy.stats import gaussian_kde
 
-	trace = az.from_netcdf(model_trace)
+	if model_trace:
+		trace = az.from_netcdf(model_trace)
 
 	fig = plt.figure(layout='tight', figsize=figsize)
 	gs = gridspec.GridSpec(2, 2, figure=fig, height_ratios=[2, 3])
@@ -183,12 +184,13 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 
 		pred_var = f'pred_{condition.split("_")[1]}'
 		
-		pred = [trace.posterior[pred_var+f'_{i}'].mean(('chain', 'draw')) for i in range(1, 10)]
-		pred_upper = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[1]) for i in range(1, 10)]
-		pred_lower = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[0]) for i in range(1, 10)]
-		
-		axis.fill_between(range(1, 10), pred_lower, pred_upper, color=color_light, zorder=1.5)
-		axis.plot(range(1, 10), pred, color=color, linewidth=4)
+		if model_trace:
+			pred = [trace.posterior[pred_var+f'_{i}'].mean(('chain', 'draw')) for i in range(1, 10)]
+			pred_upper = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[1]) for i in range(1, 10)]
+			pred_lower = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[0]) for i in range(1, 10)]
+			
+			axis.fill_between(range(1, 10), pred_lower, pred_upper, color=color_light, zorder=1.5)
+			axis.plot(range(1, 10), pred, color=color, linewidth=4)
 
 		if spoken_cost:
 			axis.plot(range(0, 10), spoken_cost, color='black', linestyle=':', linewidth=2)
@@ -211,81 +213,233 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		else:
 			axis.set_yticklabels([])
 
+	if model_trace:
+		gs_lower = gridspec.GridSpecFromSubplotSpec(2, len(variables), subplot_spec=gs[1:2, 0:2])
 
-	gs_lower = gridspec.GridSpecFromSubplotSpec(2, len(variables), subplot_spec=gs[1:2, 0:2])
+		for i, variable in enumerate(variables):
 
-	for i, variable in enumerate(variables):
+			axis_post = fig.add_subplot(gs_lower[0, i])
+			axis_diff = fig.add_subplot(gs_lower[1, i])
 
-		axis_post = fig.add_subplot(gs_lower[0, i])
-		axis_diff = fig.add_subplot(gs_lower[1, i])
+			if 'point_of_interest' in variable:
+				axis_post.axvline(variable['point_of_interest'], color='black', linestyle=':', linewidth=1)
 
-		if 'point_of_interest' in variable:
-			axis_post.axvline(variable['point_of_interest'], color='black', linestyle=':', linewidth=1)
-
-		if 'sub' in variable:
-			samples = trace.posterior[variable['var']].sel(epoch=variable['sub']).to_numpy().flatten()
-		else:
-			samples = trace.posterior[variable['var']].to_numpy().flatten()
-		az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
-		lower, upper = float(az_hdi[0]), float(az_hdi[1])
-		x_min = lower - (upper - lower) / 2
-		x_max = upper + (upper - lower) / 2
-
-		x = np.linspace(x_min, x_max, 200)
-
-		if 'sub' in variable:
-			samples_lrn = trace.posterior[variable['var']].sel(condition='lrn', epoch=variable['sub']).to_numpy().flatten()
-			y_lrn = gaussian_kde(samples_lrn).pdf(x)
-			axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
-
-			samples_com = trace.posterior[variable['var']].sel(condition='com', epoch=variable['sub']).to_numpy().flatten()
-			y_com = gaussian_kde(samples_com).pdf(x)
-			axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
-		else:
-			samples_lrn = trace.posterior[variable['var']].sel(condition='lrn').to_numpy().flatten()
-			y_lrn = gaussian_kde(samples_lrn).pdf(x)
-			axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
-
-			samples_com = trace.posterior[variable['var']].sel(condition='com').to_numpy().flatten()
-			y_com = gaussian_kde(samples_com).pdf(x)
-			axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
-
-		axis_post.set_yticks([])
-		axis_post.set_xlim(x_min, x_max)
-		axis_post.set_title(variable['label'], fontsize=7)
-		if i == 0:
-			axis_post.set_ylabel('Posterior')
-			axis_diff.set_ylabel('Posterior difference')
-			axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
-
-		if variable['diff']:
-
-			samples_diff = trace.posterior[variable['diff']].to_numpy().flatten()
-			az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
-			mx = max(abs(float(az_hdi[0])), abs(float(az_hdi[1]))) * 1.5
+			if 'sub' in variable:
+				samples = trace.posterior[variable['var']].sel(epoch=variable['sub']).to_numpy().flatten()
+			else:
+				samples = trace.posterior[variable['var']].to_numpy().flatten()
+			az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
 			lower, upper = float(az_hdi[0]), float(az_hdi[1])
-			x_diff_min = lower - (upper - lower) / 2
-			x_diff_max = upper + (upper - lower) / 2
+			x_min = lower - (upper - lower) / 2
+			x_max = upper + (upper - lower) / 2
 
-			x_diff = np.linspace(x_diff_min, x_diff_max, 200)
-			y_diff = gaussian_kde(samples_diff).pdf(x_diff)
+			x = np.linspace(x_min, x_max, 200)
 
-			axis_diff.plot(x_diff, y_diff, color='black')
-			axis_diff.set_yticks([])
-			axis_diff.set_xlim(x_diff_min, x_diff_max)
-			# axis_diff.set_xlabel(f'Δ({variable["label"]})')
+			if 'sub' in variable:
+				samples_lrn = trace.posterior[variable['var']].sel(condition='lrn', epoch=variable['sub']).to_numpy().flatten()
+				y_lrn = gaussian_kde(samples_lrn).pdf(x)
+				axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
 
-			az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
-			draw_hdi(axis_diff, float(az_hdi[0]), float(az_hdi[1]), 0.9)
+				samples_com = trace.posterior[variable['var']].sel(condition='com', epoch=variable['sub']).to_numpy().flatten()
+				y_com = gaussian_kde(samples_com).pdf(x)
+				axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
+			else:
+				samples_lrn = trace.posterior[variable['var']].sel(condition='lrn').to_numpy().flatten()
+				y_lrn = gaussian_kde(samples_lrn).pdf(x)
+				axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
 
-		else:
-			axis_diff.axis('off')
+				samples_com = trace.posterior[variable['var']].sel(condition='com').to_numpy().flatten()
+				y_com = gaussian_kde(samples_com).pdf(x)
+				axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
+
+			axis_post.set_yticks([])
+			axis_post.set_xlim(x_min, x_max)
+			axis_post.set_title(variable['label'], fontsize=7)
+			if i == 0:
+				axis_post.set_ylabel('Posterior')
+				axis_diff.set_ylabel('Posterior difference')
+				axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
+
+			if variable['diff']:
+
+				samples_diff = trace.posterior[variable['diff']].to_numpy().flatten()
+				az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
+				mx = max(abs(float(az_hdi[0])), abs(float(az_hdi[1]))) * 1.5
+				lower, upper = float(az_hdi[0]), float(az_hdi[1])
+				x_diff_min = lower - (upper - lower) / 2
+				x_diff_max = upper + (upper - lower) / 2
+
+				x_diff = np.linspace(x_diff_min, x_diff_max, 200)
+				y_diff = gaussian_kde(samples_diff).pdf(x_diff)
+
+				axis_diff.plot(x_diff, y_diff, color='black')
+				axis_diff.set_yticks([])
+				axis_diff.set_xlim(x_diff_min, x_diff_max)
+				# axis_diff.set_xlabel(f'Δ({variable["label"]})')
+
+				az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
+				draw_hdi(axis_diff, float(az_hdi[0]), float(az_hdi[1]), 0.9)
+
+			else:
+				axis_diff.axis('off')
 
 	fig.tight_layout(pad=1, h_pad=1, w_pad=1)
 	if output_path:
 		fig.savefig(output_path)
 	else:
 		plt.show()
+
+
+
+def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 2), show_mean=True, add_jitter=False, model_trace=False, variables={}):
+	from build_csv import transmission_error
+	from scipy.stats import gaussian_kde
+
+	if model_trace:
+		trace = az.from_netcdf(model_trace)
+
+	fig = plt.figure(layout='tight', figsize=figsize)
+	gs = gridspec.GridSpec(2, 2, figure=fig, height_ratios=[2, 3])
+	gs_upper = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=gs[0:1, 0:2])
+
+	for i, condition in enumerate(conditions):
+		cost_by_chain = []
+		for chain in exp_data[condition]:
+			cost_by_generation = [transmission_error(chain[i - 1][0]['lexicon'], chain[i][0]['lexicon']) for i in range(1, 10)]
+			cost_by_chain.append(cost_by_generation)
+		cost_by_chain = np.array(cost_by_chain)
+
+		axis = fig.add_subplot(gs_upper[0, i])
+
+		color, color_light = COLORS[condition]
+		for chain in cost_by_chain:
+			if add_jitter:
+				jitter = cost_by_chain.max() * 0.025
+				chain_with_jitter = chain + (np.random.random(len(chain)) - 0.5) * jitter
+				axis.plot(range(1, len(chain) + 1), chain_with_jitter, color=color, linewidth=1)
+			else:
+				axis.plot(range(1, len(chain) + 1), chain, color=color, linewidth=1)
+
+		pred_var = f'pred_{condition.split("_")[1]}'
+		
+		if model_trace:
+			pred = [trace.posterior[pred_var+f'_{i}'].mean(('chain', 'draw')) for i in range(1, 10)]
+			pred_upper = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[1]) for i in range(1, 10)]
+			pred_lower = [float(az.hdi(trace.posterior[pred_var+f'_{i}'].to_numpy().flatten(), hdi_prob=HDI_PROB)[0]) for i in range(1, 10)]
+			
+			axis.fill_between(range(1, 10), pred_lower, pred_upper, color=color_light, zorder=1.5)
+			axis.plot(range(1, 10), pred, color=color, linewidth=4)
+
+		if show_mean:
+			axis.plot(range(1, len(chain) + 1), cost_by_chain.mean(axis=0), color=color, linewidth=4)
+		if 'lrn' in condition:
+			axis.set_title('Transmission-only', fontsize=7)
+		if 'com' in condition:
+			axis.set_title('Transmission + Communication', fontsize=7)
+
+		axis.set_xlabel('Generation')
+		axis.set_xticks(range(1, 10))
+		axis.set_xticks(range(1, 10))
+		axis.set_ylim(-0.15, 2.15)
+		
+		if i == 0:
+			axis.set_ylabel('Transmission error ($n$ edits)')
+			axis.text(0.1, 1.0, '(A)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=8, font='Arial', weight='bold')
+		else:
+			axis.set_yticklabels([])
+
+	if model_trace:
+		gs_lower = gridspec.GridSpecFromSubplotSpec(2, len(variables), subplot_spec=gs[1:2, 0:2])
+
+		for i, variable in enumerate(variables):
+
+			axis_post = fig.add_subplot(gs_lower[0, i])
+			axis_diff = fig.add_subplot(gs_lower[1, i])
+
+			if 'point_of_interest' in variable:
+				axis_post.axvline(variable['point_of_interest'], color='black', linestyle=':', linewidth=1)
+
+			if 'sub' in variable:
+				samples = trace.posterior[variable['var']].sel(epoch=variable['sub']).to_numpy().flatten()
+			else:
+				samples = trace.posterior[variable['var']].to_numpy().flatten()
+			az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
+			lower, upper = float(az_hdi[0]), float(az_hdi[1])
+			x_min = lower - (upper - lower) / 2
+			x_max = upper + (upper - lower) / 2
+
+			x = np.linspace(x_min, x_max, 200)
+
+			if 'sub' in variable:
+				samples_lrn = trace.posterior[variable['var']].sel(condition='lrn', epoch=variable['sub']).to_numpy().flatten()
+				y_lrn = gaussian_kde(samples_lrn).pdf(x)
+				axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
+
+				samples_com = trace.posterior[variable['var']].sel(condition='com', epoch=variable['sub']).to_numpy().flatten()
+				y_com = gaussian_kde(samples_com).pdf(x)
+				axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
+			else:
+				samples_lrn = trace.posterior[variable['var']].sel(condition='lrn').to_numpy().flatten()
+				y_lrn = gaussian_kde(samples_lrn).pdf(x)
+				axis_post.plot(x, y_lrn, color=COLORS['dif_lrn'][0])
+
+				samples_com = trace.posterior[variable['var']].sel(condition='com').to_numpy().flatten()
+				y_com = gaussian_kde(samples_com).pdf(x)
+				axis_post.plot(x, y_com, color=COLORS['dif_com'][0])
+
+			axis_post.set_yticks([])
+			axis_post.set_xlim(x_min, x_max)
+			axis_post.set_title(variable['label'], fontsize=7)
+			if i == 0:
+				axis_post.set_ylabel('Posterior')
+				axis_diff.set_ylabel('Posterior difference')
+				axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
+
+			if variable['diff']:
+
+				samples_diff = trace.posterior[variable['diff']].to_numpy().flatten()
+				az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
+				mx = max(abs(float(az_hdi[0])), abs(float(az_hdi[1]))) * 1.5
+				lower, upper = float(az_hdi[0]), float(az_hdi[1])
+				x_diff_min = lower - (upper - lower) / 2
+				x_diff_max = upper + (upper - lower) / 2
+
+				x_diff = np.linspace(x_diff_min, x_diff_max, 200)
+				y_diff = gaussian_kde(samples_diff).pdf(x_diff)
+
+				axis_diff.plot(x_diff, y_diff, color='black')
+				axis_diff.set_yticks([])
+				axis_diff.set_xlim(x_diff_min, x_diff_max)
+				# axis_diff.set_xlabel(f'Δ({variable["label"]})')
+
+				draw_hdis(axis_diff, samples_diff, [0.95, 0.9, 0.85])
+
+			else:
+				axis_diff.axis('off')
+
+	fig.tight_layout(pad=1, h_pad=1, w_pad=1)
+	if output_path:
+		fig.savefig(output_path)
+	else:
+		plt.show()
+
+
+def draw_hdis(axis, samples, hdi_probs):
+	mn, mx = axis.get_ylim()
+	stack_padding = (mx - mn) / 30
+	print(mn, mx, stack_padding)
+	colors = ['MediumSeaGreen', 'SteelBlue', 'Tomato']
+	for i, hdi_prob in enumerate(hdi_probs):
+		az_hdi = az.hdi(samples, hdi_prob=hdi_prob)
+		lower = float(az_hdi[0])
+		upper = float(az_hdi[1])
+		mn_y, mx_y  = axis.get_ylim()
+		padding = (mx_y - mn_y) * 0.1
+		axis.plot((lower, upper), (i*stack_padding, i*stack_padding), color=colors[i])
+
+		# hdi_text = f'{int(hdi_prob*100)}% HDI'
+		# hdi_width = round(upper - lower, 2)
+		# axis.text((lower + upper)/2, mn_y + padding + i*stack_padding, hdi_text, ha='center', color='MediumSeaGreen', fontsize=6)
 
 
 def draw_hdi(axis, lower, upper, hdi_prob):
@@ -345,112 +499,144 @@ if __name__ == '__main__':
 
 	exp_data = json_load(ROOT / 'data' / 'exp.json')
 
-	plot_transmission_chains(exp_data, 
-		condition='dif_lrn',
-		output_path=FIGS / 'dif_lrn.eps',
-	)
+	# plot_transmission_chains(exp_data, 
+	# 	condition='dif_lrn',
+	# 	output_path=FIGS / 'dif_lrn.eps',
+	# )
 
-	plot_transmission_chains(exp_data, 
-		condition='dif_com',
-		output_path=FIGS / 'dif_com.eps',
-	)
+	# plot_transmission_chains(exp_data, 
+	# 	condition='dif_com',
+	# 	output_path=FIGS / 'dif_com.eps',
+	# )
 
-	plot_transmission_chains(exp_data, 
-		condition='con_lrn',
-		output_path=FIGS / 'con_lrn.eps',
-	)
+	# plot_transmission_chains(exp_data, 
+	# 	condition='con_lrn',
+	# 	output_path=FIGS / 'con_lrn.eps',
+	# )
 
-	plot_transmission_chains(exp_data, 
-		condition='con_com',
-		output_path=FIGS / 'con_com.eps',
-	)
+	# plot_transmission_chains(exp_data, 
+	# 	condition='con_com',
+	# 	output_path=FIGS / 'con_com.eps',
+	# )
 
-	plot_typological_distribution(exp_data,
+	# plot_typological_distribution(exp_data,
+	# 	conditions=['dif_lrn', 'dif_com'],
+	# 	generations=list(range(1, 10)),
+	# 	output_path=FIGS / 'typ_dist_dif.eps',
+	# 	figsize=(6, 3),
+	# 	probabilistic_classification=False,
+	# 	model_trace=ROOT / 'data' / 'exp1_typo.netcdf'
+	# )
+
+	# plot_typological_distribution(exp_data,
+	# 	conditions=['con_lrn', 'con_com'], 
+	# 	generations=list(range(1, 10)),
+	# 	output_path=FIGS / 'typ_dist_con.eps',
+	# 	figsize=(6, 3 ),
+	# 	probabilistic_classification=False,
+	# 	model_trace=ROOT / 'data' / 'exp2_typo.netcdf'
+	# )
+
+	# plot_communicative_cost(exp_data,
+	# 	conditions=['dif_lrn', 'dif_com'],
+	# 	output_path=FIGS / 'cost_dif.eps',
+	# 	figsize=(6, 4.8),
+	# 	show_mean=False,
+	# 	add_jitter=True,
+	# 	model_trace=DATA / 'exp1_cost.netcdf',
+	# 	spoken_cost=[1.58496] * 10,
+	# 	variables=[
+	# 		{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
+	# 		{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
+	# 		{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
+	# 		{'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
+	# 	],
+	# )
+
+	# plot_communicative_cost(exp_data,
+	# 	conditions=['con_lrn', 'con_com'],
+	# 	output_path=FIGS / 'cost_con.eps',
+	# 	figsize=(6, 4.8),
+	# 	show_mean=False,
+	# 	add_jitter=True,
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# 	spoken_cost=[0, 0, 0, 0, 0.66666, 0.66666, 0.66666, 1.58496, 1.58496, 1.58496],
+	# 	variables=[
+	# 		{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
+	# 		{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
+	# 		{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
+	# 		{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
+	# 		{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
+	# 		{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
+	# 	],
+	# )
+
+	plot_transmission_error(exp_data,
 		conditions=['dif_lrn', 'dif_com'],
-		generations=list(range(1, 10)),
-		output_path=FIGS / 'typ_dist_dif.eps',
-		figsize=(6, 3),
-		probabilistic_classification=False,
-		model_trace=ROOT / 'data' / 'exp1_typo.netcdf'
-	)
-
-	plot_typological_distribution(exp_data,
-		conditions=['con_lrn', 'con_com'], 
-		generations=list(range(1, 10)),
-		output_path=FIGS / 'typ_dist_con.eps',
-		figsize=(6, 3 ),
-		probabilistic_classification=False,
-		model_trace=ROOT / 'data' / 'exp2_typo.netcdf'
-	)
-
-	plot_communicative_cost(exp_data,
-		conditions=['dif_lrn', 'dif_com'],
-		output_path=FIGS / 'cost_dif.eps',
+		output_path=FIGS / 'te_dif.pdf',
 		figsize=(6, 4.8),
 		show_mean=False,
 		add_jitter=True,
-		model_trace=DATA / 'exp1_cost.netcdf',
-		spoken_cost=[1.58496] * 10,
+		model_trace=DATA / 'exp1_error.netcdf',
 		variables=[
 			{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
 			{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
 			{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
-			{'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
+			# {'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
 		],
 	)
 
-	plot_communicative_cost(exp_data,
+	plot_transmission_error(exp_data,
 		conditions=['con_lrn', 'con_com'],
-		output_path=FIGS / 'cost_con.eps',
+		output_path=FIGS / 'te_con.pdf',
 		figsize=(6, 4.8),
 		show_mean=False,
 		add_jitter=True,
-		model_trace=DATA / 'exp2_cost.netcdf',
-		spoken_cost=[0, 0, 0, 0, 0.66666, 0.66666, 0.66666, 1.58496, 1.58496, 1.58496],
+		model_trace=DATA / 'exp2_error.netcdf',
 		variables=[
-			{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
-			{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
-			{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
+			{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1'},
+			{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2'},
+			{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3'},
 			{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
 			{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
 			{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
 		],
 	)
 
-	model_summary(
-		model_trace=DATA / 'exp1_cost.netcdf',
-		variables=['α_m', 'β1_m', 'β2_m', 'β3_m', 'σ', 'diff_α', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
-		latex_table=True,
-	)
+	# model_summary(
+	# 	model_trace=DATA / 'exp1_cost.netcdf',
+	# 	variables=['α_m', 'β1_m', 'β2_m', 'β3_m', 'σ', 'diff_α', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+	# 	latex_table=True,
+	# )
 
-	model_summary(
-		model_trace=DATA / 'exp2_cost.netcdf',
-		variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
-		latex_table=True,
-	)
+	# model_summary(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# 	variables=['α_m', 'β_m', 'σ', 'diff_α1', 'diff_α2', 'diff_α3', 'diff_β1', 'diff_β2', 'diff_β3', 'diff_σ'],
+	# 	latex_table=True,
+	# )
 
-	mass_below_zero(
-		model_trace=DATA / 'exp2_cost.netcdf',
-		variables=['diff_α3', 'diff_β2']
-	)
+	# mass_below_zero(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# 	variables=['diff_α3', 'diff_β2']
+	# )
 
-	convert_cost_to_p_comm_success(
-		model_trace=ROOT / 'data' / 'exp1_cost.netcdf',
-		variables=[
-			{'var': 'α_m', 'sub': {'condition': 'lrn'}},
-			{'var': 'α_m', 'sub': {'condition': 'com'}},
-		],
-	)
+	# convert_cost_to_p_comm_success(
+	# 	model_trace=ROOT / 'data' / 'exp1_cost.netcdf',
+	# 	variables=[
+	# 		{'var': 'α_m', 'sub': {'condition': 'lrn'}},
+	# 		{'var': 'α_m', 'sub': {'condition': 'com'}},
+	# 	],
+	# )
 
-	convert_cost_to_p_comm_success(
-		model_trace=ROOT / 'data' / 'exp2_cost.netcdf',
-		variables=[
-			{'var': 'pred_lrn_7'},
-			{'var': 'pred_com_7'},
-		],
-	)
+	# convert_cost_to_p_comm_success(
+	# 	model_trace=ROOT / 'data' / 'exp2_cost.netcdf',
+	# 	variables=[
+	# 		{'var': 'pred_lrn_7'},
+	# 		{'var': 'pred_com_7'},
+	# 	],
+	# )
 
-	diff_predictions(
-		model_trace=DATA / 'exp2_cost.netcdf',
-	)
+	# diff_predictions(
+	# 	model_trace=DATA / 'exp2_cost.netcdf',
+	# )
 
