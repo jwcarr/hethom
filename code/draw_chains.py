@@ -1,15 +1,15 @@
 import numpy as np
 import cairocffi as cairo
 
-font_size = 25
+font_size = 20
 helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 helvetica_sf = cairo.ScaledFont(helvetica, cairo.Matrix(xx=font_size, yy=font_size))
 
-seen_suffix_font_size = 4
+seen_suffix_font_size = 5
 seen_suffix_helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 seen_suffix_helvetica_sf = cairo.ScaledFont(seen_suffix_helvetica, cairo.Matrix(xx=seen_suffix_font_size, yy=seen_suffix_font_size))
 
-unseen_suffix_font_size = 4
+unseen_suffix_font_size = 5
 unseen_suffix_helvetica = cairo.ToyFontFace('Helvetica', cairo.FONT_SLANT_OBLIQUE, cairo.FONT_WEIGHT_BOLD)
 unseen_suffix_helvetica_sf = cairo.ScaledFont(unseen_suffix_helvetica, cairo.Matrix(xx=unseen_suffix_font_size, yy=unseen_suffix_font_size))
 
