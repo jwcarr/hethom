@@ -24,6 +24,8 @@ COLORS = {
 }
 
 HDI_PROB = 0.9
+SINGLE_COLUMN = 3.54
+DOUBLE_COLUMN = 7.48
 
 
 def plot_transmission_chains(exp_data, condition, output_path):
@@ -61,7 +63,7 @@ def plot_transmission_chains(exp_data, condition, output_path):
 		panel.append(chain_matrices)
 	show_sounds = True if 'con' in condition else False
 	chain_ids = A_to_J if 'lrn' in condition else K_to_T
-	draw_chains.draw_panel(output_path, panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=432)
+	draw_chains.draw_panel(output_path, panel, chain_ids=chain_ids, show_sounds=show_sounds, figure_width=538)
 
 
 def plot_typological_distribution(exp_data, conditions, generations, output_path=None, figsize=(6, 2), probabilistic_classification=False, model_trace=None):
@@ -209,7 +211,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		
 		if i == 0:
 			axis.set_ylabel('Communicative cost (bits)')
-			axis.text(0.1, 1.0, '(A)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=8, font='Arial', weight='bold')
+			axis.text(0.1, 1.0, 'A', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=10, font='Arial', weight='bold')
 		else:
 			axis.set_yticklabels([])
 
@@ -258,7 +260,7 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 			if i == 0:
 				axis_post.set_ylabel('Posterior')
 				axis_diff.set_ylabel('Posterior difference')
-				axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
+				axis_post.text(0.1, 1.0, 'B', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=10, font='Arial', weight='bold')
 
 			if variable['diff']:
 
@@ -277,8 +279,9 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 				axis_diff.set_xlim(x_diff_min, x_diff_max)
 				# axis_diff.set_xlabel(f'Δ({variable["label"]})')
 
-				az_hdi = az.hdi(samples_diff, hdi_prob=HDI_PROB)
-				draw_hdi(axis_diff, float(az_hdi[0]), float(az_hdi[1]), 0.9)
+				draw_hdis(axis_diff, samples_diff, [0.95, 0.9, 0.75])
+				# if i == 0:
+				# 	axis_diff.legend(frameon=False)
 
 			else:
 				axis_diff.axis('off')
@@ -288,7 +291,6 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 		fig.savefig(output_path)
 	else:
 		plt.show()
-
 
 
 def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 2), show_mean=True, add_jitter=False, model_trace=False, variables={}):
@@ -344,7 +346,7 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 		
 		if i == 0:
 			axis.set_ylabel('Transmission error ($n$ edits)')
-			axis.text(0.1, 1.0, '(A)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=8, font='Arial', weight='bold')
+			axis.text(0.1, 1.0, 'A', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=10, font='Arial', weight='bold')
 		else:
 			axis.set_yticklabels([])
 
@@ -393,7 +395,7 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 			if i == 0:
 				axis_post.set_ylabel('Posterior')
 				axis_diff.set_ylabel('Posterior difference')
-				axis_post.text(0.1, 1.0, '(B)', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=8, font='Arial', weight='bold')
+				axis_post.text(0.1, 1.0, 'B', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis_post.transAxes), size=10, font='Arial', weight='bold')
 
 			if variable['diff']:
 
@@ -412,7 +414,7 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 				axis_diff.set_xlim(x_diff_min, x_diff_max)
 				# axis_diff.set_xlabel(f'Δ({variable["label"]})')
 
-				draw_hdis(axis_diff, samples_diff, [0.95, 0.9, 0.85])
+				draw_hdis(axis_diff, samples_diff, [0.95, 0.9, 0.75])
 
 			else:
 				axis_diff.axis('off')
@@ -427,7 +429,6 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 def draw_hdis(axis, samples, hdi_probs):
 	mn, mx = axis.get_ylim()
 	stack_padding = (mx - mn) / 30
-	print(mn, mx, stack_padding)
 	colors = ['MediumSeaGreen', 'SteelBlue', 'Tomato']
 	for i, hdi_prob in enumerate(hdi_probs):
 		az_hdi = az.hdi(samples, hdi_prob=hdi_prob)
@@ -435,7 +436,7 @@ def draw_hdis(axis, samples, hdi_probs):
 		upper = float(az_hdi[1])
 		mn_y, mx_y  = axis.get_ylim()
 		padding = (mx_y - mn_y) * 0.1
-		axis.plot((lower, upper), (i*stack_padding, i*stack_padding), color=colors[i])
+		axis.plot((lower, upper), (i*stack_padding, i*stack_padding), color=colors[i], label=f'{int(round(hdi_prob*100, 0))}%')
 
 		# hdi_text = f'{int(hdi_prob*100)}% HDI'
 		# hdi_width = round(upper - lower, 2)
@@ -523,7 +524,7 @@ if __name__ == '__main__':
 	# 	conditions=['dif_lrn', 'dif_com'],
 	# 	generations=list(range(1, 10)),
 	# 	output_path=FIGS / 'typ_dist_dif.eps',
-	# 	figsize=(6, 3),
+	# 	figsize=(DOUBLE_COLUMN, 3),
 	# 	probabilistic_classification=False,
 	# 	model_trace=ROOT / 'data' / 'exp1_typo.netcdf'
 	# )
@@ -532,7 +533,7 @@ if __name__ == '__main__':
 	# 	conditions=['con_lrn', 'con_com'], 
 	# 	generations=list(range(1, 10)),
 	# 	output_path=FIGS / 'typ_dist_con.eps',
-	# 	figsize=(6, 3 ),
+	# 	figsize=(DOUBLE_COLUMN, 3 ),
 	# 	probabilistic_classification=False,
 	# 	model_trace=ROOT / 'data' / 'exp2_typo.netcdf'
 	# )
@@ -540,7 +541,7 @@ if __name__ == '__main__':
 	# plot_communicative_cost(exp_data,
 	# 	conditions=['dif_lrn', 'dif_com'],
 	# 	output_path=FIGS / 'cost_dif.eps',
-	# 	figsize=(6, 4.8),
+	# 	figsize=(DOUBLE_COLUMN, 4.8),
 	# 	show_mean=False,
 	# 	add_jitter=True,
 	# 	model_trace=DATA / 'exp1_cost.netcdf',
@@ -556,7 +557,7 @@ if __name__ == '__main__':
 	# plot_communicative_cost(exp_data,
 	# 	conditions=['con_lrn', 'con_com'],
 	# 	output_path=FIGS / 'cost_con.eps',
-	# 	figsize=(6, 4.8),
+	# 	figsize=(DOUBLE_COLUMN, 4.8),
 	# 	show_mean=False,
 	# 	add_jitter=True,
 	# 	model_trace=DATA / 'exp2_cost.netcdf',
@@ -571,37 +572,36 @@ if __name__ == '__main__':
 	# 	],
 	# )
 
-	plot_transmission_error(exp_data,
-		conditions=['dif_lrn', 'dif_com'],
-		output_path=FIGS / 'te_dif.pdf',
-		figsize=(6, 4.8),
-		show_mean=False,
-		add_jitter=True,
-		model_trace=DATA / 'exp1_error.netcdf',
-		variables=[
-			{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
-			{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
-			{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
-			# {'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
-		],
-	)
+	# plot_transmission_error(exp_data,
+	# 	conditions=['dif_lrn', 'dif_com'],
+	# 	output_path=FIGS / 'te_dif.eps',
+	# 	figsize=(DOUBLE_COLUMN, 4.8),
+	# 	show_mean=False,
+	# 	add_jitter=True,
+	# 	model_trace=DATA / 'exp1_error.netcdf',
+	# 	variables=[
+	# 		{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
+	# 		{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
+	# 		{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
+	# 	],
+	# )
 
-	plot_transmission_error(exp_data,
-		conditions=['con_lrn', 'con_com'],
-		output_path=FIGS / 'te_con.pdf',
-		figsize=(6, 4.8),
-		show_mean=False,
-		add_jitter=True,
-		model_trace=DATA / 'exp2_error.netcdf',
-		variables=[
-			{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1'},
-			{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2'},
-			{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3'},
-			{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
-			{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
-			{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
-		],
-	)
+	# plot_transmission_error(exp_data,
+	# 	conditions=['con_lrn', 'con_com'],
+	# 	output_path=FIGS / 'te_con.eps',
+	# 	figsize=(DOUBLE_COLUMN, 4.8),
+	# 	show_mean=False,
+	# 	add_jitter=True,
+	# 	model_trace=DATA / 'exp2_error.netcdf',
+	# 	variables=[
+	# 		{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1'},
+	# 		{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2'},
+	# 		{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3'},
+	# 		{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
+	# 		{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
+	# 		{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
+	# 	],
+	# )
 
 	# model_summary(
 	# 	model_trace=DATA / 'exp1_cost.netcdf',
@@ -639,4 +639,3 @@ if __name__ == '__main__':
 	# diff_predictions(
 	# 	model_trace=DATA / 'exp2_cost.netcdf',
 	# )
-
