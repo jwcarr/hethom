@@ -32,6 +32,22 @@ def communicative_cost(lexicon, dims):
 	U_size = np.product(dims)
 	return 1 / U_size * sum([-np.log2(1 / len(reverse_lexicon[lexicon[m]])) for m in U])
 
+def communicative_success(subject_a_id, subject_b_id):
+	subject_a = json_load(ROOT / 'data' / 'exp' / f'subject_{subject_a_id}.json')
+	subject_b = json_load(ROOT / 'data' / 'exp' / f'subject_{subject_b_id}.json')
+
+	n_correct = 0
+	for response_a, response_b in zip(subject_a['responses'], subject_b['responses']):
+		if response_a['test_type'] == 'mini_test':
+			continue
+		assert response_a['item'] == response_b['item']
+		if response_a['test_type'] == 'comm_production':
+			n_correct += response_a['item'] == response_b['selected_item']
+		else:
+			n_correct += response_b['item'] == response_a['selected_item']
+
+	return n_correct
+
 def build_csv(exp_data_file, exp_csv_file):
 	exp_data = json_load(exp_data_file)
 	table = []
@@ -59,9 +75,9 @@ def build_csv(exp_data_file, exp_csv_file):
 				struc = 0
 				if subject_b:
 					lexicon_b = convert_lexicon_meanings_to_tuple(subject_b['lexicon'])
-					algn = transmission_error(lexicon_a, lexicon_b)
+					success = communicative_success(subject_a['subject_id'], subject_b['subject_id'])
 				else:
-					algn = None
+					success = None
 				table.append([
 					condition,
 					chain_i,
@@ -69,10 +85,10 @@ def build_csv(exp_data_file, exp_csv_file):
 					epoch_i,
 					cost,
 					error,
-					algn,
+					success,
 				])
 				prev_lexicon = lexicon_a
-	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'epoch', 'cost', 'error', 'alignment'])
+	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'epoch', 'cost', 'error', 'comm_success'])
 	df.to_csv(exp_csv_file, index=False)
 
 
