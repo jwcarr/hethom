@@ -5,6 +5,11 @@
 \usepackage{amsmath}
 \usepackage{mathspec}
 
+% temp for revision %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\newcommand\newmaterial[1]{\textcolor{blue}{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \DeclareLanguageMapping{american}{american-apa}
 \addbibresource{references.bib}
 
@@ -205,9 +210,9 @@ Finally, cost may be converted into the expected probability of communicative su
 	\label{te_dif}
 	\end{figure}
 
-Aside from the informativeness of the orthographic systems, we also predicted that the systems would become easier to learn over time in both conditions, albeit for slightly different reasons. In Transmission-only, the orthographic system is expected to become increasingly learnable as it degenerates into a single, transparent suffix form. In Transmission~+ Communication, the system is expected to become more learnable as the unsystematic, holistic systems transform into other easier to learn systems (notably expressive systems, although---as noted already---these were not particularly forthcoming). We operationalize learnability as transmission error---the amount of error that the participant at Generation~$i$ made in reproducing the orthographic system that existed at Generation~$i-1$. Following other papers, we define transmission error as the mean Levenshtein edit distance between the corresponding orthographic forms in consecutive generations.
+\newmaterial{Aside from the informativeness of the orthographic systems, we also predicted that the systems would become easier to learn over time in both conditions, albeit for slightly different reasons. In Transmission-only, the orthographic system is expected to become increasingly learnable as it degenerates into a single, transparent suffix form. In Transmission~+ Communication, the system is expected to become more learnable as the unsystematic, holistic systems transform into other easier to learn systems (notably expressive systems, although---as noted already---these were not particularly forthcoming). We operationalize learnability as transmission error---the amount of error that the participant at Generation~$i$ made in reproducing the orthographic system that existed at Generation~$i-1$. Following other papers, we define transmission error as the mean Levenshtein edit distance between the corresponding orthographic forms in consecutive generations.}
 
-The results are plotted in Fig.~\ref{te_dif}, along with the posterior parameter estimates of a regression model fit to the data (this is the same model outlined above, except that we use a 2nd degree polynomial which better characterized the data). In Transmission-only, transmission error tends toward zero as the systems become trivial to learn and reproduce. In Transmission~+ Communication, there is some slight evidence for an uptick in transmission error in the last few generations as participants start to introduce novel disambiguating forms (notably English color letters), which diverge from the previous generation. Although there is little evidence to suggest that the shapes of the curves differ between conditions, there is a relatively clear difference in the intercepts: Transmission error remains higher in the communicative condition. This is to be expected because the goal in the Transmission-only condition is to reproduce the forms taught in training, whereas the goal in the communicative condition is to devise a system that permits accurate communication, which necessitates some change to the system. Nevertheless, the effect size is rather small (STATS), suggesting again that the presence of the communicative task did not have a big impact on how the systems evolved.
+\newmaterial{The results are plotted in Fig.~\ref{te_dif}, along with the posterior parameter estimates of a regression model fit to the data (this is the same model outlined above, except that we use a 2nd degree polynomial which better characterized the data). In Transmission-only, transmission error tends toward zero as the systems become trivial to learn and reproduce. In Transmission~+ Communication, there is some slight evidence for an uptick in transmission error in the last few generations as participants start to introduce novel disambiguating forms (notably English color letters), which diverge from the previous generation. Although there is little evidence to suggest that the shapes of the curves differ between conditions, there is a relatively clear difference in the intercepts: Transmission error remains higher in the communicative condition. This is to be expected because the goal in the Transmission-only condition is to reproduce the forms taught in training, whereas the goal in the communicative condition is to devise a system that permits accurate communication, which necessitates some change to the system. Nevertheless, the effect size is rather small (STATS), suggesting again that the presence of the communicative task did not have a big impact on how the systems evolved.}
 
 \subsection{Summary}
 
@@ -319,7 +324,7 @@ At Generation~7---the point at which the two conditions differ most substantiall
 	\label{te_con}
 	\end{figure}
 
-Fig.~\ref{te_con} plots results for transmission error following the same methods outlined previously. Overall there were no strong differences between conditions, although we did not particularly expect to find any. Descriptively, in Transmission-only transmission error follows an inverted-\textsc{u} shape; it first increases in response to the homophony introduced at Generation~4, but then decreases as the orthographic systems converge on easy to learn patterns. In Transmission~+ Communication, the transmission error tend to remain fairly stable through Epochs~II and~III, representing a kind of baseline level of error in response to homophony.
+\newmaterial{Fig.~\ref{te_con} plots results for transmission error following the same methods outlined previously. Overall there were no strong differences between conditions, although we did not particularly expect to find any. Descriptively, in Transmission-only transmission error follows an inverted-\textsc{u} shape; it first increases in response to the homophony introduced at Generation~4, but then decreases as the orthographic systems converge on easy to learn patterns. In Transmission~+ Communication, the transmission error tend to remain fairly stable through Epochs~II and~III, representing a kind of baseline level of error in response to homophony.}
 
 \subsection{Summary}
 
