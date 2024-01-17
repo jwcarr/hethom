@@ -301,7 +301,10 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 		trace = az.from_netcdf(model_trace)
 
 	fig = plt.figure(layout='tight', figsize=figsize)
-	gs = gridspec.GridSpec(2, 2, figure=fig, height_ratios=[2, 3])
+	if variables:
+		gs = gridspec.GridSpec(2, 2, figure=fig, height_ratios=[2, 3])
+	else:
+		gs = gridspec.GridSpec(1, 2, figure=fig)
 	gs_upper = gridspec.GridSpecFromSubplotSpec(1, 2, subplot_spec=gs[0:1, 0:2])
 
 	for i, condition in enumerate(conditions):
@@ -346,11 +349,12 @@ def plot_transmission_error(exp_data, conditions, output_path=None, figsize=(6, 
 		
 		if i == 0:
 			axis.set_ylabel('Transmission error ($n$ edits)')
-			axis.text(0.1, 1.0, 'A', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=10, font='Arial', weight='bold')
+			if variables:
+				axis.text(0.1, 1.0, 'A', in_layout=False, transform=transforms.blended_transform_factory(fig.dpi_scale_trans, axis.transAxes), size=10, font='Arial', weight='bold')
 		else:
 			axis.set_yticklabels([])
 
-	if model_trace:
+	if variables:
 		gs_lower = gridspec.GridSpecFromSubplotSpec(2, len(variables), subplot_spec=gs[1:2, 0:2])
 
 		for i, variable in enumerate(variables):
@@ -574,7 +578,7 @@ if __name__ == '__main__':
 
 	# plot_transmission_error(exp_data,
 	# 	conditions=['dif_lrn', 'dif_com'],
-	# 	output_path=FIGS / 'te_dif.eps',
+	# 	output_path=FIGS / 'te_dif.pdf',
 	# 	figsize=(DOUBLE_COLUMN, 4.8),
 	# 	show_mean=False,
 	# 	add_jitter=True,
@@ -585,6 +589,15 @@ if __name__ == '__main__':
 	# 		{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
 	# 	],
 	# )
+
+	plot_transmission_error(exp_data,
+		conditions=['dif_lrn', 'dif_com'],
+		output_path=FIGS / 'te_dif.pdf',
+		figsize=(SINGLE_COLUMN, 2),
+		show_mean=False,
+		add_jitter=True,
+		model_trace=DATA / 'exp1_error.netcdf',
+	)
 
 	# plot_transmission_error(exp_data,
 	# 	conditions=['con_lrn', 'con_com'],
