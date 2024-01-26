@@ -49,11 +49,26 @@ def structure(lexicon, dims):
 			meaning_dists.append(Levenshtein.distance(meanings[i], meanings[j]))
 	return mantel.test(string_dists, meaning_dists).z
 
+def test_score(subject_a_id):
+	subject_a = json_load(ROOT / 'data' / 'exp' / f'subject_{subject_a_id}.json')
+	n_correct = 0
+	n_trials = 0
+	for response in subject_a['responses']:
+		if response['test_type'] == 'mini_test':
+			continue
+		if response['test_type'] == 'test_production':
+			n_correct += response['input_label'] == response['expected_label']
+		else:
+			n_correct += response['selected_item'] in response['items']
+		n_trials += 1
+	assert n_trials == 18
+	return n_correct / n_trials
+
 def communicative_success(subject_a_id, subject_b_id):
 	subject_a = json_load(ROOT / 'data' / 'exp' / f'subject_{subject_a_id}.json')
 	subject_b = json_load(ROOT / 'data' / 'exp' / f'subject_{subject_b_id}.json')
-
 	n_correct = 0
+	n_trials = 0
 	for response_a, response_b in zip(subject_a['responses'], subject_b['responses']):
 		if response_a['test_type'] == 'mini_test':
 			continue
@@ -62,8 +77,9 @@ def communicative_success(subject_a_id, subject_b_id):
 			n_correct += response_a['item'] == response_b['selected_item']
 		else:
 			n_correct += response_b['item'] == response_a['selected_item']
-
-	return n_correct
+		n_trials += 1
+	assert n_trials == 18
+	return n_correct / n_trials
 
 def build_csv(exp_data_file, exp_csv_file):
 	exp_data = json_load(exp_data_file)
@@ -92,9 +108,11 @@ def build_csv(exp_data_file, exp_csv_file):
 				struc = structure(lexicon_a, (3, 3))
 				if subject_b:
 					lexicon_b = convert_lexicon_meanings_to_tuple(subject_b['lexicon'])
-					success = communicative_success(subject_a['subject_id'], subject_b['subject_id'])
+					score = communicative_success(subject_a['subject_id'], subject_b['subject_id'])
+				elif generation_i > 0:
+					score = test_score(subject_a['subject_id'])
 				else:
-					success = None
+					score = None
 				table.append([
 					condition,
 					chain_i,
@@ -102,11 +120,11 @@ def build_csv(exp_data_file, exp_csv_file):
 					epoch_i,
 					cost,
 					error,
-					success,
+					score,
 					struc,
 				])
 				prev_lexicon = lexicon_a
-	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'epoch', 'cost', 'error', 'comm_success', 'structure'])
+	df = pd.DataFrame(table, columns=['condition', 'chain', 'generation', 'epoch', 'cost', 'error', 'score', 'structure'])
 	df.to_csv(exp_csv_file, index=False)
 
 
