@@ -230,10 +230,17 @@ def plot_communicative_cost(exp_data, conditions, output_path=None, figsize=(6, 
 				samples = trace.posterior[variable['var']].sel(epoch=variable['sub']).to_numpy().flatten()
 			else:
 				samples = trace.posterior[variable['var']].to_numpy().flatten()
-			az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
-			lower, upper = float(az_hdi[0]), float(az_hdi[1])
-			x_min = lower - (upper - lower) / 2
-			x_max = upper + (upper - lower) / 2
+
+			if 'xlim' in variable:
+				x_min, x_max = variable['xlim']
+			else:
+				az_hdi = az.hdi(samples, hdi_prob=HDI_PROB)
+				lower, upper = float(az_hdi[0]), float(az_hdi[1])
+				x_min = lower - (upper - lower) / 2
+				x_max = upper + (upper - lower) / 2
+
+			if 'xticks' in variable:
+				axis_post.set_xticks(variable['xticks'])
 
 			x = np.linspace(x_min, x_max, 200)
 
@@ -551,10 +558,10 @@ if __name__ == '__main__':
 	# 	model_trace=DATA / 'exp1_cost.netcdf',
 	# 	spoken_cost=[1.58496] * 10,
 	# 	variables=[
-	# 		{'var': 'α_m',  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
-	# 		{'var': 'β1_m', 'label': '$β_1$', 'diff': 'diff_β1'},
-	# 		{'var': 'β2_m', 'label': '$β_2$', 'diff': 'diff_β2'},
-	# 		{'var': 'β3_m', 'label': '$β_3$', 'diff': 'diff_β3'},
+	# 		{'var': 'α_m', 'xlim':(0.6, 1.7),  'label': '$α$ (Intercept; Generation 5)',   'diff': 'diff_α', 'point_of_interest': 1.58496},
+	# 		{'var': 'β1_m', 'xlim':(-0.15, 0.15), 'label': '$β_1$', 'diff': 'diff_β1'},
+	# 		{'var': 'β2_m', 'xlim':(-0.05, 0.01), 'label': '$β_2$', 'diff': 'diff_β2'},
+	# 		{'var': 'β3_m', 'xlim':(-0.01, 0.02), 'label': '$β_3$', 'diff': 'diff_β3'},
 	# 	],
 	# )
 
@@ -567,12 +574,12 @@ if __name__ == '__main__':
 	# 	model_trace=DATA / 'exp2_cost.netcdf',
 	# 	spoken_cost=[0, 0, 0, 0, 0.66666, 0.66666, 0.66666, 1.58496, 1.58496, 1.58496],
 	# 	variables=[
-	# 		{'var': 'α_m', 'sub':1, 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
-	# 		{'var': 'α_m', 'sub':2, 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
-	# 		{'var': 'α_m', 'sub':3, 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
-	# 		{'var': 'β_m', 'sub':1, 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
-	# 		{'var': 'β_m', 'sub':2, 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
-	# 		{'var': 'β_m', 'sub':3, 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
+	# 		{'var': 'α_m', 'sub':1, 'xlim':(-0.1, 1.7), 'xticks':[0, 0.5, 1.0, 1.5], 'label': '$α_1$ (Generation 2)', 'diff': 'diff_α1', 'point_of_interest': 0.0},
+	# 		{'var': 'α_m', 'sub':2, 'xlim':(-0.1, 1.7), 'xticks':[0, 0.5, 1.0, 1.5], 'label': 'Intercepts\n$α_2$ (Generation 5)', 'diff': 'diff_α2', 'point_of_interest': 0.66666},
+	# 		{'var': 'α_m', 'sub':3, 'xlim':(-0.1, 1.7), 'xticks':[0, 0.5, 1.0, 1.5], 'label': '$α_3$ (Generation 8)', 'diff': 'diff_α3', 'point_of_interest': 1.58496},
+	# 		{'var': 'β_m', 'sub':1, 'xlim':(-0.2, 0.5), 'label': '$β_1$ (Epoch I)', 'diff': 'diff_β1'},
+	# 		{'var': 'β_m', 'sub':2, 'xlim':(-0.2, 0.5), 'label': 'Slopes\n$β_2$ (Epoch II)', 'diff': 'diff_β2'},
+	# 		{'var': 'β_m', 'sub':3, 'xlim':(-0.2, 0.5), 'label': '$β_3$ (Epoch III)', 'diff': 'diff_β3'},
 	# 	],
 	# )
 
