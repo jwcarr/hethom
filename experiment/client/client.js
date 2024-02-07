@@ -86,7 +86,9 @@ function showWord(word) {
 }
 
 function playWord(item) {
-	word_audio[spoken_forms[item]].play();
+	if (Object.keys(spoken_forms).length > 0) {
+		word_audio[spoken_forms[item]].play();
+	}
 }
 
 function hideWord() {

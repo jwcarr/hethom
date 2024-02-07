@@ -204,7 +204,7 @@ class MissionControl:
 				else:
 					print(f'Cannot close {chain["chain_id"]}: Chain occupied')
 
-	def review(self):
+	def review(self, _):
 		for chain in self.db.chains.find({'status': 'approval_needed'}):
 			print(f'CHAIN: {chain["chain_id"]}   GENERATION: {chain["current_gen"]+1}   EPOCH: {chain["sound_epoch"]+1}')
 			print()
@@ -313,7 +313,8 @@ class MissionControl:
 			taught_word = subject['input_lexicon'][item]
 			correct = '✅' if word == taught_word else '❌'
 			trained = '➡️ ' if item in subject['training_items'] else '  '
-			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct, subject['spoken_forms'][item])
+			spoken_form = subject['spoken_forms'][item] if subject['spoken_forms'] else ''
+			print(item, taught_word.ljust(9, ' '), trained, word.ljust(9, ' '), correct, spoken_form)
 		self.db.subjects.update_one({'subject_id': sub_id}, {'$set':{'status': 'reviewed', 'lexicon': lexicon}})
 		print('Subject ID:', subject['subject_id'])
 		print('Time taken:', f'{minutes}:{str(seconds).zfill(2)}')
@@ -527,7 +528,10 @@ def create_holrand_lexicon_without_sound_change(task):
 			suffix = suffix_spellings.pop()
 			lexicon[item] = stem + suffix
 			spoken_forms[item] = f'{i}.m4a'
-	return lexicon, [spoken_forms]
+	if 'no_audio' in task and task['no_audio']:
+		return lexicon, [None]
+	else:
+		return lexicon, [spoken_forms]
 
 def create_lexicon(task):
 	if 'seed_suffix_system' in task:

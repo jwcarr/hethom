@@ -305,7 +305,7 @@ function generateTrialSequence(task, words, training_items, lead_communicator, p
 			}
 		}
 		// second to last trial on each training rep is a catch trial
-		if (i % 2 === 0) {
+		if (task.no_audio != true && i % 2 === 0) {
 			trial_sequence[trial_sequence.length - 2].payload.test_trial.catch_trial = true;
 		}
 	}
