@@ -70,7 +70,7 @@ const socket = socketio(server);
 
 function submissionStatusChange(submission_id) {
 	http.get(
-		`https://api.prolific.co/api/v1/submissions/${submission_id}/`,
+		`https://api.prolific.com/api/v1/submissions/${submission_id}/`,
 		{headers: {'Authorization': `Token ${PROLIFIC_CREDENTIALS.api_token}`}},
 		(res) => {
 			let raw_data = '';

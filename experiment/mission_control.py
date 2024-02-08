@@ -589,7 +589,7 @@ except FileNotFoundError:
 
 def set_up_secret():
 	response = requests.post(
-		'https://api.prolific.co/api/v1/hooks/secrets/',
+		'https://api.prolific.com/api/v1/hooks/secrets/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id']},
 	).json()
@@ -597,21 +597,21 @@ def set_up_secret():
 
 def list_all_secrets():
 	response = requests.get(
-		'https://api.prolific.co/api/v1/hooks/secrets/',
+		'https://api.prolific.com/api/v1/hooks/secrets/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	).json()
 	print(response)
 
 def list_all_subscriptions():
 	response = requests.get(
-		'https://api.prolific.co/api/v1/hooks/subscriptions/?is_enabled=true',
+		'https://api.prolific.com/api/v1/hooks/subscriptions/?is_enabled=true',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	).json()
 	print(response)
 
 def create_subscription():
 	response = requests.post(
-		'https://api.prolific.co/api/v1/hooks/subscriptions/',
+		'https://api.prolific.com/api/v1/hooks/subscriptions/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 		json={'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': PROLIFIC_ENDPOINT},
 	)
@@ -620,7 +620,7 @@ def create_subscription():
 	print('Subscription ID:', subscription_id)
 	print('X-Hook-Secret:', x_hook_secret)
 	response = requests.post(
-		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
+		f'https://api.prolific.com/api/v1/hooks/subscriptions/{subscription_id}/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 		json={'secret': x_hook_secret, 'workspace_id': PROLIFIC_CREDENTIALS['workspace_id'], 'event_type': 'submission.status.change', 'target_url': PROLIFIC_ENDPOINT},
 	)
@@ -628,7 +628,7 @@ def create_subscription():
 
 def delete_subscription(subscription_id):
 	response = requests.delete(
-		f'https://api.prolific.co/api/v1/hooks/subscriptions/{subscription_id}/',
+		f'https://api.prolific.com/api/v1/hooks/subscriptions/{subscription_id}/',
 		headers={'Authorization': f'Token {PROLIFIC_CREDENTIALS["api_token"]}'},
 	)
 	print(response)
