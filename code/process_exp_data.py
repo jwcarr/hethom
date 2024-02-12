@@ -50,7 +50,10 @@ def individual_check(exp_id, n_subjects):
 		assert len(data['chain_id']) == 9
 		assert data['generation'] <= 9
 		assert len(data['input_lexicon']) == 9
-		assert len(data['spoken_forms']) == 9
+		if data['chain_id'].startswith('sil'):
+			assert data['spoken_forms'] is None
+		else:
+			assert len(data['spoken_forms']) == 9
 		assert len(data['training_items']) == 6
 		assert len(data['trial_sequence']) == 60
 		assert data['comments'] is None
@@ -96,7 +99,7 @@ def individual_check(exp_id, n_subjects):
 				bonus += 2
 			if req['catch_trial']:
 				checks_passed += res['object_clicked']
-		if data['status'] == 'approved':
+		if data['status'] == 'approved' and not data['chain_id'].startswith('sil'):
 			assert checks_passed >= 2
 
 		if 'lrn' in data['chain_id']:
@@ -298,10 +301,10 @@ def create_abridged_data_file(exp_id, conditions, n_chains):
 
 if __name__ == '__main__':
 
-	individual_check('exp', 584)
+	individual_check('exp', 814)
 
-	iteration_check('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)
+	iteration_check('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com', 'sil_com'], 10)
 
-	communication_check('exp', ['dif_com', 'con_com'], 10)
+	communication_check('exp', ['dif_com', 'con_com', 'sil_com'], 10)
 
-	create_abridged_data_file('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com'], 10)
+	create_abridged_data_file('exp', ['dif_lrn', 'dif_com', 'con_lrn', 'con_com', 'sil_com'], 10)

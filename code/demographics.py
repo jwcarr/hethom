@@ -8,7 +8,7 @@ from utils import json_load, json_save
 ROOT = Path(__file__).parent.parent.resolve()
 
 
-def calculate_rates(exp_id, n_subjects, chain_filter='.+', with_bonus=False):
+def calculate_rates(exp_id, n_subjects, chain_filter='.+', with_bonus=False, basic_pay=200):
 	chain_filter = re.compile(chain_filter)
 	times = []
 	amounts = []
@@ -25,7 +25,7 @@ def calculate_rates(exp_id, n_subjects, chain_filter='.+', with_bonus=False):
 		time = data['modified_time'] - data['creation_time']
 		times.append(time)
 
-		amount = 200
+		amount = basic_pay
 		if with_bonus:
 			amount += data['total_bonus']
 		amounts.append(amount)
@@ -49,5 +49,6 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
-calculate_rates('exp', 584, chain_filter=r'dif.+', with_bonus=False)
-calculate_rates('exp', 584, chain_filter=r'con.+', with_bonus=False)
+calculate_rates('exp', 814, chain_filter=r'dif.+', with_bonus=False)
+calculate_rates('exp', 814, chain_filter=r'con.+', with_bonus=False)
+calculate_rates('exp', 814, chain_filter=r'sil.+', with_bonus=False, basic_pay=250)
