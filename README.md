@@ -1,7 +1,7 @@
 Why do languages tolerate heterography? An experimental investigation into the emergence of informative orthography
 ===================================================================================================================
 
-This repository contains data and code for our investigation of the emergence of heterographic homophones using iterated learning. The repo is organized into:
+This repository contains data and code for our investigation of the emergence of heterographic homophones using iterated learning. The top-level structure of the repo is organized into:
 
 - `code/`: Python analysis code
 
@@ -9,27 +9,29 @@ This repository contains data and code for our investigation of the emergence of
 
 - `experiment/`: Node.js experimental code
 
-- `manuscript/`: LaTeX manuscript and postscript figures
+- `instructions/`: Screenshots of the participant instruction screens
+
+- `manuscript/`: LaTeX manuscript and figures
 
 
 tl;dr
 -----
 
-- If you just want to get your hands on a CSV file, check `data/exp.csv`
+- If you just want to get your hands on a CSV file, see `data/exp.csv`
 
-- If you want to look at the statistical models, check `code/model_exp1.py` and `code/model_exp2.py`
+- If you want to look at the statistical models, see `code/fit_models.py`
 
-- If you want to see how the figures were made, check `code/build_figures.py`
+- If you want to see how the figures were made, see `code/build_figures.py`
 
-- If you want to inspect the experiment code, check `experiment/server.js` and `experiment/client/client.js`
+- If you want to inspect the experiment code, see `experiment/server.js` and `experiment/client/client.js`
 
-- If you want to listen to the spoken word forms, check `experiment/client/words/`
+- If you want to listen to the spoken word forms, see `experiment/client/words/`
 
 
 Replicating the analyses
 ------------------------
 
-To dive into full replication, I would recommend that you first replicate my Python 3.11 environment. First, clone or download this repository and cd into the top-level directory:
+To dive into full replication, I would recommend that you first replicate my Python 3.11 environment. First, clone or download this repository and `cd` into the top-level directory:
 
 ```bash
 $ cd path/to/hethom/
@@ -53,15 +55,15 @@ $ pip install -r requirements.txt
 Reproducible analysis pipeline
 ------------------------------
 
-All intermediate and processed data files are included in this repo, so it it not necessary to reproduce all these steps unless you need to. The raw data pulled down from the database is located in `data/exp/`. This raw data went through the following pipeline:
+All intermediate and processed data files are included in this repo, so it it not necessary to reproduce all these steps unless you need to. The raw data files produced by the experiment are located in `data/exp/`. This raw data went through the following pipeline:
 
-RAW DATA FILES -> process_exp_data.py -> EXP.JSON -> build_csv.py -> EXP.CSV -> model_.py -> .NETCDF -> build_figures.py
+RAW DATA FILES -> process_exp_data.py -> EXP.JSON -> build_csv.py -> EXP.CSV -> fit_models.py -> \*.NETCDF -> build_figures.py
 
 - `process_exp_data.py` reduces the raw data into a single JSON file that contains only the most important information (essentially just the lexicon produced by each generation, arranged into conditions and chains). If you need to access other data, you may need to refer to the raw files themselves.
 
 - `build_csv.py` takes the JSON output of the previous step and run various measures, most importantly communicative cost. These results are output to a CSV file for analysis.
 
-- `model_*.py` scripts take in either a CSV or JSON file generated in the previous steps and fit the models to the data. The results are stored in NetCDF files.
+- `fit_models.py` uses the CSV file generated in the previous step and fits the statistical models. The results are stored in NetCDF files under `data/models/`.
 
 - `build_figures.py` uses the data files generated in previous steps to create all the figures for the manuscript.
 
