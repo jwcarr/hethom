@@ -31,7 +31,7 @@ def draw_char(surface, char, cell_size):
 	context.show_text(char)
 
 
-def draw_matrix(surface, generation, cell_size):
+def draw_matrix(surface, generation, cell_size, gen0=False):
 	matrix, color_palette, suffix_spellings, sounds, training_items = generation
 	square_size = (cell_size - (2 * padding)) / 3
 	context = cairo.Context(surface)
@@ -45,7 +45,7 @@ def draw_matrix(surface, generation, cell_size):
 		context.set_line_width(1)
 		context.stroke()
 		context.set_source_rgb(1, 1, 1)
-		if not sounds or f'{i}_{j}' in training_items:
+		if gen0 or f'{i}_{j}' in training_items:
 			context.set_font_face(seen_suffix_helvetica)
 			context.set_font_size(seen_suffix_font_size)
 			text_width = seen_suffix_helvetica_sf.text_extents(suffix)[4]
@@ -66,7 +66,7 @@ def draw_chain(surface, chain, cell_size):
 		if isinstance(generation, str):
 			draw_char(subsurface, generation, cell_size)
 		elif isinstance(generation, tuple):
-			draw_matrix(subsurface, generation, cell_size)
+			draw_matrix(subsurface, generation, cell_size, gen_i == 1)
 		x += cell_size
 
 

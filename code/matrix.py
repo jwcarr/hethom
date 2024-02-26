@@ -26,7 +26,10 @@ def make_matrix(lexicon, m=3, n=3):
 	matrix = np.zeros((m, n), dtype=int)
 	for i in range(m):
 		for j in range(n):
-			stem, suffix = parse_stem_and_suffix(lexicon[ f'{i}_{j}' ])
+			try:
+				stem, suffix = parse_stem_and_suffix(lexicon[ f'{i}_{j}' ])
+			except KeyError:
+				stem, suffix = parse_stem_and_suffix(lexicon[ (i, j) ])
 			matrix[i, j] = suffix_spellings.index(suffix)
 	return matrix
 
