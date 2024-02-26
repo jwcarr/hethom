@@ -322,32 +322,37 @@ if __name__ == '__main__':
 
 	# Create detailed transmission chain figures
 
-	# data = json_load(ROOT / 'data' / 'exp.json')
+	data = json_load(DATA / 'exp.json')
 	
-	# plot_transmission_chains(data, 
-	# 	condition='dif_lrn',
-	# 	output_path=FIGS / 'dif_lrn.pdf',
-	# )
+	# Experiment 1 (differentiation) - Tranmission-only
+	plot_transmission_chains(data, 
+		condition='dif_lrn',
+		output_path=FIGS / 'dif_lrn.pdf',
+	)
 
-	# plot_transmission_chains(data, 
-	# 	condition='dif_com',
-	# 	output_path=FIGS / 'dif_com.pdf',
-	# )
+	# Experiment 1 (differentiation) - Transmission + Communication
+	plot_transmission_chains(data, 
+		condition='dif_com',
+		output_path=FIGS / 'dif_com.pdf',
+	)
 
-	# plot_transmission_chains(data, 
-	# 	condition='con_lrn',
-	# 	output_path=FIGS / 'con_lrn.pdf',
-	# )
+	# Experiment 2 (conservation) - Tranmission-only
+	plot_transmission_chains(data, 
+		condition='con_lrn',
+		output_path=FIGS / 'con_lrn.pdf',
+	)
 
-	# plot_transmission_chains(data, 
-	# 	condition='con_com',
-	# 	output_path=FIGS / 'con_com.pdf',
-	# )
+	# Experiment 2 (conservation) - Transmission + Communication
+	plot_transmission_chains(data, 
+		condition='con_com',
+		output_path=FIGS / 'con_com.pdf',
+	)
 
-	# plot_transmission_chains(data, 
-	# 	condition='sil_com',
-	# 	output_path=FIGS / 'sil_com.pdf',
-	# )
+	# Experiment 3 (no sound)
+	plot_transmission_chains(data, 
+		condition='sil_com',
+		output_path=FIGS / 'sil_com.pdf',
+	)
 
 
 	# Plot quantitative results
@@ -355,35 +360,31 @@ if __name__ == '__main__':
 	data = pd.read_csv(DATA / 'exp.csv')
 
 	# Experiment 1
+	plot_results(data,
+		conditions=('dif_lrn', 'dif_com'),
+		condition_names=('Transmission-only', 'Transmission + Communication'),
+		params=['α', 'β'],
+		output_path=FIGS / 'results_exp1.pdf',
+	)
 
-	# plot_results(data,
-	# 	conditions=('dif_lrn', 'dif_com'),
-	# 	condition_names=('Transmission-only', 'Transmission + Communication'),
-	# 	params=['α', 'β'],
-	# 	output_path=FIGS / 'results_exp1.pdf',
-	# )
+	# Experiment 2
+	plot_results(data,
+		conditions=('con_lrn', 'con_com'),
+		condition_names=('Transmission-only', 'Transmission + Communication'),
+		params=['α', 'β', 'γ'],
+		show_epochs=True,
+		output_path=FIGS / 'results_exp2.pdf',
+	)
 
-	# # Experiment 2
+	# Experiment 3
+	plot_results(data,
+		conditions=('dif_com', 'sil_com'),
+		condition_names=('Experiment 1', 'Experiment 3'),
+		params=['α', 'β'],
+		output_path=FIGS / 'results_exp3.pdf',
+	)
 
-	# plot_results(data,
-	# 	conditions=('con_lrn', 'con_com'),
-	# 	condition_names=('Transmission-only', 'Transmission + Communication'),
-	# 	params=['α', 'β', 'γ'],
-	# 	show_epochs=True,
-	# 	output_path=FIGS / 'results_exp2.pdf',
-	# )
-
-	# # Experiment 3
-
-	# plot_results(data,
-	# 	conditions=('dif_com', 'sil_com'),
-	# 	condition_names=('Experiment 1', 'Experiment 3'),
-	# 	params=['α', 'β'],
-	# 	output_path=FIGS / 'results_exp3.pdf',
-	# )
-
-	# # Communicative success
-
+	# Communicative success
 	plot_success(data,
 		conditions=['dif_com', 'con_com', 'sil_com'],
 		titles=['Experiment 1', 'Experiment 2', 'Experiment 3'],

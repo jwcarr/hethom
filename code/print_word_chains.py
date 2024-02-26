@@ -9,6 +9,8 @@ ROOT = Path(__file__).parent.parent.resolve()
 cons = ['f', 's', 'ʃ']
 vwls = ['əʊ', 'ə', 'ɛɪ']
 def get_sound(item, data):
+	if data['spoken_forms'] is None:
+		return '___'
 	sound_file = data['spoken_forms'][item]
 	if '_' not in sound_file:
 		return 'kəʊ'

@@ -49,6 +49,11 @@ def most_common_languages(exp_id):
 		print(i, lang, counts[lang], round(counts[lang] / len(langs) * 100, 2))
 
 
+print('Experiment 1')
 calculate_rates('exp', 814, chain_filter=r'dif.+', with_bonus=False)
+
+print('Experiment 2')
 calculate_rates('exp', 814, chain_filter=r'con.+', with_bonus=False)
+
+print('Experiment 3')
 calculate_rates('exp', 814, chain_filter=r'sil.+', with_bonus=False, basic_pay=250)
