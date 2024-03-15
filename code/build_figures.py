@@ -314,6 +314,7 @@ def plot_success(data, conditions, titles, output_path):
 			axis.set_ylabel('Proportion of trials successful')
 		axis.axhline(1/9, color='gray', linestyle=':')
 		axis.axhline(1/3, color='gray', linestyle='--')
+		axis.set_ylim(-0.05, 1.05)
 	fig.tight_layout()
 	fig.savefig(output_path)
 
@@ -387,6 +388,6 @@ if __name__ == '__main__':
 	# Communicative success
 	plot_success(data,
 		conditions=['dif_com', 'con_com', 'sil_com'],
-		titles=['Experiment 1', 'Experiment 2', 'Experiment 3'],
+		titles=['Experiment 1 (Differentiation)', 'Experiment 2 (Conservation)', 'Experiment 3 (No homophony)'],
 		output_path=FIGS / 'success.pdf',
 	)
