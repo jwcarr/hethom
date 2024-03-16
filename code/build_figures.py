@@ -310,8 +310,9 @@ def plot_success(data, conditions, titles, output_path):
 		axis.set_ylim(0, 1)
 		axis.set_xticks(range(1, 10))
 		axis.set_title(title, fontsize=7)
-		if title == 'Experiment 1':
+		if condition == 'dif_com':
 			axis.set_ylabel('Proportion of trials successful')
+		axis.set_xlabel('Generation')
 		axis.axhline(1/9, color='gray', linestyle=':')
 		axis.axhline(1/3, color='gray', linestyle='--')
 		axis.set_ylim(-0.05, 1.05)
