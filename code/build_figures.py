@@ -117,6 +117,7 @@ def plot_pinf_data(axis, data, condition, condition_name, min_gen=0):
 	data = data[ (data['condition'] == condition) & (data['generation'] >= min_gen) ]
 	prop_inf = data.groupby('generation')['informative'].mean()
 	axis.scatter(np.arange(min_gen, 10), prop_inf, color=COLORS[condition], alpha=0.5, s=15, linewidth=0)
+	axis.set_ylim(-0.05, 1.05)
 
 
 def plot_cost_data(axis, data, variable, condition, condition_name, min_gen=0):
@@ -190,14 +191,14 @@ def plot_results(data, conditions, condition_names=None, params=[], show_epochs=
 	gs = gridspec.GridSpec(8, 10, figure=fig)
 	gs_typol_dist = gridspec.GridSpecFromSubplotSpec(2, 9, subplot_spec=gs[0:2, :])
 	
-	gs_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[2:4, 0:6])
-	gs_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[2:4, 6:10])
+	gs_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[2:4, 0:7])
+	gs_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[2:4, 7:10])
 
-	gs_cost_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[4:6, 0:6])
-	gs_cost_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[4:6, 6:10])
+	gs_cost_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[4:6, 0:7])
+	gs_cost_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[4:6, 7:10])
 
-	gs_error_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[6:8, 0:6])
-	gs_error_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[6:8, 6:10])
+	gs_error_model = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[6:8, 0:7])
+	gs_error_posterior = gridspec.GridSpecFromSubplotSpec(2, len(params), subplot_spec=gs[6:8, 7:10])
 
 	for i, condition in enumerate(conditions):
 		data_condition = data[ data['condition'] == condition ]
@@ -365,7 +366,7 @@ if __name__ == '__main__':
 	plot_results(data,
 		conditions=('dif_lrn', 'dif_com'),
 		condition_names=('Transmission-only', 'Transmission + Communication'),
-		params=['α', 'β'],
+		params=['β'],
 		output_path=FIGS / 'results_exp1.pdf',
 	)
 
@@ -373,7 +374,7 @@ if __name__ == '__main__':
 	plot_results(data,
 		conditions=('con_lrn', 'con_com'),
 		condition_names=('Transmission-only', 'Transmission + Communication'),
-		params=['α', 'β', 'γ'],
+		params=['β', 'γ'],
 		show_epochs=True,
 		output_path=FIGS / 'results_exp2.pdf',
 	)
@@ -382,7 +383,7 @@ if __name__ == '__main__':
 	plot_results(data,
 		conditions=('dif_com', 'sil_com'),
 		condition_names=('Experiment 1', 'Experiment 3'),
-		params=['α', 'β'],
+		params=['β'],
 		output_path=FIGS / 'results_exp3.pdf',
 	)
 
