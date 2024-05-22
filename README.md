@@ -1,17 +1,7 @@
 Why do languages tolerate heterography? An experimental investigation into the emergence of informative orthography
 ===================================================================================================================
 
-This repository contains data and code for our investigation of the emergence of heterographic homophones using iterated learning. The top-level structure of the repo is organized into:
-
-- `code/`: Python analysis code
-
-- `data/`: JSON and CSV data files, and NetCDF model result archives
-
-- `experiment/`: Node.js experimental code
-
-- `instructions/`: Screenshots of the participant instruction screens
-
-- `manuscript/`: LaTeX manuscript and figures
+This repository contains data and code for our investigation of the emergence of heterographic homophones using iterated learning. The paper describing this work is published in *Cognition* and is [available here](https://doi.org/10.1016/j.cognition.2024.105809).
 
 
 tl;dr
@@ -26,6 +16,22 @@ tl;dr
 - If you want to inspect the experiment code, see `experiment/server.js` and `experiment/client/client.js`
 
 - If you want to listen to the spoken word forms, see `experiment/client/words/`
+
+
+Organization
+------------
+
+The top-level structure of the repo is organized into:
+
+- `code/`: Python analysis code
+
+- `data/`: JSON and CSV data files, and NetCDF model result archives
+
+- `experiment/`: Node.js experimental code
+
+- `instructions/`: Screenshots of the participant instruction screens
+
+- `manuscript/`: LaTeX manuscript and figures
 
 
 Replicating the analyses
@@ -110,3 +116,21 @@ $ python mission_control.py exp status
 ```
 
 You should now be able to access the experiment. Check `mission_control.py` for other things you can do.
+
+
+Citing this work
+----------------
+
+Carr, J. W., & Rastle, K. (2024). Why do languages tolerate heterography? An experimental investigation into the emergence of informative orthography. *Cognition*, *249*, Article 105809. https://doi.org/10.1016/j.cognition.2024.105809
+
+```bibtex
+@article{Carr:2024,
+author = {Carr, Jon W and Rastle, Kathleen},
+title = {Why Do Languages Tolerate Heterography? An Experimental Investigation into the Emergence of Informative Orthography},
+journal = {Cognition},
+year = {2024},
+volume = {249},
+pages = {Article 105809},
+doi = {10.1016/j.cognition.2024.105809}
+}
+```
